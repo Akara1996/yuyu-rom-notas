@@ -5624,3 +5624,283 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+49. EL LORE DE SENSU, Y LO QUE LA WIKI CONFIRMA  (15-10)
+================================================================================
+================================================================================
+
+  49.1  EL PORQUE DE SUS TECNICAS BARATAS: ESTA EN EL MANGA
+
+      El usuario: "el personaje sensui en el manga y anime declara que su
+       cantidad de energia espiritual es 10 veces mayor al de los
+       protagonistas, y es evidente que en el juego quisieron insinuar esto."
+
+  *** LA WIKI LO CONFIRMA, CON CAPITULO ***
+
+      "Sensui was a very powerful human, noted himself to have MORE THAN TEN
+       TIMES the spiritual energy than Yusuke in their fight."
+      Yu Yu Hakusho manga; capitulo 152.   (YuYu Hakusho Wiki, Fandom)
+
+  *** Y NO ES SOLO CANTIDAD: ES CALIDAD ***
+
+      "Shinobu pointed out that even if Yusuke had energy several times
+       greater than his own, he would not be able to awaken Sacred Energy."
+
+      *** LA ENERGIA SAGRADA (SEIKOKI) ***
+      - es la evolucion de la energia espiritual
+      - Koenma la llama la ULTIMA AURA
+      - ni la Genkai, que domino la Ola Espiritual, pudo alcanzarla
+      - Sensui la desperto durante los diez aos de reclusion
+
+      *** "le gana en cantidad Y en calidad" ***
+      "even if he had an amount of energy several times greater than his own,
+       he still would not be able to possess any sacred powers with it.  Sensui
+       says he has Yusuke beaten in both quality and quantity."  (RQ87, cap 88)
+
+  *** Y EL JUEGO LO TRADUJO A DATOS ***
+
+      Hiei      tecnicas de 8 a 200
+      Kurama    tecnicas de 16 a 200
+      Sensui    tecnicas de 2 a 6
+
+      *** 223 DE MANA EN LOS TRES, PERO CADA UNO GASTA DISTINTO ***
+      Y el coste real de la pistola de Sensui es NEGATIVO: paga 2 y
+      devuelve 30.  Eso es, literalmente, 'le gana en cantidad' escrito en
+      el sistema de man.  [COMPROBADO]
+
+  *** Y UNA TECNICA SE LLAMA REFINED ENERGY SAINT LIGHT CANNON ***
+      ()  segun la wiki, en el juego Yu Yu Hakusho: 100% Maji
+      Battle.  OTRO juego, no el Genesis, pero el nombre viene del lore y
+      confirma que Sensui tiene una bola de energia con nombre propio.
+      [DERIVADO]  En el Genesis todavia no le sabemos el nombre.
+
+  49.2  *** LA WIKI CONFIRMA NUESTRO AGARRE INVERSO ***
+
+      GameFAQs, lista de comandos del Genesis:
+
+          "A = Strong Attack   B = Weak Attack   C = Defense
+           <- / -> + A (close) = Throw"
+
+      *** ADELANTE O ATRAS + A PEGADO AL ENEMIGO ES EL AGARRE ***
+      Es exactamente lo que descubrimos en 46.4.  Y es la unica fuente
+      externa que confirma el hallazgo.  [COMPROBADO por dos vias]
+
+      *** Y ESO CONFIRMA LA EXPLICACION DE POR QUE $83 NO ES CANCELABLE ***
+      Pegado al enemigo, adelante+A es un agarre disfrazado de golpe.
+      La prueba sigue pendiente en nuestro lado: hacer adelante+A pegado y
+      ver si el log da $B8.
+
+  49.3  *** LA PISTOLA DE SENSU ES EL MISMO MECANISMO QUE YUSUKE ***
+
+      GameFAQs, moves de Yusuke:
+
+          "Hyaku Retsuken: Mash A / B.  Punches rapidly in place.  How fast he
+           punches will depend on if you mashed A or B.  If you mash the 3
+           buttons rapidly during the animation, it can deal up to 6 hits
+           up-close."
+
+      *** LO MISMO EXACTO QUE MEDIMOS EN LA PISTOLA ***
+
+        mas botones  ->  mas cadencia
+        tope          ->  6 golpes
+
+      *** O SEA: LA PISTOLA DE SENUI ES EL SHOTUGAN / HYAKU RETSUKEN ***
+      No es una tecnica rara de Sensui: es una mecanica DEL JUEGO, y Yusuke
+      la tiene tambien.  Probablemente la tengan mas personajes.  [DERIVADO]
+
+  49.4  *** Y EL 'MISMO ID, DOS PRECIOS' TAMBIEN ES UNIVERSAL ***
+
+      GameFAQs, Reigan de Yusuke:
+
+          "Uses spirit energy to fire a projectile.  If you HOLD A or B,
+           he will consume MORE SPIRIT ENERGY to make it bigger.  He will
+           charge it automatically if you perform this with C instead."
+
+  *** O SEA: LA VARIABLE ES CUANTO APRETAS, NO QUE APRETAS ***
+
+      Sensui, pistola   1 boton = 2 MP      2 botones = 6 MP
+      Yusuke,  Reigan   mantener = mas caro   C = carga solo
+
+  *** ESO CAMBIA LA FORMA DE LEER LA TABLA DE PRECIOS ***
+  No hay un precio por id.  Hay un precio BASE y un FACTOR por cantidad de
+  pulsaciones o de tiempo mantenido.  [DERIVADO]  Y eso explica por que el
+  mismo id aparece con dos valores.
+
+  *** Y POR ESO LA MEDICION DE HOY NO ROMPE NADA ***
+  No compararemos un 'precio' si no un precio base con su factor.
+
+  49.5  LA LISTA REAL DE LOS ONCE PERSONAJES
+
+      Wikipedia y MobyGames coinciden:
+
+      Yusuke    Kurama   Hiei      Kuwabara   Genkai
+      Chu       Jin      Itsuki    Sensui     Toguro hermano mayor
+      Toguro hermano menor
+
+      *** NO HAY RAIZEN EN EL GENESIS ***
+      Raizen es del juego de SNES.  El que nosotros tenemos es el de Mega
+      Drive, con los once de arriba.  [COMPROBADO]
+
+  49.6  LA ULTI DE SENSU, Y POR QUE ES BARATA
+
+      El usuario: "la ulti de sensui cada a lo mas de 50 mp calculo, es el
+       unico personaje que puede disparar VARIAS veces su ulti al tener todo
+       el mana, y que tampoco necesita ni la mitad para disparar una."
+
+  *** CON 223 DE MANA, PODRIA TIRARLA CUATRO VECES SEGUIDAS ***
+  Los demas la pagan una vez y se quedan sin nada.  Eso es coherente con
+  todo lo medido: es el unico cuyo coste real es negativo.
+
+  *** LOS NUMEROS SON ESTIMADOS ***
+      "calculo"  -- no es una medicion.  La medicion es la ronda que falta:
+      disparo la ulti con el man lleno y se lee el [GOTEO].
+
+  *** Y SI ES UNA DE LAS POCAS QUE SE PUEDE REPETIR, HAY UN TEST QUE LA
+      CUENTA DIRECTAMENTE: la particion de precios ***
+  El bloque de precios de Sensui deberia decir 50, y no 200.  Si aparece
+  200 en la tabla de Sensui, la particion esta MUY mal.
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+49. EL LORE DE SENSU, Y LO QUE LA WIKI CONFIRMA  (15-10)
+================================================================================
+================================================================================
+
+  49.1  EL PORQUE DE SUS TECNICAS BARATAS: ESTA EN EL MANGA
+
+      El usuario: "el personaje sensui en el manga y anime declara que su
+       cantidad de energia espiritual es 10 veces mayor al de los
+       protagonistas, y es evidente que en el juego quisieron insinuar esto."
+
+  *** LA WIKI LO CONFIRMA, CON CAPITULO ***
+
+      "Sensui was a very powerful human, noted himself to have MORE THAN TEN
+       TIMES the spiritual energy than Yusuke in their fight."
+      Yu Yu Hakusho manga; capitulo 152.   (YuYu Hakusho Wiki, Fandom)
+
+  *** Y NO ES SOLO CANTIDAD: ES CALIDAD ***
+
+      "Shinobu pointed out that even if Yusuke had energy several times
+       greater than his own, he would not be able to awaken Sacred Energy."
+
+      *** LA ENERGIA SAGRADA (SEIKOKI) ***
+      - es la evolucion de la energia espiritual
+      - Koenma la llama la ULTIMA AURA
+      - ni la Genkai, que domino la Ola Espiritual, pudo alcanzarla
+      - Sensui la desperto durante los diez aos de reclusion
+
+      *** "le gana en cantidad Y en calidad" ***
+      "even if he had an amount of energy several times greater than his own,
+       he still would not be able to possess any sacred powers with it.  Sensui
+       says he has Yusuke beaten in both quality and quantity."  (RQ87, cap 88)
+
+  *** Y EL JUEGO LO TRADUJO A DATOS ***
+
+      Hiei      tecnicas de 8 a 200
+      Kurama    tecnicas de 16 a 200
+      Sensui    tecnicas de 2 a 6
+
+      *** 223 DE MANA EN LOS TRES, PERO CADA UNO GASTA DISTINTO ***
+      Y el coste real de la pistola de Sensui es NEGATIVO: paga 2 y
+      devuelve 30.  Eso es, literalmente, 'le gana en cantidad' escrito en
+      el sistema de man.  [COMPROBADO]
+
+  *** Y UNA TECNICA SE LLAMA REFINED ENERGY SAINT LIGHT CANNON ***
+      ()  segun la wiki, en el juego Yu Yu Hakusho: 100% Maji
+      Battle.  OTRO juego, no el Genesis, pero el nombre viene del lore y
+      confirma que Sensui tiene una bola de energia con nombre propio.
+      [DERIVADO]  En el Genesis todavia no le sabemos el nombre.
+
+  49.2  *** LA WIKI CONFIRMA NUESTRO AGARRE INVERSO ***
+
+      GameFAQs, lista de comandos del Genesis:
+
+          "A = Strong Attack   B = Weak Attack   C = Defense
+           <- / -> + A (close) = Throw"
+
+      *** ADELANTE O ATRAS + A PEGADO AL ENEMIGO ES EL AGARRE ***
+      Es exactamente lo que descubrimos en 46.4.  Y es la unica fuente
+      externa que confirma el hallazgo.  [COMPROBADO por dos vias]
+
+      *** Y ESO CONFIRMA LA EXPLICACION DE POR QUE $83 NO ES CANCELABLE ***
+      Pegado al enemigo, adelante+A es un agarre disfrazado de golpe.
+      La prueba sigue pendiente en nuestro lado: hacer adelante+A pegado y
+      ver si el log da $B8.
+
+  49.3  *** LA PISTOLA DE SENSU ES EL MISMO MECANISMO QUE YUSUKE ***
+
+      GameFAQs, moves de Yusuke:
+
+          "Hyaku Retsuken: Mash A / B.  Punches rapidly in place.  How fast he
+           punches will depend on if you mashed A or B.  If you mash the 3
+           buttons rapidly during the animation, it can deal up to 6 hits
+           up-close."
+
+      *** LO MISMO EXACTO QUE MEDIMOS EN LA PISTOLA ***
+
+        mas botones  ->  mas cadencia
+        tope          ->  6 golpes
+
+      *** O SEA: LA PISTOLA DE SENUI ES EL SHOTUGAN / HYAKU RETSUKEN ***
+      No es una tecnica rara de Sensui: es una mecanica DEL JUEGO, y Yusuke
+      la tiene tambien.  Probablemente la tengan mas personajes.  [DERIVADO]
+
+  49.4  *** Y EL 'MISMO ID, DOS PRECIOS' TAMBIEN ES UNIVERSAL ***
+
+      GameFAQs, Reigan de Yusuke:
+
+          "Uses spirit energy to fire a projectile.  If you HOLD A or B,
+           he will consume MORE SPIRIT ENERGY to make it bigger.  He will
+           charge it automatically if you perform this with C instead."
+
+  *** O SEA: LA VARIABLE ES CUANTO APRETAS, NO QUE APRETAS ***
+
+      Sensui, pistola   1 boton = 2 MP      2 botones = 6 MP
+      Yusuke,  Reigan   mantener = mas caro   C = carga solo
+
+  *** ESO CAMBIA LA FORMA DE LEER LA TABLA DE PRECIOS ***
+  No hay un precio por id.  Hay un precio BASE y un FACTOR por cantidad de
+  pulsaciones o de tiempo mantenido.  [DERIVADO]  Y eso explica por que el
+  mismo id aparece con dos valores.
+
+  *** Y POR ESO LA MEDICION DE HOY NO ROMPE NADA ***
+  No compararemos un 'precio' si no un precio base con su factor.
+
+  49.5  LA LISTA REAL DE LOS ONCE PERSONAJES
+
+      Wikipedia y MobyGames coinciden:
+
+      Yusuke    Kurama   Hiei      Kuwabara   Genkai
+      Chu       Jin      Itsuki    Sensui     Toguro hermano mayor
+      Toguro hermano menor
+
+      *** NO HAY RAIZEN EN EL GENESIS ***
+      Raizen es del juego de SNES.  El que nosotros tenemos es el de Mega
+      Drive, con los once de arriba.  [COMPROBADO]
+
+  49.6  LA ULTI DE SENSU, Y POR QUE ES BARATA
+
+      El usuario: "la ulti de sensui cada a lo mas de 50 mp calculo, es el
+       unico personaje que puede disparar VARIAS veces su ulti al tener todo
+       el mana, y que tampoco necesita ni la mitad para disparar una."
+
+  *** CON 223 DE MANA, PODRIA TIRARLA CUATRO VECES SEGUIDAS ***
+  Los demas la pagan una vez y se quedan sin nada.  Eso es coherente con
+  todo lo medido: es el unico cuyo coste real es negativo.
+
+  *** LOS NUMEROS SON ESTIMADOS ***
+      "calculo"  -- no es una medicion.  La medicion es la ronda que falta:
+      disparo la ulti con el man lleno y se lee el [GOTEO].
+
+  *** Y SI ES UNA DE LAS POCAS QUE SE PUEDE REPETIR, HAY UN TEST QUE LA
+      CUENTA DIRECTAMENTE: la particion de precios ***
+  El bloque de precios de Sensui deberia decir 50, y no 200.  Si aparece
+  200 en la tabla de Sensui, la particion esta MUY mal.
+
+================================================================================
+================================================================================

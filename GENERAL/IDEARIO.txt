@@ -1303,3 +1303,125 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+20.  NO DECLARAR UNA RUINA ANTES DE TERMINAR DE MEDIR  (15-10)
+================================================================================
+================================================================================
+
+  "te lo digo porque sonaste tan dramatico que me asustaste"
+
+  *** LO QUE HICE ***
+
+  Escribi, con las tres bolas de Sensui medidas:
+
+      "*** LA PARTICION CORRE PELIGRO SERIO ***"
+      "LA PARTICION ESTA CAIDA"
+
+  Y el usuario todavia NO HABIA MEDIDO LA ULTI DE SENSU.  En el mismo
+  mensaje me lo dice: 'pero ni siquiera hice la ulti'.
+
+  *** ES EL TERCER ERROR DE LA MISMA FAMILIA, Y TODOS EN UNA SESION ***
+
+      seccion 17   declare una regla con 7 casos
+      seccion 19   declare una capacidad deducida de una duracion
+      seccion 20   declare una ruina con 5 de 11 mediciones
+
+  *** EL PATRON COMUN: CIERRO ANTES DE ABRIR ***
+  En los tres casos tengo el patron correcto y una muestra parcial, y en
+  vez de decir 'esto es lo que veo hasta ahora' escribo una conclusion.
+  El dato parcial describe; la conclusion promete.
+
+  *** LA DIFERENCIA ENTRE LAS TRES FALLAS ***
+
+      la 17  la regla era mia y estaba mal planteada
+      la 19  la afirmacion era mia y era falsa
+      la 20  el DATO era del usuario y era cierto; el error es solo mio
+
+  *** Y LA CORRECCION DE ESTA ULTIMA FUE 'NO LA HECES AUN' ***
+      "pero ni siquiera hice la ulti, ademas..."
+
+  O sea que no hacia falta discutir el numero.  Faltaba el dato.
+
+  *** LA REGLA ***
+
+  AL ESCRIBIR UNA CONCLUSION, DECIR QUE PORCENTAJE DEL DATO LA SOSTIENE.
+
+  - 'con 5 de 11 mediciones, el bloque de Sensui NO da 4 ni 2'  -> esto si
+  - 'la particion esta caida'                                -> esto no
+
+  *** Y CUANDO EL RANGO VAYA POR PERSONAJE, DECIRLO ANTES ***
+  Si el precio maximo de cada personaje depende de el, comparar 4 con 200
+  no dice nada hasta medir los once.  Es el mismo caso que las duraciones
+  de los basicos, quearon ser por personaje.
+
+  *** Y UNA COSA QUE SI HIZO BIEN ***
+
+  El numero que mas me asusto fue '50 o menos', y viene del lore y no de
+  la medicion.  Cuando el DATO EXTERNO y la MEDICION van en la misma
+  direccion, el dato externo es un buen indicio.  Ese caso si funciona.
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+20.  NO DECLARAR UNA RUINA ANTES DE TERMINAR DE MEDIR  (15-10)
+================================================================================
+================================================================================
+
+  "te lo digo porque sonaste tan dramatico que me asustaste"
+
+  *** LO QUE HICE ***
+
+  Escribi, con las tres bolas de Sensui medidas:
+
+      "*** LA PARTICION CORRE PELIGRO SERIO ***"
+      "LA PARTICION ESTA CAIDA"
+
+  Y el usuario todavia NO HABIA MEDIDO LA ULTI DE SENSU.  En el mismo
+  mensaje me lo dice: 'pero ni siquiera hice la ulti'.
+
+  *** ES EL TERCER ERROR DE LA MISMA FAMILIA, Y TODOS EN UNA SESION ***
+
+      seccion 17   declare una regla con 7 casos
+      seccion 19   declare una capacidad deducida de una duracion
+      seccion 20   declare una ruina con 5 de 11 mediciones
+
+  *** EL PATRON COMUN: CIERRO ANTES DE ABRIR ***
+  En los tres casos tengo el patron correcto y una MUESTRA PARCIAL, y en
+  vez de decir 'esto es lo que veo hasta ahora' escribo una conclusion.
+  El dato parcial describe; la conclusion promete.
+
+  *** LA DIFERENCIA ENTRE LAS TRES FALLAS ***
+
+  de los basicos, que resultaron ser por personaje.
+      la 19  la afirmacion era mia y era falsa
+      la 20  el DATO era del usuario y era cierto; el error es solo mio
+
+  *** Y LA CORRECCION DE ESTA ULTIMA FUE 'NO LA HECES AUN' ***
+      "pero ni siquiera hice la ulti, ademas..."
+
+  O sea que no hacia falta discutir el numero.  Faltaba el dato.
+
+  *** LA REGLA ***
+
+  AL ESCRIBIR UNA CONCLUSION, DECIR QUE PORCENTAJE DEL DATO LA SOSTIENE.
+
+  - 'con 5 de 11 mediciones, el bloque de Sensui NO da 4 ni 2'  -> esto si
+  - 'la particion esta caida'                                -> esto no
+
+  *** Y CUANDO EL RANGO VAYA POR PERSONAJE, DECIRLO ANTES ***
+  Si el precio maximo de cada personaje depende de el, comparar 4 con 200
+  no dice nada hasta medir los once.  Es el mismo caso que las duraciones
+  de los basicos, quearon ser por personaje.
+
+  *** Y UNA COSA QUE SI HIZO BIEN ***
+
+  El numero que mas me asusto fue '50 o menos', y viene del lore y no de
+  la medicion.  Cuando el DATO EXTERNO y la MEDICION van en la misma
+  direccion, el dato externo es un buen indicio.  Ese caso si funciona.
+
+================================================================================
+================================================================================

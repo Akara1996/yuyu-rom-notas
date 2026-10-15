@@ -5444,3 +5444,183 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+48. LAS BOLAS DE SENSUI, Y LOS PRECIOS QUE ROMPEN LA PARTICION  (15-10)
+================================================================================
+================================================================================
+
+  48.1  *** CINCO TECNICAS A 4 DE MANA O MENOS ***
+
+      id      comando                       mana    proyectil
+      ------  ----------------------------  ------  ----------------
+      $A8     ABAJO,ABAJO + A / B             2     ninguno, es hitbox
+      $A8     ABAJO,ABAJO + A+B               6     cadencia rapida
+      $A0     ABAJO,ADELANTE + A               4     rasante, $14
+      $A1     ABAJO,ADELANTE + B               4     media altura, $15
+      $A2     ABAJO,ADELANTE + C               4     anti-aereo, $15
+      $AC     ABAJO,ADELANTE + A/B/C en aire  4     aerea, $16
+
+      "sus tecnicas son extremadamente baratas, se pagan solas las que hacen
+       combo"
+
+  *** KURAMA DABA 16 Y 24.  HIEI DABA 8 Y 200.  SENSU DA 4 Y 2. ***
+  [COMPROBADO]
+  *** Y LA PISTOLA TIENE COSTE REAL NEGATIVO ***
+  Paga 2 y devuelve 30.  O sea que Sensui no gasta: gana.  Con 223 igual
+  que todos y cinco tecnicas a 4, no tiene limite de man en la practica.
+
+  *** LA PARTICION CORRE PELIGRO SERIO ***
+  Acertaba 6 de 6 en Kurama, pero Kurama es un bloque de 8 entradas y las
+  de Sensui son 5 ids a 4 o menos.  Si el bloque de Sensui que predice el
+  solucionador no da 4 y 2, LA PARTICION ESTA CAIDA.
+
+  *** Y LA FORMA DE HACERLA BIEN NO ES BUSCAR VENTANAS DE BYTES ***
+  "es medir el precio de UNA tecnica de cada personaje y ajustar el reparto
+   por bloque.  Son 11 mediciones"
+
+  El error de la particion no fue el metodo de bloques, fue creer que dos
+  personajes dan informacion sobre once.  [ABIERTO]
+
+  *** LO QUE YA SABEMOS DEL REPARTO ***
+
+      Hiei      minimo  8     maximo  200
+      Kurama    minimo 16     maximo  200
+      Sensui    minimo  2     maximo    6
+
+  *** O SEA: EL RANGO DE PRECIOS VARIA POR PERSONAJE, Y POR UN FACTOR 100
+  No hay una escala comun.  El coste depende de cuantos golpes da el
+  personaje y de cuanto dura cada uno, no de una tabla fija.  [DERIVADO]
+
+  48.2  *** CUATRO OBJETOS DE SENSUI, Y $17 ES EL ESTADO DE NACIMIENTO ***
+
+        $17   el estado en que NACEN todos.  Los cuatro pasan por el.
+        $14   bola rasante       ABAJO,ADELANTE + A
+        $15   bola a media altura ABAJO,ADELANTE + B y + C
+        $16   bola aerea         ABAJO,ADELANTE + A/B/C en aire
+
+  *** Y EN LA TABLA DE OBJETOS, CONSECUTIVOS ***
+
+        $14   registro $0D9532   tabB $0D9ABA
+        $15   registro $0D954A   tabB $0D9AC6
+        $16   registro $0D955A   tabB $0D9ACE
+
+      *** LOS REGISTROS: $8 DE DIFERENCIA, UNO SEGUIDO DEL OTRO ***
+      $0D9532, $0D954A, $0D955A.  Eso NO es casualidad: son tres entradas
+      contiguas de una tabla con paso $8.  [COMPROBADO]
+
+      Y los tabB ($0D9ABA, $0D9AC6, $0D9ACE) estan en la MISMA tabla donde
+      estan la rosa de Kurama ($0D9A86), su hoja ($0D9A8A) y su planta
+      ($0D9AB6).  TODOS LOS OBJETOS DEL JUEGO ESTAN EN ESA TABLA.
+
+  *** PERO EL BLOB DA CERO EN LOS CUATRO ***
+
+        +64  $20    +65  $00    +66  $00    +67  $00    +68  $00
+
+      *** Y EL DANO MEDIDO ES 12 Y 4.  ESO NO CUADRA. ***
+      El script ya avisaba: 'byte(+0)=$02 pero $5A vivo=$01, la lectura NO
+      es de fiar'.  O la lectura del blob se hace en el momento malo, o los
+      proyectiles de Sensui leen el dano de otro sitio.  [ABIERTO]
+
+      LA PISTA: los cuatro tienen $64 = $20 y los cinco bytes siguientes en
+      CERO.  Un registro entero en cero suele ser un registro NO
+      INICIALIZADO.  O sea que el script esta leyendo una tabla que todavia
+      no escribio nadie.  Eso habria que buscarlo en el codigo.  [DERIVADO]
+
+  48.3  *** LA PATADA Y LA BOLA SON DOS GOLPES DISTINTOS ***
+
+      "sensui dispara una bola de energia que la impulsa con una patada"
+      "si esta pegado, tambien el enemigo es golpeado por la patada"
+
+      *** LA PATADA ES FISICA, LA BOLA ES OBJETO ***
+      En el test de la patada aerea: -4 de dano Y +2 de mana.  La patada
+      es del cuerpo de Sensui, asi que cobra man.  La bola no dio ni uno.
+      [COMPROBADO]  Es la primera vez que se ven las dos mitades de un
+      mismo ataque, una fisica y una de objeto, en el MISMO golpe.
+
+  *** Y LA REACCION DE LA PATADA CAMIA CON EL BOTON ***
+
+      ABAJO,ADELANTE + B     patada -4   ->  $26   lanzador
+      ABAJO,ADELANTE + C     patada -4   ->  $25   derribo
+      ABAJO,ADELANTE en aire patada -4   ->  $27   enviado ABAJO   +2 mana
+
+      "su patada, de impactar al enemigo tiene un efecto de empuje similar
+       al efecto de kurama, pero con ventana de frames en lugar de frames
+       activos"
+
+      *** O SEA: $26, $25 Y $27 SON TRES FORMAS DEL MISMO GOLPE ***
+      El mismo ataque de patada, con una reaccion distinta segun el boton.
+      4 de dano en los tres casos.  [COMPROBADO]
+
+  48.4  LAS REACCIONES MEDIDAS HOY
+
+        estado  que es                          quien lo produjo
+        ------  ------------------------------  ----------------------
+        $20     hitstun simple                  bola aerea ($16)
+        $21     tambaleo                        rosa, pistola, bola rasante
+        $24     derribo CON VENTANA             se abre al pegar
+        $25     derribo                         patada de C, planta, hoja
+        $26     lanzador                        patada de B
+        $27     enviado ABAJO                   patada aerea
+        $28 $29 $2A   la caida, comun a todos los derribos
+        $30     enviado ARRIBA                  agarre de Sensui
+        $2F     empuje DIAGONAL                 agarre de Kurama
+
+  *** $27 Y $30 SON LA MISMA FAMILIA, EN DIRECCIONES OPUESTAS ***
+
+        $30 -> $28 -> $29 -> $2A -> $00      enviado ARRIBA
+        $27 -> $28 -> $29 -> $2A -> $00      enviado ABAJO
+
+      Misma cailla de estados, distinto punto de partida.  El juego tiene
+      una sola secuencia de caida y la direccin se decide al entrar.
+      [COMPROBADO]
+
+      *** $27 SOLO LO TIENEN SENSUI Y UN PERSONAJE MAS ***
+      "si recuerdas que antes mencione que habian solo 2 ataques que te
+       mandan a volar pero hacia abajo, es el efecto de la patada que dispara
+       esta bola en aire, y solo otro personaje lo tiene ademas de sensui"
+
+      $27 es de las MAS RARAS del juego: una sola tecnica de un solo
+      personaje, mas uno.  [ABIERTO]  Falta saber cual es el otro y si su
+      estado es $27 tambien o si es un estado paralelo con el mismo efecto.
+
+  48.5  *** $07 = LA VENTANA AEREA PARA ENCADENAR TECNICAS ***
+
+      $AC -> $07 -> $AC        se puede volver a entrar
+
+      "este ataque te permite hacer combo de disparos, pero es dificil lograr
+       el timing"
+
+  *** ESO ES EXACTAMENTE PARA QUE EXISTE $07 ***
+  El estado "fin de tecnica, da un salto mas" es en realidad la VENTANA
+  desde la que se puede reentrar a la tecnica aerea.  El salto extra y la
+  ventana son la misma cosa.  [COMPROBADO]
+
+  *** EL COMBO DE 3 BOLAS, MEDIDO ***
+
+        bola 1   f173   -12    $00 -> $20
+        bola 2   f203   -12    sigue en $20
+        bola 3   f234   -12    sigue en $20
+
+      *** 3 GOLPES EN 61 FRAMES.  36 DE DANO POR 12 DE MANA. ***
+      "no puede haber mas de una en pantalla, debes esperar bien el momento
+       de cada disparo.  Algunos jugadores llegan a hacer max combo"
+
+      *** Y MANA DEVUELTA: CERO.  SON OBJETOS. ***
+      Coherente con 47: solo lo fisico cobra.  [COMPROBADO]
+
+      La ventana entre una bola y la siguiente es de ~30 frames: el objeto
+      desaparece a los 7 frames del impacto y hay que esperar a que el
+      cerrojo se libere.
+
+  48.6  LO QUE NO SE SABE
+
+      - de donde sale el dano de las bolas si el blob da cero
+      - si las bolas de A, B, C y de aire comparten la tabla o son 3 entradas
+      - cual es el otro personaje con la patada que manda abajo ($27)
+      - el startup, la ventana y el total de la ulti desviable de Sensui
+      - si ABAJO,ADELANTE+A pegado al enemigo es el agarre o el golpe
+
+================================================================================
+================================================================================

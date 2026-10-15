@@ -1,0 +1,1193 @@
+================================================================================
+IDEARIO  --  LO QUE TRAJIMOS DE LA CARPETA VIEJA
+================================================================================
+  Fecha     : 14-10-2026
+  Para que sirve: esta carpeta (YYH Docs) tenia el MOVESET. La carpeta vieja
+  (Desktop\Yu Yu Hakusho - Makyou Toitsusen (Japan)) tenia el MOTOR. Este
+  archivo junta lo de alla que responde o corrige lo de aca, para no volver a
+  buscarlo y para escribir .LUA mas rapido.
+
+  QUE ES FIABLE Y QUE NO:
+    - Los .md de la carpeta vieja son la version VIVA. Sus .PDF son de antes
+      (el de DATOS_VERIFICADOS dice "2026-10-04" en el pie y todavia afirma
+      "HP maximo 255", que ya fue corregido a 223). NO LEER LOS PDF.
+    - game_data.json tiene un bloque _confianza por personaje. Lo que dice WEB
+      o ESTIMADO no es verificado. Lo que dice la direccion del .md, si.
+    - Lo de aca que este en contradiccion con esto queda marcado CONFLICTO.
+
+  Notacion: los .md viejos usan 0x y este proyecto usa $. 0x1EB40 = $01EB40.
+
+
+================================================================================
+1. LO PRIMERO: HAY TRES NUMERACIONES DE PERSONAJE Y NO COINCIDEN
+================================================================================
+  Es la trampa mas cara del cruce entre los dos proyectos.
+
+  Personaje   roster/seleccion   contexto (0-based)   entrada de datos (1-based)
+  ----------   ----------------   ------------------   --------------------------
+   Kurama             7                    0                        2
+   Hiei               8                    3                        5
+   Itsuki             3                    6                        8
+   Chu                9                    9                       11
+
+  LAS REGLAS:
+    contexto      = entrada de datos  -  2
+    roster        = el ID de la pantalla de seleccion del propio juego
+
+  CONTROL DE COHERENCIA (el que hay que usar para no colarse):
+    contexto 3  ->  tablaB $C8BEA  =  tablaB de Hiei   =  stun_max 44
+    contexto 6  ->  tablaB $D069A  =  tablaB de Itsuki =  stun_max 40
+    contexto 0  ->  tablaB $C04CA  =  tablaB de Kurama =  stun_max 40
+    Los tres coinciden con PERSONAJES - TABLA A Y B.txt.
+
+  EL ROSTER COMPLETO, con su ID de seleccion:
+     1 Sensui     2 Jin        3 Itsuki    4 Genkai    5 Kuwabara
+     6 Yusuke     7 Kurama     8 Hiei      9 Chui     10 Toguro (mayor)
+    11 Toguro (menor)
+
+  OJO: Kuwabara (ID 5) y Kurama (ID 7) son personajes DISTINTOS, y varias
+  guias de internet tienen sus sprites y sus datos intercambiados.
+
+  $50 = tablaA del personaje, $8C = tablaB. Los dos son punteros de 32 bits
+  LEIDOS del slot. Ojo: $42 NO es el tamano del personaje, ya esta descartado.
+
+
+================================================================================
+2. COMO SE LEE UN MOVE  (todo verificado, con direccion)
+================================================================================
+
+2.1  EL REGISTRO DE FRAME SON 8 BYTES
+     El ejecutor es $01EB40, y se entra una vez por frame de animacion:
+
+       01EB48  movea.l $50(a5), a2       ; base del move (tablaA)
+       01EB4C  adda.w (a2, d0.w), a2    ; + el indice (d0 = id de move)
+       01EB52  move.b $59(a5), d0       ; indice de frame
+       01EB56  lsl.w  #$3, d0           ; * 8
+       01EB58  adda.w d0, a2
+
+     | byte | a donde va | que es                                       |
+     |------+------------+----------------------------------------------|
+     |  +0  | $5A         | duracion del frame                           |
+     |  +1  | registro d3 | indice de animacion (= indice de tablaB)    |
+     |  +2  | $5C         | flags del frame                             |
+     |  +3  | $6C         | estado                                       |
+     |  +4  | -           | id de sonido, via $218D8 -> $A030           |
+     |  +5  | -           | sin uso encontrado                          |
+     |  +6  | $28         | offset X, con sesgo -$80                     |
+     |  +7  | $2A         | offset Y, con sesgo -$A0                     |
+
+     Los offsets son SIGNED con sesgo: byte $00 es el centro, y $80/$A0 se
+     restan sobre un word, asi que el resultado si es con signo. Ademas se
+     INVIERTE por el facing ($61): si es distinto de cero, `neg.w d6`.
+
+2.2  BIT 4 DE LOS FLAGS = EL GOLPE IGNORA LA MASCARA DE ESTADO
+       01EB98  btst.b #$4, d5
+       01EB9C  beq.b  $01EBA4
+       01EB9E  moveq #$ff, d0
+       01EBA0  move.l d0, $94(a5)      ; $94 = $FFFFFFFF
+     Y el resolver lo testea asi:
+       01F260  move.b $70(a4), d0       ; el bit del DEFENSOR
+       01F264  move.l $94(a3), d1       ; la mascara del ATACANTE
+       01F268  btst.l d0, d1             ; Z si el bit es 0
+       01F26A  beq.w  $01F50A            ; bit en 0 -> NO PEGA
+
+     *** OJO, LA POLARIDAD. *** btst + beq significa: bit EN UNO -> PEGA.
+     Poner $94 = $FFFFFFFF hace que TODOS los estados sean golpeables, o sea
+     que el golpe ignora la mascara. ES LO CONTRARIO DE LA INMUNIDAD.
+
+     *** YO LO LEI AL REVES LA PRIMERA VEZ Y LO ESCRIBI MAL AQUI. ***
+     Es el error tipico: ver "mascara de estados golpeables" y leer "inmune"
+     sin mirar el branches que la consume. La regla es al reves de la del
+     damage: ahi el bit 4 del flag elige el camino REDUCIDO.
+
+     $94 se escribe en $01EBA0 y en $01F50A-58. [DERIVADO] Que valor tiene
+     normalmente, y quien lo calcula, NO esta comprobado: puede ser un
+     desplazamiento dentro de una tabla de estados.
+
+     LO QUE SI ESTA COMPROBADO: un frame con bit 4 tiene sus 3 blobs con
+     attr bit 4 puesto, o sea que en la practica el bit se pone junto con el
+     golpe y casi todas las tecnicas lo tienen.
+
+2.3  BIT 6 = ESTE FRAME GENERA CAJA
+       01EC06  btst.b #$6, d4
+       01EC0A  beq.w  $01EC88          ; sin cajas
+       01EC0E  move.b (a2)+, $65(a5)   ; <- DANO,     POR FRAME ACTIVO
+       01EC12  move.b (a2)+, $66(a5)   ; <- STUN,     POR FRAME ACTIVO
+       01EC16  move.b (a2)+, $64(a3)   ; <- EMPUJE,   POR FRAME ACTIVO
+       01EC1A  move.b (a2)+, d0
+       01EC1E  andi.b  #$f, d0
+       01EC22  move.b d0, $68(a5)      ; <- REACCION (nibble bajo)
+
+     *** ESTA ES LA LECCION MAS CARA DE ESTE ARCHIVO. ***
+     Los cuatro salen del MISMO registro de 8 bytes, leidos con (a2)+ uno
+     tras otro. Un move con TRES frames activos tiene TRES blobs distintos,
+     con dano, stun, empuje y $68 distintos cada uno.
+
+     LEER SOLO EL PRIMER BLOB ES UN ERROR. Yo lo cometi el 14/10 en el doc de
+     Hiei y por eso el doc estaba mal. Ver la seccion 9.
+
+2.4a *** LA REGLA DEL LECTOR. NOS CUESTO DOS VECES EL 14/10/2026. ***
+     NO LEAS EL PRIMER BLOB Y LO DIGAS "EL DANO DEL GOLPE".
+     El lector tiene que devolver LA LISTA de frames activos, cada uno con su
+     blob, su dano, su stun, su attr y su reaccion. Un solo numero por golpe
+     descarta informacion y no avisa de que la descarta.
+
+     CUATRO DE LOS ONCE BASICOS DE HIEI TIENEN MAS DE UN FRAME ACTIVO:
+       $83  dos frames, y el $68 CAMBIA de 0 a 5: el 2o golpe derriba
+       $86  tres frames, y el dano es 12, 10, 10
+       $94  tres frames, y el dano es 12, 12, 8
+       $95  dos frames, y el dano es 8, 4
+     Y de las ocho TECNICAS con caja lo tienen casi todas: $A2 son 8, 10, 8.
+
+     EL TOPE DE CAJAS TAMBIEN: $AE tiene CUATRO. Un tope de TRES las pierde
+     en silencio. Los dos errores se encontraron en el mismo dia.
+
+2.4  EL LARGO DE LA LISTA DE FRAMES  --  RESUELTO, y ellos lo tienen ABIERTO
+     No hay ningun campo que diga cuantos frames tiene el move. El largo se
+     saca del SIGUIENTE id que tenga un offset mayor en tablaA. Si el que
+     sigue esta vacio, el largo es el del move anterior mas largo, con tope
+     de 32 animaciones.
+
+     En el doc viejo esta como "el limite de la lista esta ABIERTO, no se
+     encontro en el rango leido". YA ESTA RESUELTO.
+
+2.5  EL BLOB DE CAJAS
+     El puntero al blob sale de tablaB, que se indexa por el byte +1 del
+     frame POR 4:
+
+       01EBB8  lsl.w   #$2, d3              ; d3 = indice * 4
+       01EBBA  movea.l $8c(a5), a2          ; tablaB del personaje
+       01EBBE  move.b  (a2, d3.w), d4       ; +0 atributos
+       01EBC4  move.b  $1(a2, d3.w), d0
+       01EBCA  move.w  d0, $3c(a5)
+       01EBCE  adda.w  $2(a2, d3.w), a2     ; +2 word = offset al blob
+
+     | offset de tablaB | que es                          |
+     |------------------+---------------------------------|
+     |  +0 byte         | atributos del frame              |
+     |  +1 byte         | valor que va a $3C (se duplica)   |
+     |  +2 word         | offset relativo al blob de cajas |
+
+     El blob arranca con los 4 bytes de arriba y DESPUES vienen las cajas.
+     Cada caja son 4 bytes: +0 con el bit 7 = "viene otra", +2 = radio Y.
+     Radio X = 2 * (byte & $7F) + 1.  Radio Y = 2 * byte + 1.
+     El orden es HIT, CLASH y PUSH (probado en Itsuki a mano).
+
+
+================================================================================
+3. EL COBRO DE MANA: $19C46
+================================================================================
+
+      019C46  move.w $b8(a5), d1     ; d1 = el mana
+      019C4A  cmp.w  d0, d1
+      019C4C  blt.b  $19c54          ; no -> d0 = 0, la entrada falla
+      019C4E  sub.w  d0, $b8(a5)     ; si -> RESTA EL COSTE
+      019C52  rts
+      019C54  clr.w d0
+      019C56  rts
+
+  O SEA: "move.w #$XX, d0" NO es una mascara de botones. ES EL PRECIO.
+  Toda entrada que se paga tiene esta forma:
+
+      move.w  #$0020, d0      ; el precio
+      bsr.w   $19C46          ; cobrar
+      cmpi.b  #$0, d0
+      beq.w   $19C44          ; rts
+      move.b  #$A2, $5f(a5)   ; el estado
+
+  HAY 104 ENTRADAS ASI, en $0174F0 .. $019BA0.
+  Los callers de la zona $0189XX son, con su coste:
+      $01894A  coste  8  -> estado $A0
+      $018962  coste 12  -> estado $A1
+      $018992  coste 12  -> estado $A2
+      $0189B2  coste 16  -> estado $A3
+
+  EL MISMO ESTADO SALE CON PRECIOS DISTINTOS, porque el reconocedor de entrada
+  es generico y lo comparte todo el roster, y el precio lo decide el bloque de
+  cada personaje. $A2 aparece con 4, 12, 16, 20, 24 y 32.
+
+  PARA HIEI el ancla es $0190A8, el unico sitio donde $A2 cuesta 32, y coincide
+  con la medicion del usuario. En su mismo bloque salen $A4 = 16 y $A5 = 24.
+
+  *** LO QUE FALTA: que bit es cada boton. ***
+  En $01E562 se lee el pad crudo y se reparte:
+
+      01E562  jsr     $3982            ; el byte crudo del pad
+      01E568  move.b  d0, $73(a5)
+      01E56C  andi.b  #$7, d0
+      01E570  move.b  d0, $6b(a5)      ; bits 0-2 -> $6B (modo)
+      01E574  andi.b  #$70, $73(a5)    ; $73 se queda con los bits 4, 5, 6
+
+  $73 es el UNICO escritor de si mismo en toda la ROM, y esa linea lo demuestra:
+  se copia entero y despues le hace andi con $70. Los botones del juego son
+  los BITS 4, 5 Y 6, y nada mas.
+
+  La tabla de comandos esta en $016ED2 (lea + adda.w + jmp, con 16 palabras en
+  $016EDA indexada por $71 & $0F), pero los 16 destinos NO apuntan a las
+  entradas de cobro: saltan a un despachador intermedio. Probadas las dos bases
+  posibles, $016ED6 y $016EDA, las dos dan 0 de 16. [ABIERTO]
+
+
+================================================================================
+3. EL POOL DE ENTRADAS: CADA PERSONAJE TIENE SU PRECIO
+================================================================================
+  Pregunta del usuario, 14/10/2026, y la respuesta es buena: NO se comparten.
+
+  MEDIDO:
+    entradas con cobro en toda la ROM          104
+    alcanzadas por un salto de un despachador    47
+    de esas, usadas por UN SOLO personaje        47
+    de esa, usadas por VARIOS personajes         0
+
+  Y LOS ONCE DESPACHADORES NO SON COPIAS: arrancan con la misma firma
+  (btst.b #4,$72(a5)) pero con desplazamientos distintos, y no hay ni un par
+  byte a byte identico.
+
+    grupo 1  $016484  grupo 2  $01679A  grupo 3  $016AC6  grupo 4  $016E0C
+    grupo 5  $0170E2  grupo 6  $017412  grupo 7  $0175AA  grupo 8  $017932
+    grupo 9  $017C66  grupo 10 $017F9C  grupo 11 $0182F0
+    Los grupos son de 6 bloques con tamanos 24, 140, 74, 22, 22 y el grande.
+    HIEI es el grupo 4.
+
+  LO QUE SIGNIFICA:
+    El ESTADO es generico: $A2 significa "el move que dispara el comando X" y
+    todos los personajes lo usan. El PRECIO vive en la ENTRADA, y cada
+    personaje tiene la suya.
+
+      grupo 4 (Hiei)  ->  $A2 $A4 $A5 $A6 $A8 $AC $AD
+      grupo 5         ->  $A0 $A1 $A2 $A3 $A4 $A6 $A8 $AC
+
+    Los dos grupos usan el estado $A2, pero por entradas DISTINTAS, con
+    precios distintos. O sea que se puede cambiarle el costo a la tecnica de
+    Hiei sin tocarle nada a ningun otro personaje.
+
+  *** MATIZ IMPORTANTE ***
+    Solo 47 de las 104 entradas entran por salto desde estos once grupos. Las
+    otras 57 se alcanzan por un camino que NO ubique. Asi que el "cero
+    compartidas" vale ENTRE ESTOS ONCE PERSONAJES, no sobre la ROM entera.
+    Si alguna vez se parchea algo, hay que confirmar que la entrada que se
+    toca solo la usa un personaje.
+
+  PARA ABRIR OTRO PERSONAJE, el paso 6 cambia:
+    No alcanza con "cual es el estado". Hay que finding el grupo del
+    despachador de ese personaje y leer SUS entradas, que son las unicas
+    suyas.
+
+================================================================================
+3.5  ACLARACION QUE IMPORTA: UN ESTADO NO DICE NI EL COMANDO NI EL COSTO
+================================================================================
+  Pregunta del usuario, 14-10-2026, y la respuesta separa tres cosas que se
+  estaban usando como sinonimos:
+
+    COMANDO  ->  ESTADO     lo decide el despachador de CADA PERSONAJE.
+                           Que el $A2 de Hiei sea A+B no dice nada de que es el
+                           $A2 en Kurama: puede ser otro comando.
+
+    ESTADO  ->  MOVE        cada personaje tiene su tablaA, asi que el mismo
+                           $A2 apunta a un move distinto en cada uno.
+
+    COSTO                    vive en la ENTRADA, y la entrada es del personaje.
+
+  *** LO UNICO QUE SE COMPARTE ENTRE PERSONAJES ES LA ETIQUETA DEL ESTADO. ***
+  Ni el costo ni el comando estan en el nombre del estado.
+
+  PARA ABRIR OTRO PERSONAJE, por lo tanto:
+    1. Buscar su grupo de despachador (ver seccion 3).
+    2. Leer SUS entradas, que son las unicas suyas.
+    3. NO usar el estado como si identificara el comando.
+
+================================================================================
+3.6  EL GOTEO DE MANA, Y POR QUE NO ES EL COBRO
+================================================================================
+  Hay UN SOLO "sub.w" a $B8 en toda la zona de codigo, y es el de $019C4E, el
+  cobro de las tecnicas.  El goteo es OTRA instruccion:
+
+      $01A4EA  subq.w  #$1, $b8(a5)      <<< EL GOTEO: -1 de mana
+
+  Y el par limpio en el otro extremo:
+
+      $013C36  tst.w   $b8(a5)
+      $013C3A  bne.b   $13c42
+      $013C3C  move.b  #$f0, $a030.w     ; un sonido, si estaba en 0
+      $013C42  addq.w  #$1, $b8(a5)     <<< LA REGENERACION: +1
+      $013C46  andi.w  #$ff, $b8(a5)    ; y la enmascara a un byte
+
+  El goteo esta al lado de un reloj con tope:
+
+      $01A4CE  sub.w  $7c(a5), d0
+      $01A4D2  asr.w  #$6, d0
+      $01A4D4  addq.w #$1, d0
+      $01A4D6  add.w  d0, $7c(a5)
+      $01A4DA  cmpi.w #$100, $7c(a5)
+      $01A4E0  blt.b  $01a4ea
+      $01A4E2  move.w #$ff, $7c(a5)     ; CLAMPA a $FF
+      $01A4E8  bra.b  $01a4ee
+      $01A4EA  subq.w #$1, $b8(a5)
+
+  [VERIFICADO] por lectura.
+
+  *** LO QUE FALTA: EL KNOCKDOWN CUANDO EL MANA LLEGA A 0. ***
+  El usuario lo describio: si el mana se agota, Hiei recibe un knockdown de la
+  nada, como si le pegaran, y queda aturdido al levantarse.
+  Ese disparo tiene que estar en un test de $B8 contra 0. El unico
+  "tst.w $b8(a5)" que hay ($013C36) es de la REGENERACION. [ABIERTO]
+
+================================================================================
+3.7  HIEI Y LAS MANOS OSCURAS DE ITSUKI: LAS MISMAS MECANICAS
+================================================================================
+  Del usuario, 14-10-2026. CORRIGE lo que habiamos anotado: el estado de Hiei
+  manejando el dragon NO es como el teleport de Itsuki, es como cuando
+  ITSUKI MANIPULA SUS MANOS.
+
+  LAS TRES MECANICAS QUE COMPARTEN:
+    1. INMOVIL mientras manipulan.
+    2. SE PUEDE CANCELAR si el proyectil cruza el borde y muere: el personaje
+       vuelve a moverse, tecnica cancelada.
+     3. GOTEO de mana mientras manipulan. En Itsuki durante las manos, en
+       Hiei DESPUES DE ABSORBER el dragon.
+
+  LO QUE SOLO ES DE HIEI (el buff, por golpearse a si mismo):
+    - dano x2
+    - velocidad de desplazamiento aparentemente mayor
+    - los golpes NORMALES sacan chip damage al ser bloqueados, como si
+      fuesen tecnicas
+    - aumenta el chip damage de las tecnicas
+    - LO UNICO QUE NO CAMBIA: el nivel de stun (el "mareado" por muchos
+      golpes). NO es el hitstun.
+     - el buff SE VA al ganar la pelea o al agotarse el mana
+
+  ESTO AFECTA AL GOTEO_ACTIVO DE HIEI SET MOVE.LUA: se escribio suponiendo
+  que el goteo era propio de un estado del dragon. Si comparte mecanismo con
+  las manos, puede que no haga falta un estado nuevo sino el mismo.
+
+================================================================================
+  *** MEDIDO EL 14-10-2026: EL RITMO Y EL CRUCE POR CERO. ***
+
+    EL RITMO: 1 DE MANA CADA 3 FRAMES.  0,33 MP por frame.  La barra
+    entera se vacia en ~11 SEGUNDOS.  Medido con la traza [GOTEO] del
+    HIEI SET MOVE.LUA, que imprime una linea cada 30 frames SOLO cuando el
+    mana baja.
+
+    EL GOTEO NO DEPENDE DEL ESTADO: con el $5F en $00, o sea Hiei parado y
+    en ninguno de sus estados especiales, el goteo sigue al mismo ritmo.
+    NO es el estado de manipulacion: es el BUFF.
+
+    *** EL CRUCE POR CERO, Y EL KNOCKDOWN.  [COMPROBADO] ***
+
+        f960  mp 10 -> 1
+        f964  el mana pasa de 0 a 65535      <<< NO HAY TOPE INFERIOR
+        f964  $5F de $00 a $25               <<< EN EL MISMO FRAME
+        f1017 $25 -> $28
+        f1043 $28 -> $29
+        f1068 $29 -> $2A
+        f1095 $2A -> $2B
+
+      El "subq.w #$1, $b8(a5)" de $01A4EA NO TIENE CLAMP.  Cuando el mana
+      llega a 0, la resta siguiente da $FFFF, y en ese mismo frame Hiei
+      entra en $25.
+
+      Y $25 -> $28 -> $29 -> $2A -> $2B ES LA CADENA DE DERRIBO del juego,
+      la misma del lanzador pero sin el $26 inicial.  O sea que el knockdown
+      por mana agotado NO es un disparador propio: es el DESBORDE.
+
+      LO QUE NO SABEMOS: que reacciona al valor imposible, o sea el test que
+      lee $FFFF.  [ABIERTO]
+
+    *** UNA LECCION DE ACABO DE COMETER ***
+    Medi $A7 durante 113 frames y lo escribi como "la manipulacion dura 113
+    frames".  ESTA MAL: 113 frames es lo que el usuario tardo en absorber el
+    dragon.  $A7 NO TIENE DURACION FIJA, termina POR EVENTO.  CONVERTIR UNA
+    MEDICION EN UNA PROPIEDAD: el error de siempre, y esta vez mio.
+
+
+
+4. EL MANA QUE SE GANA
+================================================================================
+  NO es "nada hasta el segundo golpe", como decia una guia: el ROM SUMA el
+  contador ANTES de usarlo, asi que el PRIMER golpe ya da +2.
+
+      01F9C8  la routine de contacto, y $C6 vive en el DEFENSOR (a4)
+      01F9F0  addi.b  #$1, $c6(a4)      ; 1ro: SUMA
+      01F9FC  tope 16
+      01FA0C  move.b  $c6(a4), d0
+      01FA10  asl.w   #$1, d0           ; d0 = $C6 * 2
+      01FA12  add.w   d0, $b8(a3)       ; y SUMA el mana del ATACANTE
+      01FA1E  tope 223
+
+  REGLA: +2 * n contando desde el PRIMERO.  Tope de +32 del golpe 16 en
+  adelante.  Acumulado = n * (n + 1), o sea 272 al llegar a 16.
+
+  EL MANA NO SE PIERDE EN LA MUERTE: las unicas escrituras a $B8 en
+  $01E000-$020000 son las del bonus de combo.
+
+
+================================================================================
+5. $C6: EL CONTADOR NATIVO DE COMBO
+================================================================================
+  VIVE EN EL DEFENSOR (a4). Para leer el combo de P1 hay que leer $C6 del
+  slot del RIVAL. Es el contador oficial del juego: no hay que estimarlo
+  contando frames, y el corte es la misma condicion que usa el juego.
+
+  | $5F del defensor | que hace                        |
+  |------------------+---------------------------------|
+  | $20..$27         | SUMA                            |
+  | $28..$2D         | RESETEA  <-- agujero interior   |
+  | $2E..$30         | SUMA                            |
+  | fuera de $20-$30 | reset                           |
+
+  $28-$2D esta DENTRO de la ventana y la corta. No se ve leyendo solo los dos
+  cmpi extremos. Reset: clr.b $c6(a4) en $01FA6A. $C6 nunca se inicializa en los
+  bloques de init: arranca en 0 por el borrado general del struct.
+
+  Un tercer consumidor muestra que $C6 mueve un efecto:
+      01FA50  move.b $c6(a4), d0
+      01FA54  addi.b #$81, d0
+      01FA58  lsl.w  #$1, d0           ; ($C6 + $81) * 2
+      01FA5A  move.w d0, $3c(a0)       ; +2 por golpe de combo
+  Que campo es $3C sigue ABIERTO, pero el escalado es verificable.
+
+
+================================================================================
+6. EL MOTOR DE DANO  (la parte que nos faltaba entera)
+================================================================================
+
+6.1  EL RESOLVER TIENE DOS CAMINOS
+       01F320  and.b  $63(a4), d0     ; mascara de defensa del DEFENSOR
+       01F324  cmpi.b #$0, d0
+       01F328  beq.w  $01F414         ; == 0 -> camino COMPLETO
+
+      camino REDUCIDO (01F3D6):
+        01F3D8  move.b $65(a3), d0
+        01F3DC  lsr.b  #$2, d0         ; d0 = $65 / 4
+        01F3DE  addq.b #$1, d0         ; +1
+        01F3E0  sub.w  d0, $78(a4)
+                               *** NO TOCA $7E ***
+
+      camino COMPLETO (01F414):
+        01F420  move.b $65(a3), d0
+        01F424  sub.w  d0, $78(a4)     ; el $65 CRUDO, sin multiplicador
+        01F42C  move.b $66(a3), d0
+        01F430  sub.w  d0, $7e(a4)     ; y el stun
+
+      El clamp del HP a 0 esta en 01F3EC (clr.w $78(a4)).
+
+6.2  LO QUE NO EXISTE
+      - NO HAY ESCALADO POR COMBO. El camino completo resta $65 crudo y sin
+        mirar $C6, que ademas se incrementa DESPUES del golpe (01F9F0).
+      - $63 es REAL, pero es OTRO phenomenon: el perfil del chip damage y del
+        golpe bloqueado, con una reduccion de 2x a 3,4x y SIN stun.
+      - LA VARIACION DEL MISMO GOLPE sale de que conecte el frame A o el B.
+        Un B con mas de un frame activo tiene un $65 distinto en cada uno, y
+        por eso el dano y el empuje varian SIEMPRE JUNTOS: es una sola eleccion.
+
+6.3  LO QUE SIGUE SIN EXPLICAR
+      MEDIDO por el usuario: un B da 5 a 8 de dano, y un combo completo va de
+      71 a 86. Mas del 20 %.
+      El camino reducido, para $65 = 8, daria 3. Y el minimo medido es 5.
+      O sea que el mecanismo de arriba NO explica el 5.
+      [ABIERTO en los dos proyectos]
+
+6.4  $64: EL EMPUJE, Y TIENE DOS TABLAS
+      $64 = cuarto byte del registro del FRAME ACTIVO. Del MOVE, no del
+      personaje. Bits 0-1 eligen la intensidad, con una tabla distinta por
+      camino:
+
+      | nivel | camino reducido        | camino completo       |
+      |-------+------------------------+-----------------------|
+      |   1   | $2B000 = 2,69 px/frame | $30000 = 3,00         |
+      |   2   | $39000 = 3,56          | $40000 = 4,00         |
+      |   3   | $4C000 = 4,75          | $56000 = 5,38         |
+
+      Reducido en 01F33A / 01F35C / 01F37E.  Completo en 01F442 / 01F464 /
+      01F486.  Los dos caminos ponen $6A = 1, 2 o 3 igual.
+
+      BIT 4 de $64 = variante de dano (el camino reducido, $65/4 + 1).
+      BIT 5 de $64 = ANULA el hitpause: lo deja en 0, no lo baja.
+      BIT 5 = el golpe hace dano reducido o ninguno.
+      Bits 2-3 = la mitad del AND de $63 que decide el dano.
+
+6.5  $7E ES UN PRESUPUESTO, NO UN TIMER
+      Se gasta golpe a golpe con sub.w $66. Cuando agota:
+        01F4E2  move.w $7e(a4), d0
+        01F4E6  neg.w  d0
+        01F4E8  addi.w #$4, d0
+        01F4EC  asl.w  #$4, d0          ; *16
+        01F4EE  move.w d0, $84(a4)      ; velocidad del knockdown
+
+      GOLPES HASTA KNOCKDOWN = ceil($80 / $66). Sale exacto, sin emulador.
+      Reset: 01F4E2 / 0x15A4A / 0x18694 con move.w $80(a5),$7e(a5).
+
+      OJO: en 01F4CA hay DOS blt distintos y cada uno pertenece a su cmpi:
+        01F4CA  cmpi.w #$0, $78(a4)     ; HP
+        01F4D0  blt.b  $01F4F4          ; HP < 0 -> CAMARA LENTA
+        01F4D6  cmpi.w #$0, $7e(a4)     ; stun
+        01F4DC  blt.b  $01F4E2          ; stun < 0 -> knockdown
+      Por eso se concluyo que la camara lenta era "cualquier golpe sin
+      knockdown": es HP NEGATIVO = muerto.
+
+
+================================================================================
+7. LOS FREEZES: SON CUATRO
+================================================================================
+
+  | Sistema              | Valor   | Donde     | Que frena                        |
+  |----------------------+---------+-----------+----------------------------------|
+  | Hitpause             | 16      | $01F2E0   | solo a3 y a4                     |
+  | Clash                | 28 ($1C)| $01F15E   | a3                               |
+  | Congelacion Itsuki   | 255($FF)| $01C078   | todos los que NO son del mismo equipo|
+  | Camara lenta muerte  | 160($A0)| $01FA82   | TODO, es global                  |
+
+7.1  QUE SE CONGELA ES SALTARSE EL TICK, NO UN CONTADOR
+      El unico consumidor de $69 esta en $012AF4:
+
+        012AF4  cmpi.b #$0, $f55a.w     ; primero el global
+        012AFA  bne.b  $12b2e
+        012AFC  cmpi.b #$0, $69(a5)     ; luego el propio
+        012B02  bhi.b  $12b36
+        012B04  clr.b  $6a(a5)
+        012B08  jsr    $19c96          <-- con freeze, todo esto se SALTA
+        012B16  jsr    $1fbaa
+        012B1C  jmp    $3556
+        012B22  jsr    $1eb40          <-- el tick del frame data
+        012B28  jsr    $156f0          <-- recalcular posicion
+        012B2E  jmp    $1580
+        012B36  subi.b #$1, $69(a5)    <-- descontar
+
+      *** ESTA ES LA RESPUESTA A LA PREGUNTA QUE SE NOS HABIA PUESTO DOS VECES. ***
+      Lo que se salta con freeze es el tick del frame data Y el recalculo de
+      posicion ($156F0). O sea que el cuerpo SI se frena entero.
+
+      *** MI ERROR, Y EL LECCIONARIO. *** Yo escribi que "la fisica esta en
+      $01EFC0 y ahi no aparece $69 ni una vez, asi que no se frena". Eso es un
+      SILOGISMO INVALIDO: lo unico que probarian esos bytes es que ESA RUTINA no
+      lee el flag. El gate esta antes, en $012AF4, y envuelve el recalculo de
+      posicion. La ausencia de una lectura no es la ausencia de una condicion.
+
+7.2  $69 Y $75
+        01F2E0  move.b #$10, $69(a3)   ; 16, hitpause del atacante
+        01F2E6  move.b #$11, $75(a3)   ; 17, SIEMPRE $69 + 1
+        01F2EC  move.b #$10, $69(a4)   ; 16, hitpause de la victima
+        01F2F4  move.b #$0,  $69(a3)   ; bit 5 de $64 ausente -> SIN freeze
+        01F2FA  move.b #$1,  $75(a3)
+        01F300  move.b #$0,  $69(a4)
+        01F15E  move.b #$1c, $69(a3)   ; 28, clash
+        01F164  move.b #$1d, $75(a3)   ; 29
+        01F16C  los dos a 0 en el camino sin hit
+
+      $69 SIEMPRE se escribe en a3. $75 tambien. Los dos contadores son limpios
+      ($69 no siempre: hay 15 sitios que hacen subi.b #$1 y varios corren en el
+      mismo frame, por eso a veces baja de a 2).
+      *** PARA CONTAR FRAMES USAR $75, NO $69. ***
+
+7.3  STOP TIME
+        01C06A  lea.l $8400.w, a0       ; recorre los 4 slots
+        01C06E  move.b $6e(a0), d1
+        01C072  cmp.b  $6e(a5), d1
+        01C076  beq.b  $01C07E          ; si es del mismo equipo, lo saltea
+        01C078  move.b #$ff, $69(a0)    ; <<< CONGELA A 255
+        01C07E  cmpa.w #$9000, a0
+        01C084  adda.w #$400, a0
+        01C088  bra.b  $01C06E
+
+      MEDIDO: 255 frames exactos, y coincide con el #$ff del codigo.
+      - Congela SOLO enemigos: compara $6E contra el del lanzador.
+      - NO afecta proyectiles: $6E se propaga a los hijos (01A46C y 9 mas).
+      - Se descongela con CUALQUIER impacto: el resolver SOBRESCRIBE el byte.
+
+      $6E es una etiqueta de pertenencia, no un byte de equipo suelto. Eso es
+      lo que explica por que los proyectiles propios no se congelan.
+
+7.4  HAY 16 GATES, NO UNO
+      $01EB40 tiene 16 llamadores, y cada uno tiene SU PROPIO jmp $1580 a
+      18 bytes: $012384, $012B22, $012C38, $012D76, $012E98, $012FBC, $0130EE,
+      $013244, $0136C6, $0137E0, $0139F4, $013DEE, $0142A0, $014576, $014832,
+      $015B78.
+      Son 16 estados del personaje con su propia condicion de freeze. **El
+      hit-time de una especial tiene que estar en uno de esos 15 sin mirar.**
+      Y por lo tanto: NO HAY HIT-TIME POR MOVIMIENTO.
+
+7.5  $F558 / $F55A NO ES UN FREEZE
+      $F558 tiene UN SOLO escritor en todo el ROM, y siempre pone 160:
+        01FA82  move.w #$a0, $f558.w
+      Unico llamador: 01F4F4, o sea HP negativo. NO es acumulativo: es una
+      asignacion, asi que se puede seguir golpeando a un muerto.
+      Y frena TODO, porque $FFF558 es global.
+      Se rearma en CADA golpe a un peleador ya muerto: MEDIDO 9 veces en 320
+      frames, una cada 40.
+
+
+================================================================================
+8. LAS CAJAS: LAS CINCO LISTAS
+================================================================================
+  | lista   | base     | contador | stride |
+  |---------+----------+----------+--------|
+  | hitbox  | $FFA200  | $FFA004  | $10    |
+  | clash   | $FFA300  | $FFA006  | $10    |
+  | hurtbox | $FFA400  | $FFA008  | $10    |
+  | pushbox | $FFA500  | $FFA00A  | $10    |
+  | grab    | $FFA600  | $FFA00C  | $20    |
+
+  - LOS CONTADORES SON OFFSETS EN BYTES.  n = contador / stride.  Maximo 15.
+  - En el ASM se escriben en $00A004..$00A00C; FBNeo los refleja en
+    $FFA004..$FFA00C. Registrar hooks en LAS DOS.
+  - Entrada de 16 bytes: +0 X, +4 Y, +8 radioX (BIT 7 = TERMINADOR),
+    +9 radioY, +$C owner.
+  - *** EL OWNER ES UN WORD, NO UN PUNTERO. *** El builder hace move.w a5
+    (01EC40, 01EC9E, 01ECFC, 01ED5A, 01161BE), asi que vale $8400 / $8800, no
+    $FF8400 / $FF8800. El dispatcher lo recupera con movea.w. Normalizar antes
+    de comparar.
+  - Builder: $01EB40.   Dispatcher: $01EDAC.
+  - $01EDAC llama en ESTE orden: $01EEE2 (grab), $01F090 (clash), $01F21E
+    (hit vs hurt), $01EE1E (push) y LUEGO pone a 0 los cinco contadores, en
+    $01EDC2. Por eso el hook tiene que leerlos ahi.
+  - *** OJO: HAY DOS PUERTAS DIFFERENTES. *** $01EDAC arranca con
+    btst.b #$7, $f550.w / bne.b $01EE1C, y $01EE1C es un rts: si el bit esta
+    activo la rutina no hace nada. Un hook en $01EDC2 NO SE EJECUTA NUNCA en
+    esos frames. **Se engancha en la ENTRADA, que siempre se alcanza.**
+  - Los contadores los borra el DISPATCHER, DESPUES de los resolvers.
+
+8.1  EL RESOLVER DE HITBOX COMPLETO
+       01F21E  cmpi.w #$0, $a004.w      ; hay HIT?
+       01F228  cmpi.w #$0, $a008.w      ; hay HURT?
+       01F246  move.b $6e(a3), d0
+       01F24E  beq.w  $1f50a            ; MISMO chequeo de $6E que en la ulti
+       01F252  move.w $9c(a3), d0        ; $9C tiene que COINCIDIR entre los dos
+       01F25A  bne.w  $1f50a
+       01F260  move.b $70(a4), d0
+       01F264  move.l $94(a3), d1
+       01F268  btst.l d0, d1             ; el bit de $70 tiene que estar en $94
+       01F26A  beq.w  $1f50a
+       01F284  cmp.w  d0, d1             |X1-X2| vs suma de semianchos
+       01F2A2  blt.w  $1f50a             |Y1-Y2| vs suma de semialtos
+       01F2AC  jsr   $01f7b2.l           <<< LA QUE ESCRIBE $26
+       01F2D2  move.b #$1, $5b(a3)
+       01F2D8  btst.b #$5, $64(a3)
+       01F2E0  move.b #$10, $69(a3)
+
+  MEDIDO: $6E vale $01 en P1 y $04 en el rival. Distintos, asi que el beq no
+  saltea a nadie.
+
+
+================================================================================
+9. LO QUE ESTA MAL EN NUESTROS DOCS, Y COMO SE CORRIGE
+================================================================================
+
+9.1  HIEI TECNICAS.txt  --  LEIA SOLO EL PRIMER BLOB
+     Un move con N frames activos tiene N blobs. La tabla que escribimos el
+     14/10 mostraba UNO por golpe, y por eso:
+
+     | move | lo que pusimos | la verdad, frame por frame                  |
+     |------|---------------+---------------------------------------------|
+     | $A2  | 8, 35x17     | 8/35x17, **10/31x23**, 8/19x15              |
+     | $A4  | $68 = 0       | $68 = **0** y $68 = **1** (van a $20 y $21)  |
+     | $A5  | $68 = 0       | alterna 0,1,0,1 en sus 4 frames activos     |
+     | $AC  | 21x41         | 21x41 y **23x29**                          |
+     | $AE  | 3 cajas       | **5 cajas**: 23x9, 29x15, 17x25, 15x33, 15x33|
+
+9.2  HIT STATE.txt  --  $69 Y EL CONGELAMIENTO
+     - Decimos que $69 es "el contador de hitstop" y que la fisica no se
+       frena. CORREGIDO: congelarse es SALTARSE el tick y el recalculo de
+       posicion (seccion 7.1). El cuerpo SI se frena entero.
+     - La tabla de "se congela / no se congela" por velocidad HORIZONTAL
+       quedo ANULADA. El usuario lo corrigio y con razon. No se vuelve a
+       investigar: es decision suya, 14/10/2026.
+
+9.3  HIT STATE.txt  --  EL $69 = $FF DE LA VICTIMA
+     Cerrado: se escribe en $01F79E, en la COLA COMUN de los handlers de $68
+     ($01F786). Eso explica la asimetria atacante $01 / victima $FF, que son
+     dos escritores distintos.
+     La misma cola limpia $64 en $01F7A8 y pone $26 = $3C en $01F7B2.
+
+9.4  *** CONFLICTO ABIERTO: $26 ***
+     | nuestro HIT STATE.txt        | el doc viejo, seccion 5c         |
+     |------------------------------|----------------------------------|
+     | $26 es el PLANO               | $26 es un INDICE: el cursor de  |
+     | el filtro vive DENTRO del     | una tabla de desplazamientos    |
+     | resolver, en $01F2AC          | consumidor: $0379AE             |
+     |                               | el bit 7 NO son dos planos: es  |
+     |                               | el SIGNO                         |
+
+     Los dos leemos $01F7B2 escribiendo $26 = $3C, y damos los mismos numeros.
+     Difieren en QUE SIGNIFICA. Los dos docs lo dan por cerrado y se
+     contradicen.  [PENDIENTE DE RESOLVER]
+
+     Para usar: $0A elige cual de los 8 flujos (punteros en $3A256). Volcados
+     con _disasm_tools/dump_26.py: 154 bytes, 90,9 % dato, 3,9 % codigo.
+
+9.5  LO QUE NOS FALTA Y ELLOS LO TIENEN
+     - stun_max por personaje: 40, 56, 48, 44, 54, 46, 40, 38, 48, 62
+       (en el orden de contexto 0..9). Hiei = 44, Itsuki = 40.
+     - El roster completo con nombre japones.
+     - El contador nativo de combo ($C6).
+     - Los dos caminos de dano.
+     - Las cinco listas de cajas con su builder y su dispatcher.
+
+
+================================================================================
+10. LOS COMANDOS DE HIEI, DE FUENTE EXTERNA (NO VERIFICADOS)
+================================================================================
+  De COMANDOS_Y_FRAME_DATA.md, ID 8. La fuente es web (kakusi.jp y
+  forum.gamer.com.tw), y el propio doc viejo lo marca. **El unico confirmado
+  por medicion propia es A+B.**
+
+  | Tecnica        | Comando                  | Notas                              |
+  |----------------+--------------------------+------------------------------------|
+  | Afterimage     | (abajo, arriba)x2        | Invencible, atraviesa rival        |
+  | Espada de fuego| **A + B**                | Invencible, alcanza DETRAS         |
+  | Quemazon       | abajo + diag.abajo + A o B| Avance 161/81                      |
+  | Corte del ave  | abajo x2 + A o B, luego A o B| Direccion antes de caer          |
+  | SUPER          | abajo + diag.abajo + abajo + A o B | 88 de dano bruto        |
+
+  *** LA ESPADA DE FUEGO ES EL $A2. *** Y el "Invencible" de la columna
+  explica lo que el usuario vio: en los primeros frames no tiene hurtbox.
+  O sea que el byte +2 de esos frames tiene el bit 4 puesto, y $94 = $FFFFFFFF
+  (ver seccion 2.2).  ESO SE PUEDE VERIFICAR EN EL ROM.
+
+  EL DRAGON NEGRO: golpearse a si mismo con el corte de Hiei lo convierte en
+  modo dragon. x2 de ataque y velocidad, mana lleno, sin super, y el mana SE
+  DRENA SOLO. Si llega a 0 -> stun 255. Eso es el drenaje que Teniamos abierto.
+
+  game_data.json de Hiei, con su bloque _confianza:
+    stun_max 44 (WEB)   vel_move S (ESTIMADO)   regen mana SS (WEB)
+    prov_coste 48 (ESTIMADO)   super_dmg 88 (WEB)   super_mana 200 (ESTIMADO)
+    normales: A parado 12, A agachado 12, B parado 3, agarre 15   (WEB)
+    especiales: todos en CERO, danio PENDIENTE
+
+  *** LOS NORMALES COINCIDEN CON NUESTRA LECTURA DEL ROM. ***
+  $82 A = 12, $86 Abajo+A = 12, $80 B = 3.  Y el agarre lo tenemos en $B8 con
+  14 de dano contra 15 del web.  Es la primera vez que dos fuentes
+  independientes dan el mismo numero en cuatro golpes.
+
+
+================================================================================
+11. COMO USAR ESTO PARA ESCRIBIR UN .LUA MAS RAPIDO
+================================================================================
+
+  LO QUE YA NO HAY QUE BUSCAR:
+    - el registro de 8 bytes y que byte va donde            (seccion 2.1)
+    - bit 4 = inmune, bit 6 = frame activo                 (2.2, 2.3)
+    - el largo de la lista de frames                        (2.4)
+    - el layout del blob y el de las cajas                  (2.3, 2.5)
+    - los costes de mana                                    (seccion 3)
+    - los cuatro freezes y el gate exacto                   (seccion 7)
+    - como se aplica el dano, con sus dos caminos           (seccion 6)
+    - las cinco listas, con sus contadores y strides         (seccion 8)
+    - el stun_max de cada personaje                         (9.5)
+
+  LO QUE HAY QUE SEGUIR HACIENDO A MANO:
+    - el mapeo de $5F a una tecnica por partida (el $5F solo no alcanza)
+    - que boton es cada bit de $73                          (seccion 3)
+    - el damage mystery de 5 a 8                            (6.3)
+    - que significa $26                                      (9.4)
+
+  EL ORDEN QUE MAS FALLA:
+    1. Leer los BYTES REALES de dos instrucciones conocidas y derivar el
+       patron. NUNCA un opcode recordado. (nos costo dos veces hoy)
+    2. Verificar la ALINEACION del desensamblado antes de creer un match.
+    3. Enumerar TODOS los escritores de un campo antes de concluir que es.
+    4. Si dos valores del mismo tipo difieren, el error esta en el formato o
+       en el camino de datos, no en el lector.
+
+  UN .LUA DE ESTE PROYECTO TIENE QUE:
+    - ser PASIVO: cero escrituras a la memoria del juego, ni joypad.set
+    - leer RAM y ROM primero, e inferir solo lo que no se puede leer
+    - no pasar de 200 locals (LuaJIT 5.1). Si no entran, usar una TABLA:
+      no consume ninguno.
+    - declarar un local ANTES de la funcion que lo usa, o Lua lo resuelve
+      como global nil. Pasa limpio con luajit -bl y revienta en el frame 1.
+    - llevar LATIDO: una linea cada N frames, porque un hook que no dispara
+      NO da error, se calla.
+    - envolver el cuerpo del callback en pcall y AVISAR CADA frame que
+      falla. Un flag de "ya lo dije" no alcanza.
+
+
+================================================================================
+12. LO QUE SIGUE ABIERTO, EN LOS DOS PROYECTOS
+================================================================================
+  *** LOS DOS PENDIENTES QUE EL USUARIO APARTO EL 14/10/2026 ***
+  [P] EL DANO QUE NO CUADRA. $A2 de Hiei: el blob dice 8 y la partida dio 9.
+      El camino reducido daria $65/4 + 1 = 3, tanto para 8 como para 10. El
+      otro proyecto tiene el mismo mystery con un B de 5 a 8, y el minimo
+      medido es 5. NO SE INVESTIGA HOY.
+  [P] QUE SIGNIFICA $26. Nuestro HIT STATE.txt dice que es el PLANO; el doc
+      viejo, seccion 5c, dice que es un INDICE y que el bit 7 es el signo.
+      Los dos leemos $01F7B2 escribiendo $26 = $3C y damos los mismos numeros.
+      Los dos docs lo dan por cerrado y se contradicen. NO SE DECIDE HOY.
+
+  [ ] Que bit de $73 es cada boton. Tabla en $016ED2, despachador intermedio
+      sin resolver. Se cierra instrumentando $73 y $71 en la misma pulsada.
+  [ ] El dano de 5 a 8 en el mismo golpe. El mecanismo de los frames activos
+      esta claro pero NO da el 5 (el reducido daria 3).
+  [ ] Que significa $26: indice o plano. Los dos docs lo dan por cerrado.
+  [ ] Que campo es $3C: se sabe que vale ($C6 + $81) * 2.
+  [ ] El BLOCKSTUN: el valor 32 esta MEDIDO pero SIN DIRECCION. Candidatos:
+      $63, $64 bit 5, $71 bit 1, $6C bits 0-5. Con dato sin direccion no
+      entra como verificado.
+  [ ] Los 15 gates de freeze sin mirar, o sea el hit-time de las especiales.
+  [ ] La tabla de comandos completa del ROM.
+  [ ] Los comandos de los 7 golpes de Hiei que faltan, y las 9 tecnicas sin
+      caja (todavia no sabemos cual es cual).
+  [ ] Si $B8 con $68=8 es un AGARRE UNIVERSAL. Hiei lo tiene. En Itsuki el
+      agarre va por otro camino (estado $40 -> $30) y no aparece en tablaA.
+
+  Y una regla del doc viejo que hay que respetar:
+      UN DATO SIN VERIFICAR NO SOLO PUEDE ESTAR MAL EN EL MATERIAL AJENO:
+      PUEDE ESTAR MAL EN EL NUESTRO Y CONTAMINAR LO QUE EL OTRO CONSTRUYA
+      ENCIMA. El caso real: nuestro doc de los colores estaba mal, un script
+      externo lo copio al pie de la letra, y salia rosa.
+
+
+================================================================================
+FIN DEL IDEARIO
+================================================================================
+
+
+
+================================================================================
+13. LA MATRIZ DE IDS DE LOS 11 PERSONAJES   (14-10-2026)
+================================================================================
+
+  Un id de golpe es un HUECO, no un golpe.  Corre la presencia en los 11 y
+  separalo en dos: lo que esta en todos, y lo que es de cada uno.
+
+  EN LOS 11:
+    $80 $81 $82 $83 $84 $86 $90 $94 $95    los 9 basicos
+    $A0 $A2
+    $B8
+
+  $85 es un agujero en los 11.  $87 solo en Itsuki.
+
+  CUANTOS LO TIENEN:  $A1 10   $A4 10   $A6 9   $AA 8   $AC 8   $A3 7
+                      $A5 7   $AE 7   $A7 6   $A8 6   $AD 6   $AB 5
+                      $AF 4   $A9 2   $B0 2   $B1 2   $B9 2   $87 1
+
+  *** LO QUE NO SE PUEDE LEER COMO "EL MISMO GOLPE" ***
+  Los 9 basicos estan en los 11 y CADA UNO LOS TIENE DISTINTOS:
+
+      $82   Hiei  12            Kurama  14,16
+      $83   Hiei  8,8  -> $25   Kurama  14  -> $26
+      $95   Hiei  8,4          Kurama  14
+
+  Es la misma regla de los comandos y de los precios, ahora aplicada a los
+  golpes:  EL ID ES LA RANURA, EL DATO ES DE QUIEN LO USA.
+
+  *** $B8 ES EL AGARRE ***  [DERIVADO]
+  Esta en los 11 y cambia por personaje:
+
+      Hiei    14 de dano   $68=$30   27x27  11x13
+      Kurama  16 de dano   $68=$2F   39x25   1x1
+
+  Mismo rol, afinado por personaje.  Cierra la pregunta de si $B8 era un
+  agarre universal.  Falta que hacen $2F y $30 en la victima.  [ABIERTO]
+
+  *** $A6 ES EL SUPER, PERO SOLO LO SABEMOS DE DOS ***  [FUERTE]
+  $A6 esta en 9 de 11.  Es el ulti de Hiei y el super de Kurama.  Con dos
+  personajes no es [COMPROBADO].
+
+================================================================================
+14. TRES COSAS QUE SE CAEN, Y UNA QUE SE CIERRA
+================================================================================
+
+  14.1  CERRADO:  QUE ES $26  ->  EL EMPUJON  [COMPROBADO]
+
+    Era uno de los dos [P].  $68=6 va a $01F744, que es el UNICO handler de
+    $68 que ESCRIBE $61(a4).  Y medido el 14-10-2026:
+
+        f102 $26   f153 $25   f188 $28   f214 $29   f239 $2A   f240 $00
+
+    $26 es el estado del empujon.  LAS DOS LECTURAS EQUIVOCADAS:
+      "PLANE"  (nuestro doc, en una seccion)
+      "INDICE / cursor, bit 7 = SIGNO"  (proyecto viejo, sec 5c)
+    Ninguna.  $26 se alcanza desde la TABLA de $68: es un estado de
+    reaccion.  Y $61 no es un giro visible, es una variable de calculo para
+    elegir la direccion del empujon.
+
+    SINTESIS NUEVA: el empujon y el knockdown por mana agotado son la misma
+    cola de derribo con dos entradas.
+
+        empujon    $26 -> $25 -> $28 -> $29 -> $2A -> $00
+        knockdown  --------> $25 -> $28 -> $29 -> $2A -> $2B
+
+    Y ahora Kurama lo corrobora: su $83 USA $68=6.  Es un empujon.
+
+  14.2  REFUTADO:  LOS "GRUPOS DE 6 DESPACHADORES"
+
+    La firma "btst.b #$4, $72(a5)" sale 62 veces: es un idiom comun.
+    NO hay ninguna tabla de punteros a la zona de despachadores (0 punteros
+    consecutivos).  Los saltos entran desde 20+ direcciones repartidas.
+
+    SIGUE EN PIE: los PRECIOS de Hiei.  $0190A8 (32) y $019190 (200) los
+    usan $A2 y $A6, y los dos estan MEDIDOS.  Lo que estaba mal era el
+    modelo del orden, no los precios.
+
+  14.3  CORREGIDO:  $42 DE LA TABLA DE PERSONAJES NO ES EL STUN
+
+    Lo etiquete sin comprobar.  Va 16,18,20,...,34 y despues 124.  El
+    stun_max del proyecto viejo no aparece en la ROM en ningun encoding.
+    $42 queda SIN NOMBRE.  [ABIERTO]
+
+    Y la entrada 11 rompe la escalera con 124.  [ABIERTO]
+
+  14.4  UN BUG DEL LECTOR, Y LA REGLA
+
+    "El largo del registro es el siguiente id con offset mayor" acota por
+    arriba pero NO acota el ultimo registro.  Sin tope, Kurama $BE devolvio
+    185.783 frames y 456 golpes.
+
+    REGLA: fin = min(por_el_siguiente_id, tablaB).  tablaA termina donde
+    empieza tablaB.  Con el tope, $BE da 0 frames, y los numeros de Hiei no
+    cambian.
+
+================================================================================
+
+================================================================================
+15.  QUE ES LO DIFICIL DE SACAR DE ESTE JUEGO   (15-10-2026)
+================================================================================
+
+  La intuicion dice que lo dificil son las fisicas.  ESTA MAL, y por un
+  motivo concreto: las fisicas estan mas hechas de lo que parece.
+
+  15.1  LA FISICA YA ESTA, Y ESTA DENTRO DE LA TABLA DE $68
+
+  Los handlers de reaccion escriben la velocidad del empujon:
+
+      $01F71A  move.b #$25,          $5f(a4)      estado
+      $01F720  move.l #$3800,        $4c(a4)      velocidad vertical
+      $01F728  cmpi.b #$0,          $61(a4)      el facing
+      $01F730  move.l #$FFFE8000,    $10(a4)      horizontal izquierda
+      $01F73A  move.l #$18000,       $10(a4)      horizontal derecha
+
+  O sea que el empuje de cada golpe NO hay que ir a buscarlo a una tabla de
+  fisicas: esta en la MISMA tabla de reacciones que ya teniamos.
+
+  Y la integracion de la velocidad tambien:
+
+      $01EFC0  move.w -$59ee(a1), d0   velocidad Y
+      $01EFC4  add.w  d0, $44(a4)      POSICION Y += velocidad
+      $01EFCC  cmpi.b #$0, $61(a3)     el facing
+      $01EFD4  add.w  d0, $40(a4)      POSICION X += velocidad
+      $01EFE4  move.w $a010.w, d0      BORDE IZQUIERDO
+      $01EFF0  add.w  d0, $40(a3)      se paso: lo empuja
+      $01F004  move.b ..., $5f(a3)     y el choque le CAMBIA el estado
+
+  Y la regla de congelamiento ya medida: los estados que corren por
+  animacion se congelan, los que tienen velocidad no.  Y en $01EFxx no
+  aparece $69 ni una vez.
+
+  15.2  LAS CINCO LISTAS DE COLISION
+
+  Ya estan documentadas, con sus bases, contadores y strides:
+
+      hitbox    $FFA200   contador $FFA004   stride $10
+      clash     $FFA300   contador $FFA006   stride $10
+      hurtbox   $FFA400   contador $FFA008   stride $10
+      pushbox   $FFA500   contador $FFA00A   stride $10
+      grab      $FFA600   contador $FFA00C   stride $20
+
+  Y el LAYOUT del registro, con el bit 7 de radioX como terminador.
+
+  Mas los 1900 renglones del proyecto viejo sobre fisica, mareado y colisiones.
+
+  15.3  LO QUE SI FALTA DE FISICA, Y ES POCO
+
+      - la direccion del blockstun: el VALOR 32 esta medido, la direccion no
+      - quien gana cuando dos cajas se superponen
+      - el detalle de la asimetria del hitstop (ya resuelta a medias: el
+        atacante recibe $5B=$01 de $01F2D2 y la victima $5B=$FF de $01F79E)
+
+  15.4  LO QUE SI ESTA ATASCADO: EL INPUT
+
+  Y no porque sea grande.  Son 3 BYTES y una tabla.  Es lo mas chico que
+  queda y lo que mas bloquea.
+
+  LA IRONIA ESTA EN QUE LAS DOS DIFICULTADES ESTAN INVERTIDAS:
+
+                     leer el ROM         probar jugando
+      ------------    ---------------    ------------------
+      input            no se encuentra    UNA RONDA Y LISTO
+      fisica           repartida          se ve al instante
+
+  El input no se encuentra leyendo, pero se resuelve jugando: por eso la
+  ronda con TABLA DE MOVIMIENTOS.LUA es la via correcta y no un rodeo.
+
+  15.5  LO UNICO CARO DE VERDAD
+
+  LA RESOLUCION DE COLISIONES CON ADVANTAGE DE FRAMES.  Es el unico punto
+  donde leer el ROM no sirve de nada: hay que medir cada interaccion, y el
+  espacio es combinatorio (cada golpe contra cada estado de cada personaje).
+
+  PERO SOLO IMPORTA SI EL OBJETIVO ES REHACER EL JUEGO O PREDECIR
+  RESULTADOS.  Para documentar golpes y medir comandos, no hace falta.
+
+  15.6  EL INDICADOR QUE SI MUEVE
+
+  NO es "cuanto codigo leido": el 68000 es corto pero la logica esta partida
+  en un lio de dispatchidores, y leerlo por prueba y error rinde MUCHO mejor
+  que leerlo entero.  El porcentaje de codigo leido no mide bien el avance.
+
+  EL INDICADOR REAL:  cuantos personajes tienen el mapa de comandos completo.
+  Va 1 de 11.
+
+================================================================================
+16.  TRES ERRORES MIOS QUE SALIERON EN ESTA MISMA RONDA
+================================================================================
+
+  Los tres tienen la misma causa: ARMAR UNA TEORIA O UNA TABLA SIN LEER EL
+  DOCUMENTO O SIN BUSCAR EL CONSUMIDOR DEL DATO.
+
+  16.1  LEI 10 FILAS DE UN ARCHIVO DE 645 Y CONCLUI QUE EL RESTO NO ERA
+
+  Anote "la tabla de $68 tiene 10 entradas, no 16".  LA SECCION 7 DEL MISMO
+  ARCHIVO, escrita el mismo dia que se abrio Hiei, dice que tiene 16 y
+  explica por que durante horas parecio que eran 10:
+
+      el valor de la tabla NO es una direccion, es un OFFSET.
+      destino = entrada + valor
+
+  Los diez handlers que uno mira por costumbre entraban en el rango que uno
+  mira por costumbre.  Y las entradas 11 a 15 son basura: apuntan en medio de
+  una instruccion.
+
+  16.2  MARQUE "SIN NOMBRE" UNA REACCION QUE ESTABA DOCUMENTADA
+
+  El A+B de Hiei usa $68 = 10.  Lo marque "reaccion $0A ? (SIN NOMBRE)".
+  El handler entero estaba en HIT STATE.txt seccion 7:
+
+      $01F714  reaction 8   estado $25   $3800 vertical
+      $01F730  $18000 / $FFFE8000 horizontal
+
+  MANDA AL MISMO ESTADO Y CON LA MISMA VELOCIDAD QUE EL $68=5.  Lo unico que
+  cambia es el reaction: 8 en vez de 5.
+
+  16.3  ARME UNA TABLA DE REACCIONES DE MEMORIA Y "CORREGI" UN DOC BUENO
+
+  Construi en un script de paso una tabla de 16 reacciones inventada, le
+  puse 10="$25" porque me sonaba, y con eso conclui que HIEI TECNICAS.txt
+  estaba mal.  ESTABA BIEN.
+
+  Un numero inventado que coincide por casualidad con el estado real es PEOR
+  que no tener tabla, porque no se nota.
+
+  LA REGLA DE LAS TRES:
+
+    *** 1.  ANTES DE DECIR QUE ALGO NO SE SABE, BUSCAR EN TODO EL
+              DOCUMENTO.  En un archivo propio, "no lo encontre" casi
+              siempre quiere decir "no lo busque bien".
+    *** 2.  NUNCA CONSTRUIR UNA TABLA DE TRADUCCION DE MEMORIA.  O esta
+              leida del desensamblado y con la direccion anotada, o no
+              existe.
+    *** 3.  SI VAS A USAR UN BYTE, BUSCA QUIEN LO CONSUME.  El consumidor
+              del layout de la caja estaba en $01EB40, a cuatro direcciones
+              del sitio donde yo estaba mirando.  Me costo una tarde
+              entera una lectura que no hacia falta.
+
+================================================================================
+================================================================================
+17.  NUNCA DECLARAR UNA REGLA POR CASOS SUELTOS  (correccion del usuario)
+================================================================================
+================================================================================
+
+  "No demos por hecho aun que los basicos no varien, se necesitan pruebas
+   de repeticion para determinarlo, solo dejalo como probable"
+
+  *** TENIA RAZON Y YO ME PASE ***
+
+  Escribi en CONTEXTO 37.3 una regla dura:
+
+     "LOS BASICOS Y EL AGARRE SON EXACTOS.  LAS TECNICAS VARIAN."
+
+  y la presente como si estuviera cerrada.  Sale de SIETE casos medidos:
+  cuatro exactos y tres con variacion.  Con eso NO se demuestra que los
+  basicos no varien: se demuestra que en SIETE oportunidades no variaron.
+
+  *** LO QUE HICE MAL, Y ES EL MISMO ERROR DE TRES VECES ESTA RONDA ***
+
+  1. Generalice a partir de una muestra chica.
+  2. Le puse una regla REDONDA, del tipo que uno quiere encontrar.
+  3. No dije cuantas repeticiones hacen falta para confirmarla.
+
+  *** LO QUE HAY QUE HACER, Y ES UN PROCEDIMIENTO ***
+
+  Para afirmar que una magnitud NO varia, hay que repetir el mismo golpe
+  VARIAS VECES y ver el rango completo.  Con una medicion no se puede decir
+  que algo es constante: con una medicion no se puede decir NADA.
+
+  LO QUE FALTA PARA CERRAR LA VARIACION DE DANO:
+
+      - repetir cada golpe basico al menos 5 veces contra el mismo rival
+      - apuntar el HP en cada impacto, no solo el final
+      - si aparece UN solo valor distinto, la regla se cae
+
+  MIENTRAS TANTO, LA FORMULACION CORRECTA ES:
+
+      "En los SIETE casos medidos hasta ahora, los golpes basicos dieron
+       exacto y las tecnicas dieron entre 14 y 17.  PROBABLE, NO COMPROBADO.
+       Falta repeticion."
+
+  *** Y LA ETIQUETA QUE CORRESPONDE ***
+  Ni VERIFICADO ni FUERTE.  Es [DERIVADO] con una muestra de siete, y la
+  confianza de la regla es menor que la de los datos que la sostienen.
+
+  *** Y EL LADO BUENO: LA AFIRMACION MAS FUERTE SI LA SOSTIENE ***
+  El agresor es del jugador.  Eso no se puede malinterpretar ni por
+  redondeo.  El dano al RIVAL es el que hay que repetir.
+
+  *** REGLA GENERAL, PARA TODO EL PROYECTO ***
+  N = 1 es una medicion.  N = 5 es una tendencia.  Para una regla, hacen
+  falta repeticiones Y el numero va escrito al lado.  Si no se repite, se
+  escribe PROBABLE y se sigue.  Afirmar sin repetir es la forma mas
+  comun de que un documento de reversing se pire solo.
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+18.  ORDEN DE TRABAJO:  MAPEAR PRIMERO, MEDIR AL FINAL  (15-10)
+================================================================================
+================================================================================
+
+  "sobre el dano variable, esta bien, anotalo en ideario y contexto, pero
+   no nos vamos a enfocar en eso ahora, porque como todos los personajes
+   tienen variacion de dano -presuntamente- es gastar tiempo fijarnos en
+   eso ahora, lo haremos tras mapear todas las habilidades de todos los pj"
+
+================================================================================
+================================================================================
+
+  *** POR QUE EL ORDEN ES EL CORRECTO ***
+
+  La variacion de dano es probablemente UNIVERSAL.  Si lo es, medirla en un
+  personaje no dice nada sobre los otros diez, y repetition sobre un solo
+  golpe no dice nada sobre los otros 226.
+
+  Ademas hay una dependencia dura: no sabemos que golpes tienen variacion.
+  Repetir 5 veces el golpe basico de Hiei tiene sentido si sabemos que
+  ese golpe tiene variacion.  Y no lo sabemos.
+
+  *** EL ORDEN DEL PROYECTO, COMPLETO ***
+
+    1. los comandos de los 11 personajes        (rondas de juego)
+    2. los ids y los precios de cada uno        (sale de la ronda)
+    3. los objetos: proyectiles, plantas, manos, dragon, hojas
+    4. la tabla de 16 objetos compartida, una entrada de cada vez
+    5. AHORA SI: la variacion de dano, 5 repeticiones por golpe
+
+  *** Y EL PUNTO 4 ES EL QUE MAS VALE ***
+  Hay 16 entradas de objetos y solo 3 son de Kurama.  Las otras 13 son
+  probably las manos de Itsuki, el dragon de Hiei, y las invocaciones de
+  los demas.  Cada una que se identifique es un dato de un personaje.
+
+  *** Y UNA ADVERTENCIA QUE YA SE PIDI UNA VEZ ***
+  "no demos por hecho que los basicos no varian, se necesitan pruebas de
+   repeticion"  -- y en el mismo momento yo escribi una regla cerrada con
+  siete casos, que se cayo con el octavo.  Ver seccion 17.
+
+  *** REGLA QUE SALE DE LAS DOS CORRECCIONES ***
+  1. no declarar una regla sin repeticiones, y escribir el numero de casos
+  2. cuando se cae una regla, tacharla en el contexto, no olvidarla
+  3. cuando el usuario pida aplazar algo, anotarlo como decision y no
+     volver a el hasta que toque
+
+================================================================================
+================================================================================

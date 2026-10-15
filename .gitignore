@@ -1,0 +1,6 @@
+# Solo se versionan los dos documentos de memoria del proyecto.
+# Todo lo demas (ROM, scripts, PDFs, .LUA) queda fuera a proposito.
+*
+!GENERAL/
+!GENERAL/CONTEXTO.txt
+!GENERAL/IDEARIO.txt

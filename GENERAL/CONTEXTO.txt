@@ -5287,3 +5287,160 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+47. LA REGLA DEL AGARRE, Y LA PISTOLA DE SENSUI  (15-10)
+================================================================================
+================================================================================
+
+  47.1  *** LA REGLA DEL AGARRE, REDACTADA PARA QUE SIRVA ***
+
+      "el efecto del agarre NO depende de la victima sino del agarrador.  Lo
+       unico que la victima puntual si puede determinar es el tipo de combo
+       que puede recibir luego, debido a las hurtboxes, distribucion, tipo de
+       animacion de reaccion a los golpes y su tamano general"
+
+  *** HAY QUE SEPARAR LAS DOS MITADES, Y SON DE NATURALEZA DISTINTA ***
+
+        QUE PASA                 DE QUIEN ES
+        ----------------------  ---------------------------------
+        el agarre agarra         del agarrador
+        la elevacion o el empuje del agarrador   ($2F o $30)
+        la ventana de derribo    del agarrador
+        cuanto dura arriba       del agarrador
+
+        QUE COMBO RECIBE DESPUES  DE QUIEN ES
+        ----------------------  ---------------------------------
+        si te levanta el aire     de la victima
+        si te deja pegar o no     de la victima
+        cuantos golpes caben      de la victima
+        cuanto dura la ventana    de la victima
+
+  *** LAS CUATRO RAZONES QUE DIO EL USUARIO, Y SON LAS MISMAS CUATRO ***
+
+        hurtboxes                 donde se le puede pegar
+        distribucion              como esta repartido el cuerpo
+        animacion de reaccion     que postureo muestra al recibir
+        tamano general            cuanto ocupa y cuanto pesa
+
+  *** ESTO ES UNA REGLA DEL JUEGO, NO DE UN PERSONAJE.  APLICA A LOS ONCE
+      Y SEPARA DOS SISTEMAS QUE ESTABAN MEZCLADOS:
+
+        el motor de REACCION     (que hace el golpe)     datos del agresor
+        la fisica de COMBOS      (que se puede encadenar) datos del_DEFENSOR
+
+      *** Y POR ESO UN MISMO GOLPE HACE COSAS DISTINTAS SEGUN QUIEN LO HAGA
+      Eso es lo queIso en 46.2.  Un solo $68, muchas respuestas posibles.
+      [DERIVADO]  Falta medirlo: el MISMO ataque de dos personajes
+      distintos contra el mismo rival, y comparar el estado que entra.
+
+  47.2  *** LA PISTOLA:  $A8,  SEIS BALAS,  DOS DE MANA ***
+
+      "Pistola; comando abajo,abajo+A o B.  Dispara hasta 6 balas al
+       enemigo, su hitbox es un rectangulo delgado a partir de su mano, no es
+       un proyectil, gana mana, bueno para cerrar combos."
+
+      ABAJO,ABAJO + A  =  $A8   2 de mana
+      ABAJO,ABAJO + B  =  $A8   2 de mana
+      ABAJO,ABAJO + A+B = $A8   6 de mana
+
+  *** ES EL GOLPE MAS BARATO DEL JUEGO MEDIDO HASTA AHORA ***
+      Hiei 8.  Kurama 16.  Sensui 2.  [COMPROBADO]
+  *** Y ES EL PRIMER CASO DE UN MISMO ID CON DOS PRECIOS ***
+      Hasta ahora la regla era: un id, un precio.  ACA NO.
+      "A y B no parecen mostrar diferencia, pero presionar ambos al disparar
+       aumenta la cadencia del ataque -esto no es suposicion- "
+
+      O sea que la variable NO es el boton, es la CANTIDAD DE BOTONES.
+      Uno = 2 de mana.  Dos = 6.  [COMPROBADO]
+
+  *** LA CADENCIA, MEDIDA EN FRAMES ***
+
+      A sola      6 disparos en 35 f   intervalo 7, 7, 7, 7, 7   EXACTO
+      A + B       6 disparos en 18 f   intervalo 7, 5, 4, 5, 2
+
+      "usando estos 2 botones masheandolos rapidamente aumenta la cadencia,
+       asi pusheas menos pero aseguras meter mas hits"
+
+      *** Y A+B ADEMAS ACORTA EL GOLPE ENTERO ***
+      $A8 dura 87 f con A sola y 69 f con A+B.  [COMPROBADO]
+
+  47.3  *** LA PISTOLA SE PAGA SOLA.  MEDIDO ***
+
+      started con 11 de mana
+        paga 2       11 -> 9
+        gana +2 +4 +6 +8 +10 = 30
+        termina con 33
+
+      *** 2 GASTADOS, 30 DEVUELTOS.  NETO +22 ***
+      "literalmente terminas con mas mana que antes de usarla"  -- y con
+      los numeros a la vista.  [COMPROBADO]
+
+      Y CON A+B PAGA 6 Y DEVUELVE LOS MISMOS 30: termina tambien en 33.
+      "se pagan solas las que hacen combo"
+
+      *** O SEA: EL COSTE REAL DE LAS 6 BALAS ES NEGATIVO ***
+      Es la mecanica que hace que Sensui pueda jugar con 223 igual que todos
+      y aun asi ser el que mas encadena: no se le acaba nunca.
+
+  47.4  EL DANO, LA REACCION, Y LA CADENCIA DE LA PISTOLA
+
+      6 disparos:  4, 4, 4, 3, 4, 4   = 23
+      otra vez:    4, 4, 4, 3, 4, 3   = 22
+
+      *** UNO DE LOS SEIS GOLPES SALIO 3 EN VEZ DE 4 ***
+      Primera vez que se ve la VARIACION en un golpe basico del que tenemos
+      toda la serie.  El mismo caso: uno se baja en 1.  [DERIVADO]
+
+      Reaccion: $68 = 1  ->  $21  tambaleo.  NO lo derriba.
+      Las 6 balas entran en $21 y ahi se queda hasta f126.
+      O sea que la pistola es de PRESION, no de derribo.  Y por eso sirve
+      para rematar: el rival esta de pie yReceive todo.
+
+  47.5  *** LA FORMULA DEL MANA:  SEXTA CONFIRMACION, 26 GOLPES ***
+
+      el premio del golpe n  =  2 x (n - 1),  solo en golpes FISICOS
+
+        n=1    -4      2 x 0 = 0     sin mana
+        n=2    -4      +2
+        n=3    -4      +4
+        n=4    -3      +6
+        n=5    -4      +8
+        n=6    -4      +10
+
+      *** SEIS MEDICIONES, Y LAS SEIS CAEN ***
+      super, latigo, combo con planta, agarre, y ahora la pistola.
+      26 golpes en 5 secuencias.  CERO DESCUADRES.  [COMPROBADO]
+
+      Y EL MAXIMO QUE HEMOS VISTO SIGUE SUBIENDO: +2, +4, +6, +8, +10, +12.
+      Falta saber si el super de 7 golpes daba +14.  [ABIERTO]
+
+  47.6  $A8 ES LA MISMA RANURA QUE EL CORTE DE AVE DE HIEI
+
+      Hiei:  ABAJO,ADELANTE  ->  $A8 -> $AE -> $AF   (corte de ave)
+      Sensui: ABAJO,ABAJO     ->  $A8                  (pistola)
+
+      *** MISMO ID, TECNICAS NADA QUE VER ***
+      Y $A8 esta en el lado ALTO de la tabla, donde Hiei tenia el mas caro
+      de los suyos, y en Sensui es el mas barato de los suyos.
+      El id es la ranura y el dato es del personaje.  Una vez mas.
+
+  47.7  LO QUE CAMBIA EL MODELO DE PRECIOS
+
+      hasta ahora     un id  ->  un precio
+      ahora            un id  ->  dos precios, segun cuantos botones
+
+      *** Y ESO TIENE CONSECUENCIAS PARA LA TABLA DEL ROM ***
+      O hay una entrada extra por tecnica, o el campo del precio tiene
+      un bit de numero de botones.  La segunda es mas economica y el
+      script podria buscarla: dos entradas contiguas con el mismo id.
+      [ABIERTO]
+
+      *** Y LA PARTICION SIGUE SIENDO LA PRUEBA ***
+      Kurama dio 16, 16, 16, 24, 24 y 200.  Si Sensui da 2 y 4 donde el
+      bloque predice 16 y 24, la particion no es una regla.  ESTA VEZ LA
+      DIFERENCIA ES DE ORDEN DE MAGNITUD, no de un detalle.
+
+================================================================================
+================================================================================

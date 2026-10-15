@@ -4829,3 +4829,148 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+44. EL CERROJO ES SOLO DE TECNICA, Y LA FORMULA DEL MANA  (15-10)
+================================================================================
+================================================================================
+
+  44.1  *** CORRECCION: NO ES 'MOVER Y NO ATACAR'.  ES SOLO DE TECNICA ***
+
+  Yo escribi en 43.2: 'se puede mover y no se puede atacar al mismo tiempo'.
+  El usuario lo corrige, y el log lo confirma:
+
+    "solo no puedes atacar si estas en pausa por lanzar una habilidad.  Yo te
+     dije que la planta aunque te paralice durante un momento puedes seguir
+     golpeando en la ventana que genera.  Lo que NO puedes es continuar un
+     ataque de habilidad con otra habilidad"
+
+  *** EL CERROJO BLOQUEA TECNICAS, NO GOLPES BASICOS ***
+
+        bloqueado    plantar mientras dura la planta
+                    latigo mientras hay una rosa en pantalla
+                    latigo mientras dura la planta
+
+        permitido    A, B, adelante+A, adelante+B, los aereos, saltar, moverse
+
+  *** Y LA EXCEPCION DE LAS DOS ROSAS ES DEL MISMO TIPO ***
+  "las 2 rosas una tras otra -de forma rebuscada-"  NO es una excepcion:
+  la primera rosa ya no esta viva, o sea el cerrojo ya se abrio.  Lo dificil
+  es el tiempo, no la regla.
+
+  *** LO QUE EL LOG MUESTRA ***
+
+        f132  $A3 -> $05     la planta termina su animacion (57 f)
+        f135  P4 -16         EL OBJETO SIGUE VIVO, segundo golpe de la planta
+        f149  $06 -> $90     Kurama salta y pega B EN EL AIRE
+        f154  P4 -6          y 6 MAS, y cierra con A
+
+  La planta vivio hasta f184.  Kurama esta pegando basicos desde f149.
+  [COMPROBADO]
+
+  *** CORREGIDO EL MODELO DE 43.2 ***
+
+        - hay UN cerrojo, y es de TECNICA
+        - bloquea tecnicas nuevas mientras hay una viva o un objeto en el aire
+        - los basicos, el salto y el movimiento NUNCA estan bloqueados
+        - la ventana del derribo no es una excepcion: es el estado normal
+
+  *** Y LA VENTANA NO HACE FALTA QUE SE CREE: YA EXISTE ***
+  "puedes conectar ataques posteriores en la ventana de frames"
+  Si los basicos nunca estan bloqueados, entonces la ventana es simplemente
+  el tiempo que el rival tarda en levantarse.  No es un mecanismo aparte.
+  [DERIVADO]  FALTA: ver si el rival se levanta antes o despues en un golpe
+  normal, y comparar.
+
+  44.2  *** $24 = EL DERRIBO CON VENTANA.  TENIAMOS EL FENOMENO SIN ID ***
+
+        f154  P4: $25 -> $24      <<<< el estado nuevo
+        f291  P4: $24 -> $00      137 frames en $24
+
+  *** $24 ES EL ESTADO EN EL QUE EL RIVAL ESTA EN EL SUELO Y SE PUEDE PEGAR ***
+  Lo llevamos oyendo desde la seccion 38: la planta y el latigo hacen
+  'knockdown con ventana'.  AHORA TENEMOS EL ID.  [COMPROBADO]
+
+  *** Y ENTRAR Y SALIR DE $24 ES LO QUE ABRE Y CIERRA LA COMBINACION ***
+  El $23 es el derribo en el que no se puede seguir.  El $24 es el mismo
+  derribo con la ventana abierta.  Los dos existen y se alternan.
+
+      f116  $00 -> $25   la planta lo levanta
+      f135  (sigue $25)  segundo golpe
+      f154  $25 -> $24   en cuanto entra un BASICO, se abre la ventana
+
+  *** O SEA: LA VENTANA SE ABRE AL PEGAR, NO AL DERRUBAR ***
+  Eso es un sistema de COMBO, no un efecto del derribo.  Y explica por que
+  el juego entero usa $25 y no $23: $25 es el estado que espera a ser abierto.
+
+  *** $24 DURA LO QUE DURE LA COMBINACION ***
+  137 frames en este caso, desde f154 hasta f291, que es cuando el rival por
+  fin se levanta solo.  NO ES UN RELOJ FIJO.  [COMPROBADO]
+
+  44.3  *** LA FORMULA DEL MANA:  2 POR (GOLPE DEL COMBO - 1) ***
+
+  Con 15 golpes medidos y el orden de los logs, la cuenta CLOSCA EXACTA:
+
+      el premio del golpe n es 2 x (n - 1)
+      y SOLO lo cobran los golpes FISICOS
+
+      super      7 golpes, todos fisicos
+                 n=2 -> +2    n=3 -> +4    n=4 -> +6
+                 n=5 -> +8    n=6 -> +10   n=7 -> +12
+
+      latigo     2 golpes, ambos fisicos
+                 n=1 -> 0     n=2 -> +2
+
+      combo      6 golpes: 2 de objeto y 4 de Kurama
+                 n=1 planta  -> 0    (y es fisico que no, ademas 2x0 = 0)
+                 n=2 planta  -> +2   NO cobrado: es un objeto
+                 n=3 B aire  -> +4   cobrado
+                 n=4 B aire  -> +6   cobrado
+                 n=5        -> +8   cobrado
+                 n=6 A aire  -> +10  cobrado
+
+  *** Y EXPLICA POR QUE EL PRIMER GOLPE NO DA NADA ***
+  No es un caso especial: 2 x (1 - 1) = 0.  LA FORMULA LO DICE SOLA.
+
+  *** Y LOS 15 GOLPES DIFIEREN EN 0 CON LA CONTABILIDAD COMPLETA ***
+  Con 15 golpes y 4tecniikas eso no pasa por casualidad.  [COMPROBADO]
+
+  *** OJO CON LA ATRIBUCION DEL SCRIPT ***
+  En el log del combo, la linea de MP sale ANTES que la de HP en el mismo
+  frame.  O sea que el +4 que se ve en f154 es en realidad el premio del
+  golpe n=3, y no del n=2 que se ve 19 frames antes.  EL SCRIPT REPORTA
+  UN GOLPE DE ATRAS.  Hay que leer la MP antes de la HP del mismo frame.
+
+  *** LO QUE NO SE SABE ***
+      - si el contador se reinicia al levantarse el rival
+      - si hay un tope (el super dio hasta +12 y no se sabe si hay mas)
+      - si el golpe cuenta por RIVAL o por aire.  En un juego de 2 no se
+        puede separar.  [ABIERTO]
+
+  44.4  *** $06 = UN ESTADO NUEVO, Y PROBABLEMENTE EL SALTO ***
+
+        f143  $0D -> $06     $0D era el arranque del salto
+        f148  $06 -> $90     $90 es B en el aire
+        f149  $90           (el golpe)
+  O SEA: $0D prepara, $06 ES EL SALTO, y desde ahi se puede pegar.  [DERIVADO]
+  Coherente con $07, que era el fin de tecnica y daba un salto extra.
+
+  *** TAMBIEN: $0E CON dur $5A = $FF ***
+  El $FF ya se sabia: es bucle infinito.  Aqui es la CAIDA.  [COMPROBADO]
+
+  44.5  OTRA COSA DEL LOG: $A3 OTRA VEZ, Y EL RANGO CORRECTO
+
+    [MOV 01] P1 vC  id=$0A  mana -24  ...  $5F vivo=$A3
+
+  ABAJO,ABAJO + C = $A3 = 24.  Cuarta vez que la planta da 24.  Y el
+  enemigo estaba a 49 px, o sea el rango CORTO, como el usuario dijo.
+
+  *** Y LOS NUMEROS DE SENSUI NO ERAN DATOS ***
+  "tire numeros solo parastros, solo para ejemplificar, no son datos
+   empiricos"
+  Los 50 y los 40 de la super siguen siendo ESTIMACIONES, y hay que
+  medirlos.  Anotado para que nadie los tome como medidas.
+
+================================================================================
+================================================================================

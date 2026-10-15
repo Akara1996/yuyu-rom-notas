@@ -1191,3 +1191,62 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+19.  UNA TABLA DICE CUANDO, NUNCA SI PUEDO  (15-10)
+================================================================================
+================================================================================
+
+  *** EL ERROR, TAL CUAL ***
+
+  Escribi en CONTEXTO 43.2: "se puede mover y no se puede atacar al mismo
+  tiempo".  Lo deduje de una tabla de duraciones: la animacion del jugador
+  terminaba 40 frames antes que el objeto, y concluje que en esos 40 frames
+  no se podia atacar.
+
+  *** ESO ES INFERIR UNA CAPACIDAD A PARTIR DE UN TIEMPO ***
+  La tabla me dice CUANDO termina cada animacion.  No me dice que se pueda
+  hacer con el personaje.  Son dos capas distintas y las confundi.
+
+  *** Y EL USUARIO LO CORRIGIO CON UN LOG, ADEMAS DE CON PALABRAS ***
+
+  "como mis palabras no son garantia, aqui tienes el log del combo"
+
+  ESA ES LA NORMA: una afirmacion del usuario viene con su evidencia.  Si no
+  hay log, es una hipotesis, y se marca como tal.
+
+  *** LA REGLA, PARA TODO EL PROYECTO ***
+
+  UNA TABLA DE ESTADOS DICE CUANDO.  NUNCA DICE SI PUEDO.
+
+  - un estado que termina no significa que el personaje este libre
+  - un estado activo no significa que el personaje este ocupado
+  - 'no puedo invocar X' no es lo mismo que 'no puedo hacer nada'
+  - la capacidad de un estado hay que PROBARLA, jamas deducirla de su duracion
+
+  *** Y LA DIFERENCIA ENTRE LO QUE SE ENTIENDE Y LO QUE SE MIDE ***
+
+  Esta vez la conclusion era razonable: 40 frames sin golpe y sin tecnica
+  suena a castigo.  Y hay un castigo de verdad, pero es de TECNICAS, que es
+  otra cosa.  Lo de las TECNICAS ya lo habia dicho el usuario; lo que no
+  habia calculado bien era que los basicos nunca se bloquean.
+
+  *** CUANDO EL USUARIO CORRIJA, NO SOLO ACEPTAR: RECALCULAR ***
+
+  Aceptar la correccion sin mas es dejar el error vivo.  El log del combo
+  no solo desmintio la frase: mostro que la planta vivio 40 frames mas y que
+  en 35 de ellos Kurama estaba pegando.  Eso es un dato NUEVO, no solo la
+  ausencia del error.
+
+  *** Y EN ESTE CASO HABIA DOS HALLAZGOS QUE NO VEIA ***
+    - $24, el estado del derribo con ventana, que_exists desde la seccion 38
+      y con el que veniamos hablando hace cuatro rondas
+    - la formula del mana, que con 15 golpes cierra exacta
+
+  O sea que la correccion fue mas informativa que la afirmacion que
+  corrigio.  ESO PASA, y es una razon para preguntar de entrada y no
+  suponiendo.
+
+================================================================================
+================================================================================

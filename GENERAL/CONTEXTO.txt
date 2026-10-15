@@ -5130,3 +5130,160 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+46. EL AGARRE POR PARTES, Y LAS DURACIONES SON POR PERSONAJE  (15-10)
+================================================================================
+================================================================================
+
+  46.1  PREGUNTA:  ES $00 EL AGARRE, O EL ESTADO ANTERIOR?
+
+  *** NO:  $00 ES ESTAR DE PIE ***
+
+        P1 (atacante)   $00 -> $03 -> $B8 -> $00
+        P4 (victima)    $00 -> $40 -> $30
+
+        $00   de pie.  Es el estado de reposo, y los DOS lo tienen.
+        $03   la ENTRADA del agarre, 2 frames antes de decidir
+        $B8   EL AGARRE del atacante, 43 frames
+        $40   EL AGARRE de la victima, 17 frames
+        $30   la elevacion, cuando el dano ya salio
+
+      *** EL DANO SALE JUSTO AL CAMBIAR $40 -> $30, en el frame 78 ***
+      O sea que $40 dura lo que dura el agarre y $30 arranca con el golpe.
+      [COMPROBADO]
+
+  *** $03 Y $05: DOS ESTADOS DE ENTRADA, Y NO SE SABE CUAL ES CUAL ***
+
+        adelante+A    $00 -> $05 -> $83     2 frames en $05
+        atras+A       $00 -> $03 -> $83     1 frame  en $03   (Kurama)
+        agarre        $00 -> $03 -> $B8     2 frames en $03
+
+      Los DOS llevan a $83, asi que no son la misma cosa con distinta
+      duracion.  O uno es la entrada de adelante y el otro la de atras, o
+      uno es el reconocimiento del comando y el otro el arranque del golpe.
+      [ABIERTO]  La prueba: hacer adelante+A y atras+A pegado al enemigo y
+      ver si los dos pasan por el mismo estado.
+
+  46.2  *** EL ESTADO SIGUIENTE LO DECIDE QUIEN AGARRA, NO LA VICTIMA ***
+
+      "estado siguiente por personaje, en realidad de quien agarra"
+      "sensui provoca $30 a TODOS"
+
+      *** O SEA QUE NO ES UNA REACCION, ES UNA PROPIEDAD DEL AGARRADOR ***
+      El $68 se lee del blob del ATACANTE, no del de la victima.  Por eso
+      da igual a quien le agarres: el resultado lo decide quien ejecuta.
+
+      *** Y ESO CAMBIA LA TABLA DE REACCIONES ***
+      $68 no es 'como se lo pega a alguien', es 'como pega este personaje'.
+      Un ataque puede tener SIENE respuestas distintas segun quien lo
+      ejecute.  [DERIVADO]  Habria que medirlo con un mismo ataque de dos
+      personajes distintos.
+
+  46.3  *** $2F Y $30 NO SON ESTADOS: SON DOS DIRECCIONES DE ELEVACION ***
+
+      "sensui provoca $30 a todos - elevacion recta con ventana de frames
+       activada hasta la caida al suelo-  Kurama $2F comparte agarre con
+       unos 4 o 5 personajes mas, el efecto de su agarre es alejarte en
+       diagonal en direccion contraria, tambien con ventana activa"
+
+        $30   ELEVACION RECTA.   Hacia arriba, ventana hasta que caes.
+        $2F   EMPUJE DIAGONAL.   Hacia atras y a un lado, ventana tambien.
+
+  *** LAS DOS TIENEN VENTANA ACTIVA.  LO QUE CAMBIA ES LA DIRECCION ***
+  [COMPROBADO] con el usuario.  Y $30 se convierte en $24 en cuanto entra
+  un golpe, igual que $25.
+
+  *** Y HIEI, ITSUKI Y TOGURO MENOR HACEN LO MISMO QUE SENSUI ***
+  "en el agarre de sensui, aunque en codigo sea distinto, produce en el
+   juego, a efectos practicos, el mismo resultado que Itsuki, Hiei y
+   Toguro menor"
+
+  *** O SEA: MISMO EFECTO, CODIGO DISTINTO ***
+  Ese es el dato importante.  Si el estado $30 es el mismo y el resultado
+  es el mismo, la diferencia esta en el DATO, no en el codigo: el mismo
+  estado dibujado con vectores distintos.
+
+  *** LO QUE HAY QUE MEDIR: CUAL DE LOS DOS USA CADA PERSONAJE ***
+  Con 11 personajes y 2 estados, el reparto es de 2 bits por personaje.
+  El script lo lee solo: basta ver que estado entra la victima tras $40.
+
+  46.4  *** EL AGARRE INVERSO:  ATRAS+A PEGADO AL ENEMIGO ES EL AGARRE ***
+
+      "decidi hacer un agarre inverso, que es atras+A pegado al enemigo.  Es
+       el mismo agarre en esencia, solo que te cambia el facing: mientras
+       agarras al enemigo, te giras, lo que le produce forzosamente un
+       desplazamiento inmediato en X para entonces aplicar el efecto default
+       del agarre -envion vertical-"
+
+  *** ESO EXPLICA EL DESPLAZAMIENTO DE 50-78 PX, Y NO ES LA ELEVACION ***
+      "[TELE 1] frame 61 -- P4 se movio -50,78,0,00 de golpe"
+
+      Es el GIRO DE FACING durante el agarre.  No es un empuje: es el rival
+      teletransportado al otro lado porque vos te giraste.  [COMPROBADO]
+
+  *** Y EL AGARRE NO ES UN COMANDO PROPIO: ES CONTEXTUAL ***
+      atras+A pegado al enemigo  ->  $B8   (el agarre)
+      atras+A con distancia     ->  $83   (el golpe normal)
+
+      O sea que el MISMO comando da dos ids segun la distancia.  Eso NO lo
+      teniamos: creiamos que el agarre era un boton propio.  [COMPROBADO]
+
+      *** Y EXPLICA POR QUE $83 NO ES CANCELABLE ***
+      Pegado al enemigo, adelante+A es un agarre disfrazado de golpe.  Un
+      agarre no se cancela a tecnica.  [DERIVADO]  La prueba es hacer
+      adelante+A PEGADO y ver si el log da $B8 en vez de $83.  Si da $B8,
+      los dos se corrigen juntos.
+
+      *** Y EL AGARRE REVERSO TIENE LA MISMA VENTANA, O NO? ***
+      El usuario dice que el efecto default es el envion vertical, o sea que
+      el inverso tambien acaba en $30.  Falta medirlo.  [ABIERTO]
+
+  46.5  *** LAS DURACIONES SON POR PERSONAJE.  MI [ABIERTO] ESTABA ABIERTO
+
+      Y el usuario lo contesta antes de que lo midamos:
+
+      "el A de Kuwabara por ejemplo es de los mas rapidos que hay, el de
+       Yusuke por ejemplo el adelante+A es rapidisimo y muchos frames
+       activos, asi que no es que los basicos de mismo comando tengan los
+       mismos frames de start, recover, active"
+
+  *** EL ID ES GLOBAL, EL TIEMPO ES POR PERSONAJE ***
+
+        command -> id            UNIVERSAL     (14 mediciones, 3 personajes)
+        id -> frames             POR PERSONAJE (Kuwabara y Yusuki no)
+
+  *** ES LA MISMA DIVISION QUE EL DEL BLOB:  EL ID ES LA RANURA, EL DATO
+      ES DEL PERSONAJE.  El tiempo va con el dato.  [COMPROBADO]
+
+  *** CUANTO CUESTA MEDIRLO ***
+        8 basicos x 11 personajes = 88 mediciones
+        llevadas  24  (Hiei, Kurama, Sensui)
+        faltan    64
+
+      Y no es un solo numero por golpe: son TRES por golpe, start, recover
+      y active.  Que son 192 numeros.  [ABIERTO]  Es bastante, pero cada
+      uno sale de una pulsacion y no hay que pensar nada.
+
+  46.6  *** LAS TECNICAS DE SENSUI SON EXTREMADAMENTE BARATAS ***
+
+      "el tiene el mana mas alto del juego practicamente, o sea, tiene 223
+       como todos, pero sus tecnicas son extremadamente baratas, se pagan
+       solas las que hacen combo"
+
+  *** O SEA: 223 COMO TODOS, PERO GASTA MENOS QUE TODOS ***
+  Con la misma reserva, es el personaje con mas tecnicas por punto de man.
+
+  *** Y ESO ES LA PRUEBA MAS DURA PARA LA PARTICION ***
+  Kurama dio 16, 16, 16, 24, 24 y 200.  Si Sensui da 8 y 12 donde el
+  bloque predice 16 y 24, la particion no es una regla y es un accidente
+  de los dos personajes que medimos.
+
+  *** SI LA PARTICION FALLA ACA, HAY QUE REHACERLA ***
+  Y la forma de rehacerla no es buscar ventanas de bytes: es medir el
+  precio de UNA tecnica de cada personaje y ajustar el reparto por bloque.
+  Son 11 mediciones, una por personaje.  [ABIERTO]
+
+================================================================================
+================================================================================

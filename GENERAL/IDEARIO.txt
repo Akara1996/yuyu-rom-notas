@@ -1250,3 +1250,56 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+19.b  UNA CADENA DE TRANSICIONES DICE EL ORDEN, NO EL PAPEL  (15-10)
+================================================================================
+================================================================================
+
+  *** EL MISMO ERROR, OTRA VEZ, Y CON LA MISMA FORMA ***
+
+  En CONTEXTO 44.4 vi la cadena $0D -> $06 -> $90 y escribi que $06 es el
+  salto, porque $0D era el arranque y $90 era un golpe aereo, asi que en el
+  medio solo podia estar el salto.
+
+  El log de Sensui lo desmiente con la mas simple de las pruebas: un salto
+  NORMAL va $0D -> $08, sin pasar por $06.  $08 es el aire libre.  Y $06 es
+  lo que aparece SOLO cuando pegas en el aire.
+
+  *** O SEA: LA CADENA ME DABA EL ORDEN, Y LE INVENTE EL PAPEL ***
+  Los tres estados estaban en el orden correcto y aun asi mi lectura estaba
+  equivocada.  Es el mismo error de 43.2: CONFUNDIR EL TIEMPO CON LA
+  CAPACIDAD, en su version de cadena.
+
+  *** LAS DOS FORMAS DEL MISMO ERROR ***
+
+      43.2   una DURACION me hizo concluir que no se podia atacar
+      44.4   una SECUENCIA me hizo concluir que no se podia saltar
+
+  En los dos casos Mire el esqueleto y le puse un sentido.  Y en los dos
+  casos habia una prueba de una linea que lo rompia.
+
+  *** LA REGLA ***
+
+  UNA CADENA DE TRANSICIONES DICE EN QUE ORDEN OCURRE LAS COSAS.
+  NO DICE QUE HACE CADA ESTADO.
+
+  - un estado entre dos que no conozco no es 'lo que pasa en el medio'
+  - si un estado aparece SIEMPRE en el mismo sitio, puede ser de dos
+    cosas: una etapa, o un error de mi lectura de la cadena
+  - la prueba minima es buscar el mismo estado en una cadena DISTINTA
+
+  *** Y LA PRUEBA MINIMA LA HACE EL USUARIO, NO YO ***
+  El log de Sensui tiene tres encadenados distintos y el de $06 aparece en
+  uno solo.  Con eso alcanza.  El error mio no fue de datos: fue de no
+  pedir el caso que rompe la hipotesis.
+
+  *** Y UNA COSA QUE SI ESTA BIEN ***
+
+  En 44.4 no escribi que $06 ES el salto.  Escribi [DERIVADO] al lado.
+  Etiquetarlo hizo que el error fuera barato: una palabra lo delata y el
+  log lo resuelve.  LA ETIQUETA SIRVE PARA ESO.
+
+================================================================================
+================================================================================

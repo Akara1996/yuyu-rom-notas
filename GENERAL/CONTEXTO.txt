@@ -4974,3 +4974,159 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+45. LOS BASICOS DE SENSUI, LA CANCELACION, Y EL AGARRE POR PERSONAJE
+    (15-10)
+================================================================================
+================================================================================
+
+  45.1  LA TABLA DE COMANDOS ES GLOBAL.  TERCER PERSONAJE, MISMOS IDS
+
+      A              $82      Adelante+A     $83      ABAJO+A        $86
+      B              $80      Adelante+B     $81      B en aire      $90
+      A en aire      $95      ARRIBA+A aire  $94      agarre         $B8
+
+  Hiei, Kurama y Sensui.  Catorce mediciones, cero excepciones.  [COMPROBADO]
+
+  45.2  LAS DURACIONES DE LOS BASICOS DE SENSUI, Y SON SIENTIDO DE JUEGO
+
+      golpe             id      frames   lo que dice el usuario
+      ----------------  ------  -------  ---------------------------
+      B de pie          $80       13     salida rapida
+      Adelante+B        $81       17     2 golpes, bueno para cerrar
+      A de pie          $82       40     hasta 3 hit pegado
+      A en aire         $95       32     buen golpe, cancelable
+      ARRIBA+A en aire  $94       35     startup largo, dificil cancelar
+      B en aire         $90       32     se conecta con ARRIBA+A
+      ABAJO+A           $86       52     de los mejores para tumbar
+      Adelante+A        $83       48     uno de los peores
+
+  *** LOS NUMEROS COINCIDEN CON LA SENSACION DEL USUARIO ***
+  "B de pie: salida rapida"  = 13 frames, el mas corto de los ocho.
+  "Adelante+A: uno de los peores, mucho startup y mas recovery"  = 48,
+  el segundo mas largo.  El usuario no habia visto los numeros y los
+  describe igual.  ESO VALIDA LA MEDICION.
+
+  [ABIERTO]  son estas duraciones las mismas para todos los personajes, o
+  cambian?  $82 dura 40 en Sensui.  Habria que comparar con Hiei y Kurama.
+  Si coinciden, el tiempo basico es universal y solo el dao varia.
+
+  45.3  *** LA TABLA DE CANCELACION: UNA CATEGORIA DE DATO QUE NO EXISTIA ***
+
+      golpe             se puede cancelar a tecnica
+      ----------------  --------------------------------
+      A de pie          SI, desde el PRIMER golpe
+      ABAJO+A           SI
+      B de pie          SI
+      Adelante+B        SI
+      A en aire         SI
+      B en aire         SI
+      ARRIBA+A en aire  DIFICIL, no del todo
+      Adelante+A        *** NO ***
+
+  "Adelante+A: uno de los peores basicos, no es cancelable"
+  "ARRIBA+A en aire: por si solo no es muy bueno, tiene un startup largo y
+   es dificil de cancelar, pero es bueno para cerrar combos"
+
+  *** OCHO DATOS QUE NO TENIAMOS, Y NINGUNO ESTA EN EL ROM COMO BIT ***
+  El cancel es una PROPIEDAD del golpe: una bandera en su registro, o una
+  condicion en el codigo que decide si acepta una tecnica.  [ABIERTO]
+
+  *** Y ES UNA CATEGORIA COMPLETA PARA LOS ONCE PERSONAJES ***
+  Son 8 basicos por personaje.  Al final del proyecto vamos a tener una
+  matriz de 88 celdas de cancel, y esa matriz ES el balance del juego.
+
+  45.4  *** A PEGA HASTA 3 HIT, Y ADELANTE+B HACE 2.  EL ROM PUEDE DECIRLO ***
+
+    "A de pie: en la practica pega hasta 3 hit si estas pegado al enemigo"
+    "Adelante+B: recicla B de pie y hace un 2do hit"
+
+  *** Y ESO SE LEE DEL ROM SIN JUGAR ***
+  El lector cuenta los frames activos de cada id.  Si $82 tiene 3 y $81
+  tiene 2, el ROM ya lo sabia y nosotros no lo habiamosRIBIDO.
+
+  *** ES LA PRIMERA VEZ QUE PODEMOS COMPROBAR AL LECTOR CONTRA EL JUEGO ***
+    $A2 de Hiei = "3 golpes de 8,10,8"  y el usuario cuenta 3 para el A.
+
+  Ojo: $A2 es la tecnica A+B de Hiei, no el A de pie.  No son lo mismo, y
+  no hay que mezclarlos.  [COMPROBADO que NO son lo mismo]
+
+  *** Y SU MAXIMO ES LA REGLA DE MULTIGOLPE ***
+  Ya lo sabiamos: cada golpe derriba y empuja.  A distancia entra uno solo.
+  Este caso lo confirma con la maxima cantidad: hasta 3.
+
+  45.5  *** EL AGARRE: EL $40 ES COMUN, EL ESTADO SIGUIENTE ES POR PERSONAJE ***
+
+        Kurama     $00 -> $40 -> $2F      16 de dano
+        Sensui     $00 -> $40 -> $30      17 de dano
+
+  *** $40 ES EL MISMO ESTADO EN LOS DOS, Y EL SIGUIENTE NO ***
+  $2F para Kurama, $30 para Sensui.  [COMPROBADO]
+
+  *** Y EL DANO TAMBIEN ES POR PERSONAJE ***
+  16 y 17 con el MISMO id $B8.  O SEA QUE EL BLOB ES POR PERSONAJE, y
+  el 17 de Sensui tiene que estar en la tabla de Sensui.  LA LECTURA DEL
+  ROM TIENE QUE DECIR 17 PARA SENSUI, y eso es una COMPROBACION DIRECTA.
+
+  "el proyecto viejo decia 17"  -- para Kurama, y ahi estaba equivocado.
+  Para Sensui es correcto.  El numero dependia del personaje y ellos lo
+  copiaron de uno solo.
+
+  *** LA BUSQUEDA CONCRETA EN EL ROM ***
+  Leer el $68 del $B8 de cada personaje.  Kurama da $2F y Sensui $30, asi
+  que los dos tienen que tener $68 distinto.  Si en el $68 de Kurama esta
+  el 9 (seccion 24), el de Sensui es el que toque.  ESO CIERRA LA TABLA DE
+  REACCIONES con dos filas medidas de aggression.
+
+  Y el script lo vio: "P4 se movio -50,78,0,00 de golpe (umbral 40)".  El
+  agarre DESPLAZA a la victima unos 50 a 78 pixeles de golpe.
+
+  45.6  *** $30 TAMBIEN ABRE LA VENTANA:  $30 -> $24 ***
+
+        f78   $40 -> $30    el agarre lo deja en $30
+        f133  $30 -> $24    en cuanto entra el primer B aereo, se abre
+
+  *** O SEA QUE $30 Y $25 SON LOS DOS ESTADOS QUE ESPERAN A LA VENTANA ***
+  $25 lo produce la planta, $30 lo produce el agarre, y los dos van a $24
+  en cuanto entra un golpe.  [COMPROBADO]
+
+  "$30" es probablemente el estado de elevateo del agarre: el usuario
+  describio que el agarre "eleva al enemigo que se aleja en diagonal".
+  [DERIVADO]
+
+  45.7  *** LA FORMULA DEL MANA: QUINTA CONFIRMACION, 20 GOLPES ***
+
+      el premio del golpe n  =  2 x (n - 1),  solo en golpes FISICOS
+
+        n=1  agarre    -17     2 x 0 = 0      sin mana
+        n=2  B aereo   -5      +2
+        n=3  B aereo   -5      +4
+        n=4  B aereo   -6      +6
+        n=5  A aereo   -12     +8
+
+  *** CINCO MEDICIONES DISTINTAS Y CERO DESCUADRES ***
+  super, latigo, combo con planta, y ahora agarre con 3 B aereos y A.
+  20 golpes.  La formula es del JUEGO, no de una tecnica.  [COMPROBADO]
+
+  "Agarre, salto, BxN (depende del enemigo), ARRIBA+A"  -- y el usuario
+  anoto "depende del enemigo", o sea que el numero de B depende de cuanto
+  aguante el rival en el aire.  ESO ES EL MISMO MECANISMO DE MULTIGOLPE.
+
+  45.8  *** CORRECCION A 44.4:  $06 NO ES EL SALTO ***
+
+  En 44.4 escribi que $06 es el salto, porque la cadena era
+  $0D -> $06 -> $90.  FALSO, y el log de Sensui lo desmiente:
+
+        un salto normal     $0D -> $08          (no pasa por $06)
+        un salto con golpe  $0D -> $06 -> $90   (pasa por $06)
+
+  *** $08 ES EL AIRE LIBRE.  $06 ES LA ENTRADA AL ATAQUE AEREO ***
+  O sea $06 no es el salto: es el estado de preparacion del golpe en el
+  aire, que se salta si no estas atacando.  [COMPROBADO]
+
+  *** Y $0D ES EL ARRANQUE DEL SALTO EN LOS DOS CASOS ***
+
+================================================================================
+================================================================================

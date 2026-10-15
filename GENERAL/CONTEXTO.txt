@@ -4697,3 +4697,135 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+43. LOS CERRADJOS: HAY UN CERROJO, Y NO SON LOS SLOTS  (15-10)
+================================================================================
+================================================================================
+
+  43.1  *** EL USUARIO CORRIGE DOS COSAS, Y LAS DOS IMPORTAN ***
+
+  (a) El latigo tambien queda bloqueado por un objeto vivo.
+
+      "no puedo invocar el latigo mientras el enemigo esta siendo elevado
+       por la planta, solo cuando esta desaparece puedo traerlo.  Si hay una
+       rosa en pantalla tampoco puedo"
+
+      O SEA QUE EL BLOQUEO NO ES "OCUPACION DEL SLOT" SINO UN CERROJO UNICO
+      "estoy en una tecnica".  UN CERROJO, no dos slots.  [COMPROBADO]
+
+  *** Y ESO CAMBIA LA LECTURA DE LOS SLOTS ***
+  Lo que dice el log del log es que las hojas tienen DOS objetos vivos a la
+  vez.  Si el bloqueo es un solo cerrojo, entonces los dos slots no son un
+  recurso del JUGADOR sino la cantidad de objetos de UNA SOLA TECNICA.
+
+        rose      1 objeto   (slot 1)
+        planta    1 objeto   (slot 1)
+        latigo    0 objetos  (y aun asi bloquea)
+        hojas     4 objetos  (slots 1 y 2, alternando)
+
+  *** O SEA: LAS HOJAS SON LA UNICA TECNICA DE KURAMA QUE USA LOS DOS ***
+  Y por eso alternan 2,1,2,1: no es que busquen el libre, es que NECESITAN
+  los dos.  [COMPROBADO]
+
+  *** LO QUE EN REALIDAD LIMITA ES:  UNA TECNICA A LA VEZ ***
+  Nunca podes tener una rosa y una planta en pantalla porque no podes empezar
+  la segunda mientras la primera esta viva.  No es falta de slots: es que
+  no hay un segundo turno.
+
+  (b) $300 NO dura lo que dura el objeto.
+
+      "si Kurama tira una rosa lenta, el ya puede mover cuando la rosa va por
+       la mitad de pantalla.  No tiene relacion con cuanto tiempo este la
+       rosa, porque si la lanzas pegado quedas regalado al enemigo: no te
+       recuperas inmediatamente."
+
+  *** ASI QUE HAY DOS RELOJES, Y NO UNO ***
+
+        RELOJ 1  el movimiento.  Constante por tecnica.  Termina cuando
+                  termina la animacion del jugador, con independencia de lo
+                  que tarde el objeto en irse.
+
+        RELOJ 2  la tecnica.  Termina cuando el objeto desaparece.
+
+  *** Y LOS DATOS MEDIDOS LO DICEN EXACTAMENTE ***
+
+        tecnica   animacion del jugador   vida del objeto
+        --------  ---------------------  ----------------
+        rosa          39 f                     33 f
+        planta        57 f                     97 f    <<< el objeto
+        hojas A       91 f                     92 f         sobrevive
+        hojas B       59 f                   (no medido)  a la animacion
+
+      *** LA PLANTA ES LA PRUEBA: 40 FRAMES DE DIFERENCIA ***
+      Kurama puede volver a moverse 40 frames antes de poder volver a
+      invocar.  O sea que SE PUEDE MOVER Y NO SE PUEDE ATACAR AL MISMO
+      TIEMPO.  Eso es un castigo de tecnica, y es real: el usuario lo nota
+      en juego, sin rosa pegada, y queda regalado.  [COMPROBADO]
+
+      *** Y ES UN CASTIGO QUE SE PUEDE APLICAR A PROPSITO ***
+      "si la lanzas pegado quedas regalado al enemigo"  -- eso no es un
+      defecto, es la tecnica que obliga a tirar con espacio.
+
+  43.2  *** EL MODELO, CORREGIDO ***
+
+        - UN CERROJO POR JUGADOR: no se acepta una tecnica nueva mientras
+          hay una en curso o un objeto vivo.
+        - CADA TECNICA DECLARA CUANTOS OBJETOS USA: 0, 1 o 2.
+        - CADA TECNICA DECLARA SU DURACION DE MOVIMIENTO: una constante.
+        - EL BLOQUEO DE TECNICA TERMINA CUANDO SE ACABAN LOS OBJETOS.
+
+      *** ESTO EXPLICA POR QUE HIEI CON EL DRAGON PARECE OTRO PAIS ***
+      "ambos quedan paralizados mientras manejan sus habilidades"
+      El dragon tiene un reloj de movimiento largo, y el cerrojo dura lo que
+      el dragon.  No es un estado raro: es el mismo mecanismo con otros
+      numeros.
+
+  43.3  *** $300 SIGUE SIN SABER QUE ES, Y SE PUEDE AVERIGUAR ***
+
+      La pregunta exacta es: es $300 el cerrojo de TECNICA o el de MOVIMIENTO?
+
+      el usuario: el ya puede mover cuando la rosa va por la mitad de
+      pantalla.  ESE es el reloj 1.
+
+      *** LA PRUEBA ES UNA SOLA Y BARATA ***
+      Que el script imprima el instante en que $300 vuelve a 0, al lado de
+      los otros dos momentos:
+
+        f1   $5F vuelve a $00            = se puede mover
+        f2   $300 vuelve a 0             = se puede volver a technique
+        f3   el objeto se va (handler 0) = se confirma que el objeto murio
+
+      Si $300 se va con f1, es el reloj de movimiento.  Si se va con f3, es
+      el de tecnica.  Y si se va antes que los dos, es OTRO reloj, y hay
+      que buscar un cuarto.
+
+  43.4  *** LA SUPER DE SENSUI, CONFIRMADO QUE ES LA DESVIABLE ***
+
+  "Hay un personaje cuya ulti tiene como 50 frames de startup y luego otros
+   40 de paralisis donde al dispararla puedes desviar su trayectoria hacia
+   arriba o abajo, pero sin controlar libremente su movimiento, o sea, el
+   ataque va derecho y solo alteras su coord Y durante menos de un segundo"
+
+  "Si, es la ulti de sensui la que hablaba."
+
+  *** TRES NUMEROS OBJETIVOS PARA SENSUI, Y NINGUNO SE ADIVINA ***
+
+        startup        ~50 f   hasta que el ataque empieza a andar
+        desvio         ~40 f   ventana en la que se altera la Y
+        total          ~90 f   hasta que vuelve al control normal
+
+  *** Y ES UN TERCER TIPO DE RELOJ ***
+  El de un reloj normal (movimiento) y el del cerrojo (tecnica) son de
+  tecnicas.  Este es de una ulti y tiene una ventana de control PARCIAL:
+  la X no se toca, la Y si.  Es un cuarto mecanismo, o el tercero con otro
+  nombre.
+
+  *** Y ES EL MAS FACIL DE MEDIR DE LOS TRES ***
+  Con el rival quieto en el aire, la ulti va recta: se mide 1 solo numero.
+  Con el rival en el suelo, desviando arriba: se mide hasta donde llega.
+  Con el rival arriba, desviando abajo: lo mismo al reves.
+
+================================================================================
+================================================================================

@@ -1425,3 +1425,64 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+21.  PREGUNTAR, Y NO RESOLVER YO LO QUE EL USUARIO GUARDA  (15-10)
+================================================================================
+================================================================================
+
+  "recuerda anotar en el ideario preguntarme dudas que tengas"
+
+  *** LO QUE HICE ***
+
+  En la wiki encontre que el Hyaku Retsuken de Yusuke es 'mash A / B, how
+  fast he punches will depend on if you mashed A or B, up to 6 hits'.  Lo
+  escribi como confirmado: 'la pistola de Sensui ES el Hyaku Retsuken de
+  Yusuke'.
+
+  *** Y EL USUARIO, QUE CONOCE EL JUEGO, ME CORRIGE ***
+
+      "tiene un ataque de rango corto, mucho mas corto, que utiliza la
+       mecanica de cadencia y produce knockdown"
+
+  *** EL MOTIVO DEL ERROR, Y ES EL IMPORTANTE ***
+
+  No fue ignorar la fuente.  Fue que la fuente PARECIA encajar y no
+  verifique el encaje.  Mash A o B, mas cadencia, tope 6 golpes: tres
+  coincidencias de tres.  Con eso declare identidad.
+
+  *** LA REGLA ***
+
+  TRES COINCIDENCIAS NO SON UNA IDENTIDAD.  Dos cosas pueden compartir un
+  motor y ser tecnicas distintas: distinto rango, distinto resultado,
+  distinta reaccion.
+
+  - si la fuente es de JUEGO DISTINTO, no la trates como si fuera del
+    nuestro (el Hyaku Retsuken de la wiki es de este juego, pero el Reigan
+    con 'hold' es generico y no prueba nada por si solo)
+  - cuando el usuario dice 'mas adelante lo vamos a ver', eso es PENDIENTE
+    y se anota como pendiente
+  - cuando el usuario corrige, la correccion es DATO y mi lectura era
+    SUPUESTO.  Y la diferencia entre las dos cosas hay que notarla.
+
+  *** Y LA REGLA QUE PIDIO EL USUARIO ***
+
+      "recuerda anotar en el ideario preguntarme dudas que tengas"
+
+  Cuando tenga una duda y la resuelva por mi cuenta con una fuente externa,
+  la duda sigue abierta y se la devuelvo.  ES MAS BARATA PREGUNTAR que
+  escribir una conclusion y que la corrija despues.
+
+  *** Y UNA DISTINCION UTIL PARA EL PROYECTO ***
+
+        DATO        lo midio el usuario o salio del ROM
+        SUPUESTO    lo deduje yo
+        LORE        esta en el manga, el anime o la wiki
+
+  Esta ronda tiene de los tres.  El lore de Sensui (10x energia) es LORE y
+  resulto ser exacto.  La identidad pistola=Hyaku era SUPUESTO y resulto
+  falsa.  La procedencia pesa mas que el parecido.
+
+================================================================================
+================================================================================

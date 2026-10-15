@@ -5904,3 +5904,159 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+50. LOS PARRY DE SENSI:  DOS CONTRAATAQUES, LOS UNICOS DEL JUEGO  (15-10)
+================================================================================
+================================================================================
+
+  50.1  LOS DOS PARRY, Y CUATRO IDS NUEVOS
+
+      comando        id      mana   espera   responde   estado del rival
+      -------------  ------  -----  -------  ---------  ------------------
+      A+B            $A4      16     $80      $A5        $26 lanzador
+      ABAJO + A+B    $A6      16     $84      $A7        $2F diagonal
+
+      "sensui tiene los unicos 2 contraaques del juego, con A+B y ABAJO A+B
+       se pone en una guardia distinta a C"
+      "necesita recibir un golpe para clashear y activar la ofensiva"
+
+  *** O SEA: NO ES ACTIVO, ES REACTIVO ***
+  No hay ventana de tiempo que agarrar: hay que_ATRAER_ un golpe.  Es un
+  sistema de riesgo.  [COMPROBADO]
+
+      $A4   el parry de alto y medio      16 MP
+      $A5   el contraataque de $A4        15 de dano -> $26
+      $A6   el parry de bajo              16 MP
+      $A7   el contraataque de $A6        14-15 de dano -> $2F
+
+      "responde con una patada que manda a volar horizontalmente"   ($A5)
+      "la manera en la que el enemigo se eleva y se aleja es muy parecido al
+       agarre de kurama"                                          ($A7)
+
+  *** LOS PRECIOS: 16 Y 16.  CUATRO VECES MAS CARO QUE LAS BOLAS. ***
+  Las bolas cuestan 4 y la parry 16, siendo un golpe mucho mas corto.  La
+  parry es cara porque es la habilidad de verdad de Sensui.  [COMPROBADO]
+
+  50.2  *** LOS ESTADOS DE CLASHEO: $80 Y $84 ***
+
+        el clasheo con A+B         ->  el rival entra en $80
+        el clasheo con ABAJO+A+B   ->  el rival entra en $84
+
+  *** Y ESOS IDS SON LOS MISMOS QUE DOS GOLPES DE SENSU ***
+
+        $80   B de pie
+        $84   Adelante + B
+
+  Los estados se comparten entre reacciones y golpes.  No es un error de
+  lectura: son los mismos numeros.  [ABIERTO]  Habria que ver si un rival
+  que entra en $80 por un clasheo se recupera igual que uno que recibe un B.
+
+  50.3  *** $A7 PRODUCE $2F, QUE ES EL ESTADO DEL AGARRE DE KURAMA ***
+
+        ABAJO+A+B de Sensui   ->  $2F    empuje diagonal con ventana
+        agarre de Kurama      ->  $2F    empuje diagonal con ventana
+
+      "es como si fuese el efecto de ese agarre pero a partir de un golpe"
+
+  *** EL USUARIO LO VIO EN JUEGO ANTES DE MEDIRLO.  ACERTO. ***
+
+  *** Y ESO CORRIGE 47.1, Y HAY QUE SER EXACTO ***
+
+  47.1 decia: el estado lo decide el agarrador, no la victima.  ESO SIGUE
+  SIENDO CIERTO, pero hay que decirlo mejor:
+
+        la reaccion la SOSTIENE el agresor.
+        dos agresores distintos pueden llevar el MISMO valor.
+
+  *** O SEA: $68 ES UNA PROPIEDAD DEL GOLPE, NO DEL PERSONAJE ***
+  Vive en el bloque del personaje, pero dos personajes pueden coincidir en
+  un golpe.  Kurama lleva $68=9 en $B8.  Sensui lleva $68=9 en $A7.
+  [COMPROBADO]
+
+  *** Y ESO NO CAMBIA LA REGLA DE LA VICTIMA ***
+      "sensui provoca $30 a todos"  -- sigue siendo verdad.  El estado lo
+  elige el ataque, no a quien le pegues.  Lo que SI es de la victima es lo
+  que puede recibir despues: hurtboxes, distribucion, animacion y tamano.
+
+  50.4  *** $2F TAMBIEN ABRE LA VENTANA.  SON TRES LOS QUE ABREN ***
+
+        $25 -> $24      la planta de Kurama
+        $30 -> $24      el agarre de Sensui, y la patada en el aire
+        $2F -> $24      la parry baja de Sensui, y el agarre de Kurama
+
+      "como el enemigo queda con ventana abierta, puedes aprovechar la
+       pequena ventana de tiempo para meter golpes en combo"
+
+  *** LA REGLA GENERAL ***
+  $24 es el estado UNICO de derribo con ventana, y se entra desde cualquier
+  derribo en cuanto entra un golpe basico.  [COMPROBADO]
+
+        $00 -> $2F  $A7   -15   2 x 0 = 0    sin man
+        $2F -> $24  B      -5    +2
+        $24        A      -8    +4
+
+  *** SEPTIMA CONFIRMACION.  29 GOLPES.  CERO DESCUADRES. ***
+
+  50.5  *** $0B = ENTRAR A UN BASICO DESDE UN CANCEL ***
+
+        parry + B      $A7 -> $05 -> $0B -> $80
+        B de pie normal $00 -> $80
+
+      *** O SEA: EL MISMO GOLPE PASA POR $0B O NO, SEGUN COMO LLEGUES ***
+      $0B es un estado de transicion para entrar a un basico desde una
+      tecnica cancelada.  Es lo mismo que $06 con el ataque aereo.  [DERIVADO]
+
+      *** Y ESO SUGIERE UNA FAMILIA DE ESTADOS DE TRANSICION ***
+
+        $03   entrar a un agarre
+        $05   arranque de golpe en suelo
+        $06   entrar a un ataque aereo
+        $0B   entrar a un basico desde un cancel
+
+      Los cuatro hacen lo mismo: son PUERTAS.  El juego tiene un estado
+      para cada forma de entrar a un golpe.  [DERIVADO]
+
+  50.6  *** EL CONTRAATAQUE ES FISICO Y NO MANA (PROVISIONALMENTE) ***
+
+      En la parry sola, $A5 metio 15 y no dio man.  PERO la formula dice
+      que el primer golpe da 0 SIEMPRE (2 x (1-1)), asi que no se puede
+      concluir.  Hay que encadenar dos golpes tras la parry.  [ABIERTO]
+
+  50.7  *** LA MECANICA DE MASHEO: TRES PERSONAJES, NO UNO ***
+
+      El usuario: "si te mencione lo de mashear para aumentar cadencia es por
+       que mas adelante lo ibamos a ver en mas personajes... te adelante que
+       son 3 los personajes que manejan esta mecanica"
+
+      *** TRES PERSONAJES CON MASHEO = CADENCIA.  UNO ES SENSU. ***
+      Los otros dos, sin nombre.  [DERIVADO del usuario]
+
+  *** Y CORRIGE LO QUE ESCRIBE DE YUSUKE ***
+
+      Yo habia encontrado en la wiki que el Hyaku Retsuken de Yusuke
+      "mash A / B, how fast he punches will depend on if you mashed A or B"
+      y lo di por confirmado como la misma mecanica.  NO LO ES:
+
+      "tiene un ataque de rango corto, mucho mas corto, que utiliza la
+       mecanica de cadencia y produce knockdown, pero no es momento de
+       hablar de yusuke aun"
+
+      *** O SEA: COMPARTEN LA MECANICA, NO EL GOLPE ***
+      Yusuke tiene un ataque CORTO con mash.  Sensui tiene la pistola, que
+      es larga.  Son dos tecnicas distintas con el mismo motor.  [COMPROBADO
+      por el usuario, CORREGIDO por mi]
+
+      Y lo de 'no es momento de hablar de yusuke' queda anotado como
+      PENDIENTE, no como resuelto.  Ver IDEARIO.txt seccion 21.
+
+  50.8  LOS IDS DE SENSU QUE FALTAN
+
+      MEDIDOS   $A0 $A1 $A2 $A4 $A5 $A6 $A7 $A8 $AC   + $B8
+
+      FALTAN    $A3   $A9   $AA   $AB   $AD   $AE   $AF   $AB
+                y la ulti, que no se que id es
+
+================================================================================
+================================================================================

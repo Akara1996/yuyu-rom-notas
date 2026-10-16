@@ -99,22 +99,29 @@ Donde estamos, que falta y en que orden
   y no salen en el log igual que un ataque.  Por eso nunca entraron en el
   mapa global, y por eso NUNCA los buscamos con ningun personaje.
 
-      mando               id      Yusuke  Hiei    Kurama  Sensui  Genkai
-      ------------------  ------  ------  ------  ------  ------  ------
-      el agarre           $B8     si      ?       si      si      ?
-      la burla            $14     si      ?       ?       ?       ?
-      la defensa baja     $0A     si      ?       ?       ?       ?
-      la guardia          $09     si      si      ?       ?       ?
-      el cambio de plano  $0F     si      si      si      ?       ?
-      el cambio con Y     $0F     ?       ?       ?       ?       ?
-      el DASH             -       -       -       -       -       -
-      el BACKDASH         -       -       -       -       -       -
+      mando               id      comando            Yusuke  Hiei    Kurama  Sensui  Genkai
+      ------------------  ------  -----------------  ------  ------  ------  ------  ------
+      el agarre           $B8     adelante + A        si      ?       si      si      ?
+      la burla            $14     A                   si      ?       ?       ?       ?
+      la defensa baja     $0A     abajo + C           si      ?       ?       ?       ?
+      la guardia          $09     C                   si      si      ?       ?       ?
+      el cambio de plano  $0F     C + arriba          si      si      si      ?       ?
+      el cambio con Y     $0F     Y                   ?       ?       ?       ?       ?
+      el DASH             -       adelante, adelante  ?       ?       ?       ?       ?
+      el DASH con Z       -       Z                   ?       ?       ?       ?       ?
+      el BACKDASH         -       C y despues B       ?       ?       ?       ?       ?
+      el BACKDASH con X   -       X                   ?       ?       ?       ?       ?
 
-  *** LOS DOS DE ABAJO NO LOS TIENE NADIE ***
-  Y sabemos que existen por dos caminos indirectos:
+  *** TRES MANIOBRAS, CADA UNA CON DOS FORMAS ***
 
-      la 37.6:  el cambio de plano recicla una animacion de dash, 1 frame
-      Itsuki:   'back-dash rival -> no, se evade y queda al lado'
+      maniobra             forma con motion        boton directo
+      -------------------  ----------------------  ---------------
+      el cambio de plano   C + arriba              Y
+      el dash adelante     adelante, adelante      Z
+      el backdash          C y despues B           X
+
+  Y los tres botones son RELATIVOS AL FACING:  Z siempre al frente y X a la
+  vuelta, mire para donde mire.  El motion si necesita la direccion.
 
   *** LO QUE SABEMOS DE CADA UNO ***
 
@@ -124,6 +131,31 @@ Donde estamos, que falta y en que orden
                       el backflip de la patada de Itsuki
       la guardia      dura lo que la mano este apretada:  Hiei 121, Yusuke 105
       el cambio       51 f.  El comando Y es directo y no pasa por $09
+      el DASH         TIENE CAJA, y esa caja CLASHEA un golpe fisico
+      el BACKDASH     NO TIENE HURTBOX.  Es la intangibilidad, y esquiva
+                      proyectiles enteros.  Mas efectivo de espaldas.
+
+  *** DOS HALLAZGOS QUE TOCAN SISTEMAS ***
+
+  1.  El dash tiene clashbox, y por la regla de la 14 eso significa que PUEDE
+      destruir proyectiles.  O sea que correr es un arma.  [DERIVADO]
+      LA PRUEBA:  correr contra un reigan de nivel conocido.
+
+  2.  El backdash es la intangibilidad.  Hay TRES fuentes y solo UNA es una
+      tecnica:  el backflip de Itsuki (por accidente), el Afterimage de Hiei
+      (su tecnica) y el backdash (su evasion).
+
+  *** LO QUE NO SE SABE DE NINGUNO ***
+
+      el estado del dash y del backdash    no estan en ninguna lista
+      cuanto duran                         no se sabe
+      si cuestan mana                      no se sabe
+
+  *** Y HAY UN CANAL DE ENTRADA ENTERO QUE NO CONOCIAMOS ***
+
+  El mapa global se armo con los golpes, y los golpes se pulsan con A, B y C.
+  El juego tiene SEIS botones.  Los tres que faltaban son los que dan acceso
+  directo a una maniobra, sin motion y sin estado intermedio.  [DERIVADO]
 
   *** Y LA REGLA, PARA QUE NO VUELVA A PASAR ***
   Un mando medido con un personaje queda PENDIENTE para los otros diez,

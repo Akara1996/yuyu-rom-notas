@@ -24,7 +24,9 @@ Las reglas del juego que valen para mas de un personaje
       12. las tecnicas de cadencia
       13. el dado del dano
       14. la destruccion de proyectiles
-      15. como se mide
+      14. la destruccion de proyectiles
+      15. los seis mandos que no son golpes
+      16. como se mide
 
 ================================================================================
 1.  EL MAPA DE COMANDOS:  GLOBAL
@@ -877,7 +879,67 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   podrian llevar la duracion de invencibilidad al lado.
 
 ================================================================================
-15.  COMO SE MIDE  (el detalle esta en METODO.txt)
+15.  LAS TRES MANIOBRAS, Y LOS SEIS MANDOS QUE NO SON GOLPES
+===============================================================================
+
+  *** SON MANDOS, NO TECNICAS:  NO TIENEN ID DE GOLPE Y NO CUESTAN MANA ***
+
+  Salieron del mapa global porque el mapa se armo con los GOLPES, y los
+  golpes se pulsan con A, B y C.  Los botones XYZ no hacen golpes.
+
+  *** HAY TRES MANIOBRAS Y CADA UNA TIENE DOS FORMAS ***
+
+      maniobra            forma con motion        boton directo
+      ------------------  ----------------------  --------------
+      el cambio de plano  C + arriba              Y
+      el dash adelante    adelante, adelante      Z
+      el backdash         C y despues B           X
+
+  *** Y LOS TRES BOTONES SON RELATIVOS AL FACING ***
+  Z siempre va al frente del personaje y X a la vuelta, mire para donde mire.
+  El motion si necesita la direccion, porque adelante-atras se escribe en
+  pantalla.  [COMPROBADO por el usuario]
+
+  *** EL DASH TIENE CAJA, Y CLASHEA ***
+      "los personajes tienen cajas de colision al correr, que pueden
+       clashear un golpe fisico"
+
+  Eso es una CLASHBOX.  Y por la regla de la seccion 14, tener clashbox
+  significa poder destruir proyectiles.  O sea que correr no es solo una
+  evasion:  es un arma.  [DERIVADO]
+
+  Y es la PRIMERA vez que un estado NEUTRAL tiene clashbox.  La regla se
+  habia aplicado solo a golpes y a proyectiles.  [DERIVADO]
+
+  *** EL BACKDASH NO TIENE HURTBOX:  ESO ES LA INTANGIBILIDAD ***
+      "hace un esquive hacia atras, durante estos frames no hay hurtbox,
+       puedes esquivar proyectiles enteros asi, y es aun mas efectivo de
+       espaldas al proyectil"
+
+  Y es MAS EFECTIVO DE ESPALDAS.  Con la hurtbox en cero el facing no
+  deberia importar.  Que si importe significa que la ausencia de hurtbox no
+  es total:  queda algo, y queda del lado de enfrente.  [DERIVADO]
+
+  *** Y HAY TRES FUENTES DE INTANGIBILIDAD, NO UNA ***
+
+      el backflip de Itsuki   lo levanta el golpe rival.  Invencible por
+                              accidente, y por eso rompe la guardia baja.
+      el Afterimage de Hiei    es su tecnica.
+      el backdash              es su evasion.
+
+  Solo UNA de las tres es una tecnica.
+
+  *** LO QUE NO ESTA MEDIDO DE NINGUNA ***
+
+      el estado del dash y del backdash       no aparecen en ninguna lista
+      cuanto duran                            no se sabe
+      si cuestan mana                         no se sabe
+      si el dash rompe proyectiles            la regla dice que si
+
+  [ABIERTO]
+
+
+16.  COMO SE MIDE  (el detalle esta en METODO.txt)
 
 ================================================================================
 

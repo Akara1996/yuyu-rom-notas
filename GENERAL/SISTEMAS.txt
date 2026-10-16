@@ -1390,6 +1390,53 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   El motion si necesita la direccion, porque adelante-atras se escribe en
   pantalla.  [COMPROBADO por el usuario]
 
+
+  *** CORRECCION IMPORTANTE:  EL RANK DE PROYECTIL DEL DASH ES POR PERSONAJE ***
+
+  Se escribio, hace un rato, que "el dash tiene rank proyectil CERO, medido".
+  ESTA MAL.  Es CERO el de GENKAI.  Los demas no.
+
+      Toguro menor   el dash ROMPE un reigan de nivel 1
+      Kuwabara       el dash ROMPE un reigan de nivel 1
+
+      "Toguro menor y Kuwabara son los unicos que conozco que logran
+       romper proyectiles lv 1 con un dash"  (usuario, 15-10)
+
+  *** Y ADEMAS:  EL DASH DE KUWABARA TERMINA EN UNA POSTURA DE GUARDIA ***
+
+      "kuwabara es el unico que al final de su dash tiene una postura como
+       si estuviera en guardia"  (usuario, 15-10)
+
+  *** Y ESO ABRE UNA HIPOTESIS QUE SE PUEDE PROBAR CON UN SOLO RESET ***
+
+  Si el dash termina en el estado de guardia,  y la guardia tiene clashbox,
+  entonces el poder de romper proyectiles NO es del dash:  es de la guardia
+  que hay al final.  O sea que "el dash rompe proyectiles" seria una
+  confusion entre dos estados pegados.
+
+  *** Y SI ESO ES, EL DASH NO SERIA UN ARMA:  SERIA LA GUARDIA ***
+
+  Y solo la rompen los dos personajes cuyo dash desemboca en guardia.  Lo
+  que los hace especiales no es correr, es terminar corriendo en la
+  guardia.
+
+  *** LOS DOS TESTES, Y SON BARATOS ***
+
+  1.  Kuwabara hace dash y se lee el $5F del final.  Si es $09 (la guardia)
+      o $0A (la defensa baja),  la hipotesis tiene base.
+
+  2.  Kuwabara quieto, con C apretado, y Genkai le tira un reigan de nivel
+      1.  Si la guardia sola lo rompe,  la hipotesis queda confirmada y el
+      dash no tiene nada que ver.
+
+  *** Y LA PREGUNTA QUE QUEDA ABIERTA PARA LOS ONCE ***
+
+  Cuantos de los once tienen un dash que rompa proyectiles, y de que nivel.
+  Conocibles:  Toguro menor y Kuwabara si.  Los otros nueve, no sabemos.
+  Es un reset por personaje y se puede hacer al final del proyecto.
+
+
+
   *** EL DASH TIENE CAJA, Y CLASHEA ***
       "los personajes tienen cajas de colision al correr, que pueden
        clashear un golpe fisico"

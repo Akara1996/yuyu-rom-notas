@@ -1163,6 +1163,40 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   podrian llevar la duracion de invencibilidad al lado.
 
 
+
+  *** LOS OBJETOS CON DISTANCIA ELEGIDA POR A/B/C, Y LADO ELEGIDO POR EL
+  FACING ***
+
+  Aporte del usuario, 15-10, y es el mismo mecanismo en dos personajes
+  distintos:
+
+      las Shadow Hands de ITSUKI     ABAJO,ABAJO + B, y A/B/C eligen distancia
+      la Hoja dimensional de KUWABARA  ABAJO,ARRIBA + A/B/C, y A/B/C eligen
+                                       distancia
+
+  *** LAS REGLAS ***
+
+      el estado del personaje es EL MISMO para los tres botones
+      lo que cambia es DONDE y CUANDO aparece el objeto
+      el lado del que sale lo manda el facing,  $61
+      el ancla de la curacion era MANO-2,  slot+$200
+
+  *** Y POR QUE IMPORTA ***
+
+  Porque si el estado es el mismo para A, B y C,  UNA sola medicion del $5F
+  y del mana cubre las tres.  No hacen falta tres resets para el id.
+
+  Y porque el mecanismo es compartido:  el layout del objeto es el mismo
+  ($0D92CA / $0D9A3A), el codigo que lo mueve es el mismo, y los botones
+  hacen lo mismo.  Solo cambia la tabla de distancias.
+
+  *** LO QUE NO SE SABE:  SI LAS DISTANCIAS SON LAS MISMAS ***
+  Itsuki tiene 176 / 112 / 48 px reales.  De Kuwabara no se sabe ninguna.
+  Si coinciden, es el mismo objeto con la misma tabla, y se puede leer del
+  ROM sin jugar.  [ABIERTO]
+
+
+
   *** Y HAY UNA TERCERA CATEGORIA:  LOS OBJETOS QUE SON FISICOS ***
 
   Correccion del usuario, 15-10.  Porque "hecho de objetos" y "proyectil"

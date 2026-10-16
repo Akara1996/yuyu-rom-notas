@@ -7881,3 +7881,133 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+63. CORRECCION:  EL NIVEL 1 DEL REIGAN SI ES UN OBJETO  (15-10)
+================================================================================
+================================================================================
+
+  63.1  *** LO QUE ESCRIBI Y ESTA MAL ***
+
+      Yo, seccion 62.2:
+
+      "EL NIVEL 1 NO ES UN OBJETO.  ES UNA CAJA EN EL PERSONAJE."
+      "En el log del nivel 1 NO aparece ninguna linea [OBJ]... O sea que no
+       hay entidad proyectil: hay una caja en el cuerpo del jugador."
+
+  *** TRES HECHOS DEL USUARIO QUE LO DESMIENTEN ***
+
+      "si que viaja y ademas clasheo con reigan no afecta a yusuke"
+      "es un objeto o un proyectil, no una expansion de su hitbox como
+       simulan las balas de sensui que son golpe fisico"
+      "no suma mana si pega en combo"
+
+      *** LOS TRES DICEN LO MISMO Y DICE LO CONTRARIO ***
+
+        viaja por su cuenta      -> es una entidad con posicion
+        clashea                  -> esta en el sistema de proyectiles
+        no da mana en combo      -> es de OBJETO, no fisico
+        el clash no afecta a Yusuke -> es de OTRA ENTIDAD
+
+  *** ASI QUE ESTA CLASIFICADO IGUAL QUE LA PLANTA DE KURAMA ***
+
+      "si clasheas la planta Kurama sigue a velocidad normal"
+
+      Mismo comportamiento en las cuatro reglas de objeto.  [COMPROBADO]
+
+  63.2  *** LA CAUSA REAL:  EL SCRIPT NO LO VE, PERO SI EXISTE ***
+
+      *** Y ESO ES EXACTAMENTE EL RIESGO QUE ANOTABA EN 62.3 ***
+
+      Los ids de objeto siguen id = nivel - 1:
+
+        nivel 2  ->  $5F = $01
+        nivel 3  ->  $5F = $02
+        ...
+        nivel 8  ->  $5F = $07
+
+      *** EL NIVEL 1 ES $5F = $00 ***
+
+      *** Y $00 ES LO QUE EL RASTREADOR LEE COMO SLOT VACIO ***
+
+      La condicion del script es: si el estado del objeto es distinto de
+  cero, hay objeto.  Un objeto en $00 le es INVISIBLE.
+
+      *** O SEA: NO FALTA EL OBJETO.  FALTA QUE EL SCRIPT SEPA VERLO. ***
+
+  63.3  *** LO QUE EL $300 DICE Y LO QUE NO DICE ***
+
+        niveles 2 a 8   $300 = $000134C2   (handler vivo)
+        nivel 1         $300 = 0          (sin handler)
+
+  *** O SEA QUE $300 TAMPOCO SIRVE COMO INDICADOR DE EXISTENCIA ***
+  Un proyectil puede existir sin handler.  El campo $300 marca un tipo de
+  objeto CON RUTINA, no la presencia del objeto.  [COMPROBADO]
+
+      *** Y ESO CORRIGE 41.2 Y 60.5 A LA VEZ ***
+      $300 es el handler DE CIERTOS tipos.  El nivel 1 del Reigan tiene
+  posicion, colision y dano, pero no usa la rutina de $134C2.  [DERIVADO]
+
+  63.4  *** LO QUE HAY QUE MIRAR PARA VERLO ***
+
+      El nivel 1 tiene que tener ALGO que lo distinga de un slot vacio:
+
+        $40 / $44   la posicion en el mundo.  Un proyectil que viaja la
+                   tiene; un slot vacio tendria 0 o un valor viejo.
+        $6E         el dueno.  El nivel 1 es de Yusuke, o sea $01.
+        $59         el frame de animacion.
+
+      *** LA PRUEBA: VOLCAR CRUDO LOS DOS SLOTS AL DISPARAR ***
+      Cuando el script detecte una tecnica que gasta mana, que imprima el
+  $5F, $6E, $40, $44 y $59 de los dos slots durante 60 frames, aunque el
+  $5F sea 0.  UNA SOLA LINEA MAS, Y NO ESCRIBE NADA.
+
+      Con eso se ve que hay en el slot cuando el Reigan ya sale volando.
+
+  63.5  *** Y EL PUNTO DE FONDO ***
+
+      "lo que digas sobre codigo esta bien, pero incluso el lv recorre por
+       su cuenta el escenario"
+
+      *** EL LOG ME DABA UN SINTOMA Y YO CONSTRUI UNA MECANICA ***
+      La mecanica sale del comportamiento: viaja, clashea, no da mana, no
+  afecta al dueno.  Eso es un objeto.  Y el log solo mostraba que el
+  rastreador no lo ve.  [DERIVADO]
+
+      *** Y ESO ES LA TERCERA VEZ EN ESTE PROYECTO ***
+
+        43.2   'no se puede atacar'      deduje una duracion
+        44.4   '$06 es el salto'          deduje una cadena de estados
+        63.2   'no hay objeto'            deduje una linea que faltaba
+
+      Las tres: el esqueleto del log estaba bien y le puse un sentido.
+  *** LO QUE FALTA SIEMPRE ES LA PRUEBA QUE ROMPE LA HIPOTESIS, Y ESA LA
+      TIENE EL USUARIO ***
+
+      *** LO QUE SI SIRVE DE LAS TRES ***
+      El log no miente: dice que el nivel 1 no aparece.  Lo que no dice es
+  POR QUE.  Y por eso la leccion es sobre el POR QUE, no sobre el QUE.
+
+  63.6  LO QUE QUEDA DE LA TABLA DE CARGA, CORREGIDO
+
+        nivel 1   6 de dano   OBJETO que viaja   $5F = $00
+        nivel 2   8 de dano   objeto            $5F = $01
+        ...
+        nivel 8  64 de dano   objeto            $5F = $07
+
+      *** O SEA: LOS OCHO NIVELES SON OBJETOS.  NINGUNO ES UNA CAJA ***
+
+      "no es una expansion de su hitbox como simulan las balas de sensui
+       que son golpe fisico"
+
+      *** Y ESO DISTINGUE LAS BOLAS DE SENSU DE ESTOS ***
+
+        la pistola de Sensui   hitbox del cuerpo   fisica   DA mana
+        el Reigan              objeto que viaja    de objeto  NO da mana
+
+      Son dos familias distintas dentro de lo que llamamos proyectil.
+  [COMPROBADO]
+
+================================================================================
+================================================================================

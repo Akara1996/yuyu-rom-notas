@@ -1315,6 +1315,47 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       la ulti de KU    $67=$02  $68=$02
 
 
+
+  *** Y LA CASI OMNIPOTENCIA:  ES LA TECNICA MAS PODEROSA DEL JUEGO ***
+
+  El STOP TIME congela TODO lo que no este saliendo volando:
+
+      reposo,  ataque,  hitstun,  caminar                SI
+      el backdash                     sin hurtbox          SI
+      el cambio de plano              sin hurt ni push     SI
+      el Afterimage de Hiei           sin hurt ni push, y en un
+                                     tramo ni visible     SI
+      el teleport de Itsuki           idem                 SI
+
+  Y NO congela solo dos cosas:  los estados de lanzamiento horizontal y el
+  que cae verticalmente hacia abajo.
+
+  *** O SEA QUE CONGELA INCLUSO A LOS PERSONAJES QUE "NO EXISTEN" EN ESE
+  MOMENTO ***  y eso es lo que lo hace casi omnipotente.
+
+  *** Y EL PORQUE ESTA EN UN SOLO LUGAR DEL CODIGO ***
+  $69  =  el contador de hitstop del juego.  Lo leen tres sitios:
+      $01C078  $FF  255  el STOP TIME
+      $01F2E0  $10   16  un golpe directo
+      $01F15E  $1C   28  un clasheo
+  El codigo testea solo el bit 0,  y por eso el valor se alterna cada frame.
+
+  Y en toda la rutina de fisica  ($01EFC0 a $01F004)  NO APARECE $69 NI UNA
+  VEZ.  La fisica corre siempre.
+
+  Si lo que te mueve es el reloj de animacion,  el STOP TIME te frena.
+  Si lo que te mueve es la fisica,  no puede frenarte,  porque la fisica no
+  mira ese reloj.  [DERIVADO del desensamblado, COMPROBADO en pantalla]
+
+  *** Y POR QUE NO ES INVENCIBLE A PESAS DE ESO ***
+      1.  no tiene hitbox.  El unico alcance es el cuerpo a cuerpo.
+      2.  dura 3 segundos y hay que recargar.  No hay cola.
+      3.  los proyectiles siguen volando,  y las manos del rival son objetos,
+          no slots,  y el bucle de $01C07E solo recorre los cuatro slots.
+
+  El detalle completo esta en ITSUKI TECNICAS.txt seccion 3.5.1.
+
+
   *** EL STOP TIME NO TIENE NADA QUE VER CON LA HURTBOX ***
 
   El unico criterio es UNO:  si el estado te esta lanzando horizontalmente o

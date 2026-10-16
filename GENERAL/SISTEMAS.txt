@@ -102,16 +102,24 @@ Sensui y Yusuke.  Catorce ids, cero excepciones.
   *** LOS PRECIOS MEDIDOS, POR PERSONAJE ***
 
   HIEI
-      el corte de ave, ABAJO,ABAJO+A     24
-      el A+B, $A2                        32
-      la ulti                            200
+      HIEI   OCHO TECNICAS, TRES CON PRECIO MEDIDO
 
-      *** Y NO TIENE PARRY.  LOS DOS PARRY SON DE SENUI. ***
-      *** Y EL DRAGON NO ES UN COMANDO ***
-      Es un estado al que Hiei llega absorbiendo el dragon.  Multiplica por
-      dos el ataque y la velocidad.  [COMPROBADO]
+      $A2   Espada de fuego   A+B                        32
+      $A6   la ulti, el DRAGON  abajo+diag.abajo+abajo+A   200
+      $A8   Corte del ave     abajo x2 + A o B            24
+            Quemazon          abajo + diag.abajo + A/B    -
+            el parpadeo        adelante x4 rapido            -
 
-  KURAMA
+      *** Y NO TIENE PARRY.  LOS DOS PARRY SON DE SENSU. ***
+      *** Y EL DRAGON NO ES UN COMANDO:  ES UN ESTADO ***
+      Hiei lo alcanza golpeandose con el corte.  Multiplica por dos el
+      ataque y la velocidad, y drena solo.  [COMPROBADO]
+
+      *** CORREGIDO:  PRIMERA VEZ DI QUE TENIA TRES ***
+
+      El mapa de CONTEXTO 31.1 tiene tres lineas, y ahi estaba el error:
+      esa tabla no es el mapa de tecnicas de Hiei, es el mapa de las que
+      tienen PRECIO MEDIDO.  Las otras cinco existen igual.  [CORREGIDO]
       proyectil rosa                      16
       latigo, hojas B, rosa, latigo A    16
       planta, hojas A                    24
@@ -671,54 +679,93 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   La unica otra invulnerabilidad real del juego.  Los dos son conceptos que
   se negarian a existir si el objetivo fuera pegar.  [DERIVADO]
 
+  *** Y SU A+B TIENE UNA CAJA INVISIBLE ENORME ***
+
+      "lo que si tiene el A+B de Toguro Menor es una caja invisible ENORME"
+
+  *** Y ESO RESPONDE A DONDE ESTA EL RANK ***
+
+  Si el rank de un golpe esta en el TAMANO de su caja, entonces una caja
+  que no se ve pero es enorme es un rank altisimo en un golpe invisible:
+  el alcance y el poder serian la misma cosa.  [DERIVADO]
+
+  *** Y HARIA INNECESARIA LA PARTIDA DE PRUEBA ***
+
+  Todo el ladder de rank se leeria del ROM, de la lista de cajas, sin una
+  sola partida.  Es la recompensa mas grande posible de este sistema.
+
+  *** Y SE PRUEBA CON TRES MEDICIONES ***
+
+      el tamano de la caja de esa habilidad
+      el tamano de la caja de un A normal
+      el tamano de la caja del dragon de Hiei, que sabemos que es rank 88
+
+  Si los tres estan en la misma relacion, el rank es el tamano.  Y el
+  .LUA ya lee el ancho y el alto de cada caja:  lo que no hace es
+  imprimirlos sistematicamente.  [ABIERTO]
+
+  *** OJO:  EL DANO MINIMO NO OBLIGA A QUE LA CAJA SEA ENORME ***
+
+  Son dos campos y pueden moverse por separado.  Que el rank este en el
+  tamano es una hipotesis razonable, no un hecho.
+
   *** LO QUE FALTA:  EL COMANDO Y EL NUMERO DE DANO ***
 
-  Con el numero de dano se cierra el argumento de una vez.
+  El comando es A+B.  Con el numero de dano se cierra el argumento.
 
-  *** Y SI ES EL UNICO, LA ESCALA FISICA TIENE SU PROPIO TECHO ***
+  *** LA INVENCIBILIDAD:  RESUELTO, Y NO HACIA FALTA LA PRUEBA ***
 
-  Si Hiei con un basico rompe hasta el dragon, y Toguro Menor tambien, el
-  rank del golpe fisico tiene un techo MUCHO mas alto que el del
-  proyectil.  O sea que los dos sistemas estan escalados distinto, y se
-  comparan por rank pero con escalas separadas.  [DERIVADO]
+  El proyecto NO tiene un cuarto mecanismo.  Tiene dos, y uno de ellos es
+  la falta de hurtbox.
 
-  *** LA PRUEBA:  TOGURO MENOR CONTRA EL DRAGON DE HIEI ***
+      proyectil vs proyectil    se anulan segun rank
+      fisico vs proyectil       lo destruye si el rank alcanza
+      sin hurtbox vs proyectil   no hay colision:  el proyectil PASA
 
-  Si el dragon se rompe, el rank del golpe fisico supera al del dragon.
-  Si pasa de largo, el caso del usuario era otro.  [ABIERTO]
+      "te vuelves intangible, hemos comprobado con .LUA que varias tecnicas
+       hacen desaparecer tu hurtbox durante cierta parte del startup y esto
+       hace que en consecuencia, depende del tamano del ataque, no te
+       alcance"
 
-  *** DONDE PODRIA ESTAR EL RANK DEL GOLPE FISICO ***
+  *** Y SI, EL PROYECTIL PUEDE GOLPEAR A OTROS JUGADORES ***
 
-  El blob del objeto tiene $64 con los bits 0-1 = el nivel de carga.  Ese
-  ES el rank del proyectil.  Si el golpe fisico tiene un blob de la misma
-  forma en la misma posicion, el rank esta ahi.  [ABIERTO, sin medir]
+      "y si, puede golpear a otros jugadores, no lo desarmaste, omitiste el
+       ataque con intangibilidad"
 
-  *** LA INVENCIBILIDAD NO ES LO MISMO QUE DESTRUIR ***
+  *** O SEA QUE LA INTANGIBILIDAD DESCARTA EL DESARME ***
 
-      "las tecnicas que tienen varios frames de invulnerabilidad pueden
-       hacer desviar un proyectil grande, es decir, te pasa de largo"
+  Son excluyentes:  un proyectil que atraviesa a un personaje intangible
+  sigue igual de fuerte.  Solo se paso por alto.  [COMPROBADO por el
+  usuario, y es conocimiento empirico de los jugadores]
 
-  El proyectil ATRAVIESA al personaje y SIGUE.  No se consume, no explota,
-  no hace dano.  Es una tercera relacion, no un caso raro de la segunda.
+  *** Y HIEI TIENE DOS TECNICAS INVENCIBLES, AMBAS CON HURTBOX EN CERO ***
 
-  *** LO QUE EL LOG PUEDE LEER DE ESO ***
+      Afterimage        (abajo, arriba) x2     invencible, ATRAVIESA rival
+      Espada de fuego   A + B                  invencible, alcanza DETRAS
 
-  SI:  el frame en que las cajas se superponen, que no hay linea de HP, y
-  que el objeto sigue vivo despues.
+      $A2 = "En los primeros frames no tiene hurtbox."
 
-  NO:  el flag de intangibilidad en si.  No esta en ninguna direccion que el
-  script rastree; el script ve cajas, vida y estados, no prioridades.
+  El parpadeo no pega y no tiene caja, y por eso esta entre las nueve
+  tecnicas de Hiei sin frame activo del ROM:
 
-  *** LA PREGUNTA QUE SEPARA LOS DOS MECANISMOS ***
+      $A7   4 anims, 16 frames, sin frame activo
+      $A9   4 anims, 32 frames, sin frame activo
 
-      intangible    el personaje no existe para el proyectil ese frame
-      desarmado     el proyectil sigue pero ya no hace dano a nadie
+  *** Y LA INVENCIBILIDAD NO ES UN BONO:  ES LA LISTA VACIA ***
+  La lista de hurtbox se arma en $01EB40.  Si no tiene entrada para el
+  personaje en esos frames, no hay nada que tocar.  [DERIVADO]
 
-  LA PRUEBA:  que le pasa al TERCERO de la fila.  Si el reigan sigue de
-  largo y todavia le hace dano a un tercero, es intangibilidad.  Si sigue
-  de largo y no le hace dano a nadie mas, esta desarmado.
+  *** LO QUE EL .LUA PUEDE VER Y ANTES NO VEIA ***
 
-================================================================================
+  El script ya lee la caja del jugador.  Falta UNA LINEA:
+
+      cuando el numero de cajas cae a CERO durante un arranque,
+      avisar:  HURTBOX 0  en los frames tal
+
+  Con eso cualquier tecnica invencible se anuncia sola, sin tener que
+  saber de antemano cuales son.  Y las 88 celdas de la mascara de cancel
+  podrian llevar la duracion de invencibilidad al lado.
+
 15.  COMO SE MIDE  (el detalle esta en METODO.txt)
 ================================================================================
 

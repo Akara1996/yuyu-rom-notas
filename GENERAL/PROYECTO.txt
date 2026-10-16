@@ -116,8 +116,16 @@ Donde estamos, que falta y en que orden
     Son dos campos:  dano y rank.  El caso de Toguro Menor lo prueba.
 
     *** EMPEZA POR TOGURO MENOR, NO POR LOS BASICOS ***
-    Es el caso que demuestra que el campo existe.  Y el comando es lo unico
-    que le falta a ese personaje entero.
+    Es el caso que demuestra que el campo existe.  Su A+B tiene una caja
+    INVISIBLE ENORME, y si el rank esta en el tamano de la caja, todo el
+    ladder se lee del ROM sin una sola partida.
+
+    *** LA MEDICION MAS BARATA QUE TENEMOS ***
+
+    El .LUA ya lee el ancho y el alto de cada caja.  Lo que no hace es
+    imprimirlos sistematicamente.  Con esa linea, y tres cajas medidas
+    (la de Toguro, la de un A normal y la del dragon de Hiei), se sabe si
+    el rank es el tamano.  [ABIERTO]
 
     Antes de las 88 celdas de cancel, porque las dos cosas son el balance
     del juego escrito en tablas, y la del rank sale mas barata.

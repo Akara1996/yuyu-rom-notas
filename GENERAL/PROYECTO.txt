@@ -93,16 +93,57 @@ Donde estamos, que falta y en que orden
 5.  LO QUE FALTA, EN ORDEN
 ================================================================================
 
-  *** ORDEN 1:  TERMINAR HIEI Y LEER LA TABLA DEL ROM ***
+  *** ORDEN 1:  LOS MANDOS QUE FALTAN,  Y QUE NUNCA SE BUSCARON ***
 
-    - Hiei:  $A7, $A9, $AA, $AB y el resto de los no identificados
-    - Kurama:  $A4, el unico id sin medir
-    - Sensui:  la tabla del ROM, para leer sus golpes
+  Son los comandos que NO son golpes:  no tienen id de golpe, no cuestan mana
+  y no salen en el log igual que un ataque.  Por eso nunca entraron en el
+  mapa global, y por eso NUNCA los buscamos con ningun personaje.
 
-  Los cuatro personajes con documento: Hiei 13 pag, Kurama 12, Sensui 8,
-  Yusuke 7.  [TERMINADO]
+      mando               id      Yusuke  Hiei    Kurama  Sensui  Genkai
+      ------------------  ------  ------  ------  ------  ------  ------
+      el agarre           $B8     si      ?       si      si      ?
+      la burla            $14     si      ?       ?       ?       ?
+      la defensa baja     $0A     si      ?       ?       ?       ?
+      la guardia          $09     si      si      ?       ?       ?
+      el cambio de plano  $0F     si      si      si      ?       ?
+      el cambio con Y     $0F     ?       ?       ?       ?       ?
+      el DASH             -       -       -       -       -       -
+      el BACKDASH         -       -       -       -       -       -
 
-  *** ORDEN 2:  LA ESCALERA DE RANK DE LOS GOLPES FISICOS ***
+  *** LOS DOS DE ABAJO NO LOS TIENE NADIE ***
+  Y sabemos que existen por dos caminos indirectos:
+
+      la 37.6:  el cambio de plano recicla una animacion de dash, 1 frame
+      Itsuki:   'back-dash rival -> no, se evade y queda al lado'
+
+  *** LO QUE SABEMOS DE CADA UNO ***
+
+      el agarre       Yusuke 17 -> $2F   Sensui 17 -> $30   Kurama 16 -> $2F
+      la burla        Yusuke 58 f,  le saca 36 de mana al rival
+      la defensa baja Yusuke $0A,  129 y 119 f.  Se rompe en el aire por
+                      el backflip de la patada de Itsuki
+      la guardia      dura lo que la mano este apretada:  Hiei 121, Yusuke 105
+      el cambio       51 f.  El comando Y es directo y no pasa por $09
+
+  *** Y LA REGLA, PARA QUE NO VUELVA A PASAR ***
+  Un mando medido con un personaje queda PENDIENTE para los otros diez,
+  escrito en el PDF del personaje y en esta matriz.  Ver METODO.txt 24.2.
+
+  *** ORDEN 2:  TERMINAR GENKAI, Y LUEGO CHU ***
+
+    Genkai tiene 6 de 10 contestadas.  Lo que falta:
+
+      la trampa del guardado                    el intento fallido
+      el precio minimo para disparar lo guardado
+      cuales son sus 2 tecnicas aereas
+      el grab, si lo tiene
+      si tiene alguna barrera o guardia
+      su reigan aereo sin usar, que esta en la ROM con los sprites
+      su reflect sin usar, que tiene el sonido en el banco de audio
+
+  Chu es el tercer usuario de la carga guardada.
+
+  *** ORDEN 3:  LA ESCALERA DE RANK DE LOS GOLPES FISICOS ***
 
     PERSONAJE ACTIVO:  GENKAI.  El motivo es cerrar el trio de la carga
     guardada:  Yusuke medido,  Genkai y Chu sin medir.  Si los tres tienen
@@ -112,17 +153,12 @@ Donde estamos, que falta y en que orden
 
       todos rompen hasta el reigan L3 con el golpe fuerte
       la mayoria no pasa de L4 con un basico;  L5 con un especial
-      un personaje rompe un L5 con una habilidad fisica
       TOGURO MENOR pone una BARRERA:  rompe un DRAGON, no es intangibilidad
 
-    El rank de un golpe es el NIVEL MAS ALTO de reigan que rompe.  Tres
-    tests por golpe lo ubican entre dos niveles de una escala YA medida.
-    Son dos campos:  dano y rank.  El caso de Toguro Menor lo prueba.
-
-    *** EMPEZA POR TOGURO MENOR, NO POR LOS BASICOS ***
-    Es el caso que demuestra que el campo existe.  Su A+B tiene una caja
-    Es el caso mas fuerte del sistema.  Su A+B pone una barrera frontal con
-    HITbox y sin CLASHbox, y esa barrera rompe un dragon con dano minimo.
+    *** Y LA REGLA DEL CLASHBOX, QUE ES LO QUE FALTA ***
+      'es imposible destruir un proyectil sin clashbox'
+    El rank esta en la caja, no en el dano.  Falta medir el NUMERO.
+    El reigan de nivel conocido sirve de regla directa.
 
     *** LA MEDICION MAS BARATA QUE TENEMOS ***
 
@@ -131,19 +167,13 @@ Donde estamos, que falta y en que orden
     (la de Toguro, la de un A normal y la del dragon de Hiei), se sabe si
     el rank es el tamano.  [ABIERTO]
 
-    Antes de las 88 celdas de cancel, porque las dos cosas son el balance
-    del juego escrito en tablas, y la del rank sale mas barata.
+  *** ORDEN 4:  LOS TRES NUMEROS, AL FINAL ***
 
-  *** ORDEN 3:  TERMINAR HIEI Y LEER LA TABLA DEL ROM ***
+    arranque / activo / recuperacion de los basicos.  NO es lo proximo.
 
-    - Hiei:  $A7, $A9, $AA, $AB y el resto de los no identificados
-    - Kurama:  $A4, el unico id sin medir
-    - Sensui:  la tabla del ROM, para leer sus golpes
-
-  *** ORDEN 4:  LA MASCARA DE CANCEL DE LOS ONCE ***
-
-    8 basicos x 11 personajes = 88 celdas.  Llevamos 8.
-    Con eso esta el balance del juego escrito en una tabla.
+    Primero el catalogo, despues la corroboracion contra la ROM y la NET,
+    y recien ahi los tres numeros.  El .LUA hay que ajustarlo antes.
+    Ver METODO.txt 24.1.
 
   *** ORDEN 5:  LA ESCALA DE RANGO DE LOS 27 OBJETOS SIN NOMBRE ***
 

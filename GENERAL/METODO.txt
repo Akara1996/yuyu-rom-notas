@@ -1679,3 +1679,141 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+24.  EL ORDEN DE LAS PRIORIDADES, Y LA REGLA DE LOS PENDIENTES
+================================================================================
+================================================================================
+
+  24.1  *** NO TODO LO QUE FALTA ES IGUAL DE IMPORTANTE ***
+
+      "primero mapear las habilidades y corroborar la NET y ROM data, despues
+       recien terminamos ajustando esos detalles secundarios"
+
+  *** EL ORDEN, EXPLICITO ***
+
+      1.  MAPEAR LAS HABILIDADES
+              el comando, el id, el precio, que golpe
+      2.  CORROBORAR CONTRA DOS FUENTES
+              la ROM   tablaA, tablaB, el registro, los objetos
+              la NET   la wiki, GameFAQs, Guy's Wizardry o lo que haya
+      3.  SOLO ENTONCES  los tres numeros
+
+  *** Y QUE SON LOS TRES NUMEROS ***
+
+      arranque      frames desde el cambio de estado hasta el primer golpe
+      activo        cuantos frames tiene caja de golpe
+      recuperacion  del ultimo golpe hasta poder hacer otra cosa
+
+  *** Y POR QUE VAN ULTIMO ***
+
+  1.  No cambian que es una tecnica ni cuanto cuesta.  Cambian cuando se
+
+      puede cancelar, y eso es lo que llena la mascara de 88 celdas.
+
+  2.  El .LUA todavia no los mide bien:  hay que ajustarlo primero.
+
+  3.  Un personaje con su catalogo mapeado vale mas que un personaje con
+
+      sus timings pero sin catalogo.  El catalogo es el dato que no se
+
+      puede recuperar de otra parte.
+
+  *** Y ESTO CORRIGE UNA CONDUCTA MIA ***
+
+  Varias veces propuse medir los tres numeros de un personaje como si fuera
+
+  el paso siguiente natural.  No lo es.  El paso siguiente natural es el
+
+  proximo personaje, y los numeros se miden al final para todos juntos.
+
+  *** Y LAS DOS FUENTES DE CORROBORACION, Y PARA QUE SIRVE CADA UNA ***
+
+      la ROM    es la fuente de verdad pero no dice el comando ni el precio;
+                hay que cruzar 104 entradas de costo con 227 golpes
+      la NET    tiene los comandos y a veces el nombre;  no tiene los ids, ni
+                los precios exactos, ni las duraciones
+
+  *** Y QUE PASA CUANDO LAS DOS DIFIEREN ***
+
+  La medicion gana siempre, y la diferencia se anota con la fuente.  Pero
+
+  una contradiccion entre la ROM y la NET sobre un DATO DE JUEGO es una
+
+  pista:  significa que el comando de la NET no llega al id de la ROM, y
+
+  eso es justo el caso del boton Y, que no estaba en el mapa global.
+
+  [DERIVADO]
+
+  24.2  *** LA REGLA DE LOS PENDIENTES:  LO QUE NO FALTA, FALTA ***
+
+      "pon? como PENDIENTES esos comandos basicos con esos personajes que haya
+       faltado hacer agarre, burla, defensa baja y cambio plano"
+
+  *** EL PROBLEMA QUE RESUELVE ***
+
+  El mapa global de comandos salio de los GOLPES.  Los mandos no son
+
+  golpes:  no tienen id de golpe, no cuestan mana y no se ven en el log de
+
+  la misma manera.  Entonces nunca entraron en el mapa.
+
+      el agarre      $B8    es un estado, no un golpe de la tabla
+      la burla       $14    no pega a nadie
+      la defensa baja $0A   no pega a nadie
+      la guardia     $09    bloquea y no pega
+      el cambio      $0F    no pega a nadie
+
+  *** Y POR ESO NO FALTABAN:  NUNCA SE BUSCARON ***
+
+  Midiendo el agarre de Yusuke aparecieron de paso la burla, la defensa
+
+  baja y el cambio de plano, porque ese personaje estaba en la ronda.  Con
+
+  los otros tres no se midio ninguno.  [COMPROBADO]
+
+  *** LA REGLA ***
+
+  Un mando que se midio con UN personaje queda PENDIENTE para los otros
+
+  diez.  Y va escrito en dos lugares, no en uno:
+
+      en el PDF del personaje,  con la lista de lo suyo
+      en PROYECTO.txt,         con la matriz de los once
+
+  *** POR QUE DOS Y NO UNO ***
+
+  El PDF es donde uno mira cuando quiere saber de un personaje.  PROYECTO
+
+  es donde uno mira cuando quiere saber que falta.  Un solo lugar obliga a
+
+  elegir uno y el otro queda viejo.  [DERIVADO]
+
+  *** Y NO CUENTA COMO AGUERO DEL INSTRUMENTO ***
+
+  Un agujero del .LUA es ruido del instrumento.  Un mandato que nunca se
+
+  busco es un agujero del PROCESO, y es peor:  porque el log no avisa.
+
+  *** LA PRUEBA DE QUE ESTOY BUSCANDO MAL ***
+
+      antes de escribir 'no existe', preguntar que comando se probo
+      si el comando se probo y no paso nada, se escribe que no pasa
+      si no se probo, es PENDIENTE y no 'no existe'
+
+  *** Y LA REGLA NUEVA DE ESTA REDONDA ***
+
+  [DERIVADO]
+
+      un mando sin linea en el log es un mandato sin medir
+
+  Ese es el error que casi escribo con la defensa baja:  decia que no
+
+  sabia que era, cuando las notas de Itsuki ya la nombraban.  El dato
+
+  estaba;  faltaba buscarlo con la palabra correcta.
+
+================================================================================
+================================================================================

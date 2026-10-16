@@ -1049,7 +1049,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   *** OJO CON LO QUE DICE ESTO PARA LOS PROXIMOS TESTS ***
 
   - NINGUN test de "este golpe clasha contra este otro" tiene sentido si
-     los dos son fisicos.  Se puede_skippear completo.
+     los dos son fisicos.  Se puede saltear completo.
   -  La unica comparacion que vale es fisico contra proyectil, y ahi lo que
      decide es si el clashbox ALCANZA al proyectil, no su poder.
   -  El poder de un proyectil SOLO se discute contra otro proyectil.
@@ -1161,6 +1161,56 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   Con eso cualquier tecnica invencible se anuncia sola, sin tener que
   saber de antemano cuales son.  Y las 88 celdas de la mascara de cancel
   podrian llevar la duracion de invencibilidad al lado.
+
+
+  *** Y HAY UNA TERCERA CATEGORIA:  LOS OBJETOS QUE SON FISICOS ***
+
+  Correccion del usuario, 15-10.  Porque "hecho de objetos" y "proyectil"
+  NO son la misma cosa:
+
+      el Shuriken de Kuwabara      OBJETO,  y es PROYECTIL
+      la planta de Kurama         OBJETO,  y es FISICO
+      la Hoja dimensional         OBJETO,  y es FISICO
+
+  *** Y EL DASH DISTINGUE LOS DOS ***
+
+      el dash clashea el primer golpe de la Hoja dimensional
+      el dash clashea el primer golpe de la planta
+      el dash NO clashea un proyectil
+
+  *** Y LA HOJA DIMENSIONAL PEGA HASTA 3 VECES ***
+
+  Con el dash parado:  se clashea el primero y despues hay que hacer un
+  BACKDASH para que no peguen los otros dos.  O sea que no es un clash
+  limpio:  es "ganas un golpe y te salvas del resto".  [COMPROBADO]
+
+  *** Y ESO DA EL VALOR EXACTO DEL DASH ***
+
+  El dash tiene rank proyectil CERO.  Medido, no "cercano a cero".
+
+  *** Y LO QUE NO SABEMOS:  QUE DATO LOS DISTINGUE ***
+
+  Los tres usan objetos con el handler de disparo multiple, y el byte de la
+  mascara de la tabla B del objeto tiene los mismos bits.  El Shuriken
+  tiene tabB $0D9AAA con byte 0 = $60, y los bits 5 y 6 estan los dos
+  prendidos.
+
+  Los tres candidatos que quedan:
+      $68   el indice de reaccion del blob del objeto
+      $64   los bits de subsistema del objeto
+      el campo de dueno del objeto, si lo tiene
+
+  *** POR QUE IMPORTA MAS ALL A DE KUWABARA ***
+
+  Si uno mide "el dash clashea contra la Hoja dimensional" y da que si, NO
+  puede generalizar que el dash clashea contra proyectiles.  Son dos cosas
+  distintas y ya sabemos que dan distinto.
+
+  Y hay tres personajes con proyectil de objeto:  el Reikodan de Genkai, la
+  planta de Kurama y el Shuriken.  Los tres con el mismo handler.  Uno es
+  proyectil y dos son fisicos.  El handler NO es lo que decide.
+
+
 
 ================================================================================
 16.  LAS TRES MANIOBRAS, Y LOS SEIS MANDOS QUE NO SON GOLPES

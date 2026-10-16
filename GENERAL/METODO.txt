@@ -1817,3 +1817,63 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+25.  EL MASHEO NO ES UNA TECNICA LIMPIA
+================================================================================
+
+      "al apretar B 4 veces rapido es normal que se cuele un golpe B, lo
+       mismo pasa con A, no puedes simplemente usar el masheo A en suelo sin
+       pretender golpear con A normal hasta que hayas tocado 3 veces mas el A,
+       sencillamente la velocidad no es humana"
+
+  *** O SEA:  LA PRIMERA PULSACION SIEMPRE ES UN GOLPE NORMAL ***
+  El masheo de cuatro pulsaciones produce:
+      la 1ra pulsacion    un golpe NORMAL, siempre
+      las 3 siguientes     las que arman la tecnica
+
+  *** Y ESO CAMBIA COMO SE LEE EL LOG ***
+  Las secuencias que medimos lo confirman:
+      Yusuke    $A1 $00 $00 $82 $82 $82 $82 $82
+      Genkai A  $A1 $00 $00 $00 $82 $82 $82 $82
+      Genkai B  $A0 $80 $80 $80 $80 $80 $80 $80
+  Un estado especial y puros basicos.  Y la razon no es que la tecnica
+  escupe basicos:  es que el masheo los trae.
+
+  *** POR QUE NO SE PUEDE EVITAR ***
+
+      "la velocidad no es humana"
+  Es una limitacion del mando humano, no del juego.  En el frame de la
+  cuarta pulsacion todavia no se puede haber cargado nada.  [COMPROBADO]
+
+  *** Y EL PELIGRO ES CONCRETO ***
+  Si cuento los golpes del log y los llamo 'golpes de la tecnica', estoy
+  contando tambien los que se colaron.  El numero sale mal y no se nota,
+  porque los normales son golpes de verdad.
+
+  *** LO QUE SALVO A LAS MEDICIONES HECHAS ***
+  En los tres casos donde los golpes salieron regulares, los intervalos
+  fueron iguales, y eso indica que la cadencia es de la tecnica:
+      Yusuke    $A1   4 golpes cada 19 frames
+      Genkai    $AD   7 golpes cada 18 a 21 frames
+  Si se cuela un golpe normal en medio, el intervalo se rompe.  Y no se
+  rompio.  [DERIVADO]
+
+  *** LA REGLA PARA MEDIR UNA CADENA ***
+      1.  contar solo los golpes con intervalo regular
+      2.  si un intervalo se sale de la cadencia, es un normal colado
+      3.  el numero de la tecnica es el de los regulares, no el total
+
+  *** Y LO QUE NO SE PUEDE SEPARAR AUN ***
+  Si la tecnica y el normal tienen la MISMA cadencia, no hay forma de
+  distinguirlos por el log.  Habria que contar un solo ciclo, con una
+  pausa larga entre activaciones.  [ABIERTO]
+
+  *** Y ESTO CORRIGE LO QUE DI EN LA 74.1 ***
+  Ahi escribi "O sea que 4 = 1 entrada + 3 basicos" como si lo hubiera
+  deducido del log.  Lo deduje de un numero que ahora sabemos que mezcla
+  tecnica y colados.  La CONCLUSION era correcta y el RAZONAMIENTO no.
+  [CORREGIDO por el usuario]
+================================================================================
+================================================================================

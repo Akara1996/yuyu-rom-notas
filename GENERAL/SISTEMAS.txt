@@ -639,6 +639,13 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       $A1      A x4 en suelo     12     35    NO TIENE
       $A0      B x4 en suelo      8     50    SI TIENE
       $AD      A x4 en AIRE      12    130    si,  7 golpes
+      $AC      B x4 en AIRE       6     44    si,  el log esta cortado
+
+  *** Y LA AEREA B ES LA MAS BARATA DE LAS CUATRO:  6 DE MANA ***
+
+  *** Y EL MASHEO SIEMPRE ARRASTRA UN GOLPE NORMAL ***
+  La primera pulsacion de las cuatro es un golpe normal, siempre.  Es una
+  limitacion del mando humano, no del juego.  Ver METODO.txt seccion 25.
 
   *** Y LA SUYA SE VUELVE A COBRAR MIENTRAS DURA ***
   Dos GOTEO del mismo precio dentro del mismo estado:  el estado no se gasta,

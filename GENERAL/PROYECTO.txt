@@ -104,16 +104,20 @@ Donde estamos, que falta y en que orden
 
   *** ORDEN 2:  LA ESCALERA DE RANK DE LOS GOLPES FISICOS ***
 
-    NUEVO, y es lo que mas rinde.  El usuario ya medir a mano que:
+    El usuario ya mide esto a mano:
 
       todos rompen hasta el reigan L3 con el golpe fuerte
       la mayoria no pasa de L4 con un basico;  L5 con un especial
       un personaje rompe un L5 con una habilidad fisica
-      uno tiene una habilidad que rompe un DRAGON con dano minimo
+      TOGURO MENOR rompe un DRAGON con dano minimo, y es defensivo
 
     El rank de un golpe es el NIVEL MAS ALTO de reigan que rompe.  Tres
     tests por golpe lo ubican entre dos niveles de una escala YA medida.
-    Ahi esta el secreto del por que no es el dano:  son dos campos.
+    Son dos campos:  dano y rank.  El caso de Toguro Menor lo prueba.
+
+    *** EMPEZA POR TOGURO MENOR, NO POR LOS BASICOS ***
+    Es el caso que demuestra que el campo existe.  Y el comando es lo unico
+    que le falta a ese personaje entero.
 
     Antes de las 88 celdas de cancel, porque las dos cosas son el balance
     del juego escrito en tablas, y la del rank sale mas barata.
@@ -160,7 +164,8 @@ Donde estamos, que falta y en que orden
       la invencibilidad del shotgun   que le peguen en el primer frame
       el drenaje tras guardar         un log sin cadencia de botones
       el rank del golpe fisico        L3, L4 y L5 contra el mismo golpe
-      quien rompe el dragon           cual personaje y cual tecnica
+      el comando de Toguro Menor      el del golpe que rompe el dragon
+      el dano de ese golpe           el numero contra el enemigo
       el rank en la memoria           el A64 del golpe fisico, si existe
       intangible o desarmado          un tercero en la fila del reigan
       el precio de guardar con A/B    el camino que no dio linea MOV

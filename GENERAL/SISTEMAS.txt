@@ -64,9 +64,16 @@ Sensui y Yusuke.  Catorce ids, cero excepciones.
   medidos:
 
       $A3   Kurama = la planta          Sensui = la carga de la ulti
-      $A4   Hiei = el parry alto         Sensui = el parry alto
-                         Yusuke = el Reigan
+      $A4   Sensui = el parry alto        Hiei NO tiene parry
       $A6   Hiei = la ulti      Kurama = la ulti      Sensui = el parry bajo
+
+      *** CORREGIDO:  YO LE HABIA PUESTO UN PARRY A HIEI ***
+
+      No estaba en el registro:  el mapa de comandos de Hiei tiene tres
+      tecnicas ($A2, $A8, $A6) y ninguna es un parry.  Me equivoque al
+      extraer las reglas, porque lei $A4 de Sensui y le asign el mismo id
+      a Hiei.  Es la regla misma que escribi dos lineas mas abajo.
+      [CORREGIDO por el usuario]
       $AC   Sensui = la bola aerea      Yusuke = el Reigan aereo
       $A7   Kurama = etapa de la ulti    Sensui = el contraataque del parry
 
@@ -95,8 +102,14 @@ Sensui y Yusuke.  Catorce ids, cero excepciones.
   *** LOS PRECIOS MEDIDOS, POR PERSONAJE ***
 
   HIEI
-      dragon, parry, corte de ave         8 a 24
+      el corte de ave, ABAJO,ABAJO+A     24
+      el A+B, $A2                        32
       la ulti                            200
+
+      *** Y NO TIENE PARRY.  LOS DOS PARRY SON DE SENUI. ***
+      *** Y EL DRAGON NO ES UN COMANDO ***
+      Es un estado al que Hiei llega absorbiendo el dragon.  Multiplica por
+      dos el ataque y la velocidad.  [COMPROBADO]
 
   KURAMA
       proyectil rosa                      16
@@ -635,6 +648,44 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   para INTERCEPTAR, que es lo contrario.  Que un solo numero agrande la
   caja en los dos sentidos es la forma mas economica de programarlo, y por
   eso el mismo numero sirve para las dos cosas.  [DERIVADO, sin medir]
+
+  *** Y EL CASO QUE LO PRUEBA ES DE TOGURO MENOR ***
+
+      El unico golpe del juego que rompe un dragon con dano minimo:
+
+      el personaje        TOGURO MENOR
+      que hace            grita e infla el pecho
+      el dano al enemigo  muy poco
+      lo que destruye     un DRAGON, 88, el techo de la escala
+      lo que recibe       nada
+      la caja de golpe    ENORME
+      el tipo             DEFENSIVO
+
+  *** Y POR QUE ES EL CASO MAS FUERTE DEL PROYECTO ***
+
+  Es de un personaje sin mapear, rompe el techo de la escala con el dano
+  minimo, y es la unica de las cuatro tecnicas que no busca pegar.
+
+  *** Y ESTA EN LA MISMA FAMILIA QUE EL STOP TIME ***
+
+  La unica otra invulnerabilidad real del juego.  Los dos son conceptos que
+  se negarian a existir si el objetivo fuera pegar.  [DERIVADO]
+
+  *** LO QUE FALTA:  EL COMANDO Y EL NUMERO DE DANO ***
+
+  Con el numero de dano se cierra el argumento de una vez.
+
+  *** Y SI ES EL UNICO, LA ESCALA FISICA TIENE SU PROPIO TECHO ***
+
+  Si Hiei con un basico rompe hasta el dragon, y Toguro Menor tambien, el
+  rank del golpe fisico tiene un techo MUCHO mas alto que el del
+  proyectil.  O sea que los dos sistemas estan escalados distinto, y se
+  comparan por rank pero con escalas separadas.  [DERIVADO]
+
+  *** LA PRUEBA:  TOGURO MENOR CONTRA EL DRAGON DE HIEI ***
+
+  Si el dragon se rompe, el rank del golpe fisico supera al del dragon.
+  Si pasa de largo, el caso del usuario era otro.  [ABIERTO]
 
   *** DONDE PODRIA ESTAR EL RANK DEL GOLPE FISICO ***
 

@@ -1551,6 +1551,41 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
     Si X a la derecha da $0C y X a la izquierda da $0B,  los dos botones son
     alias y el facing decide.  [ABIERTO]
 
+
+      *** LA TABLA DEL AIRE.  MEDIDA CON JIN,  EL 16-10 ***
+
+          entrada                          id      man
+          ------------------------------  ------  ----------
+          mirando a la DERECHA + X        $0C       8
+          en el aire + Z                  $AE       8
+          en el aire + ARRIBA,ARRIBA      $AC       8
+          mirando a la IZQUIERDA + X      ---       0   NO HACE NADA
+
+      *** Y OJO:  MIRANDO A LA IZQUIERDA,  X EN EL AIRE NO HACE NADA ***
+
+      El estado que sale es $06,  y $06 es EL ASCENSO DEL SALTO:  es
+      exactamente la misma cadena que un salto sin apretar nada.
+
+          $00 -> $0D   la carga
+          $0D -> $06   el ascenso
+          $06 -> $08   el aire
+
+      *** O SEA QUE $06 NO ES UN DASH AEREO  ***  [FUERTE]
+
+      Y eso contradice lo que dijo el usuario ("dash y backdash en aire").
+      Con lo medido:  en el aire X y Z NO son el dash y el backdash.  Son los
+      dos Flotares de costumbre.  [ABIERTO]  falta probar mirando a la
+      izquierda + Z  y mirando a la derecha + Z.
+
+      *** Y $0C ES UN ESTADO DOBLE:  UNA MISMA ID PARA DOS COSAS ***
+
+          en el suelo    el backdash          0 de man
+          en el aire     el Flotar atras      8 de man
+
+      *** Y CHUI Y TOGURO MENOR TIENEN EL MISMO BYTE $70 EN $0C ***
+      O sea que probablemente tambien tienen el Flotar atras aereo.  Es lo
+      primero que hay que medir en Chui.
+
     *** EL CAMBIO DE PLANO, MEDIDO ***
         f28  $00 -> $0F   dur $5A = $FF   bucle infinito
         f79  $0F -> $0E

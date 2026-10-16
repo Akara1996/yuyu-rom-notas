@@ -2235,3 +2235,128 @@ FIN DEL IDEARIO
 
   Compilar no alcanza.  Correr la logica suelta si.
 ================================================================================
+
+================================================================================
+================================================================================
+29.  COMO LEER EL ROM, Y LOS TRES ERRORES QUE HAY EN EL
+===============================================================================
+
+  *** 1.  LA TABLA DE PUNTEROS SI ESTA EN tablaA + id*2  ***  [COMPROBADO]
+
+  El .LUA imprime el registro 40 bytes antes de donde deberia.  La
+  explicacion obvia seria que la tabla de punteros no empieza en tablaA.
+  Se probo desplazandola $28:
+
+      sin despl   $06 -> off $0228   dest $0CCEA2   04 05 09 94 7C 00 86 80
+      con $28     $06 -> off $0780   dest $0CD3FA   00 00 80 00 00 00 00 00
+
+  *** SIETE MANIOBRAS BUENAS SE CONVIERTEN EN DEAD,  $CA CAE EN UN OFFSET
+  IMPAR  Y $AE SE QUEDA SIN PUNTERO.  LA TABLA ESTA EN tablaA + id*2. ***
+
+  Las once bases estan en $01275B + i*$4A,  y son punteros de 24 BITS
+  seguidos de un $00 que NO es parte de la direccion.  Si se leen cuatro
+  bytes,  sale un numero con un $00 de mas  y todo el analisis sale mal.
+
+      $01275B + i*$4A,  tres bytes,  i = 0 a 10
+
+  *** 2.  EL REGISTRO NO ES UNO:  ES UNA LISTA DE 8 BYTES POR ANIM  ***
+
+  En Jin,  el estado $08 (el aire)  tiene SEIS registros seguidos:
+
+      $0CD0A2   04 6F 09 94 7C 00 82 81     <- anim 0
+      $0CD0AA   04 70 09 94 00 00 82 81     <- anim 1
+      $0CD0B2   04 71 09 94 00 00 82 81     <- anim 2
+      $0CD0BA   04 6F 09 94 00 00 82 81     <- anim 3
+      $0CD0C2   04 70 09 94 00 00 82 81     <- anim 4
+      $0CD0CA   04 71 09 94 00 00 82 81     <- anim 5   <- el que lee el .LUA
+
+  *** Y ESO SON LOS 40 BYTES:  EL .LUA LEE LA ENTRADA 5,  NO LA 0  ***
+
+      *** POR LO TANTO,  LOS BYTES DE LAS LINEAS [MOV] SON RUIDO  ***
+      Y la advertencia que ya tenia el script  ("Todo lo que viene de la
+      tabla (bytes, tabB, golpe) es RUIDO")  era correcta,  y ahora se sabe
+      por que:  no es que el dato sea malo,  es que es el de otro anim.
+
+      *** Y CUANTOS ANIMS TIENE CADA MANIOBRA:  EL SALTO ENTRE ESTADOS  ***
+      El puntero del estado siguiente menos el de este,  dividido por 8:
+
+          $06 -> $07   $100 bytes =  32 entradas
+          $07 -> $08   $100 bytes =  32 entradas
+          $08 -> $0B   $110 bytes
+          $0B -> $0C   $08 bytes  =   1 entrada
+          $0C -> $0D   $38 bytes  =   7 entradas   <- el backdash:  anim 0 a 6
+          $0D -> $0E   $08 bytes  =   1 entrada
+          $0E -> $0F   $08 bytes  =   1 entrada
+
+      *** Y ESO CIERRA EL BACKDASH:  7 ANIMS  =  anim 0 a anim 6  ***
+      que es lo que ya estaba medido en pantalla.
+
+  *** 3.  EL BYTE +5 SOLO ESTA EN LA PRIMERA ENTRADA  ***
+
+      $7C en la entrada 0 de $06, $07 y $08.  $00 en todas las demas.
+      Que es,  no se sabe.  [ABIERTO]
+
+  ================================================================================
+  29.1  Y EL ERROR QUE CASI CUESTA UN PERSONAJE ENTERO
+
+  *** LA LISTA DE IDS MUERTOS,  MAL,  CON LA BASE EQUIVOCADA  ***
+
+  Cuando se armo la lista de "ids sin hit record" de Jin,  se uso una base
+  que no era la de Jin.  Dio:
+
+      $A8 $A9 $AC $AD $AE   "sin golpe"
+
+  Y de ahi salio la teoria de los "tres no-golpes = tres flotares".
+
+  *** Y $AC Y $AE SON VIVOS.  SON LOS DOS FLOTARES.  MEDIDOS EN JUEGO. ***
+
+  *** O SEA QUE LA TEORIA DIO EL RESULTADO CORRECTO CON LOS IDS MALOS  ***
+
+  *** LA REGLA:  ANTES DE ARMAR UNA LISTA DE "LO QUE NO EXISTE",  RELEER
+  LAS BASES DE LOS ONCE Y VERIFICAR QUE CADA UNA DA UNA LISTA PLAUSIBLE  ***
+
+  Un personaje con 12 tecnicas no puede tener solo 7.  Y una lista de ids
+  muertos que cambia al cambiar la base no es una lista de ids muertos:  es
+  una lista de offsets mal leidos.
+
+  *** Y SE REHIZO PARA LOS ONCE.  EL RESULTADO ESTA EN CONTEXTO 122.2  ***
+
+  *** Y DE AHI SALIO ALGO QUE NO ESTABA BUSCADO  ***
+
+      $B8 es el agarre para los once.  PERO:
+      GENKAI y TOGURO- tienen $B9 vivo.
+      ITSUKI y CHUI tienen $B0 y $B1 vivos.
+
+  Cuatro personajes con mandos extra que nadie tiene nombrados.  [ABIERTO]
+
+  ================================================================================
+  29.2  Y EL BYTE QUE DICE QUIEN PUEDE VOLAR
+
+  *** NO HAY QUE JUGAR PARA AVERIGUARLO.  ESTA EN EL BYTE +5 DEL $0C  ***
+
+      $00    ocho personajes
+      $70    JIN,  CHUI,  TOGURO MENOR
+
+  Y $0F de Jin es el unico que no es ni $FF ni $80 00:  es $06 A5 01 00.
+
+  *** O SEA QUE A $0C Y A $0F LES FALTA UN BYTE ARRIBA,  Y ESO ES LO QUE LES
+  PERMITE REPETIRSE EN EL AIRE  ***  [DERIVADO]
+
+  *** Y CHUI TIENE $AC Y $AE VIVOS,  COMO JIN  ***
+  Si Chui vuela,  el $70 lo explica.  Es lo primero que hay que probar de Chui,
+  y se puede decidir con un solo reset.
+
+  ================================================================================
+  29.3  LO QUE SIGUE ABIERTO DEL LADO DEL .LUA
+
+  *** ARREGLAR LA DIRECCION DEL REGISTRO  ***
+
+  Las lineas [MOV] leen la entrada 5 de la lista en vez de la entrada 0.
+  Restarle $28 a la direccion que imprime las arregla para el anim 0,  que es
+  lo que se quiere.  [ABIERTO]  No se ha tocado el .LUA:  el .LUA es lo unico
+  que se abre en FBNeo,  y cualquier cambio pasa por Python + Copy-Item y las
+  cuatro verificaciones (luajit -bl,  los tres primeros bytes 45 45 32,  la
+  paleta no-ASCII contra el respaldo,  y CRLF).
+================================================================================
+================================================================================
+================================================================================

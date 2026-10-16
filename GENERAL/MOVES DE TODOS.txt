@@ -1,0 +1,1138 @@
+==============================================================================
+MOVIMIENTOS DE LOS 11 PERSONAJES  --  leido del ROM, 15-10-2026
+==============================================================================
+  Que es : los golpes basicos y las tecnicas de cada personaje, con el
+          dano, el stun, la reaccion y las cajas de CADA FRAME ACTIVO.
+
+  *** CONFLICTO ABIERTO DESDE EL 15-10-2026:  COMO SE LEE UNA CAJA ***
+  Hay DOS lecturas incompatibles de los mismos 4 bytes, con un dia de
+  diferencia, y NO se resolvieron.  ESTA TABLA TIENE LA LECTURA B.  La
+  lectura A dice que el byte 1 es el indice de la entrada y que el stride es
+  $10, no $20.  Los numeros de caja de mas abajo pueden estar mal.  Ver
+  CONTEXTO.txt seccion 95.3 antes de comparar una caja contra otra.
+
+  *** COMO SE LEE UNA CAJA (CORREGIDO EL 15-10) ***
+  Los 4 bytes de cada caja NO son ancho y alto.  Del builder $01EB40:
+
+      +0  radioX, y el bit 7 es el TERMINADOR de la lista
+      +1  SIN IDENTIFICAR  (vale 130-160, no puede ser un radio)
+      +2  CENTRO X, sesgo $80, y SE NIEGA segun el facing
+      +3  CENTRO Y, sesgo $A0
+
+      subi.w #$80 en $01EBAA     subi.w #$a0 en $01EBB4
+      neg.w d6 en $01EBD8      si $61(a5) (el facing) no es cero
+
+  Antes se imprimia como 'NxM' y eso NO era el ancho ni el alto.  Todos
+  los documentos viejos tienen ese dato mal.
+
+  Falta : los COMANDOS y el PRECIO.  El precio sale de las 104
+          entradas de costo (CONTEXTO seccion 23); el comando sale
+          jugando, con TABLA DE MOVIMIENTOS.LUA.
+
+
+------------------------------------------------------------------------------
+  ENTRADA  1   GENKAI    tablaA $0BCAAA  tablaB $0BDCAA
+      *** IDENTIFICADO EL 15-10:  la linea CONTEXTO del .LUA dio $50=$0BCAAA ***
+  9 basicos   15 tecnicas   11 con golpe: $A0 $A1 $A2 $A3 $AA $AC $AD $AE $AF $B8 $B9
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0BD3F2       5  0     12    4      1  4           $20 [alto 1]
+       anim 2   dano 4   stun 4   attr $0C  $20 [alto 1]
+             HIT X-119 Y-50 r11,149  CLASH X-114 Y-49 r13,149  PUSH X-122 Y-56 r5,135
+  $81   $0BD41A       7  0     22    6      1  6           $20 [alto 1]
+       anim 3   dano 6   stun 6   attr $05  $20 [alto 1]
+             HIT X-115 Y-41 r10,144  CLASH X-114 Y-46 r10,147  PUSH X-122 Y-50 r6,129
+  $82   $0BD452       6  0     38    2      2  4,12        $25 [alto 1]
+       anim 1   dano 4   stun 4   attr $0D  $25 [alto 1]
+             HIT X-120 Y-34 r6,140  CLASH X-117 Y-35 r7,140  PUSH X-121 Y-55 r6,136
+       anim 2   dano 12  stun 12  attr $06  $25 [alto 1]
+             HIT X-119 Y-55 r11,137  CLASH X-109 Y-53 r11,142  PUSH X-122 Y-57 r6,130
+  $83   $0BD482       5  0     40   10      1  12          $26 LANZADOR [alto 1]
+       anim 2   dano 12  stun 12  attr $0E  $26 LANZADOR [alto 1]
+             HIT X-120 Y-47 r11,154  CLASH X-114 Y-48 r12,154  PUSH X-118 Y-52 r6,116
+  $84   $0BD4AA       5  0     10    4      1  4           $21 [alto 1]
+       anim 2   dano 4   stun 4   attr $08  $21 [alto 1]
+             HIT X-123 Y-22 r18,150  CLASH X-119 Y-26 r16,154  PUSH X-121 Y-44 r5,136
+  $86   $0BD4DA       7  0     38    6      1  14          $23 [alto 1]
+       anim 2   dano 14  stun 14  attr $0A  $23 [alto 1]
+             HIT X-121 Y-23 r16,147  CLASH X-118 Y-27 r14,149  PUSH X-122 Y-50 r6,126
+  $90   $0BD55A       5  1     16    4      1  4           $20 [alto 1]
+       anim 2   dano 4   stun 4   attr $04  $20 [alto 1]
+             HIT X-117 Y-41 r10,142  CLASH X-112 Y-42 r12,142  PUSH X-122 Y-50 r5,128
+  $94   $0BD59A       5  1     18    4      1  14          $20 [alto 1]
+       anim 2   dano 14  stun 14  attr $06  $20 [alto 1]
+             HIT X-119 Y-55 r8,143  CLASH X-121 Y-55 r13,139  PUSH X-119 Y-53 r5,143
+  $95   $0BD5C2       4  1     38    4      1  14          $21 [alto 1]
+       anim 1   dano 14  stun 14  attr $06  $21 [alto 1]
+             HIT X-121 Y-18 r12,147
+  $A0   $0BD632       8  0     24    3      4  4,4,4,8     $20 [alto 1],$21 [alto 1]
+       anim 1   dano 4   stun 4   attr $1D  $21 [alto 1]
+             HIT X-124 Y-38 r12,151  CLASH X-119 Y-38 r13,150  PUSH X-122 Y-44 r5,134
+       anim 3   dano 4   stun 4   attr $1D  $20 [alto 1]
+             HIT X-124 Y-47 r6,154
+       anim 5   dano 4   stun 4   attr $1D  $21 [alto 1]
+             HIT X-123 Y-25 r5,155
+       anim 7   dano 8   stun 8   attr $1E  $20 [alto 1]
+             HIT X-114 Y-35 r14,152  CLASH X-109 Y-34 r10,155  PUSH X-122 Y-44 r5,133
+  $A1   $0BD672      16  0     16    1      8  4,4,4,8,4,4,4,8 $20 [alto 1],$21 [alto 1]
+       anim 1   dano 4   stun 4   attr $1D  $21 [alto 1]
+             HIT X-124 Y-38 r12,151  CLASH X-119 Y-38 r13,150  PUSH X-122 Y-44 r5,134
+       anim 3   dano 4   stun 4   attr $1D  $20 [alto 1]
+             HIT X-124 Y-47 r6,154
+       anim 5   dano 4   stun 4   attr $1D  $21 [alto 1]
+             HIT X-123 Y-25 r5,155
+       anim 7   dano 8   stun 8   attr $1E  $20 [alto 1]
+             HIT X-114 Y-35 r14,152  CLASH X-109 Y-34 r10,155  PUSH X-122 Y-44 r5,133
+       anim 9   dano 4   stun 4   attr $1D  $21 [alto 1]
+             HIT X-124 Y-38 r12,151  CLASH X-119 Y-38 r13,150  PUSH X-122 Y-44 r5,134
+       anim 11  dano 4   stun 4   attr $1D  $20 [alto 1]
+             HIT X-124 Y-47 r6,154
+       anim 13  dano 4   stun 4   attr $1D  $21 [alto 1]
+             HIT X-123 Y-25 r5,155
+       anim 15  dano 8   stun 8   attr $1E  $20 [alto 1]
+             HIT X-114 Y-35 r14,152  CLASH X-109 Y-34 r10,155  PUSH X-122 Y-44 r5,133
+  $A2   $0BD6F2      13  0    188    4      4  16,4,4,4    $25 [alto 1]
+       anim 2   dano 16  stun 16  attr $1E  $25 [alto 1]
+             HIT X-116 Y-29 r8,134  CLASH X-112 Y-33 r5,135  PUSH X-107 Y-38 r10,128
+       anim 4   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 5   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 6   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+  $A3   $0BD75A      13  0    200   10      4  16,4,4,4    $25 [alto 1]
+       anim 2   dano 16  stun 16  attr $1E  $25 [alto 1]
+             HIT X-116 Y-29 r8,134  CLASH X-112 Y-33 r5,135  PUSH X-107 Y-38 r10,128
+       anim 4   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 5   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 6   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+  $AA   $0BD8FA      34  1    118    4     10  4,4,6,8,4,4,10,10,10,14 $20 chip [alto 1],$21 chip [alto 1],$2F [alto 1]
+       anim 3   dano 4   stun 2   attr $3C  $20 chip [alto 1]
+             HIT X-122 Y-47 r17,153  CLASH X-114 Y-47 r12,152  PUSH X-122 Y-56 r6,136
+       anim 7   dano 4   stun 2   attr $38  $21 chip [alto 1]
+             HIT X-122 Y-22 r21,155  CLASH X-120 Y-24 r18,152  PUSH X-121 Y-44 r7,136
+       anim 9   dano 6   stun 2   attr $3D  $21 chip [alto 1]
+             HIT X-115 Y-37 r12,141  CLASH X-112 Y-37 r12,141  PUSH X-121 Y-56 r5,137
+       anim 10  dano 8   stun 2   attr $3E  $20 chip [alto 1]
+             HIT X-107 Y-50 r11,143  CLASH X-110 Y-50 r9,143  PUSH X-122 Y-57 r6,128
+       anim 12  dano 4   stun 2   attr $3C  $20 chip [alto 1]
+             HIT X-114 Y-33 r14,145  CLASH X-114 Y-35 r11,145  PUSH X-122 Y-51 r7,128
+       anim 15  dano 4   stun 2   attr $3C  $20 chip [alto 1]
+             HIT X-114 Y-33 r14,147  CLASH X-112 Y-34 r9,147  PUSH X-121 Y-49 r5,131
+       anim 17  dano 10  stun 2   attr $3E  $20 chip [alto 1]
+             HIT X-106 Y-41 r16,150  CLASH X-113 Y-41 r11,151  PUSH X-122 Y-49 r5,134
+       anim 19  dano 10  stun 2   attr $3E  $21 chip [alto 1]
+             HIT X-116 Y-22 r19,148  CLASH X-116 Y-23 r13,145  PUSH X-122 Y-47 r5,130
+       anim 22  dano 10  stun 2   attr $3E  $20 chip [alto 1]
+             HIT X-120 Y-47 r17,151  CLASH X-118 Y-47 r15,151  PUSH X-122 Y-54 r5,114
+       anim 28  dano 14  stun 2   attr $3E  $2F [alto 1]
+             HIT X-115 Y-34 r15,146  CLASH X-113 Y-34 r10,146  PUSH X-123 Y-50 r5,131
+  $AC   $0BDA12      18  1     51    3      8  2,2,2,4,2,2,2,4 $20 [alto 1],$21 [alto 1]
+       anim 1   dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-29 r6,155
+       anim 3   dano 2   stun 2   attr $15  $21 [alto 1]
+             HIT X-123 Y-19 r4,149
+       anim 5   dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-40 r13,153  CLASH X-119 Y-40 r9,156  PUSH X-122 Y-48 r5,135
+       anim 7   dano 4   stun 4   attr $16  $21 [alto 1]
+             HIT X-116 Y-30 r15,152  CLASH X-111 Y-29 r17,151  PUSH X-122 Y-48 r5,134
+       anim 9   dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-29 r6,155
+       anim 11  dano 2   stun 2   attr $15  $21 [alto 1]
+             HIT X-123 Y-19 r4,149
+       anim 13  dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-40 r13,153  CLASH X-119 Y-40 r9,156  PUSH X-122 Y-48 r5,135
+       anim 15  dano 4   stun 4   attr $16  $21 [alto 1]
+             HIT X-116 Y-30 r15,152  CLASH X-111 Y-29 r17,151  PUSH X-122 Y-48 r5,134
+  $AD   $0BDAA2      18  1     17    1      8  2,2,2,4,2,2,2,4 $20 [alto 1],$21 [alto 1]
+       anim 1   dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-29 r6,155
+       anim 3   dano 2   stun 2   attr $15  $21 [alto 1]
+             HIT X-123 Y-19 r4,149
+       anim 5   dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-40 r13,153  CLASH X-119 Y-40 r9,156  PUSH X-122 Y-48 r5,135
+       anim 7   dano 4   stun 4   attr $16  $21 [alto 1]
+             HIT X-116 Y-30 r15,152  CLASH X-111 Y-29 r17,151  PUSH X-122 Y-48 r5,134
+       anim 9   dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-29 r6,155
+       anim 11  dano 2   stun 2   attr $15  $21 [alto 1]
+             HIT X-123 Y-19 r4,149
+       anim 13  dano 2   stun 2   attr $15  $20 [alto 1]
+             HIT X-124 Y-40 r13,153  CLASH X-119 Y-40 r9,156  PUSH X-122 Y-48 r5,135
+       anim 15  dano 4   stun 4   attr $16  $21 [alto 1]
+             HIT X-116 Y-30 r15,152  CLASH X-111 Y-29 r17,151  PUSH X-122 Y-48 r5,134
+  $AE   $0BDB32      13  0    188    4      4  16,4,4,4    $25 [alto 1]
+       anim 2   dano 16  stun 16  attr $16  $25 [alto 1]
+             HIT X-118 Y-20 r6,130  CLASH X-116 Y-20 r9,131  PUSH X-110 Y-32 r7,123
+       anim 4   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 5   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 6   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+  $AF   $0BDB9A      13  0    200   10      4  16,4,4,4    $25 [alto 1]
+       anim 2   dano 16  stun 16  attr $16  $25 [alto 1]
+             HIT X-118 Y-20 r6,130  CLASH X-116 Y-20 r9,131  PUSH X-110 Y-32 r7,123
+       anim 4   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 5   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+       anim 6   dano 4   stun 4   attr $1E  $25 [alto 1]
+             HIT X-122 Y-71 r10,130
+  $B8   $0BDC42       5  0     20   14      1  16          $2F [alto 1]
+       anim 3   dano 16  stun 8   attr $0E  $2F [alto 1]
+             HIT X-113 Y-36 r9,142  CLASH X-68 Y-142 r4,2
+  $B9   $0BDC6A       3  0     16   12      1  16          $26 LANZADOR [alto 1]
+       anim 2   dano 16  stun 8   attr $06  $26 LANZADOR [alto 1]
+             HIT X-115 Y-40 r10,142  CLASH X-110 Y-46 r8,124
+
+------------------------------------------------------------------------------
+ENTRADA  2   KURAMA   tablaA $0BF75A  tablaB $0C04CA
+  9 basicos   8 tecnicas   4 con golpe: $A4 $A5 $A6 $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0BFF4A       3  0     16    4      1  4           $21 [alto 1]
+       anim 1   dano 4   stun 2   attr $08  $21 [alto 1]
+             HIT X-115 Y-34 r11,155  CLASH X-113 Y-35 r14,152  PUSH X-122 Y-77 r5,130
+  $81   $0BFF62       3  0     14    4      1  8           $20 [alto 1]
+       anim 1   dano 8   stun 6   attr $0D  $20 [alto 1]
+             HIT X-120 Y-61 r15,146  CLASH X-117 Y-64 r15,148  PUSH X-122 Y-74 r6,131
+  $82   $0BFF7A       9  0     54    8      2  14,16       $20 [alto 1],$21 [alto 1]
+       anim 1   dano 14  stun 8   attr $0E  $20 [alto 1]
+             HIT X-120 Y-57 r17,150  CLASH X-119 Y-56 r15,150  PUSH X-122 Y-63 r5,116
+       anim 5   dano 16  stun 8   attr $0E  $21 [alto 1]
+             HIT X-122 Y-30 r17,165  CLASH X-118 Y-30 r15,164  PUSH X-122 Y-65 r4,134
+  $83   $0BFFC2       4  0     42    8      1  14          $26 LANZADOR [alto 1]
+       anim 1   dano 14  stun 12  attr $0E  $26 LANZADOR [alto 1]
+             HIT X-120 Y-65 r10,165  CLASH X-112 Y-64 r5,168  PUSH X-123 Y-72 r5,148
+  $84   $0BFFE2       3  0     14    4      1  5           $21 [alto 1]
+       anim 1   dano 5   stun 3   attr $08  $21 [alto 1]
+             HIT X-121 Y-49 r15,150  CLASH X-117 Y-49 r15,151  PUSH X-122 Y-56 r5,131
+  $86   $0C0002       4  0     42    8      1  14          $23 [alto 1]
+       anim 1   dano 14  stun 12  attr $0A  $23 [alto 1]
+             HIT X-122 Y-23 r18,163  CLASH X-119 Y-25 r18,161  PUSH X-122 Y-48 r5,135
+  $90   $0C006A       3  1      8    4      1  5           $21 [alto 1]
+       anim 1   dano 5   stun 3   attr $04  $21 [alto 1]
+             HIT X-116 Y-47 r12,153  CLASH X-112 Y-47 r13,154  PUSH X-122 Y-64 r5,141
+  $94   $0C009A       5  1     26    8      1  15          $20 [alto 1]
+       anim 1   dano 15  stun 14  attr $06  $20 [alto 1]
+             HIT X-121 Y-58 r14,152
+  $95   $0C00C2       4  1     22    6      1  14          $21 [alto 1]
+       anim 1   dano 14  stun 14  attr $06  $21 [alto 1]
+             HIT X-122 Y-29 r10,166
+  $A4   $0C021A       7  0     40    6      2  8,8         $21 [alto 2]
+       anim 1   dano 8   stun 6   attr $3D  $21 [alto 2]
+             HIT X-114 Y-30 r14,170
+       anim 5   dano 8   stun 6   attr $3D  $21 [alto 2]
+             HIT X-114 Y-30 r14,170
+  $A5   $0C0252       6  0     54   10      2  8,12        $21 [alto 2],$25 [alto 2]
+       anim 1   dano 8   stun 6   attr $3D  $21 [alto 2]
+             HIT X-114 Y-30 r14,170
+       anim 2   dano 12  stun 8   attr $3E  $25 [alto 2]
+             HIT X-122 Y-91 r18,93
+  $A6   $0C0282      40  0    264  172      8  14,14,14,14,14,14,14,14 $20 [alto 2],$25 [alto 2]
+       anim 19  dano 14  stun 4   attr $3E  $20 [alto 2]
+             HIT X-123 Y-54 r4,154
+       anim 20  dano 14  stun 4   attr $3E  $20 [alto 2]
+             HIT X-124 Y-54 r4,159
+       anim 21  dano 14  stun 4   attr $3E  $20 [alto 2]
+             HIT X-124 Y-94 r4,160
+       anim 22  dano 14  stun 8   attr $3E  $25 [alto 2]
+             HIT X-124 Y-93 r4,166
+       anim 23  dano 14  stun 4   attr $3E  $20 [alto 2]
+             HIT X-123 Y-54 r4,154
+       anim 24  dano 14  stun 4   attr $3E  $20 [alto 2]
+             HIT X-124 Y-54 r4,159
+       anim 25  dano 14  stun 4   attr $3E  $20 [alto 2]
+             HIT X-124 Y-94 r4,160
+       anim 26  dano 14  stun 8   attr $3E  $25 [alto 2]
+             HIT X-124 Y-93 r4,166
+  $B8   $0C044A       9  0     48   20      1  16          $2F [alto 1]
+       anim 3   dano 16  stun 8   attr $0E  $2F [alto 1]
+             HIT X-116 Y-50 r19,146  CLASH X-128 Y-160 r0,0
+
+------------------------------------------------------------------------------
+ENTRADA  3   PERSONAJE 3   tablaA $0C229A  tablaB $0C31DA
+  9 basicos   11 tecnicas   9 con golpe: $A0 $A1 $A2 $A3 $A4 $A5 $AA $AB $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0C2AAA       3  0     12    4      1  4           $20 [alto 1]
+       anim 1   dano 4   stun 4   attr $0C  $20 [alto 1]
+             HIT X-117 Y-68 r8,147  CLASH X-113 Y-72 r13,148  PUSH X-122 Y-81 r4,138
+  $81   $0C2AC2       3  0     14    4      1  7           $20 [alto 1]
+       anim 1   dano 7   stun 6   attr $0D  $20 [alto 1]
+             HIT X-119 Y-65 r15,152  CLASH X-116 Y-65 r13,155  PUSH X-123 Y-79 r4,140
+  $82   $0C2ADA       4  0     38    4      2  14,15       $25 [alto 1]
+       anim 1   dano 14  stun 10  attr $0E  $25 [alto 1]
+             HIT X-118 Y-61 r9,141  CLASH X-115 Y-64 r12,141  PUSH X-122 Y-78 r5,133
+       anim 2   dano 15  stun 12  attr $0E  $25 [alto 1]
+             HIT X-115 Y-84 r8,136  CLASH X-113 Y-86 r12,140  PUSH X-122 Y-79 r5,129
+  $83   $0C2AFA       7  0     32    6      2  12,10       $20 [alto 1],$21 [alto 1]
+       anim 1   dano 12  stun 8   attr $0E  $20 [alto 1]
+             HIT X-119 Y-79 r10,149  CLASH X-118 Y-82 r10,150  PUSH X-122 Y-76 r5,140
+       anim 2   dano 10  stun 8   attr $06  $21 [alto 1]
+             HIT X-113 Y-46 r8,157  CLASH X-113 Y-50 r10,157  PUSH X-122 Y-67 r5,148
+  $84   $0C2B32       4  0     14    4      1  4           $21 [alto 1]
+       anim 2   dano 4   stun 4   attr $08  $21 [alto 1]
+             HIT X-120 Y-53 r14,150  CLASH X-116 Y-52 r14,151  PUSH X-122 Y-58 r5,135
+  $86   $0C2B5A       5  0     30    8      1  14          $23 [alto 1]
+       anim 3   dano 14  stun 10  attr $0A  $23 [alto 1]
+             HIT X-122 Y-33 r18,156  CLASH X-117 Y-28 r19,155  PUSH X-114 Y-49 r5,132
+  $90   $0C2BCA       4  1     16    4      1  4           $20 [alto 1]
+       anim 1   dano 4   stun 4   attr $04  $20 [alto 1]
+             HIT X-114 Y-62 r11,151  CLASH X-109 Y-64 r13,152  PUSH X-122 Y-75 r5,145
+  $94   $0C2C02       7  1     28    6      1  15          $20 [alto 1]
+       anim 1   dano 15  stun 12  attr $06  $20 [alto 1]
+             HIT X-119 Y-78 r10,155  CLASH X-111 Y-77 r15,154  PUSH X-114 Y-38 r12,105
+  $95   $0C2C3A       4  0    118    6      2  6,10        $20 [alto 1],$21 [alto 1]
+       anim 1   dano 6   stun 8   attr $06  $20 [alto 1]
+             HIT X-122 Y-34 r20,154  CLASH X-118 Y-33 r21,154  PUSH X-122 Y-57 r5,132
+       anim 2   dano 10  stun 10  attr $06  $21 [alto 1]
+             HIT X-121 Y-24 r10,154
+  $A0   $0C2CAA      11  0     44   10      2  16,16       $20 [alto 2]
+       anim 4   dano 16  stun 10  attr $1E  $20 [alto 2]
+             HIT X-116 Y-95 r18,129  CLASH X-123 Y-94 r12,130  PUSH X-116 Y-56 r9,133
+       anim 5   dano 16  stun 10  attr $1E  $20 [alto 2]
+             HIT X-108 Y-70 r13,181
+  $A1   $0C2D02       8  0     30   10      2  12,12       $25 [alto 2]
+       anim 4   dano 12  stun 10  attr $1E  $25 [alto 2]
+             HIT X-116 Y-80 r12,156
+       anim 5   dano 12  stun 8   attr $1E  $25 [alto 2]
+             HIT X-116 Y-80 r25,169  CLASH X-123 Y-81 r17,166  PUSH X-122 Y-81 r6,142
+  $A2   $0C2D42       9  0     34    8      2  12,8        $21 [alto 2],$23 [alto 2]
+       anim 4   dano 12  stun 8   attr $1A  $21 [alto 2]
+             HIT X-118 Y-47 r11,151
+       anim 5   dano 8   stun 6   attr $1A  $23 [alto 2]
+             HIT X-123 Y-53 r14,167
+  $A3   $0C2D8A       9  1     28    8      2  12,12       $20 [alto 2],$21 [alto 2]
+       anim 4   dano 12  stun 10  attr $16  $20 [alto 2]
+             HIT X-112 Y-81 r8,167
+       anim 5   dano 12  stun 10  attr $16  $21 [alto 2]
+             HIT X-121 Y-55 r11,128
+  $A4   $0C2DD2       8  0     32   12      1  14          $20 [alto 2]
+       anim 5   dano 14  stun 12  attr $1E  $20 [alto 2]
+             HIT X-120 Y-64 r27,172  CLASH X-124 Y-69 r17,174  PUSH X-122 Y-75 r5,137
+  $A5   $0C2E12       8  0     52   30      1  14          $20 [alto 2]
+       anim 5   dano 14  stun 12  attr $1E  $20 [alto 2]
+             HIT X-120 Y-64 r27,172  CLASH X-124 Y-69 r17,174  PUSH X-122 Y-75 r5,137
+  $AA   $0C2EEA      40  0    153   10     13  16,8,8,8,16,8,8,8,8,8,8,8,8 $20 chip [alto 2],$21 chip [alto 2],$25 [alto 2]
+       anim 4   dano 16  stun 8   attr $3E  $20 chip [alto 2]
+             HIT X-119 Y-95 r18,133  CLASH X-116 Y-95 r20,133  PUSH X-94 Y-43 r9,132
+       anim 5   dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-107 Y-60 r26,178  CLASH X-108 Y-60 r17,171  PUSH X-100 Y-46 r12,129
+       anim 8   dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-104 Y-65 r24,160  CLASH X-111 Y-72 r14,153  PUSH X-121 Y-82 r4,136
+       anim 9   dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-109 Y-67 r32,182  CLASH X-110 Y-75 r19,170  PUSH X-120 Y-81 r7,145
+       anim 13  dano 16  stun 8   attr $3E  $20 chip [alto 2]
+             HIT X-119 Y-95 r18,133  CLASH X-116 Y-95 r20,133  PUSH X-94 Y-43 r9,132
+       anim 14  dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-107 Y-60 r26,178  CLASH X-108 Y-60 r17,171  PUSH X-100 Y-46 r12,129
+       anim 18  dano 8   stun 2   attr $3A  $21 chip [alto 2]
+             HIT X-118 Y-45 r24,153  CLASH X-112 Y-45 r19,143  PUSH X-121 Y-61 r5,134
+       anim 19  dano 8   stun 2   attr $3A  $21 chip [alto 2]
+             HIT X-117 Y-47 r31,179  CLASH X-110 Y-48 r22,178  PUSH X-121 Y-60 r4,132
+       anim 25  dano 8   stun 2   attr $36  $20 chip [alto 2]
+             HIT X-108 Y-86 r23,163  CLASH X-108 Y-86 r19,156  PUSH X-122 Y-80 r5,143
+       anim 26  dano 8   stun 2   attr $36  $21 chip [alto 2]
+             HIT X-115 Y-59 r32,156  CLASH X-112 Y-60 r24,151  PUSH X-122 Y-81 r5,143
+       anim 29  dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-104 Y-65 r24,160  CLASH X-111 Y-72 r14,153  PUSH X-121 Y-82 r4,136
+       anim 30  dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-109 Y-67 r32,182  CLASH X-110 Y-75 r19,170  PUSH X-120 Y-81 r7,145
+       anim 35  dano 8   stun 2   attr $3E  $25 [alto 2]
+             HIT X-110 Y-58 r25,176  CLASH X-110 Y-58 r21,176  PUSH X-122 Y-75 r5,136
+  $AB   $0C302A      30  0     82   10      9  16,8,8,8,8,8,8,8,8 $20 chip [alto 2],$21 chip [alto 2],$25 [alto 2]
+       anim 4   dano 16  stun 8   attr $3E  $20 chip [alto 2]
+             HIT X-119 Y-95 r18,133  CLASH X-116 Y-95 r20,133  PUSH X-94 Y-43 r9,132
+       anim 5   dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-107 Y-60 r26,178  CLASH X-108 Y-60 r17,171  PUSH X-100 Y-46 r12,129
+       anim 8   dano 8   stun 2   attr $3A  $21 chip [alto 2]
+             HIT X-118 Y-45 r24,153  CLASH X-112 Y-45 r19,143  PUSH X-121 Y-61 r5,134
+       anim 9   dano 8   stun 2   attr $3A  $21 chip [alto 2]
+             HIT X-117 Y-47 r31,179  CLASH X-110 Y-48 r22,178  PUSH X-121 Y-60 r4,132
+       anim 15  dano 8   stun 2   attr $36  $20 chip [alto 2]
+             HIT X-108 Y-86 r23,163  CLASH X-108 Y-86 r19,156  PUSH X-122 Y-80 r5,143
+       anim 16  dano 8   stun 2   attr $36  $21 chip [alto 2]
+             HIT X-115 Y-59 r32,156  CLASH X-112 Y-60 r24,151  PUSH X-122 Y-81 r5,143
+       anim 19  dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-104 Y-65 r24,160  CLASH X-111 Y-72 r14,153  PUSH X-121 Y-82 r4,136
+       anim 20  dano 8   stun 2   attr $3E  $20 chip [alto 2]
+             HIT X-109 Y-67 r32,182  CLASH X-110 Y-75 r19,170  PUSH X-120 Y-81 r7,145
+       anim 25  dano 8   stun 2   attr $3E  $25 [alto 2]
+             HIT X-110 Y-58 r25,176  CLASH X-110 Y-58 r21,176  PUSH X-122 Y-75 r5,136
+  $B8   $0C317A       6  0     44   20      1  16          $26 LANZADOR [alto 1]
+       anim 3   dano 16  stun 14  attr $2E  $26 LANZADOR [alto 1]
+             HIT X-117 Y-74 r17,158  CLASH X-120 Y-59 r18,134
+
+------------------------------------------------------------------------------
+ENTRADA  4   PERSONAJE 4   tablaA $0C4EEA  tablaB $0C5DAA
+  9 basicos   8 tecnicas   6 con golpe: $A0 $A1 $A2 $A6 $AA $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0C5772       3  0     12    4      1  4           $20 [alto 1]
+       anim 1   dano 4   stun 3   attr $0C  $20 [alto 1]
+             HIT X-120 Y-70 r15,149  CLASH X-115 Y-70 r18,149  PUSH X-123 Y-75 r5,135
+  $81   $0C578A       4  0     20    4      2  4,4         $20 [alto 1],$21 [alto 1]
+       anim 1   dano 4   stun 2   attr $0D  $21 [alto 1]
+             HIT X-115 Y-67 r10,141  CLASH X-112 Y-67 r13,141  PUSH X-123 Y-75 r5,136
+       anim 2   dano 4   stun 2   attr $0D  $20 [alto 1]
+             HIT X-120 Y-67 r14,155  CLASH X-118 Y-67 r17,156  PUSH X-121 Y-72 r6,137
+  $82   $0C57AA       3  0     26    4      1  16          $25 [alto 1]
+       anim 1   dano 16  stun 12  attr $0E  $25 [alto 1]
+             HIT X-120 Y-59 r10,149  CLASH X-114 Y-58 r13,150  PUSH X-122 Y-72 r5,140
+  $83   $0C57C2       5  0     38    6      2  10,8        $20 [alto 1],$21 [alto 1]
+       anim 1   dano 10  stun 8   attr $0E  $20 [alto 1]
+             HIT X-120 Y-68 r14,156  CLASH X-117 Y-68 r14,156  PUSH X-122 Y-74 r24,135
+       anim 2   dano 8   stun 6   attr $0E  $21 [alto 1]
+             HIT X-115 Y-45 r6,143  CLASH X-112 Y-45 r10,144  PUSH X-122 Y-63 r5,136
+  $84   $0C57EA       3  0     12    4      1  4           $21 [alto 1]
+       anim 1   dano 4   stun 3   attr $08  $21 [alto 1]
+             HIT X-121 Y-51 r13,149  CLASH X-117 Y-51 r14,149  PUSH X-122 Y-53 r5,129
+  $86   $0C580A       4  0     38    6      1  16          $23 [alto 1]
+       anim 1   dano 16  stun 14  attr $0A  $23 [alto 1]
+             HIT X-121 Y-23 r23,144  CLASH X-120 Y-24 r23,144  PUSH X-122 Y-51 r6,115
+  $90   $0C5872       4  1     14    2      1  4           $21 [alto 1]
+       anim 1   dano 4   stun 3   attr $04  $21 [alto 1]
+             HIT X-113 Y-45 r13,147  CLASH X-109 Y-45 r15,147  PUSH X-123 Y-54 r6,127
+  $94   $0C58AA       6  1     26    6      1  14          $20 [alto 1]
+       anim 1   dano 14  stun 10  attr $06  $20 [alto 1]
+             HIT X-121 Y-78 r10,152  CLASH X-114 Y-78 r13,152  PUSH X-121 Y-74 r11,138
+  $95   $0C58DA       5  1     18    6      2  14,8        $21 [alto 1]
+       anim 2   dano 14  stun 10  attr $06  $21 [alto 1]
+             HIT X-118 Y-26 r8,153  CLASH X-114 Y-26 r11,153  PUSH X-122 Y-42 r5,146
+       anim 3   dano 8   stun 4   attr $0E  $21 [alto 1]
+             HIT X-121 Y-20 r13,131  CLASH X-120 Y-20 r13,132  PUSH X-122 Y-34 r5,144
+  $A0   $0C5952       8  0     32    4      4  3,3,3,5     $20 [alto 1],$21 [alto 1]
+       anim 1   dano 3   stun 2   attr $1D  $21 [alto 1]
+             HIT X-123 Y-65 r16,156  CLASH X-118 Y-65 r17,156  PUSH X-122 Y-71 r6,136
+       anim 3   dano 3   stun 2   attr $1D  $20 [alto 1]
+             HIT X-123 Y-77 r9,165
+       anim 5   dano 3   stun 2   attr $1D  $21 [alto 1]
+             HIT X-123 Y-49 r10,162
+       anim 7   dano 5   stun 3   attr $1E  $20 [alto 1]
+             HIT X-119 Y-68 r25,163
+  $A1   $0C5992       8  0     16    2      4  3,3,3,5     $20 [alto 1],$21 [alto 1]
+       anim 1   dano 3   stun 2   attr $1D  $21 [alto 1]
+             HIT X-123 Y-65 r16,156  CLASH X-118 Y-65 r17,156  PUSH X-122 Y-71 r6,136
+       anim 3   dano 3   stun 2   attr $1D  $20 [alto 1]
+             HIT X-123 Y-77 r9,165
+       anim 5   dano 3   stun 2   attr $1D  $21 [alto 1]
+             HIT X-123 Y-49 r10,162
+       anim 7   dano 5   stun 3   attr $1E  $20 [alto 1]
+             HIT X-119 Y-68 r25,163
+  $A2   $0C59D2       8  0     32   12      2  16,4        $20 [alto 1],$25 [alto 1]
+       anim 3   dano 16  stun 12  attr $0E  $25 [alto 1]
+             HIT X-120 Y-59 r10,149  CLASH X-114 Y-58 r13,150  PUSH X-122 Y-72 r5,140
+       anim 6   dano 4   stun 2   attr $0D  $20 [alto 1]
+             HIT X-120 Y-67 r14,155  CLASH X-118 Y-67 r17,156  PUSH X-121 Y-72 r6,137
+  $A6   $0C5A6A      26  0     82    4     12  3,3,3,3,3,3,3,3,3,3,3,3 $20 chip [alto 1],$21 chip [alto 1],$25 [alto 1]
+       anim 2   dano 3   stun 2   attr $3D  $21 chip [alto 1]
+             HIT X-107 Y-51 r13,136  CLASH X-108 Y-51 r13,134  PUSH X-101 Y-44 r10,111
+       anim 4   dano 3   stun 2   attr $3D  $21 chip [alto 1]
+             HIT X-107 Y-51 r13,136  CLASH X-108 Y-51 r13,134  PUSH X-101 Y-44 r10,111
+       anim 6   dano 3   stun 2   attr $3D  $21 chip [alto 1]
+             HIT X-99 Y-49 r14,140  CLASH X-103 Y-49 r17,137  PUSH X-101 Y-44 r10,111
+       anim 8   dano 3   stun 2   attr $3D  $21 chip [alto 1]
+             HIT X-99 Y-49 r14,140  CLASH X-103 Y-49 r17,137  PUSH X-101 Y-44 r10,111
+       anim 10  dano 3   stun 2   attr $3D  $20 chip [alto 1]
+             HIT X-109 Y-57 r16,128  CLASH X-109 Y-57 r16,129  PUSH X-122 Y-73 r6,118
+       anim 12  dano 3   stun 2   attr $3D  $20 chip [alto 1]
+             HIT X-109 Y-57 r16,128  CLASH X-109 Y-57 r16,129  PUSH X-122 Y-73 r6,118
+       anim 14  dano 3   stun 2   attr $3D  $20 chip [alto 1]
+             HIT X-114 Y-74 r14,129
+       anim 16  dano 3   stun 2   attr $3D  $20 chip [alto 1]
+             HIT X-114 Y-74 r14,129
+       anim 18  dano 3   stun 2   attr $3E  $25 [alto 1]
+             HIT X-118 Y-70 r14,127
+       anim 20  dano 3   stun 2   attr $3E  $25 [alto 1]
+             HIT X-118 Y-70 r14,127
+       anim 22  dano 3   stun 2   attr $3E  $25 [alto 1]
+             HIT X-119 Y-80 r15,131
+       anim 24  dano 3   stun 2   attr $3E  $25 [alto 1]
+             HIT X-119 Y-80 r15,131
+  $AA   $0C5B52      38  1    100    2      8  4,4,6,4,4,4,6,6 $20 chip [alto 1],$21 chip [alto 1],$2F [alto 1]
+       anim 2   dano 4   stun 2   attr $3C  $20 chip [alto 1]
+             HIT X-116 Y-60 r12,153  CLASH X-112 Y-60 r15,153  PUSH X-123 Y-76 r5,135
+       anim 7   dano 4   stun 2   attr $3C  $21 chip [alto 1]
+             HIT X-119 Y-50 r14,150  CLASH X-116 Y-50 r17,150  PUSH X-122 Y-54 r6,128
+       anim 12  dano 6   stun 4   attr $3E  $21 chip [alto 1]
+             HIT X-114 Y-57 r13,151  CLASH X-111 Y-57 r15,151  PUSH X-122 Y-71 r5,140
+       anim 14  dano 4   stun 2   attr $3D  $20 chip [alto 1]
+             HIT X-113 Y-65 r14,144  CLASH X-115 Y-65 r12,144  PUSH X-122 Y-74 r5,135
+       anim 15  dano 4   stun 2   attr $3D  $20 chip [alto 1]
+             HIT X-120 Y-64 r16,151  CLASH X-117 Y-64 r19,151  PUSH X-122 Y-73 r5,137
+       anim 21  dano 4   stun 2   attr $3C  $20 chip [alto 1]
+             HIT X-118 Y-40 r18,151  CLASH X-114 Y-40 r18,151  PUSH X-123 Y-54 r5,126
+       anim 24  dano 6   stun 4   attr $3E  $20 chip [alto 1]
+             HIT X-116 Y-20 r23,142  CLASH X-112 Y-20 r26,142  PUSH X-122 Y-51 r6,117
+       anim 29  dano 6   stun 4   attr $3E  $2F [alto 1]
+             HIT X-115 Y-60 r15,156  CLASH X-113 Y-60 r18,156  PUSH X-122 Y-71 r5,139
+  $B8   $0C5D0A      13  0     46   24      8  16,16,16,16,16,16,16,16 $2F [alto 1]
+       anim 5   dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 6   dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 7   dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 8   dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 9   dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 10  dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 11  dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+       anim 12  dano 16  stun 10  attr $2E  $2F [alto 1]
+             HIT X-116 Y-65 r12,143  CLASH X-67 Y-142 r4,2
+
+------------------------------------------------------------------------------
+ENTRADA  5   HIEI   tablaA $0C7C9A  tablaB $0C8BEA
+  9 basicos   16 tecnicas   8 con golpe: $A2 $A4 $A5 $AC $AD $AE $AF $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0C84E2       3  0     12    4      1  3           $20 [alto 1]
+       anim 1   dano 3   stun 2   attr $0C  $20 [alto 1]
+             HIT X-122 Y-48 r13,152  CLASH X-116 Y-48 r13,152  PUSH X-122 Y-56 r6,136
+  $81   $0C84FA       3  0     12    4      1  6           $20 [alto 1]
+       anim 1   dano 6   stun 5   attr $0D  $20 [alto 1]
+             HIT X-121 Y-50 r12,147  CLASH X-118 Y-50 r13,147  PUSH X-122 Y-57 r5,133
+  $82   $0C8512       4  0     40    6      1  12          $20 [alto 1]
+       anim 1   dano 12  stun 10  attr $0E  $20 [alto 1]
+             HIT X-122 Y-46 r13,158  CLASH X-119 Y-46 r14,158  PUSH X-122 Y-46 r13,148
+  $83   $0C8532       6  0     50   14      2  8,8         $20 [alto 2],$25 [alto 2]
+       anim 3   dano 8   stun 8   attr $2E  $20 [alto 2]
+             HIT X-114 Y-54 r12,157
+       anim 4   dano 8   stun 8   attr $2E  $25 [alto 2]
+             HIT X-119 Y-23 r15,160
+  $84   $0C8562       3  0     12    4      1  3           $21 [alto 1]
+       anim 1   dano 3   stun 2   attr $08  $21 [alto 1]
+             HIT X-121 Y-45 r12,144  CLASH X-118 Y-45 r12,144  PUSH X-122 Y-51 r5,131
+  $86   $0C8582       6  0     51    6      3  12,10,10    $23 [alto 2]
+       anim 1   dano 12  stun 10  attr $2A  $23 [alto 2]
+             HIT X-120 Y-32 r23,150  CLASH X-116 Y-33 r17,153  PUSH X-122 Y-47 r5,132
+       anim 2   dano 10  stun 8   attr $2A  $23 [alto 2]
+             HIT X-122 Y-48 r11,168  CLASH X-117 Y-49 r20,158  PUSH X-122 Y-48 r5,131
+       anim 3   dano 10  stun 8   attr $2A  $23 [alto 2]
+             HIT X-122 Y-50 r7,105  CLASH X-119 Y-50 r9,105  PUSH X-122 Y-50 r5,134
+  $90   $0C85FA       4  1     12    4      1  3           $20 [alto 1]
+       anim 1   dano 3   stun 2   attr $04  $20 [alto 1]
+             HIT X-118 Y-42 r10,148  CLASH X-115 Y-43 r13,147  PUSH X-122 Y-47 r5,131
+  $94   $0C8632       5  1     16    6      3  12,12,8     $20 [alto 2]
+       anim 1   dano 12  stun 10  attr $06  $20 [alto 2]
+             HIT X-122 Y-22 r16,151  CLASH X-118 Y-22 r14,153  PUSH X-122 Y-45 r5,135
+       anim 2   dano 12  stun 10  attr $06  $20 [alto 2]
+             HIT X-121 Y-67 r12,145
+       anim 3   dano 8   stun 6   attr $06  $20 [alto 2]
+             HIT X-116 Y-45 r9,98  CLASH X-113 Y-45 r12,98  PUSH X-123 Y-46 r5,136
+  $95   $0C865A       6  1     26    6      2  8,4         $21 [alto 1]
+       anim 1   dano 8   stun 8   attr $06  $21 [alto 1]
+             HIT X-118 Y-28 r9,150  CLASH X-115 Y-28 r12,150  PUSH X-123 Y-43 r4,135
+       anim 2   dano 4   stun 4   attr $0E  $21 [alto 1]
+             HIT X-121 Y-19 r9,134  CLASH X-118 Y-19 r11,134  PUSH X-122 Y-42 r5,144
+  $A2   $0C878A       7  0     64    6      3  8,10,8      reac $0A ? (SIN NOMBRE) [alto 2]
+       anim 1   dano 8   stun 8   attr $3E  reac $0A ? (SIN NOMBRE) [alto 2]
+             HIT X-120 Y-28 r17,153
+       anim 2   dano 10  stun 8   attr $3E  reac $0A ? (SIN NOMBRE) [alto 2]
+             HIT X-117 Y-71 r15,160
+       anim 3   dano 8   stun 6   attr $3E  reac $0A ? (SIN NOMBRE) [alto 2]
+             HIT X-121 Y-77 r9,95
+  $A4   $0C87CA       6  0     42    8      2  6,6         $20 [alto 1],$21 [alto 1]
+       anim 1   dano 6   stun 6   attr $1E  $20 [alto 1]
+             HIT X-120 Y-65 r8,150  CLASH X-117 Y-65 r11,150  PUSH X-122 Y-53 r5,130
+       anim 3   dano 6   stun 6   attr $1E  $21 [alto 1]
+             HIT X-119 Y-42 r9,148  CLASH X-116 Y-42 r12,148  PUSH X-122 Y-57 r5,131
+  $A5   $0C87FA      10  0     68   16      4  6,6,6,6     $20 [alto 1],$21 [alto 1]
+       anim 1   dano 6   stun 6   attr $1E  $20 [alto 1]
+             HIT X-120 Y-65 r8,150  CLASH X-117 Y-65 r11,150  PUSH X-122 Y-53 r5,130
+       anim 3   dano 6   stun 6   attr $1E  $21 [alto 1]
+             HIT X-119 Y-42 r9,148  CLASH X-116 Y-42 r12,148  PUSH X-122 Y-57 r5,131
+       anim 5   dano 6   stun 6   attr $1E  $20 [alto 1]
+             HIT X-120 Y-65 r8,150  CLASH X-117 Y-65 r11,150  PUSH X-122 Y-53 r5,130
+       anim 7   dano 6   stun 6   attr $1E  $21 [alto 1]
+             HIT X-119 Y-42 r9,148  CLASH X-116 Y-42 r12,148  PUSH X-122 Y-57 r5,131
+  $AC   $0C8A32       9  0     18    2      4  4,4,4,4     $25 [alto 1]
+       anim 1   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-108 Y-55 r10,150  CLASH X-106 Y-55 r12,150  PUSH X-122 Y-54 r5,128
+       anim 3   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-114 Y-41 r11,149  CLASH X-110 Y-41 r14,149  PUSH X-122 Y-57 r5,130
+       anim 5   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-108 Y-55 r10,150  CLASH X-106 Y-55 r12,150  PUSH X-122 Y-54 r5,128
+       anim 7   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-114 Y-41 r11,149  CLASH X-110 Y-41 r14,149  PUSH X-122 Y-57 r5,130
+  $AD   $0C8A7A      17  0     40    4      8  4,4,4,4,4,4,4,4 $25 [alto 1]
+       anim 1   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-108 Y-55 r10,150  CLASH X-106 Y-55 r12,150  PUSH X-122 Y-54 r5,128
+       anim 3   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-114 Y-41 r11,149  CLASH X-110 Y-41 r14,149  PUSH X-122 Y-57 r5,130
+       anim 5   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-108 Y-55 r10,150  CLASH X-106 Y-55 r12,150  PUSH X-122 Y-54 r5,128
+       anim 7   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-114 Y-41 r11,149  CLASH X-110 Y-41 r14,149  PUSH X-122 Y-57 r5,130
+       anim 9   dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-108 Y-55 r10,150  CLASH X-106 Y-55 r12,150  PUSH X-122 Y-54 r5,128
+       anim 11  dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-114 Y-41 r11,149  CLASH X-110 Y-41 r14,149  PUSH X-122 Y-57 r5,130
+       anim 13  dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-108 Y-55 r10,150  CLASH X-106 Y-55 r12,150  PUSH X-122 Y-54 r5,128
+       anim 15  dano 4   stun 2   attr $3D  $25 [alto 1]
+             HIT X-114 Y-41 r11,149  CLASH X-110 Y-41 r14,149  PUSH X-122 Y-57 r5,130
+  $AE   $0C8B02       4  1      6    4      1  1           $21 chip
+       anim 2   dano 1   stun 12  attr $15  $21 chip
+             HIT X-124 Y-9 r11,140  CLASH X-121 Y-9 r14,140  PUSH X-116 Y-45 r8,132  caja4 X-112 Y-36 r7,131
+  $AF   $0C8B22       5  1     14    2      1  16          $25 [alto 2]
+       anim 1   dano 16  stun 10  attr $16  $25 [alto 2]
+             HIT X-106 Y-6 r20,149  CLASH X-107 Y-11 r23,149  PUSH X-122 Y-45 r5,135
+  $B8   $0C8B8A       5  0     42   16      1  14          $30
+       anim 1   dano 14  stun 12  attr $2E  $30
+             HIT X-115 Y-43 r13,152  CLASH X-122 Y-54 r5,143
+
+------------------------------------------------------------------------------
+ENTRADA  6   PERSONAJE 6   tablaA $0CA6DA  tablaB $0CB38A
+  9 basicos   9 tecnicas   8 con golpe: $A0 $A1 $A2 $A5 $A7 $A8 $AC $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0CAEDA       3  0     12    4      1  4           $20 [alto 1]
+       anim 1   dano 4   stun 3   attr $0C  $20 [alto 1]
+             HIT X-114 Y-54 r9,137
+  $81   $0CAEF2       5  0     16    4      2  4,4         $20 [alto 1]
+       anim 1   dano 4   stun 3   attr $0C  $20 [alto 1]
+             HIT X-114 Y-54 r9,137
+       anim 2   dano 4   stun 3   attr $0D  $20 [alto 1]
+             HIT X-119 Y-57 r13,131
+  $82   $0CAF1A       6  0     40    6      3  8,8,8       $20 [alto 1],$21 [alto 1]
+       anim 2   dano 8   stun 8   attr $0E  $20 [alto 1]
+             HIT X-115 Y-78 r11,147
+       anim 3   dano 8   stun 8   attr $06  $20 [alto 1]
+             HIT X-119 Y-63 r17,150  CLASH X-115 Y-62 r19,150  PUSH X-123 Y-75 r5,100
+       anim 4   dano 8   stun 8   attr $06  $21 [alto 1]
+             HIT X-121 Y-24 r14,154
+  $83   $0CAF4A       6  0     48   10      1  15          $20 [alto 1]
+       anim 2   dano 15  stun 12  attr $0E  $20 [alto 1]
+             HIT X-122 Y-71 r13,174
+  $84   $0CAF7A       5  0     15    6      1  4           $21 [alto 1]
+       anim 2   dano 4   stun 3   attr $08  $21 [alto 1]
+             HIT X-123 Y-6 r27,140  CLASH X-120 Y-9 r30,140  PUSH X-122 Y-41 r5,114
+  $86   $0CAFAA       5  0     46   12      1  15          $23 [alto 1]
+       anim 2   dano 15  stun 14  attr $0A  $23 [alto 1]
+             HIT X-123 Y-28 r32,155  CLASH X-117 Y-20 r32,154  PUSH X-122 Y-37 r5,91
+  $90   $0CB01A       4  1     12    4      1  5           $20 [alto 1]
+       anim 1   dano 5   stun 3   attr $04  $20 [alto 1]
+             HIT X-119 Y-57 r18,147  CLASH X-114 Y-59 r19,147  PUSH X-122 Y-66 r6,129
+  $94   $0CB052       5  1     26    6      1  12          $20 [alto 1]
+       anim 1   dano 12  stun 10  attr $06  $20 [alto 1]
+             HIT X-120 Y-57 r13,160
+  $95   $0CB07A       5  1     22    8      1  12          $21 [alto 1]
+       anim 2   dano 12  stun 10  attr $06  $21 [alto 1]
+             HIT X-123 Y-36 r17,118
+  $A0   $0CB0F2       6  0     52    8      1  4           $26 LANZADOR [alto 1]
+       anim 1   dano 4   stun 8   attr $3E  $26 LANZADOR [alto 1]
+             HIT X-117 Y-32 r9,132  CLASH X-112 Y-29 r12,132  PUSH X-122 Y-75 r5,135
+  $A1   $0CB122       6  0     54   12      1  4           $26 LANZADOR [alto 1]
+       anim 2   dano 4   stun 8   attr $3E  $26 LANZADOR [alto 1]
+             HIT X-118 Y-58 r15,139  CLASH X-112 Y-60 r21,146  PUSH X-122 Y-65 r5,97
+  $A2   $0CB152       6  0     46   10      2  4,4         $25 [alto 1]
+       anim 2   dano 4   stun 8   attr $3E  $25 [alto 1]
+             HIT X-115 Y-47 r9,137  CLASH X-109 Y-47 r13,138  PUSH X-123 Y-75 r5,126
+       anim 3   dano 4   stun 8   attr $3E  $25 [alto 1]
+             HIT X-115 Y-71 r8,141  CLASH X-104 Y-73 r16,144  PUSH X-122 Y-72 r5,117
+  $A5   $0CB1AA       5  0     56    4      1  14          $26 LANZADOR [alto 1]
+       anim 1   dano 14  stun 12  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-117 Y-59 r34,147  CLASH X-93 Y-39 r12,102
+  $A7   $0CB1E2       6  0     38    2      1  14          $2F [alto 1]
+       anim 1   dano 14  stun 12  attr $1A  $2F [alto 1]
+             HIT X-112 Y-27 r19,160
+  $A8   $0CB212      15  0     92    8      6  3,3,3,3,3,3 $21 [alto 2]
+       anim 3   dano 3   stun 3   attr $3D  $21 [alto 2]
+             HIT X-122 Y-55 r50,205  CLASH X-116 Y-55 r50,205  PUSH X-122 Y-70 r5,133
+       anim 5   dano 3   stun 3   attr $3D  $21 [alto 2]
+             HIT X-122 Y-55 r50,205  CLASH X-116 Y-55 r50,205  PUSH X-122 Y-70 r5,133
+       anim 7   dano 3   stun 3   attr $3D  $21 [alto 2]
+             HIT X-122 Y-55 r50,205  CLASH X-116 Y-55 r50,205  PUSH X-122 Y-70 r5,133
+       anim 9   dano 3   stun 3   attr $3D  $21 [alto 2]
+             HIT X-122 Y-55 r50,205  CLASH X-116 Y-55 r50,205  PUSH X-122 Y-70 r5,133
+       anim 11  dano 3   stun 3   attr $3D  $21 [alto 2]
+             HIT X-122 Y-55 r50,205  CLASH X-116 Y-55 r50,205  PUSH X-122 Y-70 r5,133
+       anim 13  dano 3   stun 3   attr $3D  $21 [alto 2]
+             HIT X-122 Y-55 r50,205  CLASH X-116 Y-55 r50,205  PUSH X-122 Y-70 r5,133
+  $AC   $0CB2A2       6  0     28   10      1  4           $27 [alto 1]
+       anim 2   dano 4   stun 4   attr $36  $27 [alto 1]
+             HIT X-123 Y-55 r4,140  CLASH X-113 Y-55 r18,144  PUSH X-122 Y-74 r5,113
+  $B8   $0CB32A       5  0     44   16      2  16,16       $30 [alto 1]
+       anim 1   dano 16  stun 12  attr $2E  $30 [alto 1]
+             HIT X-111 Y-44 r15,141  CLASH X-82 Y-136 r16,12
+       anim 2   dano 16  stun 12  attr $2E  $30 [alto 1]
+             HIT X-112 Y-76 r13,145  CLASH X-102 Y-135 r14,12
+
+------------------------------------------------------------------------------
+ENTRADA  7   PERSONAJE 7   tablaA $0CCC7A  tablaB $0CDEFA
+  9 basicos   11 tecnicas   7 con golpe: $A0 $A2 $A4 $A5 $AA $AB $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0CD832       3  0     14    4      1  3           $20 [alto 1]
+       anim 1   dano 3   stun 3   attr $0C  $20 [alto 1]
+             HIT X-118 Y-54 r14,109  CLASH X-113 Y-54 r16,109  PUSH X-122 Y-60 r6,126
+  $81   $0CD84A       3  0     12    4      1  6           $21 [alto 1]
+       anim 1   dano 6   stun 5   attr $0D  $21 [alto 1]
+             HIT X-121 Y-46 r20,111  CLASH X-116 Y-46 r24,111  PUSH X-121 Y-63 r6,132
+  $82   $0CD862       4  0     34    6      1  14          $20 [alto 1]
+       anim 1   dano 14  stun 12  attr $0E  $20 [alto 1]
+             HIT X-119 Y-48 r13,109  CLASH X-117 Y-48 r15,109  PUSH X-121 Y-54 r6,125
+  $83   $0CD882       4  0     38    6      1  14          $20 [alto 1]
+       anim 1   dano 14  stun 12  attr $0E  $20 [alto 1]
+             HIT X-119 Y-48 r13,109  CLASH X-117 Y-48 r15,109  PUSH X-121 Y-54 r6,125
+  $84   $0CD8A2       3  0     14    4      1  3           $21 [alto 1]
+       anim 1   dano 3   stun 3   attr $08  $21 [alto 1]
+             HIT X-119 Y-37 r13,108  CLASH X-116 Y-37 r14,108  PUSH X-121 Y-44 r6,125
+  $86   $0CD8C2       4  0     40   10      1  14          $23 [alto 1]
+       anim 1   dano 14  stun 12  attr $0A  $23 [alto 1]
+             HIT X-119 Y-15 r20,108  CLASH X-116 Y-15 r22,108  PUSH X-121 Y-34 r6,139
+  $90   $0CD92A       4  1     14    4      1  4           $20 [alto 1]
+       anim 1   dano 4   stun 3   attr $04  $20 [alto 1]
+             HIT X-110 Y-62 r8,114  CLASH X-109 Y-69 r12,112  PUSH X-122 Y-67 r6,121
+  $94   $0CD962       4  1     30    6      1  15          $20 [alto 1]
+       anim 1   dano 15  stun 15  attr $06  $20 [alto 1]
+             HIT X-116 Y-84 r7,109  CLASH X-113 Y-84 r10,109  PUSH X-121 Y-69 r6,120
+  $95   $0CD982       4  1     30    6      1  15          $21 [alto 1]
+       anim 1   dano 15  stun 14  attr $06  $21 [alto 1]
+             HIT X-120 Y-25 r23,111
+  $A0   $0CD9F2       8  0     44   14      1  20          $26 LANZADOR [alto 1]
+       anim 5   dano 20  stun 16  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-112 Y-32 r13,90  CLASH X-109 Y-32 r15,90  PUSH X-121 Y-41 r7,113
+  $A2   $0CDA3A      15  0     70   32      2  12,20       $21 [alto 1],$26 LANZADOR [alto 1]
+       anim 9   dano 12  stun 12  attr $1E  $21 [alto 1]
+             HIT X-111 Y-24 r12,93  CLASH X-109 Y-24 r15,93  PUSH X-121 Y-33 r8,118
+       anim 12  dano 20  stun 16  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-112 Y-32 r13,90  CLASH X-109 Y-32 r15,90  PUSH X-121 Y-41 r7,113
+  $A4   $0CDABA      23  0     77   11      3  8,8,8       $30 [alto 1]
+       anim 10  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-67 r36,131
+       anim 11  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-114 Y-80 r33,126
+       anim 12  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-79 r30,125
+  $A5   $0CDB72      29  0    112   22      9  8,8,8,8,8,8,8,8,8 $30 [alto 1]
+       anim 10  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-67 r36,131
+       anim 11  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-114 Y-80 r33,126
+       anim 12  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-79 r30,125
+       anim 13  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-67 r36,131
+       anim 14  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-114 Y-80 r33,126
+       anim 15  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-79 r30,125
+       anim 16  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-67 r36,131
+       anim 17  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-114 Y-80 r33,126
+       anim 18  dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-79 r30,125
+  $AA   $0CDD52       3  0      6    0      3  8,10,10     $30 [alto 1]
+       anim 0   dano 8   stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-67 r36,131
+       anim 1   dano 10  stun 6   attr $3E  $30 [alto 1]
+             HIT X-113 Y-81 r35,127
+       anim 2   dano 10  stun 6   attr $3E  $30 [alto 1]
+             HIT X-112 Y-77 r38,127
+  $AB   $0CDD6A      17  0     70   32      3  12,20,0     $20,$21 [alto 1],$26 LANZADOR [alto 1]
+       anim 9   dano 12  stun 12  attr $1E  $21 [alto 1]
+             HIT X-111 Y-24 r12,93  CLASH X-109 Y-24 r15,93  PUSH X-121 Y-33 r8,118
+       anim 12  dano 20  stun 16  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-112 Y-32 r13,90  CLASH X-109 Y-32 r15,90  PUSH X-121 Y-41 r7,113
+       anim 15  dano 0   stun 0   attr $04  $20
+             HIT X-113 Y-23 r13,94  CLASH X-108 Y-23 r16,94  PUSH X-122 Y-32 r6,118
+  $B8   $0CDEA2       5  0     62   16      1  16          $2F
+       anim 1   dano 16  stun 14  attr $2E  $2F
+             HIT X-115 Y-41 r10,115  CLASH X-128 Y-160 r0,0
+
+------------------------------------------------------------------------------
+ENTRADA  8   ITSUKI   tablaA $0CF99A  tablaB $0D069A
+  10 basicos   12 tecnicas   5 con golpe: $A0 $A1 $AE $AF $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0D01CA       5  0     14    4      1  2           $20 [alto 1]
+       anim 2   dano 2   stun 2   attr $0C  $20 [alto 1]
+             HIT X-117 Y-52 r15,151  CLASH X-115 Y-53 r14,152  PUSH X-122 Y-61 r6,134
+  $81   $0D01F2       4  0     19    5      1  4           $20 [alto 1]
+       anim 2   dano 4   stun 3   attr $0D  $20 [alto 1]
+             HIT X-119 Y-52 r15,151  CLASH X-111 Y-52 r16,152  PUSH X-121 Y-61 r6,134
+  $82   $0D0212       4  0     34    8      1  12          $21 [alto 1]
+       anim 2   dano 12  stun 10  attr $0E  $21 [alto 1]
+             HIT X-120 Y-40 r24,151  CLASH X-116 Y-40 r26,152  PUSH X-121 Y-62 r6,112
+  $83   $0D0232       5  0     36    8      1  12          $26 LANZADOR [alto 1]
+       anim 2   dano 12  stun 8   attr $0E  $26 LANZADOR [alto 1]
+             HIT X-117 Y-41 r15,152  CLASH X-114 Y-41 r16,153  PUSH X-122 Y-54 r6,140
+  $84   $0D025A       3  0     12    4      1  2           $21 [alto 1]
+       anim 1   dano 2   stun 2   attr $08  $21 [alto 1]
+             HIT X-120 Y-29 r9,144
+  $86   $0D027A       4  0     30    6      1  8           $21 [alto 1]
+       anim 1   dano 8   stun 6   attr $09  $21 [alto 1]
+             HIT X-123 Y-6 r22,148  CLASH X-118 Y-10 r25,148  PUSH X-122 Y-48 r6,117
+  $87   $0D029A       4  0     38   10      1  12          $23 [alto 1]
+       anim 1   dano 12  stun 10  attr $0A  $23 [alto 1]
+             HIT X-121 Y-7 r24,149  CLASH X-121 Y-47 r6,116
+  $90   $0D02FA       5  1     16    4      1  2           $20 [alto 1]
+       anim 2   dano 2   stun 2   attr $04  $20 [alto 1]
+             HIT X-119 Y-51 r13,157  CLASH X-115 Y-51 r15,157  PUSH X-122 Y-58 r7,137
+  $94   $0D033A       9  1     26    8      1  12          $20 [alto 1]
+       anim 4   dano 12  stun 10  attr $06  $20 [alto 1]
+             HIT X-118 Y-10 r12,161
+  $95   $0D0382       5  1     20    6      1  10          $21 [alto 1]
+       anim 2   dano 10  stun 8   attr $06  $21 [alto 1]
+             HIT X-117 Y-11 r14,158
+  $A0   $0D03FA       4  2     12    0      1  8           $20 chip [alto 1]
+       anim 1   dano 8   stun 8   attr $16  $20 chip [alto 1]
+             HIT X-122 Y-13 r12,161
+  $A1   $0D041A       4  0     34    4      1  10          $26 LANZADOR [alto 1]
+       anim 2   dano 10  stun 10  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-118 Y-42 r27,156  CLASH X-112 Y-42 r27,156  PUSH X-122 Y-62 r6,112
+  $AE   $0D05B2       3  1      6    6      1  12          $20 [alto 1]
+       anim 2   dano 12  stun 10  attr $16  $20 [alto 1]
+             HIT X-120 Y-9 r10,162
+  $AF   $0D05CA       3  1     18   18      1  12          $20 [alto 1]
+       anim 2   dano 12  stun 10  attr $16  $20 [alto 1]
+             HIT X-120 Y-9 r10,162
+  $B8   $0D0652       3  0     46   16      1  14          $30
+       anim 1   dano 14  stun 12  attr $2E  $30
+             HIT X-111 Y-39 r15,133  CLASH X-128 Y-160 r0,0
+
+------------------------------------------------------------------------------
+ENTRADA  9   PERSONAJE 9   tablaA $0D1E5A  tablaB $0D2C6A
+  9 basicos   12 tecnicas   7 con golpe: $A0 $A1 $A2 $A3 $A4 $AD $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0D26BA       4  0     12    4      1  3           $20 [alto 1]
+       anim 2   dano 3   stun 2   attr $0C  $20 [alto 1]
+             HIT X-120 Y-46 r12,147  CLASH X-118 Y-47 r14,147  PUSH X-122 Y-49 r5,130
+  $81   $0D26DA       3  0     16    4      1  8           $20 [alto 1]
+       anim 1   dano 8   stun 8   attr $0D  $20 [alto 1]
+             HIT X-122 Y-43 r17,145  CLASH X-120 Y-43 r19,145  PUSH X-122 Y-50 r5,129
+  $82   $0D26F2       6  0     40    6      1  15          $20 [alto 2]
+       anim 3   dano 15  stun 12  attr $0E  $20 [alto 2]
+             HIT X-117 Y-54 r17,153
+  $83   $0D2722       6  0     42    8      1  15          $21 [alto 2]
+       anim 3   dano 15  stun 12  attr $0E  $21 [alto 2]
+             HIT X-119 Y-44 r20,152  CLASH X-117 Y-44 r23,152  PUSH X-122 Y-51 r6,113
+  $84   $0D2752       3  0     12    4      1  3           $21 [alto 1]
+       anim 1   dano 3   stun 2   attr $08  $21 [alto 1]
+             HIT X-124 Y-27 r15,143  CLASH X-121 Y-27 r15,144  PUSH X-122 Y-34 r5,130
+  $86   $0D2772       5  0     40    6      1  15          $23 [alto 2]
+       anim 2   dano 15  stun 14  attr $0A  $23 [alto 2]
+             HIT X-120 Y-27 r18,158  CLASH X-116 Y-27 r22,157  PUSH X-121 Y-34 r12,116
+  $90   $0D27E2       4  1     12    4      1  3           $20 [alto 1]
+       anim 1   dano 3   stun 2   attr $04  $20 [alto 1]
+             HIT X-121 Y-26 r13,143  CLASH X-117 Y-26 r14,143  PUSH X-122 Y-34 r7,129
+  $94   $0D281A       6  1     28    6      1  14          $21 [alto 2]
+       anim 2   dano 14  stun 12  attr $06  $21 [alto 2]
+             HIT X-119 Y-27 r18,157  CLASH X-116 Y-27 r21,157  PUSH X-122 Y-34 r11,117
+  $95   $0D284A       5  0    129    6      1  12          $21 [alto 2]
+       anim 2   dano 12  stun 10  attr $06  $21 [alto 2]
+             HIT X-111 Y-24 r11,148
+  $A0   $0D28C2       7  0     56   12      1  12          $25 [alto 2]
+       anim 3   dano 12  stun 12  attr $1E  $25 [alto 2]
+             HIT X-99 Y-41 r22,95
+  $A1   $0D28FA       5  0     64   12      1  4           $21 chip [alto 2]
+       anim 2   dano 4   stun 64  attr $1C  $21 chip [alto 2]
+             HIT X-127 Y-52 r23,145  CLASH X-123 Y-59 r5,108
+  $A2   $0D2922      11  0     48   20      1  16          $25 [alto 2]
+       anim 5   dano 16  stun 14  attr $1A  $25 [alto 2]
+             HIT X-116 Y-13 r12,148  CLASH X-114 Y-15 r15,148  PUSH X-122 Y-25 r5,93
+  $A3   $0D297A      11  0     56   24      1  16          $25 [alto 2]
+       anim 5   dano 16  stun 14  attr $1A  $25 [alto 2]
+             HIT X-117 Y-13 r12,188  CLASH X-115 Y-15 r15,188  PUSH X-122 Y-26 r5,94
+  $A4   $0D29D2      16  0     79   22      1  18          $25 [alto 2]
+       anim 7   dano 18  stun 12  attr $1E  $25 [alto 2]
+             HIT X-121 Y-22 r30,142  CLASH X-116 Y-22 r30,142  PUSH X-118 Y-21 r12,103  caja4 X-117 Y-22 r10,104
+  $AD   $0D2B4A       8  0     16    0      8  8,8,8,8,8,8,8,8 $20 [alto 2]
+       anim 0   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-120 Y-60 r8,151
+       anim 1   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-123 Y-22 r26,145  CLASH X-121 Y-22 r28,145  PUSH X-66 Y-128 r8,4
+       anim 2   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-120 Y-12 r8,153
+       anim 3   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-101 Y-32 r4,129  CLASH X-99 Y-32 r7,129  PUSH X-122 Y-62 r5,130
+       anim 4   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-120 Y-60 r8,151
+       anim 5   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-123 Y-22 r26,145  CLASH X-121 Y-22 r28,145  PUSH X-66 Y-128 r8,4
+       anim 6   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-120 Y-12 r8,153
+       anim 7   dano 8   stun 4   attr $3E  $20 [alto 2]
+             HIT X-102 Y-61 r4,131  CLASH X-101 Y-61 r8,131  PUSH X-66 Y-128 r8,4
+  $B8   $0D2C0A       6  0     40   16      2  8,10        $2F [alto 2]
+       anim 3   dano 8   stun 6   attr $2E  $2F [alto 2]
+             HIT X-123 Y-46 r10,113
+       anim 4   dano 10  stun 8   attr $2E  $2F [alto 2]
+             HIT X-114 Y-39 r17,151  CLASH X-122 Y-58 r6,126
+
+------------------------------------------------------------------------------
+ENTRADA 10   PERSONAJE 10   tablaA $0D4A9A  tablaB $0D59FA
+  9 basicos   16 tecnicas   11 con golpe: $A0 $A1 $A2 $A3 $AA $AB $AC $AD $AE $AF $B8
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0D5302       5  0     14    4      1  4           $20 [alto 1]
+       anim 2   dano 4   stun 4   attr $0C  $20 [alto 1]
+             HIT X-120 Y-52 r14,149  CLASH X-114 Y-52 r15,149  PUSH X-122 Y-61 r5,132
+  $81   $0D532A       5  0     12    4      1  10          $21 [alto 1]
+       anim 2   dano 10  stun 8   attr $0D  $21 [alto 1]
+             HIT X-118 Y-48 r16,159  CLASH X-113 Y-48 r17,158  PUSH X-122 Y-62 r5,138
+  $82   $0D5352       3  0     36    4      1  16          $25 [alto 1]
+       anim 1   dano 16  stun 14  attr $0E  $25 [alto 1]
+             HIT X-116 Y-42 r11,151  CLASH X-112 Y-42 r14,151  PUSH X-122 Y-57 r6,138
+  $83   $0D536A       4  0     46    8      1  16          $20 [alto 1]
+       anim 2   dano 16  stun 14  attr $0E  $20 [alto 1]
+             HIT X-119 Y-62 r16,175
+  $84   $0D538A       4  0     14    4      1  4           $21 [alto 1]
+       anim 2   dano 4   stun 4   attr $08  $21 [alto 1]
+             HIT X-118 Y-12 r8,155  CLASH X-114 Y-16 r13,153  PUSH X-121 Y-36 r5,145
+  $86   $0D53B2       4  0     40    6      1  16          $23 [alto 1]
+       anim 2   dano 16  stun 14  attr $0A  $23 [alto 1]
+             HIT X-117 Y-34 r18,163  CLASH X-114 Y-35 r17,158  PUSH X-122 Y-44 r5,139
+  $90   $0D541A       5  1     10    4      1  4           $20 [alto 1]
+       anim 2   dano 4   stun 4   attr $04  $20 [alto 1]
+             HIT X-116 Y-59 r11,143  CLASH X-113 Y-59 r14,143  PUSH X-122 Y-60 r5,132
+  $94   $0D545A       5  1     30    6      1  14          $20 [alto 1]
+       anim 1   dano 14  stun 12  attr $06  $20 [alto 1]
+             HIT X-120 Y-63 r15,176
+  $95   $0D5482       5  1     18    6      1  14          $21 [alto 1]
+       anim 2   dano 14  stun 12  attr $06  $21 [alto 1]
+             HIT X-118 Y-3 r10,165
+  $A0   $0D54FA       8  0     32    4      4  4,4,4,6     $20 [alto 1],$21 [alto 1]
+       anim 1   dano 4   stun 2   attr $1D  $21 [alto 1]
+             HIT X-121 Y-53 r17,158  CLASH X-119 Y-53 r20,158  PUSH X-122 Y-60 r5,131
+       anim 3   dano 4   stun 2   attr $1D  $20 [alto 1]
+             HIT X-123 Y-66 r8,165
+       anim 5   dano 4   stun 2   attr $1D  $21 [alto 1]
+             HIT X-122 Y-37 r9,166
+       anim 7   dano 6   stun 4   attr $1E  $20 [alto 1]
+             HIT X-107 Y-48 r12,168
+  $A1   $0D553A       8  0     16    2      4  4,4,4,6     $20 [alto 1],$21 [alto 1]
+       anim 1   dano 4   stun 2   attr $1D  $21 [alto 1]
+             HIT X-121 Y-53 r17,158  CLASH X-119 Y-53 r20,158  PUSH X-122 Y-60 r5,131
+       anim 3   dano 4   stun 2   attr $1D  $20 [alto 1]
+             HIT X-123 Y-66 r8,165
+       anim 5   dano 4   stun 2   attr $1D  $21 [alto 1]
+             HIT X-122 Y-37 r9,166
+       anim 7   dano 6   stun 4   attr $1E  $20 [alto 1]
+             HIT X-107 Y-48 r12,168
+  $A2   $0D557A       5  0     46    6      1  18          $26 LANZADOR [alto 1]
+       anim 2   dano 18  stun 14  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-105 Y-35 r10,144  CLASH X-101 Y-35 r12,146  PUSH X-114 Y-40 r10,140
+  $A3   $0D55A2       5  0     68   12      1  18          $26 LANZADOR [alto 1]
+       anim 2   dano 18  stun 14  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-105 Y-35 r10,144  CLASH X-101 Y-35 r12,146  PUSH X-114 Y-40 r10,140
+  $AA   $0D5652      23  1     50    4      5  6,6,6,6,24  $2F [alto 1]
+       anim 2   dano 6   stun 2   attr $1D  $2F [alto 1]
+             HIT X-112 Y-58 r23,159
+       anim 7   dano 6   stun 2   attr $1D  $2F [alto 1]
+             HIT X-112 Y-58 r23,159
+       anim 12  dano 6   stun 2   attr $1D  $2F [alto 1]
+             HIT X-112 Y-58 r23,159
+       anim 17  dano 6   stun 2   attr $1D  $2F [alto 1]
+             HIT X-112 Y-58 r23,159
+       anim 22  dano 24  stun 8   attr $16  $2F [alto 1]
+             HIT X-104 Y-48 r22,150  CLASH X-109 Y-42 r14,122
+  $AB   $0D570A      16  0     62   24      1  24          $30 [alto 1]
+       anim 9   dano 24  stun 10  attr $1E  $30 [alto 1]
+             HIT X-101 Y-42 r15,129  CLASH X-97 Y-42 r18,129  PUSH X-112 Y-40 r12,135
+  $AC   $0D578A      17  1     64    4      8  3,3,3,5,3,3,3,5 $20 [alto 1],$21 [alto 1]
+       anim 1   dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-35 r9,158
+       anim 3   dano 3   stun 2   attr $15  $20 [alto 1]
+             HIT X-121 Y-49 r15,156  CLASH X-118 Y-49 r15,157  PUSH X-121 Y-60 r5,133
+       anim 5   dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-43 r5,141
+       anim 7   dano 5   stun 3   attr $16  $20 [alto 1]
+             HIT X-116 Y-41 r18,155
+       anim 9   dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-35 r9,158
+       anim 11  dano 3   stun 2   attr $15  $20 [alto 1]
+             HIT X-121 Y-49 r15,156  CLASH X-118 Y-49 r15,157  PUSH X-121 Y-60 r5,133
+       anim 13  dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-43 r5,141
+       anim 15  dano 5   stun 3   attr $16  $20 [alto 1]
+             HIT X-116 Y-41 r18,155
+  $AD   $0D5812      17  1     32    2      8  3,3,3,5,3,3,3,5 $20 [alto 1],$21 [alto 1]
+       anim 1   dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-35 r9,158
+       anim 3   dano 3   stun 2   attr $15  $20 [alto 1]
+             HIT X-121 Y-49 r15,156  CLASH X-118 Y-49 r15,157  PUSH X-121 Y-60 r5,133
+       anim 5   dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-43 r5,141
+       anim 7   dano 5   stun 3   attr $16  $20 [alto 1]
+             HIT X-116 Y-41 r18,155
+       anim 9   dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-35 r9,158
+       anim 11  dano 3   stun 2   attr $15  $20 [alto 1]
+             HIT X-121 Y-49 r15,156  CLASH X-118 Y-49 r15,157  PUSH X-121 Y-60 r5,133
+       anim 13  dano 3   stun 2   attr $15  $21 [alto 1]
+             HIT X-121 Y-43 r5,141
+       anim 15  dano 5   stun 3   attr $16  $20 [alto 1]
+             HIT X-116 Y-41 r18,155
+  $AE   $0D589A       3  1      6    6      1  18          $25 [alto 1]
+       anim 2   dano 18  stun 16  attr $16  $25 [alto 1]
+             HIT X-119 Y-2 r10,166
+  $AF   $0D58B2       3  1     18   18      1  18          $25 [alto 1]
+       anim 2   dano 18  stun 16  attr $16  $25 [alto 1]
+             HIT X-119 Y-2 r10,166
+  $B8   $0D5942      16  0     48   20      1  18          $2F [alto 1]
+       anim 2   dano 18  stun 16  attr $2E  $2F [alto 1]
+             HIT X-112 Y-51 r15,157  CLASH X-122 Y-70 r5,123
+
+------------------------------------------------------------------------------
+ENTRADA 11   PERSONAJE 11   tablaA $0D777A  tablaB $0D85AA
+  9 basicos   9 tecnicas   8 con golpe: $A0 $A1 $A2 $A3 $AA $AB $B8 $B9
+------------------------------------------------------------------------------
+  id    registro  anims bl frames arr golpes  dano        reaccion
+  $80   $0D7F52       3  0     18    6      1  6           $20 [alto 1]
+       anim 1   dano 6   stun 4   attr $0C  $20 [alto 1]
+             HIT X-117 Y-43 r19,161  CLASH X-113 Y-43 r18,162  PUSH X-120 Y-69 r6,131
+  $81   $0D7F6A       4  0     26    8      2  12,12       $20 [alto 1]
+       anim 1   dano 12  stun 8   attr $0D  $20 [alto 1]
+             HIT X-119 Y-52 r26,164  CLASH X-114 Y-52 r26,164  PUSH X-120 Y-73 r6,135
+       anim 2   dano 12  stun 8   attr $0D  $20 [alto 1]
+             HIT X-120 Y-77 r17,98  CLASH X-116 Y-77 r20,98  PUSH X-121 Y-76 r31,118
+  $82   $0D7F8A       4  0     52    8      2  20,16       $25 [alto 1]
+       anim 1   dano 20  stun 16  attr $0E  $25 [alto 1]
+             HIT X-116 Y-38 r14,154  CLASH X-111 Y-38 r16,154  PUSH X-120 Y-69 r6,128
+       anim 2   dano 16  stun 12  attr $0E  $25 [alto 1]
+             HIT X-114 Y-90 r13,135  CLASH X-110 Y-90 r17,135  PUSH X-120 Y-73 r13,135
+  $83   $0D7FAA       8  0     56   14      1  18          $26 LANZADOR [alto 1]
+       anim 2   dano 18  stun 16  attr $0E  $26 LANZADOR [alto 1]
+             HIT X-114 Y-52 r12,178
+  $84   $0D7FEA       4  0     18    6      1  6           $21 [alto 1]
+       anim 1   dano 6   stun 4   attr $08  $21 [alto 1]
+             HIT X-116 Y-37 r11,164  CLASH X-112 Y-37 r15,164  PUSH X-121 Y-57 r6,137
+  $86   $0D8012       4  0     52    8      2  20,16       $25 [alto 1]
+       anim 1   dano 20  stun 18  attr $0A  $25 [alto 1]
+             HIT X-116 Y-34 r13,158  CLASH X-112 Y-34 r17,158  PUSH X-121 Y-62 r6,128
+       anim 2   dano 16  stun 14  attr $0E  $25 [alto 1]
+             HIT X-114 Y-81 r13,135  CLASH X-111 Y-83 r16,135  PUSH X-121 Y-65 r6,127
+  $90   $0D807A       4  1     16    6      1  6           $20 [alto 1]
+       anim 1   dano 6   stun 4   attr $04  $20 [alto 1]
+             HIT X-112 Y-57 r15,160  CLASH X-108 Y-57 r19,160  PUSH X-120 Y-73 r7,140
+  $94   $0D80B2       5  1     28    8      2  18,16       $25 [alto 1]
+       anim 1   dano 18  stun 16  attr $06  $25 [alto 1]
+             HIT X-117 Y-40 r11,157  CLASH X-113 Y-40 r14,157  PUSH X-121 Y-69 r6,129
+       anim 2   dano 16  stun 14  attr $06  $25 [alto 1]
+             HIT X-114 Y-90 r12,134  CLASH X-110 Y-90 r15,134  PUSH X-120 Y-72 r6,128
+  $95   $0D80DA       4  1     22    8      1  18          $21 [alto 1]
+       anim 1   dano 18  stun 16  attr $06  $21 [alto 1]
+             HIT X-121 Y-16 r13,163
+  $A0   $0D814A      15  0     96    6      6  3,3,3,3,3,3 $20 [alto 1]
+       anim 3   dano 3   stun 2   attr $3D  $20 [alto 1]
+             HIT X-123 Y-48 r54,201  CLASH X-119 Y-48 r54,201  PUSH X-121 Y-76 r6,138
+       anim 5   dano 3   stun 2   attr $3D  $20 [alto 1]
+             HIT X-123 Y-48 r54,201  CLASH X-119 Y-48 r54,201  PUSH X-121 Y-76 r6,138
+       anim 7   dano 3   stun 2   attr $3D  $20 [alto 1]
+             HIT X-123 Y-48 r54,201  CLASH X-119 Y-48 r54,201  PUSH X-121 Y-76 r6,138
+       anim 9   dano 3   stun 2   attr $3D  $20 [alto 1]
+             HIT X-123 Y-48 r54,201  CLASH X-119 Y-48 r54,201  PUSH X-121 Y-76 r6,138
+       anim 11  dano 3   stun 2   attr $3D  $20 [alto 1]
+             HIT X-123 Y-48 r54,201  CLASH X-119 Y-48 r54,201  PUSH X-121 Y-76 r6,138
+       anim 13  dano 3   stun 2   attr $3D  $20 [alto 1]
+             HIT X-123 Y-48 r54,201  CLASH X-119 Y-48 r54,201  PUSH X-121 Y-76 r6,138
+  $A1   $0D81C2      19  0     46    6     15  4,96,96,96,96,96,96,96,96,96,96,96,96,96,96 $25 [alto 1],$26 LANZADOR [alto 1]
+       anim 2   dano 4   stun 4   attr $3E  $26 LANZADOR [alto 1]
+             HIT X-99 Y-62 r19,142  CLASH X-78 Y-35 r16,125
+       anim 3   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 4   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 5   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 6   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 7   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 8   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 9   dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 10  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 11  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 12  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 13  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 14  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 15  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+       anim 16  dano 96  stun 0   attr $1E  $25 [alto 1]
+             HIT X-128 Y+95 r0,127  CLASH X-61 Y-52 r14,142  PUSH X-121 Y-84 r6,122
+  $A2   $0D825A       4  0     38   10      2  24,20       $25 [alto 1]
+       anim 1   dano 24  stun 20  attr $1E  $25 [alto 1]
+             HIT X-118 Y-42 r14,153  CLASH X-114 Y-43 r17,154  PUSH X-121 Y-70 r5,129
+       anim 2   dano 20  stun 18  attr $1E  $25 [alto 1]
+             HIT X-109 Y-86 r13,136  CLASH X-104 Y-86 r19,138  PUSH X-121 Y-72 r5,126
+  $A3   $0D827A       4  0     42   10      1  24          $26 LANZADOR [alto 1]
+       anim 1   dano 24  stun 20  attr $1E  $26 LANZADOR [alto 1]
+             HIT X-112 Y-45 r22,169  CLASH X-109 Y-46 r23,172  PUSH X-121 Y-74 r5,141
+  $AA   $0D82CA      32  0    126   30     24  16,96,16,96,16,96,16,96,16,96,16,96,16,96,16,96,16,96,16,96,16,96,16,96 $20 [alto 1],$25 [alto 1]
+       anim 4   dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 5   dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 6   dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 7   dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 8   dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 9   dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 10  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 11  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 12  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 13  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 14  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 15  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 16  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 17  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 18  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 19  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 20  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 21  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 22  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 23  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 24  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 25  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+       anim 26  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+       anim 27  dano 96  stun 0   attr $1E  $20 [alto 1]
+             HIT X-128 Y+95 r0,128  CLASH X-88 Y-33 r23,144  PUSH X-88 Y-33 r25,133
+  $AB   $0D83CA      29  0    128   40      1  16          $25 [alto 1]
+       anim 14  dano 16  stun 8   attr $3E  $25 [alto 1]
+             HIT X-108 Y-53 r32,142
+  $B8   $0D8532       6  0     44   28      1  20          $30 [alto 1]
+       anim 4   dano 20  stun 12  attr $2E  $30 [alto 1]
+             HIT X-110 Y-86 r25,148  CLASH X-98 Y-139 r24,20
+  $B9   $0D8562       3  0     36   16      1  16          $27 [alto 1]
+       anim 1   dano 16  stun 12  attr $36  $27 [alto 1]
+             HIT X-107 Y-32 r18,155  CLASH X-100 Y-36 r13,122

@@ -1,0 +1,881 @@
+================================================================================
+HIT STATE  --  $68 y estados de reaccion (2X)
+Yu Yu Hakusho Makyo Toitsusen / Itsuki
+Actualizado 14/10/2026  (hitstop medido: 16 y 17 frames; $5B y $75 corregidos)
+================================================================================
+
+QUE ES $68
+----------
+Byte +3 del HIT RECORD (4 bytes: dano, stun, $64, nibbles).
+El nibble ALTO es $67.  El nibble BAJO es $68.
+
+$67 = algo de combate, NO identificado. No tocar.
+$68 = codigo de REACCION de la victima. Es lo que estudia este archivo.
+
+
+COMO FUNCIONA  (COMPROBADO por desensamblado)
+---------------------------------------------
+Un golpe hace que la victima entre en un ESTADO, elegido por $68.
+
+  01F524  moveq   #$0, d0
+  01F526  move.b  $68(a3), d0        <- lee $68
+  01F52A  lsl.w   #$1, d0            <- indice * 2
+  01F52C  lea.l   $01F534(pc,d0.w), a0
+  01F530  adda.w  (a0), a0
+  01F532  jmp     (a0)               <- salta al handler de ese $68
+
+Tabla de destinos en . *** TIENE 16 ENTRADAS, NO 10 ***
+(corregido el 14/10/2026 al abrir el personaje Hiei, ver seccion 7)
+
+El handler escribe en la VICTIMA (a4):
+  $5F(a4)  el estado en que entra
+  $4C(a4)  velocidad vertical
+  $10(a4)  velocidad horizontal
+  $5D(a4)  reaction
+  $6E(a4)  copiado del atacante (herencia)
+  $61(a4)  el facing
+
+
+TABLA DE $68
+------------
+ $68  handler   reac  estado  vel vert   vel horiz        que hace
+ ----  --------  ----  ------  ---------  ---------------  ------------------------
+  0    $01F54A    4     $20      --         --              golpe normal, de pie
+  1    $01F59C    4     $21      --         --              golpe normal, variante
+  2    $01F54A    3     $20      --         --              CHIP: limpia $98 (la guardia)
+  3    $01F59C    3     $21      --         --              chip, variante
+  4    $01F5E0    5     $23     $3800   $18000/FFFE8000    DERRIBO CIEGO
+  5    $01F660    5     $25     $3800   $18000/FFFE8000    DERRIBO CON VENTANA
+  6    $01F744    7     $26      --     $60000/FFFA0000    LANZADOR
+  7    $01F6C8    5     $27       0          0             alto fijo, sin velocidad
+  8    $01F6F2    5     $30     $3800         0             tiro vertical, sin horizontal
+  9    $01F694    5     $2F     $3800   $18000/FFFE8000    como 4 y 5 pero a estado $2F
+
+Velocidades en coma flotante de 16.16. $3800 = 56 px/s vertical.
+
+  CONFIRMACION POR LOG, 14/10/2026: un golpe de Itsuki con A (que tiene
+  $68=1) manda al rival de $00 a $21. Exactamente lo que dice la fila 1 de
+  esta tabla. [COMPROBADO]
+
+  Y al entrar en $21 la victima queda con $5B = $FF durante los 16 frames del
+  hitstop, mientras el atacante queda con $5B = $01. Son dos valores distintos
+  para el mismo lock. Ver la seccion "$5B = EL LOCK".
+
+$64 ACUMULA, NO SE REEMPLAZA
+------------------------------
+El byte 2 del hit record va a parar a $64 del slot. MEDIDO con dos golpes
+seguidos del mismo personaje:
+
+  1er golpe    $64 = $0C      bits 2 y 3
+  2do golpe    $64 = $0E      bits 1, 2 y 3
+
+El bit 1 se prendio en el segundo y no en el primero. Y el resolver solo lee
+los bits 2 y 3:
+
+  $01F318  move.b  $64(a3), d0
+  $01F31C  andi.b  #$c, d0        <<< lee SOLO los bits 2 y 3
+  $01F320  and.b   $63(a4), d0
+
+O sea: el bit 1 se acumula y NUNCA se lee. $64 es un registro de historial,
+no un flag del frame. [COMPROBADO]
+La horizontal depende del facing ($61): $18000 si mira a la derecha,
+$FFFE8000 si mira a la izquierda (mismo valor con signo).
+
+EL FACING, QUE ES LO QUE PREGUNTASTE  (CORREGIDO)
+-------------------------------------------------
+Me exprese mal y el usuario me lo corrigio. NO es una mecanica visible.
+
+Que hace el codigo, y nada mas:
+
+  $68=0, 1, 2, 3, 7                     NO LO TOCAN
+  $68=4  $01F5E0  cmpi.b #$0, $61(a4)   SOLO LEE
+  $68=5  $01F660  cmpi.b #$0, $61(a4)   SOLO LEE
+  $68=8  $01F6F2  cmpi.b #$0, $61(a4)   SOLO LEE
+  $68=9  $01F694  cmpi.b #$0, $61(a4)   SOLO LEE
+  $68=6  $01F744  bchg.b #$0, $61(a4)   ESCRIBE: es el UNICO que lo cambia
+
+Y para que se lo usaba? Para ELEGIR LA DIRECCION DE LA VELOCIDAD:
+
+  01F756  bchg.b  #$0, $61(a4)      le da la vuelta
+  01F75C  cmpi.b  #$0, $61(a4)      mira el valor NUEVO
+  01F764  move.l  #$60000, $10(a4)     velocidad a la derecha
+  01F76E  move.l  #$FFFA0000, $10(a4)  velocidad a la izquierda
+
+No es "el enemigo se da vuelta": es un atajo para decir "mandalo en la
+direccion en que quedo mirando". $61 es la VARIABLE DE CALCULO, no un
+efecto.
+
+POR QUE EL USUARIO TIENE RAZON Y YO NO
+-------------------------------------
+A ojo NO hay diferencia. El usuario lo probo con el enemigo mirandolo y
+con el enemigo de espaldas, y en los dos casos termina viendolo mientras
+sale volando. Ese giro visible NO es este byte.
+
+Y que TODOS los golpes parezcan dar la vuelta al enemigo tambien es
+ciertisimo, y no puede ser este byte: $68=0, 1, 2, 3 y 7 ni lo tocan.
+Es otra cosa. Probablemente los anims del estado de reaccion ya orienten
+al personaje, o el motor lo reorienta al entrar en hitstun.
+
+LO QUE NO SE SABE
+-----------------
+Que dibujan los anims de cada estado de reaccion y si alguno reorienta al
+personaje. $61 no se escribe en ningun otro punto del ROM como parte de
+una reaccion. [PENDIENTE]
+
+Relacionado pero DISTINTO: el teleport de Itsuki si invierte su propio
+facing, y eso COMPROBADO esta en la seccion 6 del PDF del TP. Los .LUA de
+efectos tienen que leer $61 DESPUES del teleport, no antes.
+
+
+EL AGARRE Y EL $68=8
+---------------------
+El $68=8 manda a estado $30 con velocidad vertical $3800 y HORIZONTAL
+CERO (clr.l $10(a4)). Es un tiro vertical puro: levanta al enemigo y lo
+suelta caer en el mismo sitio. Es exactamente lo que hace un agarre.
+
+Itsuki NO tiene ningun $68=8 en su tabla normal de golpes: revisando los
+197 ids solo aparece UNO, el id $B8. Su agarre no esta ahi.
+[DERIVADO] El agarre de Itsuki debe ser otra mecanica, disparada por el
+boton de agarre y no por el comando de golpe, asi que no pasa por el
+dispatcher de $01EB40 y no se lee en tabla A.
+
+PRUEBA PROPUESTA POR EL USUARIO, BUENA:
+  agarrar al enemigo, esperar a que este cayendo, y en ese momento darle
+  el empujon (adelante+A, $68=6). Como $68=6 da la vuelta al facing y
+  manda a estado $26, se va a ver el cambio de estado exacto en el momento
+  en que se lo patea en el aire. Eso ademas prueba si el $68 del golpe
+LE GANA al estado que ya estaba.
+
+
+LO QUE NO SE SABE
+-----------------
+  $67  no esta identificado. No tocar sin medir.
+  $5D  (reaction) tiene valores 3,4,5,7,8 segun $68. Su sentido se desconoce.
+  Los nombres "tumbado", "por el aire" etc. de la tabla de estados son
+  GUESOS por el frame data y por lo que el usuario vio. NO estan decodificados.
+
+  FALTA: leer el $5F del rival en el juego despues de cada golpe. Eso
+  confirmaria la tabla entera en una sola ronda.
+
+
+DONDE ESTA CADA COSA (para el analisis, no para tocar nada)
+----------------------------------------------------------
+Este archivo es un MAPA, no una lista de cambios. De momento NO se va a
+modificar el ROM: primero se identifican handlers, estados y variables, y
+que golpe dispara cada cual.
+
+  $01F534      tabla de 10 destinos, indexada por $68
+  $01F5E0      handler de $68=4   -> estado $23 + velocidad
+  $01F660      handler de $68=5   -> estado $25 + velocidad
+  $01F744      handler de $68=6   -> estado $26 + flip de facing
+  $01F6C8      handler de $68=7   -> estado $27, velocidad 0
+  $01F6F2      handler de $68=8   -> estado $30, tiro vertical
+  $01F694      handler de $68=9   -> estado $2F
+  $01F54A      handler de $68=0 y $68=2
+  $01F59C      handler de $68=1 y $68=3
+
+  $0CF99A      tabla A de Itsuki (offset de cada move por id)
+  $0D069A      tabla B de Itsuki (flags + puntero a hit record, por sub)
+
+  Tabla de personajes en $01275B, 11 entradas con stride $4A.
+  Itsuki es la 8a. Esa posicion es en el bloque de datos, NO es el orden
+  del roster de la pantalla de seleccion.
+
+
+================================================================================
+COMPROBADO = leido del codigo o medido en pantalla, con la fuente anotada.
+             DERIVADO / GUESO = deducido del frame data, sin confirmar.
+================================================================================
+CADENA DEL LANZADOR  (COMPROBADO con el log de REACC del 14/10/2026)
+================================================================================
+
+Un empujon (adelante+A, $68=6) hace al rival recorrer 6 estados seguidos.
+Medido en pantalla frame por frame:
+
+  f102  $26    $68=6   el empujon entra, el rival sale volando
+  f153  $25             primer impacto contra el piso o la pared
+  f188  $28             segundo rebote
+  f214  $29             segundo impacto
+  f239  $2A             se asienta
+  f240         $00      se levanta
+
+  Perfil de hurtbox de cada estado:
+
+  estado   frames   con hurt   anim $00
+  ------   ------   --------   --------------------
+   $26       1718     51,7 %    $83 / 255  SIN hurt
+   $25       1734     37,0 %    $3F / 4    CON HURT
+   $28       1208     73,6 %    $7F / 8    SIN hurt
+   $29        937     94,9 %    $82 / 24   SIN hurt
+   $2A        913     97,4 %    $85 / 6    SIN hurt
+   $2B        889    100,0 %    $3C / 10   CON HURT   (el levantarse)
+
+  La secuencia COMPLETA de un lanzador en el juego es
+
+     $26 -> $25 -> $28 -> $29 -> $2A -> $2B -> $00
+
+  seis estados, no uno. Y la disponibilidad de ser golpeado SUBE de a
+  poco: 51,7  37,0  73,6  94,9  97,4  100 por ciento.
+
+
+POR QUE ENTRE f153 Y f188 NO HAY >>>GOLPE
+-----------------------------------------
+Lo pregunto el usuario. Tiene tres partes.
+
+1) Un golpe necesita una HITBOX de alguien. Entre f91 y f188 Itsuki esta
+   en $00, parado, sin atacar. No hay hitbox, entonces no puede haber
+   golpe. El log no se fallo: no habia nada que registrar.
+
+2) La ventana de 8 frames NO es un estado. Es la presencia del hurtbox
+   DENTRO de un estado. El modo REACC vigila el $5F, y durante la ventana
+   el $5F no cambia. Por eso la ventana es invisible para ese metodo.
+   Habria que mirar la lista HURT ($A400), no el estado.
+
+3) Los cambios de estado que SI aparecen en esa franja NO son golpes: son
+   los rebotes del rival contra el piso y la pared, que no necesitan a
+   ningun atacante. Por eso el script los marca DESCONOCIDO, correctamente.
+
+LA MEDICION DEL USUARIO ERA CORRECTA
+------------------------------------
+El usuario estimo a ojo una ventana de unos 8 frames y la puso entre f154
+y f162. El frame data lo confirma exactamente:
+
+  $25 arranco en f153
+  $25 anim $00 = 4 frames CON hurtbox
+  $25 anim $01 = 4 frames CON hurtbox
+  total 8 frames CON hurtbox = f153 a f161
+
+Coincide. La ventana existe, dura 8 frames y arranca en el mismo frame en
+que el rival entra al estado.
+
+
+================================================================================
+EL AGARRE DE ITSUKI  (COMPROBADO)
+================================================================================
+
+El agarre NO esta en la tabla de golpes normales, va por su propio camino:
+
+  f25   Itsuki en $05, adelante+A pegado al enemigo
+  f27   victima $00 -> $40     el agarre la toma
+  f45   victima $40 -> $30     $68=8, el dano del agarre
+
+  ESTADO $40 = "AGARRADO". Estado NUEVO.
+  Registro $0CFFCA. Solo 2 anims:
+     anim $00  dur 64   sub $3E  CON hurtbox
+     anim $01  dur 64   sub $3F  CON hurtbox
+  128 frames en total, 100 % con hurtbox.
+
+  Los 64 frames del anim $00 explican lo que vio el usuario: unos 16 de
+  pausa y despues el cambio de animacion alrededor del frame 17-18.
+
+  ESTADO $30 = la caida vertical. $68=8 lo manda ahi con velocidad
+  vertical $3800 y HORIZONTAL CERO (clr.l $10(a4)): lo levanta y lo suelta
+  caer en el mismo sitio. Exacto lo que hace un agarre.
+
+  CONFIRMADO: el agarre de Itsuki usa $68=8 -> estado $30. El usuario lo
+  habia sospechado y era correcto.
+
+  El log SI lo reconocio, en f45, con $68 activo = $8. Lo que no lleva $68
+  es el f27 ($00 -> $40), que es el agarrar en si, antes de que exista
+  ningun hit record.
+
+
+================================================================================
+================================================================================
+STOP TIME NO ES UN ESTADO, Y ESO ES LO IMPORTANTE
+================================================================================
+
+Itsuki $A8 (abajo,abajo + A+B) NO cambia el estado del enemigo.
+
+No entra en la tabla de $68, no inventa ningun estado nuevo, no usa el
+handler de $01F534. No hace nada de lo que hace esta tabla.
+
+Lo que hace es poner $69 = $FF en el slot del enemigo:
+
+  01C06E  move.b $6e(a0),d1      equipo de ese slot
+  01C072  cmp.b  $6e(a5),d1      equipo del caster
+  01C076  beq.b  $01c07e         si es el mismo, lo saltea
+  01C078  move.b #$ff,$69(a0)    <<< le frena el reloj
+  01C07E  cmpa.w #$9000,a0       camina los 4 slots, stride $400
+
+  Y el reloj se frena aca:
+
+  012B36  subi.b  #$1, $69(a5)
+  ...
+  012B50  btst.b #$0, $69(a5)    el BIT 0 del timer decide
+  012B56  bne.b  $12b62          si esta en 1, NO avanza
+  012B58  add.w  d0, $54(a5)     si esta en 0, avanza el reloj
+
+Consecuencia: el bit 0 se alterna cada frame, asi que la animacion avanza
+UN frame cada DOS. STOP TIME es MITAD DE VELOCIDAD, no quietud.
+[DERIVADO] Del codigo sale seguro, falta medirlo.
+
+POR QUE IMPORTA PARA ESTA TABLA
+--------------------------------
+1) No hay "estado de stop time". El enemigo conserva el suyo. Por eso puede
+   quedar congelado a mitad de un ataque y seguir con sus cajas.
+2) No hay immunidad: si en ese anim no tenia hurtbox, sigue sin hurtbox.
+3) No hay "conservacion de cajas": se rearman solo cuando cambia el anim.
+   Si el anim no cambia, no se tocan.
+4) Se aplica sobre CUALQUIER $68, incluso sobre uno que ya termino. No
+   compite con la tabla de reacciones.
+
+COMO SE DISTINGUE DE UN $68 NORMAL
+----------------------------------
+  $68 normal   -> cambia el $5F del enemigo a un estado 2X
+  STOP TIME    -> no cambia el $5F, pone $69 = $FF
+  hitstop      -> no cambia el $5F, pone $69 = $10 o $1C
+
+OJO: los tres pueden verse IGUAL en un log (el $5F no cambia). Lo que los
+distingue es el VALOR de $69:
+    $FF = STOP TIME
+    $10 = te conecto un golpe directo
+    $1C = hubo clasheo
+Ver la seccion "EL HITSTOP" mas abajo.
+
+ACTUALIZACION 14/10/2026: LO QUE NO SE SABE, RESUELTO
+----------------------------------------------------
+Las dos preguntas que quedaban abiertas ya tienen respuesta. Ver abajo la
+seccion "EL HITSTOP" y "LA FISICA".
+
+  - "Por que no congela a un enemigo lanzado al vuelo"
+    YA NO ES UNA CONTRADICCION. El loop efectivamente no mira el estado,
+    asi que el enemigo SI recibe $69 = $FF. Lo que pasa es que el estado
+    de lanzamiento lo mueve la FISICA ($01EFC0, por velocidad) y esa
+    rutina no consulta $69 NI UNA VEZ. O sea que queda congelado en su
+    animacion pero su cuerpo sigue volando.
+    Se congela recien cuando choca contra la pared, porque el impacto le
+    cambia $5F y $5D ($01F004) y desde ahi pasa a ser anim-driven.
+    [COMPROBADO] por el usuario. Mi lectura original estaba mal.
+
+  - "Por que golpearlo le quita el efecto"
+    NO hay una regla de "te saca el efecto". Si lo golpeas, cambia de
+    estado, y el estado nuevo es anim-driven, asi que el siguiente
+    STOP TIME si lo congela. Ademas, conectar un golpe escribe $69 = $10
+    y prende $5B, con lo cual la ulti ni siquiera puede dispararse hasta
+    que se libere el lock.
+
+  - "Por que congelar a alguien parado conserva sus cajas"
+    Confirmado: no hay codigo que las conserve. El dispatcher $01EB40 solo
+    rearma cajas cuando cambia el anim, y el anim no cambia.
+
+
+================================================================================
+EL HITSTOP: $69 NO ES "EL TIMER DE STOP TIME"
+================================================================================
+
+$69 es EL CONTADOR DE HITSTOP DEL JUEGO. Hay tres sistemas que lo escriben:
+
+  $01C078  $FF = 255   STOP TIME (la ulti)
+  $01F2E0  $10 =  16   golpe directo     <- en el resolver de hitbox
+  $01F15E  $1C =  28   clasheo           <- en el resolver de clash
+
+COMPROBADO por el usuario: un clasheo son 28 frames, un golpe directo son
+16. Calza exacto con $1C y con $10.
+
+El codigo testea UN SOLO BIT:
+
+  012B36  subi.b  #$1, $69(a5)     baja de a uno
+  012B50  btst.b  #$0, $69(a5)     el BIT 0 decide
+  012B56  bne.b   $12b62           si esta en 1, NO avanza
+  012B58  add.w   d0, $54(a5)      si esta en 0, avanza el reloj
+
+El bit 0 de un contador que baja de a uno se alterna cada frame. Asi que
+CUALQUIER valor distinto de cero = frames de reloj alternado, y la magnitud
+es la duracion.
+
+CONSEQUENCIA PRACTICA PARA LEER UN LOG
+--------------------------------------
+  Si ves $69 = $FF -> STOP TIME
+  Si ves $69 = $10 -> te conecto un golpe directo, no es la ulti
+  Si ves $69 = $1C -> hubo clash
+
+Antes de concluir "lo congelaron", mirar si $5F cambio de estado. Si no
+cambio, casi seguro era hitstop y no STOP TIME. [COMPROBADO] por error mio.
+
+EL GEMELO: $75, Y SOLO DEL ATACANTE
+-------------------------------------
+En el codigo se escriben dos bytes con diferencia 1:
+
+  $01F2E0  move.b #$10, $69(a3)     hitstop del ATACANTE
+  $01F2E6  move.b #$11, $75(a3)     buffer del ATACANTE
+  $01F2EC  move.b #$10, $69(a4)     hitstop de la VICTIMA
+                                  <<< y NO existe $75(a4). No esta escrito.
+  $01F15E  move.b #$1c, $69(a3)     clash 28
+  $01F164  move.b #$1d, $75(a3)     buffer 29
+
+MEDIDO el 14/10/2026 con un golpe de Itsuki (A, $68=1, victima a $21):
+$69 arranca en $10 y llega a 0 en f38   -> 16 frames
+$75 arranca en $11 y llega a 0 en f39   -> 17 frames
+
+Los dos contadores, de punta a punta, sin huecos. [COMPROBADO]
+
+Y el $75 de la VICTIMA se queda en $00. Mi prediccion de "los dos valen
+$69 + 1" era incorrecta: $75 es SOLO del atacante. Tiene sentido: es el buffer
+de input, y a la victima no le vas a mandar comandos.
+
+MEDIDO ademas: durante un clasheo no se puede hacer NADA, no importa el boton.
+El input buffering espera a que pasen los 28 frames. Y aplica a TODAS las
+habilidades, no solo a STOP TIME.
+
+OJO: $69 NO baja de a uno por frame. Los deltas medidos son:
+  -1, -2, -1, -1, 0, -2, -1, 0, -2, -1, 0, -2, -1, 0, -2
+Repite valores: $0B dos veces, $08 dos, $05 dos, $02 dos, $00 tres.
+
+En el ROM hay QUINCE sitios que hacen subi.b #$1, $69(a5):
+  $012B36 $012C4C $012D8A $012EAC $012FD0 $013102 $013258 $0137F4
+  $013A08 $013E02 $0142B4 $01458A $014846 $014860 $015B84
+Un decremento por rutina, y varias corren en el mismo frame: eso explica los
+saltos de 2. Los ceros NO tienen explicacion y no se inventan.
+
+$75 SI es limpio: de $0E a $00, exactamente -1 por frame, sin excepciones.
+
+REGLA PRACTICA: para contar frames usar $75, no $69. $69 sirve para saber QUE
+SISTEMA escribio, no CUANTOS frames van.
+
+MEDIDO: durante un clasheo no se puede hacer NADA, no importa el boton. El
+input buffering espera a que pasen los 28 frames. Y aplica a TODAS las
+habilidades, no solo a STOP TIME.
+
+$5B = EL LOCK, POR SLOT, Y NO ES UN BOOLEAN
+----------------------------------------------
+  $01F2CA  cmpi.b #$0, $5b(a3)
+  $01F2D2  move.b #$1, $5b(a3)     se prende al conectar o clashear
+
+Y la ulti exige $5B == 0 para dispararse. Despues de conectar un golpe o
+clashear, STOP TIME no sale hasta que el lock se libere.
+
+EXCEPCION CRUCIAL, medida por el usuario: el clasheo SOLO paraliza a quienes
+estan clasheando. Si otros dos jugadores clashean entre ellos, yo si puedo
+detener el tiempo. Eso demuestra que $5B es UN BYTE POR SLOT, no global.
+
+CORRECCION 14/10/2026: NO es una bandera booleana. MEDIDO en el mismo golpe:
+
+                        durante el hitstop      despues
+  atacante (a3)         $01 fijo                 sube a 2, luego 4
+  victima  (a4)         $FF fijo                 0
+
+Lo unico que importa funcionalmente es que sea DISTINTO DE CERO, porque eso
+es lo que testea el gate. Ni 1, ni 255, ni 2 significan nada por si mismos.
+
+La asimetria tiene causa en el codigo: $01F2D2 escribe $5B SOLO en a3. El
+$FF de la victima lo pone otro camino, probablemente el handler de $68, que
+es donde nace el estado de reaccion. [PENDIENTE] encontrarlo.
+
+EL RESOLVER DE HITBOX, Y DONDE VIVE EL FILTRO DE PLANO
+-------------------------------------------------------
+$01F21E es el resolver de hitbox contra hurtbox. Uno de los tres que el
+usuario ya habia anotado. Completo:
+
+  $01F21E  cmpi.w #$0, $a004.w      hay HIT?
+  $01F228  cmpi.w #$0, $a008.w      hay HURT?
+  $01F246  move.b $6e(a3), d0
+  $01F24E  beq.w  $1f50a             MISMO chequeo de $6E que en la ulti
+  $01F252  move.w $9c(a3), d0        $9C tiene que COINCIDIR entre los dos
+  $01F25A  bne.w  $1f50a
+  $01F260  move.b $70(a4), d0
+  $01F268  btst.l d0, $94(a3)        filtro por bit
+  $01F26A  beq.w  $1f50a
+  $01F284  cmp.w  d0, d1             |X1-X2| vs suma de semianchos
+  $01F2A2  blt.w  $1f50a             |Y1-Y2| vs suma de semialtos
+  $01F2AC  jsr    $01f7b2.l          <<< LA QUE ESCRIBE $26 = EL PLANO
+  $01F2D2  move.b #$1, $5b(a3)
+  $01F2D8  btst.b #$5, $64(a3)
+  $01F2E0  move.b #$10, $69(a3)
+
+IMPORTANTE: el filtro de plano vive ADENTRO del resolver, no antes. Y el
+chequeo de $6E aparece aca y en la ulti, dos lugares independientes.
+
+MEDIDO: $6E vale $01 en P1 y $04 en el rival. Distintos, asi que el beq no
+saltea a nadie.
+
+Curacion y STOP TIME cruzan planos porque NO PASAN por esta rutina: no
+tienen caja, o chequean a mano.
+
+LA FISICA: POR QUE EL LANZADO NO SE CONGELA
+------------------------------------------
+STOP TIME frena el RELOJ DE LA ANIMACION. No frena al personaje.
+
+Hay una rutina aparte en $01EFC0 que mueve por velocidad:
+
+  $01EFC0  move.w -$59ee(a1), d0     velocidad Y
+  $01EFC4  add.w  d0, $44(a4)         POSICION Y += velocidad
+  $01EFC8  move.w -$59f0(a1), d0      velocidad X
+  $01EFCC  cmpi.b #$0, $61(a3)        facing
+  $01EFD4  add.w  d0, $40(a4)         POSICION X += velocidad
+  $01EFE4  move.w $a010.w, d0         BORDE IZQUIERDO
+  $01EFF0  add.w  d0, $40(a3)         se paso: lo empuja
+  $01F004  move.b -$59fa(a1), $5f(a3) Y LE CAMBIA EL ESTADO
+  $01F00A  move.b -$59f8(a1), $5d(a3) y el reaction
+
+EN TODA ESA RUTINA NO APARECE $69 NI UNA VEZ. La fisica corre siempre.
+
+Por eso:
+  - Reposo, ataque, hitstun, CAMINAR -> reloj de anim -> SE CONGELA [COMPROBADO]
+  - Lanzado al vuelo, thrown         -> velocidad      -> NO SE CONGELA [COMPROBADO]
+
+El lanzado sigue de largo, choca la pared, el choque le cambia $5F y $5D, y
+desde ahi ya es anim-driven, asi que ahora SI PUEDE ser congelado. Pero NO
+HAY COLA DE ESPERA: hay que ejecutar la ulti otra vez.
+
+TEORIA DEL USUARIO, sin verificar: si hay ataques con aceleracion SOLO
+VERTICAL (te lanzan hacia abajo), deberia pasar lo mismo. La fisica los
+mueve igual y no se congelan. Habria que buscar esos estados.
+
+================================================================================
+7. LA TABLA DE $68 TIENE 16 ENTRADAS, NO 10   (corregido 14/10/2026)
+================================================================================
+
+COMO SE LEE LA TABLA (esto faltaba, y hacia que pareciera de 10)
+
+  01F526  move.b  $68(a3), d0
+  01F52A  lsl.w   #$1, d0            d0 = $68 * 2
+  01F52C  lea.l   $01F534(pc,d0.w), a0   a0 = $01F534 + ($68*2)
+  01F530  adda.w  (a0), a0           a0 = a0 + el WORD que esta ahi
+  01F532  jmp     (a0)
+
+O SEA: el valor de la tabla NO es una direccion, es un OFFSET.
+  destino ABSOLUTO = (entrada) + (valor)
+
+  $68=1:  entrada $01F536  valor $0066  ->  $01F59C
+  $68=4:  entrada $01F53C  valor $00A4  ->  $01F5E0
+
+Los 10 handlers ya documentados verifican 10 de 10 con esta formula. Por eso
+el error de "son 10" duro tanto: los 10 que se conhecian entraban en el
+rango que uno mira por costumbre.
+
+LAS 16 ENTRADAS
+  $68  entrada   offset   destino        que hace
+  ---  --------   ------   ----------     -----------------------------
+   0   $01F534    $0016    $01F54A        hitstun normal  -> estado $20
+   1   $01F536    $0066    $01F59C        hitstun normal  -> estado $21
+   2   $01F538    $0012    $01F54A        chip            -> estado $20
+   3   $01F53A    $0062    $01F59C        chip            -> estado $21
+   4   $01F53C    $00A4    $01F5E0        derribo ciego  -> estado $23
+   5   $01F53E    $0122    $01F660        derribo ventana -> estado $25
+   6   $01F540    $0204    $01F744        lanzador        -> estado $26
+   7   $01F542    $0186    $01F6C8        alto fijo, vel 0 -> estado $27
+   8   $01F544    $01AE    $01F6F2        tiro vertical   -> estado $30
+   9   $01F546    $014E    $01F694        como 4 y 5      -> estado $2F
+  10   $01F548    $01CC    $01F714        DERRIBO, VELOCIDAD IGUAL QUE EL 5
+  11   $01F54A    $102C    $020576        BASURA: no es handler de victima
+  12   $01F54C    $005C    $01F5A8        BASURA: es el BEQ del handler de $68=1/3
+  13   $01F54E    $0200    $01F74E        BASURA: APUNTA EN MEDIO DE UNA INSTRUCCION
+  14   $01F550    $000C    $01F55C        BASURA: APUNTA EN MEDIO DE UNA INSTRUCCION
+  15   $01F552    $0C00    $020152        BASURA: APUNTA EN MEDIO DE UNA INSTRUCCION
+  $68 es un NIBBLE, o sea que puede valer de 0 a 15. Siempre se pudo llegar
+  hasta $68=15 y la tabla los tiene. [COMPROBADO] leyendo los 16 valores.
+
+EL $68 = 10, QUE USO HIEI
+--------------------------
+  01F714  move.b  #$8,  $5d(a4)      reaction 8
+  01F71A  move.b  #$25, $5f(a4)      estado $25
+  01F720  move.l  #$3800, $4c(a4)    velocidad vertical
+  01F728  cmpi.b  #$0,  $61(a4)
+  01F730  move.l  #$FFFE8000, $10(a4)   horizontal izquierda
+  01F73A  move.l  #$18000,   $10(a4)    horizontal derecha
+
+  MANDA AL MISMO ESTADO Y CON LA MISMA VELOCIDAD QUE EL $68=5. Lo unico que
+  se ve distinto es el reaction: 8 en vez de 5. [DERIVADO] falta diffear los
+  dos handlers enteros para ver si hay otra diferencia.
+
+  *** CONSECUENCIA PARA STOP TIME: ***
+  El estado $25 tiene velocidad, asi que el rival NO SE CONGELA. Igual que
+  con $68=4, 5 y 6. Ver la seccion de STOP TIME.
+
+  *** LA TABLA ES DE 16 PALABRAS PERO SOLO HAY 11 HANDLERS REALES ***
+  Del 11 al 15 no son handlers de victima:
+    - 13, 14 y 15 apuntan EN MEDIO DE UNA INSTRUCCION. Imposible que se
+      ejecuten. Son relleno.
+    - 11 apunta a $020576, que escribe sobre a0 y no sobre a4: es codigo de
+      objeto o proyectil, no de reaccion de victima.
+    - 12 apunta a $01F5A8, que es el BEQ del handler de $68=1/3: saltaria
+      en medio de otro handler.
+  La tabla quedo dimensionada de 16 pero nunca se lleno. [COMPROBADO]
+
+LA COLA COMUN DE TODOS LOS HANDLERS, EN $01F786
+-------------------------------------------------
+  Los handlers con velocidad terminan con  bra $01f786. Ahi esta la parte
+  comun, Y CONTESTA UNA PREGUNTA QUE LLEVA ABIERTA DESDE EL 14/10:
+
+    01F786  move.b  #$20, $6c(a4)
+    01F78C  move.b  #$20, $6d(a4)
+    01F792  move.b  #$0,  $59(a4)     reinicia el frame del anim
+    01F798  move.b  #$8,  $5a(a4)     duracion del frame
+    01F79E  move.b  #$ff, $5b(a4)     <<<<<<< AQUI
+    01F7A4  clr.b   $60(a4)
+    01F7A8  clr.b   $64(a4)
+    01F7AC  clr.b   $77(a4)
+    01F7B0  rts
+
+  *** EL $5B = $FF DE LA VICTIMA SE ESCRIBE AQUI, EN $01F79E. ***
+  No lo escribe el resolver. Lo escribe la COLA DEL HANDLER DE $68.
+
+  Eso explica por fin la asimetria que no se entendia: el ATACANTE recibe
+  $5B = $01 de $01F2D2 (el resolver de hitbox) y la VICTIMA recibe
+  $5B = $FF de $01F79E (la cola del handler de reaccion). Dos escritores,
+  dos valores. [COMPROBADO]
+
+  Y ADEMAS, dos cosas mas que se resuelven:
+    - $01F7A8 limpia $64 en CADA golpe. Por eso $64 acumula en vez de
+      reiniciarse: la limpieza ocurre, pero el atacante lo vuelve a setear
+      antes del siguiente hit.
+    - $01F7B2, la rutina del PLANO, esta inmediatamente despues:
+          $01F7B2  cmpi.w #$130, $9c(a3)
+          $01F7BA  move.b  #$3C, $26(a3)
+      Escribe $26 = $3C, que es PLANO A. Confirma lo que estaba anotado en
+      el PDF de Curacion. [COMPROBADO]
+
+LO QUE FALTA
+------------
+  Desensamblar $01F714 ($68=10) entero, y los otros cinco: 11, 12, 13, 14, 15.
+  No hay ningun personaje conocido que los use todavia. Hiei usa el 10.
+
+LO QUE FALTA
+================================================================================
+  Ya se:  $28  $29  $2A  $2B  $40
+
+  $67 sigue sin identificar.
+  $68 de los personajes que no son Itsuki, sin mirar.
+  Que dibujan los anims de reaccion y si alguno reorienta al personaje.
+
+  [PENDIENTE] Ver la ventana de hurtbox requiere mirar la lista $A400 y no
+  el $5F. El modo REACC actual no lo hace, y sigue sin tocarse.
+
+================================================================================
+
+
+================================================================================
+================================================================================
+8. CORRECCION MAYOR: EL AGARRE LO DEFINE EL AGARRADOR, NO LA VICTIMA
+   (15-10)
+================================================================================
+================================================================================
+
+  *** ESTA CORRECCION CAMBIA COMO SE LEE LA TABLA DE $68 ***
+
+  "el efecto del agarre NO depende de la victima sino del agarrador.  Lo
+   unico que la victima puntual si puede determinar es el tipo de combo que
+   puede recibir luego, debido a las hurtboxes, distribucion, tipo de
+   animacion de reaccion a los golpes y su tamano general"
+
+  *** LO QUE ESTA MAL EN ESTE DOCUMENTO, TAL COMO ESTABA ***
+
+   L260  "victima $40 -> $30   $68=8, el dano del agarre"
+
+  ESA LINEA ATRIBUYE EL ESTADO AL ATACANTE PERO LO ESCRIBE COMO SI FUERA
+  UNA REACCION DE LA VICTIMA.  $68 NO ES UNA REACCION: ES UN DATO DEL
+  AGARRADOR.
+
+  *** LA TABLA DE $68, CORREGIDA ***
+
+      $68 = 8  ->  $30   ELEVACION RECTA    Itsuki, Sensui, y segun el
+                                       usuario tambien Hiei y Toguro
+                                       menor
+      $68 = 9  ->  $2F   EMPUJE DIAGONAL    Kurama, y unos 4 o 5 mas
+
+  *** LAS DOS TIENEN VENTANA ACTIVA.  LO QUE CAMBIA ES LA DIRECCION ***
+  $30  "elevacion recta con ventana de frames activada hasta la caida al
+       suelo"
+  $2F  "alejarte en diagonal en direccion contraria, tambien con ventana
+       activa"
+
+  *** Y SI MISMO EFECTO, CODIGO DISTINTO ***
+  "en el agarre de sensui, aunque en codigo sea distinto, produce en el
+   juego, a efectos practicos, el mismo resultado que Itsuki, Hiei y
+   Toguro menor"
+
+  El estado $30 es el mismo y el resultado es el mismo, luego la
+  diferencia esta en el DATO (los vectores de velocidad), no en el codigo.
+  [COMPROBADO]
+
+  *** CONSECUENCIA QUE NO EXISTIA ANTES ***
+
+  *** UN MISMO GOLPE PUEDE PRODUCIR RESPUESTAS DISTINTAS SEGUN QUIEN ***
+  Si $68 se lee del blob del agresor, dos personajes con el MISMO ataque
+  pueden meter al rival en estados distintos.  LA TABLA DE $68 NO ES UNA
+  TABLA DE 'COMO SE REACCIONA': ES UNA TABLA DE 'COMO PEGA CADA PERSONAJE'.
+
+  ESO CONVIERTE LA TABLA EN POR PERSONAJE, y por lo tanto el bloque de
+  cada personaje tiene su propia tabla de reacciones.
+  LA PRUEBA: el mismo ataque, dos personajes, mismo rival.  [ABIERTO]
+
+  *** Y LO QUE SI DEPENDE DE LA VICTIMA ***
+
+  Lo que el rival pueda recibir DESPUES.  Cuatro cosas, todas suyas:
+
+      hurtboxes                donde te pueden pegar
+      distribucion             como esta repartido el cuerpo
+      animacion de reaccion    que postureo muestra
+      tamano general           cuanto ocupa y cuanto pesa
+
+  "sensui provoca $30 a TODOS"  -- confirmado por el usuario.  El estado es
+  el mismo para cualquier victima.  Lo que cambia es COMO se lo pueden
+  encadenar.
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+9.  LAS REACCIONES DE SENSU, Y POR QUE TIENEN LAS QUE TIENEN
+   (15-10)
+================================================================================
+================================================================================
+
+  *** CUATRO ESTADOS NUEVOS, MEDIDOS CON SENSUI ***
+
+      $20     hitstun simple              bola aerea ($16)
+      $21     tambaleo                    bola rasante, pistola, rosa
+      $26     lanzador                    patada de ABAJO,ADELANTE+B
+      $27     enviado ABAJO               patada aerea
+
+  *** $27 Y $30 SON LA MISMA FAMILIA EN DIRECCIONES OPUESTAS ***
+
+      $30 -> $28 -> $29 -> $2A -> $00    enviado ARRIBA
+      $27 -> $28 -> $29 -> $2A -> $00    enviado ABAJO
+
+  *** UNA SOLA SECUENCIA DE CAIDA, Y LA DIRECCION SE DECIDE AL ENTRAR ***
+  Los cuatro estados intermedios ($28, $29, $2A) son los mismos para los
+  dos sentidos.  El juego no tiene dos caidas: tiene una, con un signo.
+  [COMPROBADO]
+
+      "si recuerdas que antes mencione que habian solo 2 ataques que te mandan
+       a volar pero hacia abajo... solo otro personaje lo tiene ademas de
+       sensui"
+
+  *** $27 ES DE LAS MAS RARAS DEL JUEGO ***
+  Una sola tecnica de un solo personaje, mas uno.  [ABIERTO]  Falta saber
+  cual es el otro y si su estado es $27 o uno paralelo con el mismo efecto.
+
+  *** Y POR QUE SENSU TIENE ESTOS GOLPES BARATOS ***
+
+      "el personaje sensui en el manga declara que su cantidad de energia
+       espiritual es 10 veces mayor al de los protagonistas, y es evidente
+       que en el juego quisieron insinuar esto"
+
+  La wiki lo confirma con capitulo: manga cap. 152, 'more than ten times
+  the spiritual energy than Yusuke'.  Y no es solo cantidad: la Energia
+  Sagrada es de otro tipo, y ni la Genkai pudo alcanzarla.
+
+  *** Y ESO SE TRADUCE EN UN DATO MEDIBLE ***
+
+      Hiei     tecnicas de 8 a 200
+      Kurama   tecnicas de 16 a 200
+      Sensui   tecnicas de 2 a 6, y la pistola tiene coste NEGATIVO
+
+  O sea que el lore no es decoracion: es la tabla de precios.  [DERIVADO]
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+9.  LAS REACCIONES DE SENSU, Y POR QUE TIENEN LAS QUE TIENEN
+   (15-10)
+================================================================================
+================================================================================
+
+  *** CUATRO ESTADOS NUEVOS, MEDIDOS CON SENSUI ***
+
+      $20     hitstun simple              bola aerea ($16)
+      $21     tambaleo                    bola rasante, pistola, rosa
+      $26     lanzador                    patada de ABAJO,ADELANTE+B
+      $27     enviado ABAJO               patada aerea
+
+  *** $27 Y $30 SON LA MISMA FAMILIA EN DIRECCIONES OPUESTAS ***
+
+      $30 -> $28 -> $29 -> $2A -> $00    enviado ARRIBA
+      $27 -> $28 -> $29 -> $2A -> $00    enviado ABAJO
+
+  *** UNA SOLA SECUENCIA DE CAIDA, Y LA DIRECCION SE DECIDE AL ENTRAR ***
+  Los cuatro estados intermedios ($28, $29, $2A) son los mismos para los
+  dos sentidos.  El juego no tiene dos caidas: tiene una, con un signo.
+  [COMPROBADO]
+
+      "si recuerdas que antes mencione que habian solo 2 ataques que te mandan
+       a volar pero hacia abajo... solo otro personaje lo tiene ademas de
+       sensui"
+
+  *** $27 ES DE LAS MAS RARAS DEL JUEGO ***
+  Una sola tecnica de un solo personaje, mas uno.  [ABIERTO]  Falta saber
+  cual es el otro y si su estado es $27 o uno paralelo con el mismo efecto.
+
+  *** Y POR QUE SENSU TIENE ESTOS GOLPES BARATOS ***
+
+      "el personaje sensui en el manga declara que su cantidad de energia
+       espiritual es 10 veces mayor al de los protagonistas, y es evidente
+       que en el juego quisieron insinuar esto"
+
+  La wiki lo confirma con capitulo: manga cap. 152, 'more than ten times
+  the spiritual energy than Yusuke'.  Y no es solo cantidad: la Energia
+  Sagrada es de otro tipo, y ni la Genkai pudo alcanzarla.
+
+  *** Y ESO SE TRADUCE EN UN DATO MEDIBLE ***
+
+      Hiei     tecnicas de 8 a 200
+      Kurama   tecnicas de 16 a 200
+      Sensui   tecnicas de 2 a 6, y la pistola tiene coste NEGATIVO
+
+  O sea que el lore no es decoracion: es la tabla de precios.  [DERIVADO]
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+10.  $2F LO PRODUCE TAMBIEN LA PARRY DE SENSI  (15-10)
+    (15-10)
+================================================================================
+================================================================================
+
+  *** $68 ES UNA PROPIEDAD DEL GOLPE, NO DEL PERSONAJE ***
+
+        ABAJO+A+B de Sensui   ->  $2F     empuje diagonal con ventana
+        agarre de Kurama      ->  $2F     empuje diagonal con ventana
+
+  Dos agresores DISTINTOS producen el mismo estado.  [COMPROBADO]
+
+      "es como si fuese el efecto de ese agarre pero a partir de un golpe"
+
+  *** CORRIGE LA REDACCION DE LA SECCION 8 ***
+
+  La seccion 8 decia: el estado lo decide QUIEN AGARRA, no la victima.  Eso
+sigue siendo cierto, pero hay que decirlo con precision:
+
+      la reaccion la SOSTIENE el agresor.
+      el $68 vive en el bloque del personaje.
+      y dos personajes pueden llevar el MISMO valor.
+
+  *** LO QUE SIGUE SIENDO VERDAD ***
+      "sensui provoca $30 a todos"  -- el estado lo elige el ATAQUE, no a
+  quien le pegues.  Lo que si es de la victima es lo que puede recibir
+  DESPUES: hurtboxes, distribucion, animacion de reaccion y tamano general.
+
+  *** Y $2F ABRE VENTANA COMO $25 Y $30 ***
+
+        $25 -> $24    planta de Kurama
+        $30 -> $24    agarre de Sensui, patada en el aire
+        $2F -> $24    parry baja de Sensui, agarre de Kurama
+
+  *** $24 ES EL ESTADO UNICO DE DERRIBO CON VENTANA ***
+  Se entra desde cualquier derribo en cuanto entra un golpe basico.  Ese es
+  el sistema de combo del juego, y es uno solo para los once.
+
+  *** LOS ESTADOS DE CLASHEO: $80 Y $84 ***
+
+        clasheo con A+B         ->  el rival entra en $80
+        clasheo con ABAJO+A+B   ->  el rival entra en $84
+
+      "sensui tiene los unicos 2 contraaques del juego"
+
+  *** Y ESOS IDS SON LOS MISMOS QUE DOS GOLPES DE SENSU ***
+
+        $80   B de pie
+        $84   Adelante + B
+
+  Los estados se comparten entre reacciones y golpes.  [ABIERTO]  Falta ver
+  si un rival en $80 por clasheo se recupera igual que uno que recibe un B.
+
+================================================================================
+================================================================================

@@ -1552,39 +1552,46 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
     alias y el facing decide.  [ABIERTO]
 
 
-      *** LA TABLA DEL AIRE.  MEDIDA CON JIN,  EL 16-10 ***
+      *** [CORREGIDO EN 123:  LA TABLA DEL AIRE]  ***
 
-          entrada                          id      man
-          ------------------------------  ------  ----------
-          mirando a la DERECHA + X        $0C       8
-          en el aire + Z                  $AE       8
-          en el aire + ARRIBA,ARRIBA      $AC       8
-          mirando a la IZQUIERDA + X      ---       0   NO HACE NADA
+      *** PRIMERO LO QUE FALTA DECIR:  EL AIRE Y EL SUELO SON LAS MISMAS DOS
+      MANIOBRAS,  Y EN EL AIRE COSTAN MAN ***
 
-      *** Y OJO:  MIRANDO A LA IZQUIERDA,  X EN EL AIRE NO HACE NADA ***
+          el suelo    Z adelante $0B    X atras $0C    0 de mana
+          el aire     Z adelante $AE    X atras $0C    8 de mana
 
-      El estado que sale es $06,  y $06 es EL ASCENSO DEL SALTO:  es
-      exactamente la misma cadena que un salto sin apretar nada.
+      *** Y X Y Z SON ALIAS EXACTOS.  EL FACING LOS CAMBIA.  COMO EN EL
+      SUELO.  ESTA MEDIDO EN LAS CUATRO COMBINACIONES QUE IMPORTAN:  ***
 
-          $00 -> $0D   la carga
-          $0D -> $06   el ascenso
-          $06 -> $08   el aire
+          mirando a la DERECHA     Z -> $AE   8 de mana    MEDIDO
+          mirando a la DERECHA     X -> $0C   8 de mana    MEDIDO
+          mirando a la IZQUIERDA   Z -> $0C   8 de mana    MEDIDO
+          mirando a la IZQUIERDA   X -> $AE   8 de mana    PENDIENTE
 
-      *** O SEA QUE $06 NO ES UN DASH AEREO  ***  [FUERTE]
+      *** Y POR QUE EL USUARIO DICE QUE SE USAN PARA "MAYOR PRECISION":  ***
 
-      Y eso contradice lo que dijo el usuario ("dash y backdash en aire").
-      Con lo medido:  en el aire X y Z NO son el dash y el backdash.  Son los
-      dos Flotares de costumbre.  [ABIERTO]  falta probar mirando a la
-      izquierda + Z  y mirando a la derecha + Z.
+      No son mas precisas.  Son las mismas dos maniobras de siempre,  pero con
+      un boton en vez de dos taps.  Y por eso dan un Flotar limpio y no un
+      dash con deriva.  Que es lo que hace falta para encadenar el vuelo.
 
-      *** Y $0C ES UN ESTADO DOBLE:  UNA MISMA ID PARA DOS COSAS ***
+  
+    *** LOS ESTADOS DE GOLPE RECIBIDO,  CON NOMBRE  ***
 
-          en el suelo    el backdash          0 de man
-          en el aire     el Flotar atras      8 de man
+        $21   aturdido de pie          PUSH+HURT
+        $25   aturdido en el aire      PUSH+HURT
+        $26   el LANZADO horizontal    SOLO HIT   <-- sin hurtbox
+        $28   la caida                 PUSH
+        $29   la caida larga           PUSH
+        $05   el paso a una tecnica de suelo   no es un golpe
 
-      *** Y CHUI Y TOGURO MENOR TIENEN EL MISMO BYTE $70 EN $0C ***
-      O sea que probablemente tambien tienen el Flotar atras aereo.  Es lo
-      primero que hay que medir en Chui.
+    *** $26 NO TIENE HURTBOX:  NO SE LE PUEDE PEGAR MIENTRAS VUELA  ***
+    Y es lo que hace que sea el lanzamientO y no solo un golpe.
+
+    *** Y CONSECUENCIA:  EL STOP TIME TAMPOCO LO CONGELA  ***
+    Seccion 15:  el unico criterio es "estar saliendo volando".  $26 es
+    justamente eso.  O sea que hay DOS cosas que el STOP TIME no toca:
+    las caidas y el lanzado.  [DERIVADO]
+
 
     *** EL CAMBIO DE PLANO, MEDIDO ***
         f28  $00 -> $0F   dur $5A = $FF   bucle infinito

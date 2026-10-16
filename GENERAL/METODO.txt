@@ -2360,3 +2360,82 @@ FIN DEL IDEARIO
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+29.4  LOS DOS BITS DE BYTE+2,  Y EL NUMERO DE GOLPES SIN JUGAR
+===============================================================================
+
+  *** EL REGISTRO ES UN ANIM.  Y CADA ANIM TIENE SU PROPIO BYTE+2.  ***
+  Cada uno de los ocho bytes es propio del anim,  no del estado.
+
+      byte+2  bit 7 ($80)   este es el ULTIMO anim
+      byte+2  bit 4 ($10)   este anim TIENE HITBOX
+
+  *** LA REGLA DEL BIT 7:  134 DE 134.  UNA VEZ,  Y EN EL ULTIMO ANIM.  ***
+  Comprobada en las 134 tecnicas vivas de los once personajes.  Cero fallos.
+
+  *** ESO ES LO QUE CONFIRMA QUE LA LISTA SE LEE BIEN PARA LOS ONCE.  ***
+  Un patron que sale 134 de 134 no es casualidad.
+
+  *** LA DEL BIT 4:  3 DE 4 CONTRA LO MEDIDO EN PANTALLA  ***
+
+      JIN $A0         1 anim con bit 4    MEDIDO 1 golpe
+      JIN $A2         2 anims con bit 4   MEDIDO 2 golpes
+      ITSUKI $A8      0 anims con bit 4   MEDIDO 0 golpes
+      KUWABARA $AA   13 anims / 7 rachas  MEDIDO 11 golpes
+
+  *** O SEA:  EL BIT 4 DICE "ESTE FRAME TIENE HITBOX".  NO "ESTE FRAME
+  PEGA".  Para golpes simples es el numero exacto.  Para una ulti con
+  objetos hay mas anims con hitbox que golpes.  [FUERTE] ***
+
+  *** Y LA REGLA DE USO  ***
+      golpes   =  el numero de anims con bit 4,  para golpes simples
+      tiene golpe  =  al menos un anim con bit 4
+      startup  =  el anim del primer bit 4
+      ventana para hits  =  entre el primer y el ultimo anim con bit 4
+
+  *** Y ESTO SUSTITUYE A LA HEURISTICA DE "REGISTRO DEAD"  ***
+
+  La pregunta "esta tecnica pega?"  tiene mejor respuesta en el bit 4 que en
+  el contenido del registro.  Y no tiene excepciones ni ruido:
+
+      antes    registro == 00 00 80 00 00 00 00 00   ->  "no existe"
+      ahora    ningun anim con bit 4               ->  "no pega"
+
+  La segunda es mejor porque el registro dead se puede leer con la base
+  equivocada (y se leyo),  y el bit 4 no:  lee la lista,  y la lista se
+  comprueba con el bit 7 del ultimo anim.
+
+  *** Y AHORA HAY UNA TABLA DE HITBOX DE LAS 134 TECNICAS  ***
+  esta en MOVES DE TODOS.txt.  Se leyo entera del ROM,  sin jugar.
+
+  *** Y LO MAS PRODUCTIVO QUE SALE DE ELLA:  LAS TECNICAS QUE NO PEGAN  ***
+
+      GENKAI     5 de 15      HIEI      8 de 16
+      KURAMA     4 de 8       ITSUKI    9 de 14
+      YUSUKE     3 de 8       CHUI      5 de 16
+      SENSUI     1 de 11      TOGURO+   4 de 12
+      JIN        5 de 12      TOGURO-   2 de 11
+
+  *** HIEI TIENE OCHO TECNICAS SIN HITBOX  Y 16 VIVAS.  MITAD.  ***
+  Itsuki, nueve de catorce.  Y JIN, cinco de doce:  los tres Flotares y
+  dos mas sin nombre.
+
+  *** O ESO SON TECNICAS QUE HACEN OTRA COSA,  O HAY CONTENIDO MUERTO DE
+  VERDAD.  Y CON EL BIT 4 SE PUEDE RESPONDER  ***
+  Porque el bit 4 dice "hay hitbox",  no "pega".  Una tecnica que mueve,
+  o que lanza,  o que es una maniobra,  tiene bit 4 = 0  y existe igual.
+
+  ================================================================================
+  29.5  Y EL BYTE+5,  QUE DICE QUIEN PUEDE VOLAR
+
+  Aparece en $70 solo en JIN, CHUI y TOGURO MENOR,  en $0C y en $0F.  [DERIVADO]
+  que falta ese byte es lo que les deja repetirse en el aire.  Ver 122.3.
+
+  En la lista de anims  el $70 sale en anims concretos:  el anim 4 de $A0,
+  los anims 8 y 11 de $A2,  el anim 10 de $A4.  O sea que no es un flag del
+  estado:  es un flag de un anim.  [ABIERTO]
+================================================================================
+================================================================================
+================================================================================

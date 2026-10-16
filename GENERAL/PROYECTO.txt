@@ -627,6 +627,19 @@ A("")
       RESPALDO\remake_godot\data\game_data.json   datos crudos del remake
       RESPALDO\_disasm_tools\             los lectores de ROM
 
+  *** Y LOS MANDOS QUE YA TIENEN ID ***
+
+      $09   la guardia de pie      C
+      $0A   la defensa baja        ABAJO + C
+      $0B   el dash                adelante, adelante,  o Z mirando a la derecha
+      $0C   el backdash            C y despues B,  o Z mirando a la izquierda
+      $0F   el cambio de plano     C + arriba,  o Y (siempre)
+
+  *** X Y Z SON EL MISMO BOTON PARA DOS COSAS, Y EL FACING DECIDE ***
+      mirando a la izquierda    X = dash      Z = backdash
+      mirando a la derecha      Z = dash      X = backdash
+      Y = cambio de plano,  siempre
+
   *** REGLA:  SI SE CREA, BORRA O MUEVE UN DOCUMENTO, ESTA SECCION SE
   ACTUALIZA EN LA MISMA RONDA.  NO HAY EXCEPCION.  ***
 ================================================================================

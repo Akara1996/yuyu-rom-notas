@@ -1314,6 +1314,39 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       la provocacion   $67=$01  $68=$05
       la ulti de KU    $67=$02  $68=$02
 
+
+  *** EL STOP TIME NO TIENE NADA QUE VER CON LA HURTBOX ***
+
+  El unico criterio es UNO:  si el estado te esta lanzando horizontalmente o
+  verticalmente hacia abajo.  Todo lo demas da igual.
+
+      el backdash                sin hurt.   lo congela?  SI
+      el cambio de plano         sin hurt ni push.          SI
+      el Afterimage de Hiei      sin hurt ni push, y en un
+                                  tramo ni visible.        SI
+      el teleport de Itsuki      idem.                      SI
+
+  *** O SEA QUE LA AUSENCIA DE HURTBOX NO PROTEGE DE NADA FRENTE AL STOP
+  TIME.  LAS DOS COSAS SON INDEPENDIENTES. ***
+
+  Y por eso $28/$29/$2A no tener hurtbox NO puede tener la misma causa que
+  no congelarse:  el STOP TIME congela a un backdash que no tiene hurtbox.
+  Lo que los une, si algo,  es otra cosa.  [ABIERTO]
+
+  *** Y HAY DOS MECANISMOS DE "EL PROYECTIL NO ME GOLPEA", Y SE CONFUNDIAN ***
+
+      pasar por debajo   SIN HURT y SIN CLASH.  El proyectil pasa y NO se
+                         consume.  Es el Afterimage de Hiei y el teleport
+                         de Itsuki.
+      desviarlo          SIN HURT y CON CLASH.  El proyectil explota.
+                         Es el arranque de la ulti de Kuwabara.
+
+  *** EL AFTERIMAGE DE HIEI NO GOLPEA Y NO TIENE CLASH ***
+  No hace dano,  no es ofensiva.  Sirve para traspasar un proyectil grande o
+  para aparecer detras del enemigo.  Nada mas.
+
+
+
   *** LO QUE NO SE SABE:  POR QUE $28 NO TIENE HURTBOX ***
   NO es una quinta fuente de intangibilidad.  Ese nombre queda ELIMINADO.
 
@@ -1448,19 +1481,43 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
   *** HAY TRES MANIOBRAS Y CADA UNA TIENE DOS FORMAS ***
 
-      maniobra            forma con motion        boton directo
-      ------------------  ----------------------  --------------
-      el cambio de plano  C + arriba              Y
-      el dash adelante    adelante, adelante      Z
-      el backdash         C y despues B           X
+        maniobra            forma con motion        boton directo
+        ------------------  ----------------------  -------------------------
+        el cambio de plano  C + arriba              Y   (siempre)
+        el dash adelante    adelante, adelante      Z   (mirando a la derecha)
+        el backdash         C y despues B           X   (mirando a la derecha)
 
-  *** Y LOS TRES BOTONES SON RELATIVOS AL FACING ***
-  Z siempre va al frente del personaje y X a la vuelta, mire para donde mire.
-  El motion si necesita la direccion, porque adelante-atras se escribe en
-  pantalla.  [COMPROBADO por el usuario]
+    *** Y X Y Z SON EL MISMO BOTON PARA DOS COSAS, Y EL FACING DECIDE ***
+    (usuario, 16-10:  "esto ya te lo dije antes")
 
+        mirando a la IZQUIERDA    X = dash      Z = backdash
+        mirando a la DERECHA      Z = dash      X = backdash
+        Y = cambio de plano,  SIEMPRE
 
+    O sea que la tabla de arriba SOLO es cierta mirando a la derecha.  Y lo
+    que cambia no es el boton:  es lo que hace.
 
+    *** Y EL .LUA YA IMPRIME EL FACING Y LOS TRES BOTONES,  Y NO HACE FALTA
+    TOCARLO ***
+        [CMD] flecha de facing: ON  /  OFF
+    Con eso los cuatro datos salen en una partida.
+
+        mirando a la derecha    Z   ->  el dash        $0B   MEDIDO
+        mirando a la derecha    X   ->  el backdash    ?
+        mirando a la izquierda  Z   ->  el backdash    $0C   MEDIDO
+        mirando a la izquierda  X   ->  el dash        ?
+
+    Si X a la derecha da $0C y X a la izquierda da $0B,  los dos botones son
+    alias y el facing decide.  [ABIERTO]
+
+    *** EL CAMBIO DE PLANO, MEDIDO ***
+        f28  $00 -> $0F   dur $5A = $FF   bucle infinito
+        f79  $0F -> $0E
+        f88  $0E -> $01
+        f95  $01 -> $00      51 frames
+
+    *** Y EL MOTION SI NECESITA LA DIRECCION,  PORQUE ADELANTE-ATRAS SE ESCRIBE
+    EN PANTALLA ***  [COMPROBADO por el usuario]
 
   *** Y LA MASCALA DEL DASH:  MEDIDA.  EL DASH NO TIENE CAJA DE GOLPE. ***
 

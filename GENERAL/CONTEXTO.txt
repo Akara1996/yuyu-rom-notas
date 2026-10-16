@@ -6663,3 +6663,163 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+55. LA REGLA DE CHOQUE ES UNIVERSAL, Y HAY TRES CATEGORIAS DE GOLPE GRANDE
+    (15-10)
+================================================================================
+================================================================================
+
+  55.1  *** MISMO NIVEL = EMPATE.  SIN EXCEPCIONES. ***
+
+      "desde ya te digo que 2 rosas, 2 dragones, 2 ultis de sensui, 2 bolas
+       normales de sensui, 2 reigan a nivel 1,2,3,4,5,6 siempre van a empatar
+       si estan al mismo nivel"
+
+      *** CINCO TIPOS DE PROYECTIL, TODOS EMPATAN A PARIDAD ***
+
+        2 rosas de Kurama
+        2 dragones de Hiei
+        2 ultis de Sensui
+        2 bolas normales de Sensui
+        2 reigan, en los seis niveles
+
+      *** LA REGLA NO ES POR TIPO DE PROYECTIL.  ES UNA SOLA PARA TODOS. ***
+      [COMPROBADO]
+
+      *** Y ES LA MISMA REGLA DE LA 54.2, PERO AHORA GENERALIZADA ***
+        rango MAYOR     el menor explota, el mayor sigue
+        rango IGUAL     los dos explotan
+
+  55.2  *** EL NIVEL DE CARGA ES PARTE DEL RANGO ***
+
+      "los reigan a nivel 1, 2, 3, 4, 5, 6... si estan al mismo nivel"
+
+      *** LA PALABRA 'NIVEL' IMPLICA QUE NIVELES DISTINTOS NO EMPATAN ***
+      O sea que la carga entra en la comparacion.  [DERIVADO]
+
+        el rango de un proyectil  =  (tipo, nivel de carga)
+
+      *** Y HAY SEIS NIVELES DE CARGA ***
+      Eso no es un numero de dmg: es una TABLA.  Seis entradas por cada
+      proyectil cargable, con tamano, dano y velocidad.  [DERIVADO]
+
+      *** LA PRUEBA QUE LO CIERRA ***
+      Reigan nivel 1 contra Reigan nivel 2.  Si el nivel 1 explota y el 2
+      sigue, la carga esta en el rango.  Si empatan, el nivel NO cuenta y lo
+      que empata es el tipo.  UNA PRUEBA.  [ABIERTO]
+
+  55.3  *** EL REIGAN MAXIMO ES TAN FUERTE COMO LA ULTI DE SENSU ***
+
+      "los reigan pueden cargarse al punto de ser tan fuertes como ulti de
+       sensui y no son ulti, es una tecnica cargable que puede usarse sin
+       necesidad de umbral de vida baja"
+
+      *** O SEA: LA ULTI DE SENSU ES UN REIGAN CARGADO ***
+
+      64 de dano es lo que da el Reigan al maximo.  $A3 es el mecanismo de
+      carga, y la ulti es la version que ya viene cargada.  [DERIVADO]
+
+      "no son ulti"  --  y ESO es lo que hay que entender.  No hay una sola
+      categoria de golpe grande.  Hay tres.
+
+  55.4  *** LAS TRES CATEGORIAS, SEPARADAS ***
+
+      1.  DESPERACION.  La de verdad, y la unica con umbral.
+
+         GameFAQs sobre el juego:
+
+            "When your LIFE drops below 50% and you have a full SPIRIT bar
+             then your DESPERATION Move becomes available."
+
+         O sea que una ulti REQUIERE dos cosas a la vez:
+
+            la vida por debajo del 50%
+            el man lleno
+
+         [COMPROBADO por fuente externa]  Y es un umbral de VIDA, no de
+         man.  El man solo tiene que estar lleno.
+
+      2.  CARGA.  Sin umbral.  Potencia variable segun cuanto cargues.
+
+         el Reigan de Yusuke y de Genkai
+         el $A3 de Sensui
+         probablemente la rosa de Kurama con A y B   [ABIERTO]
+
+      3.  NORMAL.  Lo demas.
+
+      *** ESTO CORRIGE MI MODELO, QUE TENIA UNA SOLA CATEGORIA ***
+
+      He hablado de 'la ulti' como si fuera una sola cosa.  NO LO ES.
+
+        Kurama  $A6   200 MP   88 de dano   --  desperacion o carga?
+        Sensui  $A3    50 MP   64 de dano   --  el usuario dice que es
+                                                   una carga, no una
+                                                   desesperacion
+
+      *** Y EL $A3 ES EL UNICO DE LOS CONOCIDOS QUE PODRIA NO SER ULTI ***
+
+      LA PRUEBA: hacer la ulti de Sensui con la VIDA POR ENCIMA del 50%.
+      Si funciona, NO es una desesperacion y es una carga como el Reigan.
+      Si no funciona, es una desesperacion como la de Kurama y hay que
+      buscar el umbral en el codigo.  UNA PRUEBA.  [ABIERTO]
+
+      *** Y SI ES UNA CARGA, TIENE UNA CONSECUENCIA GRANDE ***
+      Las utis de otros personajes pueden ser tambien proyectiles cargados,
+      y entonces el mismo proyectil se puede usar de dos maneras: cargado a
+      mano, o de golpe con un comando.  Eso daria MAS de una tecnica por
+      personaje, y cambiaria el conteo.  [DERIVADO]
+
+  55.5  *** LO QUE SABEMOS DEL ALCANCE DE LA CARGA ***
+
+      GameFAQs sobre el Reigan de Yusuke:
+
+           "Uses spirit energy to fire a projectile.  If you HOLD A or B, he
+            will consume MORE SPIRIT ENERGY to make it bigger.  He will
+            charge it automatically if you perform this with C instead.  By
+            cancelling the charge with C, he will STORE IT.  This allows him
+            to have a huge spirit gun at the ready."
+
+  *** O SEA: LA CARGA SE PUEDE GUARDAR ***
+  *** Y ESO ES UNA MECANICA COMPLETA QUE NO CONOCIAMOS ***
+
+      cargarla, cancelarla, guardarla, y usarla cuando quieras sin recargar.
+      El Reigan cargado queda en la mano como un proyectil mas.
+
+      *** Y ESO ES UN TERCER ESTADO DE OBJETO ***
+
+      Ya tenamos el proyectil normal y el proyectil en vuelo.  Falta el
+      PROYECTIL GUARDADO: existe en memoria, no en pantalla, y no se mueve.
+      [DERIVADO]
+
+      *** Y SI SE PUEDE GUARDAR, PUEDE HABER VARIAS ***
+      Cuantas?  Ese es el numero delPICO del Reigan y el de las ulis de carga.
+      [ABIERTO]
+
+  55.6  CINCO PRUEMAS, TODAS BARATAS
+
+      1.  Reigan nivel 1 contra nivel 2.     el nivel cuenta?
+      2.  Reigan al maximo contra la ulti de Sensui.   empatan?
+      3.  Dos Reigan al maximo.       empatan?
+      4.  La ulti de Sensui con la vida por ENCIMA del 50%.   existe?
+      5.  Reigar cargado al maximo, que man se le descuenta.   cuesta mas
+          que 50?
+
+      *** Y UNA SEXTA QUE SALE DEL MODELO Y NO SE ME OCURRIO ANTES ***
+
+      6.  La rosa de Kurama con A y con B.  La de B es una rosa MAS CARGA
+          y no una mas lenta?
+
+         El usuario la describio como "A es la rosa mas rapida, B hace el
+         recorrido mas lento".  Las dos hacen 4 de dano.  Pero si B fuera un
+         nivel de carga mas alto, seria mas grande y mas lento, que es
+         justo lo que hace un proyectil cargado.  [DERIVADO]
+
+      *** LA MANERA DE MEDIRLO ES LA DE LAS BOLAS ***
+      Tirar la rosa a ras de suelo contra el enemigo y medir la altura de
+      la caja.  Si la de B es mas alta, es una bola mas grande, no una mas
+      lenta.  UNA PRUEBA.  [ABIERTO]
+
+================================================================================
+================================================================================

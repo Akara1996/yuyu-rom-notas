@@ -2126,3 +2126,42 @@ FIN DEL IDEARIO
                                de "more than 200 local variables"  es el
                                aviso.  No lo tira en la sintaxis.
 ================================================================================
+
+================================================================================
+28.4  NUNCA NOMBRAR UNA VARIABLE COMO UN MODULO
+
+  *** QUE PASO ***
+
+  En el bloque BLOB-J:
+
+      for bit, nm in pairs(NOM) do
+        if bit.band(m, bit) ~= 0 then ... end
+      end
+
+  En el archivo hay  local bit = require("bit")  que es el modulo.  La
+  variable del loop se lo tapa y `bit.band` termina siendo indexar un numero.
+
+  *** Y EL EFECTO FUE EL PEOR POSIBLE ***
+
+  `rastrear()` se llama cada frame para cada slot y ahi se llama a la
+  herramienta.  La excepcion sube y tumba el chunk.  El rastreador entero
+  dejo de imprimir:  no goteos, no HP, nada.
+
+  *** LA SEAL DE QUE ES UN CRASH Y NO UNA MEDICION VACIA ***
+
+      "no imprime absolutamente nada"
+
+  Una medicion vacia es una linea que no sale.  Un crash es TODO lo que deja
+  de salir.  Hay que distinguirlos antes de culpar al juego.
+
+  *** LAS DOS REGLAS ***
+
+  1.  Ninguna variable local puede llamarse como un modulo:  bit, math, string,
+      io, table, os, coroutine.
+  2.  Todo lo que se agregue al rastreador se llama con pcall,  para que una
+      herramienta nueva nunca pueda tumbar la unica herramienta del proyecto.
+
+  *** Y LA VERIFICACION QUE NO ALCANZA ***
+  `luajit -bl` da exit 0 con este error:  el error es de EJECUCION, no de
+  sintaxis.  Compilar no dice que ande.  La unica prueba es correrlo.
+================================================================================

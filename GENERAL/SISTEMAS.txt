@@ -186,9 +186,27 @@ GENKAI   CUATRO HABILIDADES, DIEZ COMANDOS, OCHO PRECIOS
   La ulti cuesta 200 para Hiei, Kurama y Yusuke.  Sensui es la excepcion,
   y su lore dice por que.
 
-  *** Y LA ULTI NO SIEMPRE ESTA EN EL MISMO ID ***
+  *** LAS CINCO ULIS MEDIDAS ***
 
-      Hiei $A6    Kurama $A6    Sensui $A3    Yusuke $AA
+      personaje   id      mana   golpes  dano   remate
+      -----------  ------  -----  ------  -----  ---------------------------
+      Hiei        $A6      200      1      88    el dragon
+      Kurama      $A6      200      1      88    las hojas
+      Sensui      $A3       50      1      64    la bola gigante
+      Yusuke      $AA      200      8     119    7 fisicos + reigan nivel 8
+      Genkai      $AA      200     13      93    corre y remata con uppercut
+
+  *** Y DOS PERSONAJES COMPARTEN EL $AA ***
+
+  *** Y LA DE GENKAI USA OTRA TECNICA COMO REMATE ***
+  Termina en $A3, que es el Uppercut A.  Y $5A = $FF:  el estado corre hasta
+  que te alcanza, y por eso el primer golpe llega 34 frames despues.  [COMPROBADO]
+
+  *** Y LAS CINCO CON LA MISMA ECONOMIA EXCEPTO SENSU ***
+  200 de mana para entrar, y entre 64 y 119 de dano.
+
+  *** Y LA ULTI NO SIEMPRE ESTA EN EL MISMO ID ***
+      Hiei $A6   Kurama $A6   Sensui $A3   Yusuke $AA   Genkai $AA
 
   *** LOS UMBRALES, QUE NO SON PRECIOS ***
 
@@ -614,10 +632,27 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       16   mil punos version A     mas cadencia, mas golpes
       32   el shotgun
 
-  *** Y CADA ACTIVACION DE MIL PUNOS SON SIEMPRE 4 GOLPES ***
+  *** Y LA CADENA DE GENKAI ES EL CUARTO MOTOR, Y TIENE TRES ESTADOS ***
 
-  Ni uno mas ni uno menos, sin importar cuantas veces aprietes.  Y no aumenta
-  1 golpe por pulsacion.  [COMPROBADO por el usuario]
+      estado   version        mana  frames  caja
+      -------  -------------  ----  ------  --------------
+      $A1      A x4 en suelo     12     35    NO TIENE
+      $A0      B x4 en suelo      8     50    SI TIENE
+      $AD      A x4 en AIRE      12    130    si,  7 golpes
+
+  *** Y LA SUYA SE VUELVE A COBRAR MIENTRAS DURA ***
+  Dos GOTEO del mismo precio dentro del mismo estado:  el estado no se gasta,
+  se renueva.  [COMPROBADO]
+
+  *** Y EN LOS MOTORES DE CADENCIA EL BARATO NO SIEMPRE ES EL RAPIDO ***
+      Genkai   A 12 mana y 35 frames    B 8 mana y 50 frames
+      Yusuke   A 16 mana y 77 frames    B 12 mana y 34 frames
+  Genkai va al reves.  [COMPROBADO]
+
+  *** Y EL +16 ANOMALO DE LA ULTI, SEGUNDA VEZ QUE PASA ***
+  En los dos personajes cae justo despues del golpe que manda al rival a $2F.
+  Yusuke al final de su ulti, Genkai entre la carrera y el uppercut.  O el $2F
+  cuenta como un golpe del combo, o el final de la escala paga 16.  [ABIERTO]
 
   *** Y SUS GOLPES NO DERRIBAN, AUNQUE EL A SUELTO SI ***
 

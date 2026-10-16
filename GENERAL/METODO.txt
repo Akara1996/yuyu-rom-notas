@@ -2197,3 +2197,41 @@ FIN DEL IDEARIO
   Una linea con TODOS los bits que se prendieron juntos da mas informacion que
   una linea por frame repetida.  Menos ruido y mas seal.
 ================================================================================
+
+================================================================================
+28.6  DOS BUGS EN DOS MENSAJES SEGUIDOS:  EL ORDEN DE UN FLANCO
+
+  *** BUG 1.  UNA VARIABLE LLAMADA COMO UN MODULO ***
+      for bit, nm in pairs(NOM) do  bit.band(...)  end
+      `bit` es  local bit = require("bit").  La variable del loop lo tapa y
+      el error de ejecucion tumba el rastreador entero.
+
+  *** BUG 2.  GUARDAR EL ESTADO ANTES DE COMPARARLO ***
+
+      st.prev = m                      -- el de AHORA
+      nuevos = m AND NOT st.prev        -- se compara consigo mismo: 0
+
+  *** LA REGLA DE UN FLANCO ***
+
+      local prev = estado_anterior
+      estado_anterior = estado_actual
+      nuevos = actual AND NOT prev
+
+  El "anterior" se COPIA en una variable local antes de sobrescribir el
+  guardado.  Si se lee el guardado despues de escribirlo,  el flanco es
+  siempre cero.
+
+  *** Y QUE APRENDI DE LOS DOS ***
+
+  Los dos bugs fueron de la MISMA clase:  usar un nombre que ya existe,
+  y usar un valor despues de haberlo cambiado.  Los dos se ven leyendo el
+  bloque entero antes de pegarlo,  no despues.
+
+  *** Y LA VERIFICACION QUE SI SIRVE ***
+
+  Probar la logica AFUERA del juego, con una secuencia de mascaras escritas a
+  mano,  y ver cuantas lineas salen.  Si la logica del flanco esta bien,  de
+  6 frames con mascara cambiante tienen que salir 1 o 2 lineas,  no 6 y no 0.
+
+  Compilar no alcanza.  Correr la logica suelta si.
+================================================================================

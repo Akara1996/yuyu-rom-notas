@@ -1,6 +1,6 @@
 SISTEMAS
 Las reglas del juego que valen para mas de un personaje
-================================================================================
+=" * 8
 
   Este es el archivo que se lee ENTERO.  CONTEXTO.txt es el archivo y se
   busca con grep.  Si una regla esta aca, vale para todos; si esta sola en
@@ -679,39 +679,78 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   La unica otra invulnerabilidad real del juego.  Los dos son conceptos que
   se negarian a existir si el objetivo fuera pegar.  [DERIVADO]
 
-  *** Y SU A+B TIENE UNA CAJA INVISIBLE ENORME ***
+  *** Y SU A+B GENERA UNA BARRERA.  NO ES INTANGIBILIDAD. ***
 
-      "lo que si tiene el A+B de Toguro Menor es una caja invisible ENORME"
+      "No es intangible, genera una barrera delante de el que lo proteje"
+       clasheando cualquer clase de golpe o proyectil pero puedes hacerle un
+       agarre, y si esta de espaldas al ejecutar la tecnica, no posee
+       proteccion ahi, solo frontalmente.  Ademas hay un ataque si puede
+       golpearlo por que no tiene clashbox y si hitbox."
 
-  *** Y ESO RESPONDE A DONDE ESTA EL RANK ***
+  Desglosado en cinco hechos.  [COMPROBADO por el usuario]
 
-  Si el rank de un golpe esta en el TAMANO de su caja, entonces una caja
-  que no se ve pero es enorme es un rank altisimo en un golpe invisible:
-  el alcance y el poder serian la misma cosa.  [DERIVADO]
+      1.  genera una BARRERA DELANTE de el
+      2.  la barrera detiene golpes fisicos y proyectiles
+      3.  se le puede hacer un AGARRE:  el agarre la atraviesa
+      4.  es SOLO FRONTAL:  de espaldas no hay proteccion
+      5.  la barrera tiene HITBOX y NO tiene CLASHBOX
 
-  *** Y HARIA INNECESARIA LA PARTIDA DE PRUEBA ***
+  *** EL DATO 5 EXPLICA EL 2 Y EL 3 ***
 
-  Todo el ladder de rank se leeria del ROM, de la lista de cajas, sin una
-  sola partida.  Es la recompensa mas grande posible de este sistema.
+  Una caja de CLASH frena al atacante y no se deja golpear.  Una caja de HIT
+  golpea.  Con HIT y sin CLASH:
 
-  *** Y SE PRUEBA CON TRES MEDICIONES ***
+      un proyectil contra ella     dos hitbox:  se comparan por rank
+      un golpe fisico contra ella  dos hitbox:  NO clashean, se golpean
+      un agarre contra ella        no es una colision de caja
 
-      el tamano de la caja de esa habilidad
-      el tamano de la caja de un A normal
-      el tamano de la caja del dragon de Hiei, que sabemos que es rank 88
+  *** O SEA QUE LA BARRERA NUNCA CLASHEA:  GANA ***
+  El atacante choca contra un golpe, no contra un bloqueo.  Por eso puede
+  hacersele un agarre:  el agarre no es una colision de caja.  [DERIVADO]
 
-  Si los tres estan en la misma relacion, el rank es el tamano.  Y el
-  .LUA ya lee el ancho y el alto de cada caja:  lo que no hace es
-  imprimirlos sistematicamente.  [ABIERTO]
+  *** Y ESO LA CONVIERTE EN UN FIJO, Y LOS FIJOS TIENEN RANK ***
 
-  *** OJO:  EL DANO MINIMO NO OBLIGA A QUE LA CAJA SEA ENORME ***
+  Una barrera fija pegada al personaje es un fijo, como la planta, las hojas
+  y el parry.  Y los fijos se comparan contra el proyectil con la MISMA
+  regla ya medida en la seccion 7.  O sea que:
 
-  Son dos campos y pueden moverse por separado.  Que el rank este en el
-  tamano es una hipotesis razonable, no un hecho.
+      el reigan de nivel conocido SIRVE DE REGLA DIRECTAMENTE
+      no hay que inventar ningun metodo nuevo para esta tecnica
 
-  *** LO QUE FALTA:  EL COMANDO Y EL NUMERO DE DANO ***
+  *** Y LA DIRECCIONALIDAD ES DATO NUEVO ***
 
-  El comando es A+B.  Con el numero de dano se cierra el argumento.
+  Que sea SOLO frontal dice que la caja se coloca segun el facing.  O sea
+  que hay un signo.  Es el mismo mecanismo que el del centro X de las cajas,
+  que se niega por el facing con neg.w d6 en $01EBD8.  [DERIVADO]
+
+  *** Y LA CAJA INVISIBLE ENORME SIGUE SIENDO LA PISTA DEL RANK ***
+
+  Lo que cambia es el motivo:  antes creia que era un golpe fisico con rank
+  alto.  Es un OBJETO con rank alto.  Y un objeto con rank alto y dano bajo
+  ya lo teniamos a la vista:  la bola de Sensui destruye proyectiles y su
+  dano es 12.  Ese era el ejemplo, y no lo use.  [DERIVADO]
+  *** Y POR QUE NO ME DABA CUENTA ***
+
+  Lo unico que me habia hecho pensar en intangibilidad era que rompe el
+  dragon sin hacer dano.  Pero eso lo hace CUALQUIER objeto de rank alto con
+  dano bajo, y hay varios.  Los proyectiles hacen EXACTAMENTE eso:  la bola
+  de Sensui destruye proyectiles y su dano es 12.  Ese era el ejemplo a la
+  vista, y no lo use.  [DERIVADO]
+
+  *** LO QUE NO SE RESUELVE SOLO ***
+
+      si clasheando es el clash del juego o la palabra de uso
+
+  Si es el clash del juego, entonces tiene clashbox, y el dato 5 seria falso.
+  Si es la palabra de uso, el dato 5 manda y lo que hay es una hitbox.
+  Los dos pueden ser ciertos si la barrera tiene HIT para el rival y CLASH
+  para el proyectil, que son dos campos distintos.  [ABIERTO]
+
+  *** Y NO SE CONFUNDE CON LA INTANGIBILIDAD DE LA SECCION ANTERIOR ***
+
+  La intangibilidad es el Afterimage de Hiei y la Espada de fuego:  hurtbox
+  en cero, el proyectil pasa y no se consume.  Eso NO es lo mismo que una
+  barrera, porque una barrera CONSUME el proyectil.  [COMPROBADO]
 
   *** LA INVENCIBILIDAD:  RESUELTO, Y NO HACIA FALTA LA PRUEBA ***
 
@@ -767,6 +806,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   podrian llevar la duracion de invencibilidad al lado.
 
 15.  COMO SE MIDE  (el detalle esta en METODO.txt)
+
 ================================================================================
 
   *** LO QUE ENTREGA EL .LUA, POR PERSONAJE ***

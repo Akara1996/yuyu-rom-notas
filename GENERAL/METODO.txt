@@ -2439,3 +2439,96 @@ FIN DEL IDEARIO
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+29.6  EL NOMBRE DE UNA TECNICA NO DICE NADA
+===============================================================================
+
+  *** ESTO SALIO DE UN ERROR MIO,  Y ES EL ERROR DE FONDO DEL PROYECTO  ***
+
+  Escribi,  con la etiqueta [FUERTE]:
+
+      "una barrera no pega,  y por lo tanto la Barrera del vendaval tiene que
+       estar entre las cinco tecnicas sin hitbox"
+
+  *** LO SAQUE DEL NOMBRE.  DE LA PALABRA "BARRERA".  ***
+
+  Y era falso:  ABAJO,ARRIBA + A da $A5,  y $A5 tiene 9 anims con hitbox.
+  Una barrera pega.  Y mucho.
+
+  (usuario:  "Asumiste que 'barrera vendaval' no golpeaba o era un ataque
+   solo por que se llama 'barrera'?")
+  (asistente:  "S.  Asum que 'barrera' no golpeaba porque se llama barrera.")
+
+  *** LA REGLA  ***
+
+      EL NOMBRE NO DICE SI PEGA
+      EL NOMBRE NO DICE CUANTOS GOLPES
+      EL NOMBRE NO DICE CUANTA MAN
+      EL NOMBRE NO DICE SI ES OFENSIVA O DEFENSIVA
+
+  Los nombres vienen del japones traducido.  "Barrera"  y  "vendaval"  son
+  dos palabras,  no una ficha tecnica.
+
+  *** LO QUE SE USA EN VEZ DEL NOMBRE,  Y EN ESTE ORDEN  ***
+
+      1.  el boton y la direccion      el log
+      2.  el estado                     el log
+      3.  el registro del ROM           el byte+2,  bit 4
+      4.  el dano                        el delta de [HP]
+      5.  la mana                       [GOTEO]  y la serie de MP GANA
+
+  *** Y COMO SE ESCRIBE ESO EN UN PDF  ***
+  Cuando aun no se sabe,  se escribe "sin nombre".  No se escribe el nombre
+  de la ficha con una conjetura al lado.  La conjetura se escribe sola,  con
+  su etiqueta,  y se dice de donde salio.
+
+  ================================================================================
+  29.7  Y LA MAN QUE VUELVE:  UNA SERIE,  Y EL TOTAL ES n(n+1)
+
+      *** YA ESTABA ANOTADA EN CONTEXTO 91.1 Y 117.2.  Y LA OLVIDE.  ***
+
+      el golpe n devuelve  +2n de man
+      los pagos salen espaciados ~27 frames
+      el total tras n pagos  =  n(n + 1)
+
+          n=1  ->   2
+          n=2  ->   6
+          n=4  ->  20
+          n=10 -> 110      la ulti de Kuwabara,  exacto
+
+      *** Y EL +2 QUE VI DOS VECES EN JIN  ***
+      Es el primer pago de la serie.  No es regeneracion,  y no tiene nada
+      que ver con estar en el aire.  Lo escribi al reves.
+
+      *** Y ES LA TERCERA FORMA DE CONTAR GOLPES  ***
+          1.  los [HP] que bajan
+          2.  los pagos de mana:  n(n+1) -> n
+          3.  el anim donde cae cada [HP]
+
+      Y el numero de anims con bit 4 no es ninguno de las tres.
+
+  ================================================================================
+  29.8  Y LA ARITMTICA DE LA MAN DA EL MXIMO
+
+      *** EL MXIMO ES 223 PARA LOS ONCE.  Y ESTA EN LOS DOCUMENTOS DESDE
+      HACE MUCHAS RONDAS.  ***
+
+      Y el conteo del usuario lo confirma por un camino distinto:
+
+          223 / 8  =  27,87   ->  27 vuelos seguidos    el Flotar
+          223 / 6  =  37,16   ->  37 veces              lo que decia la ficha
+
+      *** O SEA QUE "27 veces" Y "37 veces" SON LOS MISMOS 223  ***
+
+      Y el mismo razonamiento con el tornado:
+          "mas del 10%"     y  32 / 223  =  14,3 %   MEDIDO
+
+      *** Y LA REGLA QUE SALE  ***
+      Cuando una cifra de la ficha no cuadra,  se le pide al usuario cuantas
+      veces la puede repetir.  El conteo contra 223 dice si la ficha mintio,
+      sin necesidad de un log.
+================================================================================
+================================================================================
+================================================================================

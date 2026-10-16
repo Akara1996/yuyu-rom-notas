@@ -1391,6 +1391,102 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   pantalla.  [COMPROBADO por el usuario]
 
 
+
+  *** LOS TRES MANDOS YA TIENEN ID:  GUARDIA, DEFENSA BAJA Y DASH ***
+
+      $09   la guardia de pie          $00 -> $09
+      $0A   la defensa baja, agachado  $02 -> $0A
+      $0B   el dash                    $00 -> $05 -> $00 -> $05 -> $0B
+
+  El dash se hace en cinco pasos:  adelante+A,volver,adelante+A, y ahi si
+  $0B.  La secuencia completa del log de Kuwabara:
+
+      f112  $00 -> $05     el primer adelante+A
+      f114  $05 -> $00     volver a Idle
+      f117  $00 -> $05     el segundo adelante+A
+      f119  $05 -> $0B     ACA ENTRA EL DASH
+      f143  $0B -> $00     24 frames
+
+  *** Y MI HIPOTESIS DE QUE EL DASH TERMINABA EN LA GUARDIA ESTA MUERTA ***
+  $0B no es $09.  Son dos estados distintos.  Lo que se ve en pantalla es lo
+  mismo, pero el id es otro.
+
+  *** Y $0B ESTA EN LOS ONCE, Y ES DISTINTO EN CADA UNO ***
+
+      personaje  registro   bytes del registro
+      GENKAI     $0BCD42    04 10 10 0A 00 00 81 83
+      KURAMA     $0BF9E2    08 58 10 0A 00 00 82 91
+      KUWABARA   $0C24E2    08 28 00 0A 00 00 7D 94
+      YUSUKE     $0C516A    10 23 10 0A 00 00 82 90
+      HIEI       $0C7F22    04 1E 00 0A 00 00 86 88
+      SENSUI     $0CA932    10 28 00 0A 00 00 7D 86
+      JIN        $0CD1B2    20 1C 81 0A 00 00 81 75
+      ITSUKI     $0CFC22    08 8C 10 0A 00 00 81 79
+      TOGURO +   $0D20B2    0C 15 00 0A 00 00 82 80
+      CHUI       $0D4CF2    10 22 10 0A 00 00 82 76
+      TOGURO -   $0D79E2    10 13 10 0A 00 00 7E 6F
+
+      *** LOS ONCE TIENEN $0B.  Y NO HAY NINGUNO QUE SEA IGUAL A OTRO. ***
+
+  *** Y ESO ES JUSTO LA ASIMETRIA QUE HACE FALTA ***
+
+  Las guardias son una plantilla comun:
+
+      $09   04 05 80 0B 00 00 ...     IGUAL en 9 de los 11
+      $0A   04 18 84 4B 00 00 ...     IGUAL en 8 de los 11
+
+  Y el dash es todo lo contrario:  distinto en los once.
+
+  O sea que el dash NO es una maniobra generica con parametros.  Es un
+  estado POR PERSONAJE.  Y la diferencia entre los once esta ahi adentro, o
+  en el hit record que lo acompaa, y no en el nombre del estado.
+
+  *** Y EL ROM NO NOS DICE MAS, PORQUE $0B NO ES EL FINAL DEL ASSUNTO ***
+
+  El registro de 8 bytes es el reloj y el movimiento.  El rank de clash no
+  esta ahi.  Habria que leer el hit record que $0B tenga, si tiene.
+
+  *** Y LO QUE DICE EL USUARIO DE LO QUE HACE ***
+
+      "Todas las guardias rompen el proyectil, o sea recibes chip dmg y el
+       proyectil explota, la diferencia es que Kuwabara y Toguro menor
+       producen una explosi?n del proyectil en cuesti?n por clasheo, es decir
+       no hay da?o, si se cubiertos habria un m?nimo chip damage.  Lo que
+       ellos hacen es romperlos como si hubiesen tirado un ataque."
+
+  *** O SEA QUE LA GUARDIA Y EL DASH HACEN COSAS DISTINTAS ***
+
+      la guardia     el proyectil explota,  y el personaje paga chip
+      el dash de KU  el proyectil explota,  y NO hay da?o
+
+  Eso no es un clash de rank alto.  Eso es un ATAQUE que se active en el
+  frame del clash y rompe el proyectil.  La hipotesis del usuario:  "la
+      clash podria tener su propio valor y fuese de 1 para todos, por eso
+      nadie excepto estos logran clashear solo con dash".
+
+  *** Y EL EXPERIMENTO QUE LO RESUELVE, Y EL .LUA YA IMPRIME LA MITAD ***
+
+  El script ya saca una linea BLOB VIVO cuando el personaje tiene un hit
+  record activo:
+
+      BLOB VIVO  +64 attrs=..  +65 DANO=..  +66 stun=..  +67=..  +68=..
+
+  Si durante el dash aparece una linea BLOB,  el dash es un ataque mudo con
+  hit record.  Si NO aparece,  el dash no tiene golpe y el clash es otra
+  cosa.
+
+  *** EL EXPERIMENTO:  UN RESET POR PERSONAJE, CON RIVAL CERCA ***
+
+      Kuwabara  el dash    ->  hay BLOB VIVO?  que dice +65?
+      Genkai    el dash    ->  hay BLOB VIVO?  que dice +65?
+      Toguro -  el dash    ->  hay BLOB VIVO?  que dice +65?
+
+  Si los dos que rompen tienen blob y el que no no tiene,  la mecanica
+  esta localizada.  Si los tres tienen blob,  el problema es el RANK y no la
+  existencia.
+
+
+
   *** CORRECCION IMPORTANTE:  EL RANK DE PROYECTIL DEL DASH ES POR PERSONAJE ***
 
   Se escribio, hace un rato, que "el dash tiene rank proyectil CERO, medido".

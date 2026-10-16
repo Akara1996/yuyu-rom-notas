@@ -412,6 +412,36 @@ A("")
       y que no se sabia que era.  Ver HIT STATE.txt.
 
   ==========================================================================
+  11.1.1  QUIENES TIENEN DOCUMENTO, Y CUALES NO
+  ==========================================================================
+
+      personaje  entrada  documento            PDF      estado
+      ---------  -------  -------------------  -------  -------------------
+      GENKAI     1        GENKAI TECNICAS      5 pag    completo, 11 de 15
+      KURAMA     2        KURAMA TECNICAS      13 pag   completo, 7
+      KUWABARA   3        KUWABARA TECNICAS    2 pag    RONDA 1.  Solo la
+                                                        tabla del ROM.  Los
+                                                        8 ids sin mapear
+      YUSUKE     4        YUSUKE TECNICAS      10 pag   completo, 4
+      HIEI       5        HIEI TECNICAS        17 pag   completo, 8
+      SENSUI     6        SENSU TECNICAS       9 pag    completo, 9.
+                                                        Los parries se
+                                                        cerraron el 15-10
+      ITSUKI     8        ITSUKI TECNICAS      4 pag    completo, 5.
+                                                        + 7 PDF viejos
+      JIN        7        ---                  ---      sin empezar
+      TOGURO +   9        ---                  ---      sin empezar
+      CHUI      10        ---                  ---      sin empezar
+      TOGURO -  11        ---                  ---      sin empezar
+
+      *** 6 DE 11 CON DOCUMENTO.  5 SIN EMPEZAR. ***
+
+      Y los cinco sin empezar son los que menos sabemos:  no hay nada
+      medido de ninguno.  JIN (entrada 7) y TOGURO menor (11) son los dos
+      con el stun mas bajo y mas alto respectivamente:  46 y 62.
+
+
+
   11.2  COMO SE CRUZARON, PASO A PASO
   ==========================================================================
 

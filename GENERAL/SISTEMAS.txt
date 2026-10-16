@@ -22,13 +22,12 @@ Las reglas del juego que valen para mas de un personaje
       10. las dos familias de golpe
       11. la carga almacenada
       12. las tecnicas de cadencia
-      13. el dado del dano
-      14. la destruccion de proyectiles
-      14. la destruccion de proyectiles
-      15. los seis mandos que no son golpes
-      16. como se mide
+      13. el dano tiene un piso, y el juego le suma
+      14. el dado del dano, y por que no es un dado
+      15. la destruccion de proyectiles
+      16. las tres maniobras y los seis mandos
+      17. como se mide
 
-================================================================================
 1.  EL MAPA DE COMANDOS:  GLOBAL
 ================================================================================
 
@@ -695,8 +694,75 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   Una escalera de tres pasos, no aleatoria.  El $25 abre a $24.
   [COMPROBADO]
 
+13.  EL DANO TIENE UN PISO, Y EL JUEGO LE SUMA
+===============================================================================
+
+  *** LA TABLA DEL ROM DICE EL DANO BASE, Y LO MEDIDO DICE EL REAL ***
+
+      movimiento        del ROM  medido  diferencia
+      ----------------  -------  ------  ----------
+      A de pie            4, 12    4, 12   EXACTO, los dos
+      adelante + A       12       13        +1
+      abajo + A          14       15        +1
+      agarre de suelo    16       17        +1
+      agarre aereo       16       17        +1
+      uppercut A         16,4,4,4 17,4,4,5  +1 en el 1 y en el 4
+      cadena A aerea     2,2,2,4  3,2,3,4   +1 en el 1, 3, 5 y 6
+
+  *** ANTES NO HABIA CON QUE COMPARAR ***
+  Un 13 y un 14 podian ser dos tiradas o una sola.  Con la tabla del ROM hay
+  un piso, y el unico desvio medido en toda la ronda es +1 HACIA ARRIJA.
+
+  *** Y NUNCA RESTA ***
+  En toda la medicion de Genkai no hubo un solo caso por debajo del ROM.
+  [COMPROBADO]
+
+  *** O SEA QUE NO HAY DADO:  HAY UN BONO FIJO DE 1 ***
+  Eso acota el alcance del problema del shotgun, que era el unico caso con
+  valores 3, 4, 5, 6 y 8.  [DERIVADO]
+
+  *** LO QUE NO SE SABE ***
+  De donde sale el +1.  El candidato mas barato:  los golpes que aterrizan
+  cuando el rival RECIEN entra en el estado dan +1, y los que llegan con el
+  rival ya instalado dan el exacto.  [DERIVADO, sin medir]
+
+  LA PRUEBA:  el mismo golpe contra un rival de pie, y contra uno que ya venia
+  de otro golpe.
+
+  *** Y EL ROM ETIQUETA ALGUNOS GOLPES COMO CHIP ***
+
+  La ulti de Genkai ($AA) tiene stun 2 en los DIEZ anims, y las reacciones
+  salen como $20 chip, $21 chip y $2F.
+
+  O sea que hay un flag de golpe que no derriba y casi no aturde.  Con stun 2
+  por golpe, los 10 golpes son 20 de stun:  lo mas bajo del juego.  [COMPROBADO]
+
+  Es el mecanismo opuesto al Stop Time:  ahi el golpe desaparece, aca el golpe
+  sigue y no hace casi nada.
+
+  *** Y LA TABLA DEL ROM TAMBIEN DICE CUANTOS GOLPES TIENE UNA TECNICA ***
+
+      la ulti de Genkai    10 golpes en el ROM, 13 medidos
+      $A1  la cadena A      8 golpes en el ROM:  DOS ciclos de 4
+      $A0  la cadena B      4 golpes en el ROM:  un ciclo
+      $AC / $AD  la aerea   8 golpes cada una, identicos en dano
+
+  O sea que $A1 es exactamente el doble de $A0 en golpes y en dano, y 1.5 de
+  mana por golpe en las dos.  Y $A1 es mas rapido porque su anim es mas corta:
+  16 contra 24 frames.
+
+  *** Y EL UPPERCUT ES UNA CUADRICULA DE 2 POR 2, CON DOS INALCANZABLES ***
+
+                       188 frames (arranque 4)   200 frames (arranque 10)
+      caja X-116 Y-29    $A2   INALCANZABLE     $A3   Uppercut A
+      caja X-118 Y-20    $AE   Uppercut B      $AF   INALCANZABLE
+
+  Dos cajas y dos duraciones, y solo dos de las cuatro son alcanzables.
+  [DERIVADO por el ROM, confirmado por el usuario]
+
+
 ================================================================================
-13.  EL DADO DEL DANO
+14.  EL DADO DEL DANO, Y POR QUE NO ES UN DADO
 ================================================================================
 
   *** LA VARIACION DE DANO NO ES UNA RUIDO SUELTO:  EL SHOTGUN LA EXPONE ***
@@ -744,7 +810,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   del instrumento.  Si esta en la tabla, es el juego.  [DERIVADO]
 
 ================================================================================
-14.  LA DESTRUCCION DE PROYECTILES
+15.  LA DESTRUCCION DE PROYECTILES
 ================================================================================
 
   *** HAY TRES RELACIONES DISTINTAS, Y CONFUNDIRLAS ES EL ERROR CLASICO ***
@@ -1029,7 +1095,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   podrian llevar la duracion de invencibilidad al lado.
 
 ================================================================================
-15.  LAS TRES MANIOBRAS, Y LOS SEIS MANDOS QUE NO SON GOLPES
+16.  LAS TRES MANIOBRAS, Y LOS SEIS MANDOS QUE NO SON GOLPES
 ===============================================================================
 
   *** SON MANDOS, NO TECNICAS:  NO TIENEN ID DE GOLPE Y NO CUESTAN MANA ***
@@ -1089,7 +1155,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   [ABIERTO]
 
 
-16.  COMO SE MIDE  (el detalle esta en METODO.txt)
+17.  COMO SE MIDE  (el detalle esta en METODO.txt)
 
 ================================================================================
 

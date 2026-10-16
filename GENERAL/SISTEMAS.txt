@@ -811,14 +811,54 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   Un basico tiene clashbox.  Su rank es el de su golpe, y por eso topa en el
   nivel 4.  Un especial tiene mas rank y llega al 5.  [DERIVADO]
 
-  *** LO QUE SIGUE SIN MEDIRSE:  EL NUMERO ***
+  *** LO QUE SIGUE SIN MEDIRSE:  EL NUMERO,  Y SON DOS ***
 
-  Ahora se sabe DONDE esta el rank.  El valor sigue sin estar medido.
+  Se sabe DONDE esta el rank:  en el clashbox.  Y ahora se sabe que HAY DOS.
+
+  *** EL RANK SON DOS CAMPOS, NO UNO ***
+
+      rank_fisico      el clashbox contra GOLPES FISICOS
+      rank_proyectil   el clashbox contra PROYECTILES
+
+  El dash tiene el fisico en el tope y el proyectil en el piso.  Es el caso
+  limite, y por eso lo delata.  [COMPROBADO por el usuario]
+
+      el dash            rank fisico TOPE     rank proyectil EN EL PISO
+      la barrera de TM   ?                    por encima de 88
+      un basico comun    bajo                 topa en el L3-L4
+
+  *** Y ESO EXPLICA TODAS LAS EXCEPCIONES DE UNA VEZ ***
+  En la mayoria de los golpes los dos ranks van juntos, que es por eso que
+  parece que basta el dano.  El dash y la barrera de Toguro son los dos casos
+  donde se separan, y son los unicos dos que rompen la correlacion.
+
+  *** LA PREGUNTA ORIGINAL, RESPONDIDA ***
+  "no parece que se resuelva por numero de dano vs numero de dano.  POR QUE?"
+  Porque hay TRES campos, no dos:
+
+      el dano              cuanta vida quita
+      el rank fisico       contra golpes
+      el rank proyectil    contra proyectiles
+
+  *** LAS DOS REGLAS DE REFERENCIA,  Y LAS DOS YA ESTAN ***
+
+      rank fisico      EL DASH           el tope ya se sabe:  clasha incluso
+                                         contra una ulti
+      rank proyectil   EL REIGAN L1-L8   los ocho niveles ya estan medidos
+
+  *** Y CADA GOLPE TIENE UN LUGAR EN CADA ESCALA ***
+  Con dos reglas, cada golpe del juego tiene DOS numeros.  No uno.  Y esa es la
+  razon de por que el ladder no cerraba con una sola regla.
+
+  *** LA PRUEBA QUE SEPARA LOS DOS,  Y SON DOS RESETS ***
+      1.  un reigan de nivel conocido contra el golpe   da el rank proyectil
+      2.  el dash contra el golpe                       da el rank fisico
 
   *** Y LA CAJA ENORME E INVISIBLE QUEDA FUERA ***
 
   La hitbox es la del dano.  El dano es minimo.  O sea que el TAMANO de la
   hitbox NO es el rank.  [DERIVADO del hecho 5]
+
   *** LA INTANGIBILIDAD:  RESUELTO, Y NO HACIA FALTA LA PRUEBA ***
 
   El proyecto NO tiene un cuarto mecanismo.  Tiene dos, y uno de ellos es

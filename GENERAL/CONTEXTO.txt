@@ -7593,3 +7593,145 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+61. NIVEL 8 DEL REIGAN:  LA ESCALA DEL DANO TIENE FORMA  (15-10)
+================================================================================
+================================================================================
+
+  61.1  LA TABLA CON EL OCTAVO NIVEL
+
+      nivel  id  registro   tabB       $65     medido   $66    medido   $68
+      -----  --  ---------  ---------  ------  -------  ------  -------  ---
+      1      ?   -          -           ?       ?        ?      ?        ?
+      2     $01  $0D936A    $0D9A3E     8        -8        4      -4       $00
+      3     $02  $0D937A    $0D9A42    12       -12        6      -6       $00
+      4     $03  $0D938A    $0D9A46    16       -16        8      -8       $00
+      5     $04  $0D939A    $0D9A5A    24       -24       12      -12      $00
+      6     $05  $0D93AA    $0D9A5E    32       -32       16      -16      $00
+      7     $06  $0D93BA    $0D9A62    48       -48       24      -24      $05
+      8     $07  $0D93CA    $0D9A66    64       -64       32      -32      $05
+
+      *** CATORCE NUMEROS, CATORCE ACIERTOS.  CERO VARIACION.  ***
+
+      *** Y SON OCHO NIVELES, NO SEIS NI SIETE ***
+      El usuario empezo diciendo seis.  Hay ocho.  Falta el 1.
+
+  61.2  *** LA SECUENCIA DEL DANO TIENE FORMA ***
+
+        8, 12, 16, 24, 32, 48, 64
+
+      los saltos:      4,  4,  8,  8, 16, 16
+
+      *** CADA SALTO SE REPITE DOS VECES Y LUEGO SE DUPLICA ***
+
+      +4, +4, +8, +8, +16, +16, y sigue +32, +32
+
+      *** LO QUE ESO PREDICE, Y ES UNA PRUEBA BARATA ***
+
+        nivel 9    64 + 32  =  96 de dano
+        nivel 10   96 + 32  = 128 de dano
+
+      *** Y SE PUEDEN ALCANZAR ***
+      Ver 61.4: el nivel 8 costo 136 de mana y el maximo son 223.
+      Si el nivel 9 cuesta unos 168 y el 10 unos 200, ENTRAN en la barra.
+
+      *** O SEA: PUEDE QUE HAYA NIVELES 9 Y 10, Y NO HEMOS LLEGADO ***
+      [DERIVADO]  UNA PRUEBA: man lleno, cargar hasta el tope y medir.
+
+  61.3  *** EL DRENIJE ES DE 1 MANA POR FRAME ***
+
+        f90    perdio 19      arranque, todavia no entra en regimen
+        f120   perdio 30      30 en 30 frames
+        f150   perdio 30      30 en 30 frames
+        f180   perdio 30      30 en 30 frames
+        f210   perdio 27      la cola
+        total  136            223 - 136 = 87, que es el ultimo valor
+
+      *** 1 MANA POR FRAME, CLARO Y CONSTANTE ***
+      Eso explica por que el GOTEO salta en varias lineas durante la carga.
+
+      *** Y POR QUE NO HAY TABLA DE PRECIOS POR NIVEL ***
+      El precio de un nivel es EL TIEMPO QUE TUVO EL RIVAL.  No es un dato
+  del nivel: es un dato de la partida.  [COMPROBADO]
+
+  61.4  *** 136 DE MANA PARA 64 DE DANO.  Y LA ULTI DE SENSU, 50 ***
+
+        Reigan nivel 8   64 de dano   136 de mana    0.47 por mana
+        ulti de Sensui   64 de dano    50 de mana    1.28 por mana
+
+      *** LA ULTI ES 2.7 VECES MAS EFICIENTE CON EL MISMO DANO ***
+
+      "los reigan pueden cargarse al punto de ser tan fuertes como ulti de
+       sensui"
+
+      *** CONFIRMADO CON NUMEROS: 64 Y 64.  EL MISMO DANO EXACTO. ***
+
+      *** Y ESO REPARTE EL JUEGO EN DOS FORMAS DE LLEGAR A 64 ***
+
+        con la vida por encima del 50%    Reigan al tope    136 de mana
+        con la vida por debajo del 50%   la ulti            50 de mana
+
+      *** O SEA: LA ULTI ES LA BARATA Y ESTA GATED, EL REIGAN ES LA
+      CARA Y NO ESTA GATED ***
+
+      Cargar al tope es el plan B para cuando no podes ultir.  Y con 223 de
+  man te quedan 87, o sea que podes cargar al tope MAS DE UNA VEZ si no te
+  castigan.  [DERIVADO]
+
+  61.5  EL DERRIBO EMPIEZA EN EL NIVEL 7
+
+        niveles 2 a 6   $68 = $00   ->  $20   hitstun
+        niveles 7 y 8  $68 = $05   ->  $25   derribo
+
+      *** CINCO NIVELES DE PRESION, TRES QUE ROMPEN ***
+
+      Y $64 = $1E en los niveles 5, 6, 7 y 8: el knockback maximo se llega
+  en el 5 y se queda.  [DERIVADO]
+
+  61.6  LA TABLA DE OBJETOS, MAPEADA CON EL NIVEL 8
+
+      $0D9A3E   Reigan nivel 2
+      $0D9A42   Reigan nivel 3
+      $0D9A46   Reigan nivel 4
+      $0D9A4A   --- libre
+      $0D9A4E   --- libre
+      $0D9A52   --- libre
+      $0D9A56   --- libre
+      $0D9A5A   Reigan nivel 5
+      $0D9A5E   Reigan nivel 6
+      $0D9A62   Reigan nivel 7
+      $0D9A66   Reigan nivel 8
+      $0D9A6A   --- libre
+      ...       (hasta la $86 hay OCHO libres)
+      $0D9A86   rosa de Kurama
+
+      *** CUATRO ENTRADAS LIBRES EN MEDIO, Y OCHO AL FINAL ***
+
+      *** Y ESO ES UNA LISTA CONCRETA PARA MIRAR EN EL ROM ***
+      Doce entradas sin identificar entre el Reigan y la rosa.  O los
+  niveles 9 a 20, o proyectiles muertos.  UNA LECTURA DE 48 BYTES LO DICE.
+      [ABIERTO]
+
+      *** Y LOS REGISTROS TAMBIEN SON UNA SECUENCIA LIMPIA ***
+      $0D936A, $0D937A, $0D938A, $0D939A, $0D93AA, $0D93BA, $0D93CA.
+      Paso $10 exacto.  Y de $0D936A a $0D93CA hay $60 = 96 bytes.
+      [DERIVADO]
+
+  61.7  LO QUE FALTA
+
+      - el nivel 1: sigue sin leerse.  El objeto nace y muere en 8 frames.
+      - si existen los niveles 9 y 10 (61.2)
+      - las 12 entradas libres de la tabla de objetos
+      - el man exacto de cada nivel, que depende del tiempo y no del nivel
+      - si Genkai y Chu tienen los OCHO niveles o menos
+
+  *** LA PRUEBA SIGUIENTE, Y ES UNA ***
+
+      1.  man lleno, cargar hasta el tope y ver hasta que nivel llega
+      2.  ese nivel, su dano y su stun
+      3.  repetir con Genkai y con Chu, para ver si la tabla es la misma
+
+================================================================================
+================================================================================

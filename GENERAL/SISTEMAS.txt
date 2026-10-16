@@ -101,8 +101,7 @@ Sensui y Yusuke.  Catorce ids, cero excepciones.
 
   *** LOS PRECIOS MEDIDOS, POR PERSONAJE ***
 
-  HIEI
-      HIEI   OCHO TECNICAS, TRES CON PRECIO MEDIDO
+  HIEI   OCHO TECNICAS, TRES CON PRECIO MEDIDO
 
       $A2   Espada de fuego   A+B                        32
       $A6   la ulti, el DRAGON  abajo+diag.abajo+abajo+A   200
@@ -132,11 +131,38 @@ Sensui y Yusuke.  Catorce ids, cero excepciones.
       los dos parry                      16
       la ulti                             50
 
-  YUSUKE
-      Reigan sin cargar                   5
-      Reigan en modo carga                4
-      Reigan aereo                       24
-      la ulti                            200 + 4
+  YUSUKE   CUATRO HABILIDADES, ONCE COMANDOS, SIETE PRECIOS
+      habilidad  comando                                  precios
+      ----------  ---------------------------------------  ------
+      la ulti      adelante,abajo,adelante + A              200 + 4
+      reigan       abajo,adelante + A   suelo, nivel 1        5
+                   abajo,adelante + B   suelo, nivel 1, lento 5
+                   abajo,adelante + C   modo carga            4
+                   abajo,adelante + A   aire                  24
+                   abajo,adelante + B   aire                  24
+                   abajo,adelante,arriba + A  rasante         24
+      shotgun      abajo,abajo + A / B / C                    32
+      mil punos    A x4 rapido                               16
+                   B x4 rapido                               12
+
+  *** NO TIENE A+B.  LA PREGUNTA ESTABA MAL PLANTEADA ***
+  Lo que mediamos como A+B era la cadena de pulsaciones rapidas, que es mil
+  punos.  [CORREGIDO por el usuario]
+
+  *** Y SON DOS MOTORES DE CADENCIA, NO DOS TECNICAS SUELTAS ***
+      el shotgun   abajo,abajo + A/B/C   32 de mana   tope de 6
+      mil punos    A x4  /  B x4         16 / 12      4 por activacion
+  Los dos:  la cantidad de pulsaciones es lo que decide cuantos golpes entran,
+  y se puede volver a activar para encadenar bloques.  [COMPROBADO]
+
+  *** Y LOS SIETE PRECIOS ESTAN TODOS MEDIDOS ***
+      4    entrar al modo carga
+      5    el reigan sin cargar
+      12   mil punos version B
+      16   mil punos version A
+      24   el reigan aereo
+      32   el shotgun
+      200  la ulti
 
   *** EL RANGO DE PRECIOS VARIA POR PERSONAJE Y POR UN FACTOR 100 ***
 
@@ -503,13 +529,31 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 12.  LAS TECNICAS DE CADENCIA
 ================================================================================
 
-  *** HAY DOS PERSONAJES CON EL MISMO MOTOR, Y NO ES COINCIDENCIA ***
+  *** HAY TRES MOTORES DE CADENCIA EN EL JUEGO, NO UNO ***
 
-     Sensui   la pistola        ABAJO,ABAJO + A
+      Sensui   la pistola        ABAJO,ABAJO + A
       Yusuke   el SHOTGUN       ABAJO,ABAJO + A / B / C
+      Yusuke   MIL PUNOS        A x4 rapido (16)  /  B x4 rapido (12)
 
-  Las dos: pulsadas rapidas, el mismo tope, el mismo motor de dao.
-  [COMPROBADO]
+  Los tres: pulsadas rapidas, tope de golpes, y se puede volver a activar para
+  encadenar bloques.  [COMPROBADO]
+
+  *** Y EL PRECIO DE CADA VERSION ES SU PROPIO ***
+
+      12   mil punos version B     menos cadencia, menos golpes
+      16   mil punos version A     mas cadencia, mas golpes
+      32   el shotgun
+
+  *** Y CADA ACTIVACION DE MIL PUNOS SON SIEMPRE 4 GOLPES ***
+
+  Ni uno mas ni uno menos, sin importar cuantas veces aprietes.  Y no aumenta
+  1 golpe por pulsacion.  [COMPROBADO por el usuario]
+
+  *** Y SUS GOLPES NO DERRIBAN, AUNQUE EL A SUELTO SI ***
+
+  El A de pie de Yusuke produce derribo.  Los golpes de mil punos van a $21 y
+  $20 alternando y nunca a $25.  O sea que mil punos usa un golpe DISTINTO del
+  A normal, con otra reaccion.  [DERIVADO de los dos hechos]
 
   *** LAS REGLAS, QUE SON LAS MISMAS EN LAS DOS ***
 

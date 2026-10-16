@@ -75,7 +75,7 @@ Donde estamos, que falta y en que orden
       Hiei        8        8        3      HIEI PDF, 13 pag
       Kurama      8        7        6      KURAMA PDF, 12 pag
       Sensui      8        9        8      SENSU PDF, 8 pag
-      Yusuke      -        9        6      YUSUKE PDF, 7 pag
+      Yusuke      -        4        7      YUSUKE PDF, 7 pag
       Genkai      -        -        -      -
       Chu         -        -        -      -
       Kuwabara    -        -        -      -

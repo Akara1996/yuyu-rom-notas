@@ -6226,3 +6226,176 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+52. EL BLOB POR FIN VERIFICADO:  88 EXACTOS, Y LA SEMANTICA FIJADA
+    (15-10)
+================================================================================
+================================================================================
+
+  52.1  CORRECCION DE TITULO
+
+      "el golpe mas fuerte medido sera de Sensui, porque esto pega Hiei"
+      Tenia razon.  La de 64 de Sensui no era la mas fuerte.
+
+        Hiei    ulti   1 golpe x 88  por 200 de mana   0.44 por mana
+        Sensui  ulti   1 golpe x 64  por  50 de mana   1.28 por mana
+
+      *** SENSUI SIGUE SIENDO ~3 VECES MAS EFICIENTE ***
+      Con un cuarto del man.  El titulo estaba mal, la conclusion no.
+
+  52.2  *** $A6 = 200, Y $A7 Y $AA SON ETAPAS DE LA MISMA ULTI ***
+
+      f91   $00 -> $A6        la ulti, 200 de mana
+      f146  $A6 -> $A7        etapa 2
+      f184  $A7 -> $AA        etapa 3, dur $5A=$14 = 20, 48 frames
+      f232  $AA -> $00
+
+      *** O SEA QUE CONTAR TECNICAS POR IDS NO CUENTA ***
+      Kurama no tiene 8 tecnicas: tiene 6 comandos y la ulti ocupa TRES ids
+      encadenados.  $A6, $A7 y $AA son una sola tecnica.
+
+      *** Y EL MISMO PATRON ESTA EN LOS PARRY DE SENSU ***
+        $A4 -> $A5    parry de alto, luego el contraataque
+        $A6 -> $A7    parry de bajo, luego el contraataque
+
+      *** UNA TECNICA PUEDE OCUPAR VARIOS IDS SEGUIDOS ***
+      Eso explica la cuenta de 50.1, donde Sensui medido daba 9 ids y
+      Kurama 8.  No son 9 tecnicas.  [DERIVADO]
+
+  *** Y LOS IDS SE SOLAPAN ENTRE PERSONAJES ***
+
+        Kurama  $A6 = la ulti        $A7 = etapa 2 de la ulti
+        Sensui  $A6 = el parry bajo  $A7 = su contraataque
+
+      Mismo numero, cosa distinta.  El id es la ranura.  Otra vez.
+
+  52.3  *** EL BLOB DE $10, LEIDO SIN RUIDO ***
+
+      objeto: base=$FF8500   $5F=$10   grupo $6E=$01
+      registro=$0D94FA   tabB=$0D9AD2
+      lectura VERIFICADA: byte(+0)=$04 == $5A vivo
+
+        +64  $1E   banderas, knockback bits 0-1 = 2
+        +65  $58   DANO   =  88
+        +66  $20   stun   =  32
+        +67  $02
+        +68  $0A   reaccion = 10
+        +C4  $00
+
+      *** Y EL LOG DICE EXACTAMENTE ESO ***
+
+        f182  P4  $78: 223 -> 135   (-88)     $65 = $58 = 88   EXACTO
+        f182  $7E stun: 62 -> 30    (-32)    $66 = $20 = 32   EXACTO
+
+      *** $65 ES EL DANO.  $66 ES EL STUN.  CONFIRMADO CON DATO LIMPIO. ***
+      [COMPROBADO]
+
+      *** Y AHORA LA TABLA DEL BLOB TIENE SIGNIFICADO FIJADO ***
+
+        +64   banderas de golpe
+        +65   DANO
+        +66   STUN
+        +67   sin nombre (2 en TODOS los objetos medidos)
+        +68   indice de reaccion, de 0 a 15
+
+      *** $67 = 02 EN LOS NUEVE OBJETOS QUE HEMOS LEIDO ***
+      rosa, planta, hoja, bola rasante, bola media, bola aerea, bola
+      gigante, patada, y el dragon de Hiei.  SIEMPRE 2.  [DERIVADO]
+      O es un valor por defecto, o no es un campo de combate.
+
+  52.4  *** $68 = 10 -> $25.  QUINTA FILA MEDIDA DE LA TABLA ***
+
+        $68 = 1   ->  $21    tambaleo        rosa, pistola, bola rasante
+        $68 = 5   ->  $25    derribo         planta, hoja, patada de C
+        $68 = 6   ->  $26    lanzador         patada de B
+        $68 = 8   ->  $2F    diagonal        agarre de Kurama, parry baja
+        $68 = 10  ->  $25    derribo         dragon de Hiei
+
+      *** Y LA TABLA DE HIT STATE.txt TENIA ESA FILA ADIVINADA ***
+      Su entrada 10 apuntaba a $25.  AHORA ESTA MEDIDA.  [COMPROBADO]
+
+      *** EL INDICE DE LA TABLA ES EL VALOR DE $68 ***
+      Fila 1 -> $21, fila 5 -> $25, fila 6 -> $26, fila 8 -> $2F,
+      fila 10 -> $25.  CINCO DE LAS DIEZSEIS FILAS CON MEDICION PROPIA.
+
+  52.5  *** DONDE QUEDA LA VARIACION DE DANO? ***
+
+      *** PRIMERO, EL DATO NUEVO ***
+      Este es el PRIMER caso con el blob limpio Y el dano medido.  Y dan
+      identicos: 88 y 32.  Cero variacion.  [COMPROBADO]
+
+      *** SEGUNDO, DONDE ESTAN LOS CASOS CON VARIACION ***
+
+        1.  la ulti de Kurama   15, 14, 17, 15, 16, 15, 15
+        2.  el latigo de Kurama 10, 15
+        3.  el aereo de Hiei     16 -> 17
+        4.  una bala de la pistola de Sensui  4 -> 3
+        5.  la planta de Kurama  8 -> 16      <-- este es el raro
+
+      *** TERCERO, LO QUE SEPARAN ***
+
+      los cuatro primeros son GOLPES FISICOS, del cuerpo del personaje.
+      el quinto es un OBJETO, y es el unico que no encaja en 'objeto exacto'.
+
+      *** LA HIPOTESIS, CON SU COBERTURA ***
+
+        los objetos tienen el dano EXACTO de $65
+        los golpes fisicos tienen el dano de $65 MAS UNA VARIACION
+
+      *** LO QUE LA RESPALDA ***
+      Objetos: dragon de Hiei 88/88 exacto.  hoja de Kurama 8 y 8, con
+      $65=$08, las dos exactas.  hoja de Sensui 8 y 8, con $65=$08.
+      TRES objetos, CUATRO golpes, cero variacion.
+
+      *** LO QUE LA REFUTA ***
+      la planta de Kurama: $65=$08, un golpe de 8 y otro de 16.  El segundo
+      es el DOBLE exacto.  Si los objetos son exactos, ese segundo golpe no
+      sale de $65.  O hay un SEGUNDO REGISTRO dentro de la tabla del objeto,
+      o $67 (que es 2 en la planta) multiplica.  [ABIERTO]
+
+      *** Y LA PRUEBA QUE LO CIERRA ***
+      Repetir la planta.  Si el segundo golpe da 16 otra vez, es un segundo
+      registro con 16 fijo.  Si da 8, la variacion tambien toca a los
+      objetos y la hipotesis se cae.  UNA PRUEBA.  [ABIERTO]
+
+      *** Y NO VUELVO A DECLARAR NADA HASTA ESA PRUEBA ***
+      Ver IDEARIO.txt secciones 17 y 20.  Esto es una hipotesis con tres
+      casos a favor y uno en contra, y asi queda escrita.
+
+  52.6  LA TABLA DE OBJETOS: PASO 4, Y CONOCEMOS 9 DE ~36
+
+        tipo                  registro     tabB
+        --------------------  -----------  ---------
+        hoja de Kurama        $0D9452     $0D9A8A
+        rosa de Kurama        $0D9442     $0D9A86
+        planta de Kurama      $0D941A     $0D9AB6
+        dragon de Hiei        $0D94FA     $0D9AD2
+        bola rasante          $0D9532     $0D9ABA
+        bola media / aerea    $0D954A     $0D9AC6
+        bola aerea en aire    $0D955A     $0D9ACE
+        bola gigante rasante  $0D9582     $0D9B12
+        bola gigante media     $0D958A     $0D9B16
+
+      *** LOS tabB TIENEN PASO $4 ***
+      $0D9A86 a $0D9B16 son $90 de diferencia, o sea 36 entradas de 4.
+      CONOCEMOS 9.  [DERIVADO]
+
+      *** O SEA: HAY TREINAS Y SEIS OBJETOS POSIBLES EN EL JUEGO ***
+      Con once personajes, unos tres por personaje.  Y solo sabemos el
+      nombre de nueve.  Los otros veintisiete son proyectiles, invocaciones
+      o entidades de alguien que todavia no hemos abierto.
+
+  52.7  LO QUE NO SE SABE
+
+      - la razon por la que los proyectiles de Sensui tienen $65 en cero
+        (seccion 48.2).  Con la semantica fijada ahora, el cero es de
+        verdad, no ruido: el registro NO ESTA INICIALIZADO.
+      - que hay en $67, que vale 2 en los nueve objetos leidos
+      - si la variacion toca a los objetos o solo a los fisicos
+      - las 11 filas que faltan de la tabla de $68
+      - los 27 objetos sin identificar
+
+================================================================================
+================================================================================

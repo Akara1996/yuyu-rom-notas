@@ -6060,3 +6060,169 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+51. LA ULTI DE SENSU:  $A3 = 50, Y LA ESTRUCTURA QUE REVELA  (15-10)
+================================================================================
+================================================================================
+
+  51.1  $A3 = 50 DE MANA.  Y LA ESTIMACION DEL USUARIO ERA EXACTA.
+
+      El usuario, antes de medir: "la ulti de sensui cada a lo mas de 50mp
+       calculo, es el unico personaje que puede disparar VARIAS veces su ulti
+       al tener todo el mana, y que tampoco necesita ni la mitad para disparar
+       una."
+
+      *** MEDIDO: 50. 223 / 50 = CUATRA VECES SEGUIDAS. ***
+      [COMPROBADO]
+
+  *** Y ES LA SEGUNDA VEZ QUE UNA ESTIMACION DEL USUARIO CLAVA ***
+      Kurama, ulti = 200      (6 de 6 en la particion de Kurama)
+      Sensui, ulti = 50       (estimado por el lore, medido exacto)
+
+  *** LO QUE SI HAY QUE MIRAR CON CUIDADO ***
+  El primero fue la particion aciertando.  Este segundo es el LORE: el manga
+  dice que Sensui tiene diez veces mas energia, y el precio de su ulti es
+  cuatro veces menor que la de Kurama.  EL LORE Y EL DATO VAN EN LA MISMA
+  DIRECCION.  [DERIVADO]
+
+  51.2  *** LA ULTI NO ES UN GOLPE NUEVO: SON LAS MISMAS TRES BOLAS ***
+
+      ABAJO,ABAJO,ADELANTE + A   ->   $A3 (carga, 50)   ->  $A0
+      ABAJO,ABAJO,ADELANTE + B   ->   $A3 (carga, 50)   ->  $A1
+      ABAJO,ABAJO,ADELANTE + C   ->   $A3 (carga, 50)   ->  $A2
+
+      *** $A0, $A1 Y $A2 SON LOS MISMOS IDS DE LAS BOLAS NORMALES ***
+
+        comando                    id     man    tamao
+        -------------------------  -----  ------  --------
+        ABAJO,ADELANTE + A        $A0       4    normal
+        ABAJO,ABAJO,ADELANTE + A   $A0      50    GIGANTE
+        ABAJO,ADELANTE + B        $A1       4    normal
+        ABAJO,ABAJO,ADELANTE + B   $A1      50    GIGANTE
+        ABAJO,ADELANTE + C        $A2       4    normal
+        ABAJO,ABAJO,ADELANTE + C   $A2      50    GIGANTE
+
+      *** LA UNICA DIFERENCIA ES QUE PASA POR $A3, LA CARGA. ***
+      El id del golpe es el mismo.  Lo que cambia es el estado de entrada y
+      el tamano del objeto.  [COMPROBADO]
+
+      "Carga una bola de energia rasante de gran tamano y la patea hacia el
+       enemigo"
+
+  *** Y ESO ES UNA ESTRUCTURA NUEVA, Y SOLO DE SENSU ***
+  Kurama tiene una ulti sola ($A6).  Sensui tiene UNA CARGA y TRES
+  resultados, y los tres resultados son tecnicas que ya existen.
+  Un solo boton de man, tres salidas.  [DERIVADO]
+
+  51.3  *** $18 Y $19: LOS ESTADOS DE LA BOLA GIGANTE ***
+
+      $17 -> $14, $15, $16     la bola NORMAL     3 estados de vuelo
+      $18 -> $19               la bola GIGANTE    2 estados
+
+      *** Y EN LA TABLA DE OBJETOS, LOS REGISTROS TIENEN PASO $8 ***
+
+        $14   $0D9532
+        $15   $0D954A          +$18
+        $16   $0D955A          +$10
+        grande rasante   $0D9582
+        grande media     $0D958A   +$8
+
+      *** CONOCEMOS 5 DE LAS ENTRADAS DE ESA TABLA ***
+      $0D9532 + 8k.  Faltan las de los otros proyectiles del juego.
+      [ABIERTO]
+
+      Y el tabB:  $0D9B12 para la gigante rasante, $0D9B16 para la
+      gigante media y anti-aerea.  $4 de diferencia, un paso de tabla.
+
+  51.4  *** 64 DE DANO: EL GOLPE MAS FUERTE MEDIDO EN EL JUEGO ***
+
+        f204   P4  145 -> 81   (-64)      $7E: 62 -> 30   (-32)
+
+      *** 64 DE DANO, 32 DE STUN, EN UN SOLO GOLPE ***
+
+        Sensui  1 golpe x 64  =  64    por  50 de man    1.28 por man
+        Kurama  7 golpes x 14 =  98    por 200 de man    0.49 por man
+
+      *** LA ULTI DE SENSU ES 2.6 VECES MAS EFICIENTE ***
+      Y hace menos dano total.  Es una ulti de PRESION, no de destruction.
+
+      *** Y AL SER UN SOLO GOLPE, NO APLICA LA REGLA DE MULTIGOLPE ***
+      No puede fallarse el segundo, el tercero y el cuarto.  Es la primera
+      tecnica de un solo golpe que we've visto de verdad.  [COMPROBADO]
+
+  51.5  LA PATADA DE LA ULTI: LA MISMA PATADA DE LAS NORMALES
+
+      ABAJO,ABAJO,ADELANTE + B, pegado:
+        f139  P4 -4    $00 -> $26    la PATADA: 4 de dano, lanzador
+        f182  P4 -64   $26 -> $25    la BOLA GIGANTE: 64 de dano
+
+      *** MISMA ESTRUCTURA QUE ABAJO,ADELANTE, SOLO QUE MAS GRANDE ***
+      "tambien la patada tiene el knock ventana 8 frames y hace el mismo
+       combo que bola C estando pegado"
+
+      Y man devuelta por el combo: CERO.  La patada es fisica pero es el
+      primer golpe (2 x 0 = 0) y la bola es de objeto.  Coherente.
+
+  51.6  *** EL DESVIO: UNA SOLA PULSADA, EN EL FRAME DE LA PATADA ***
+
+      "justo en el momento en que sensui patea las bolas, aprietas abajo/arriba
+       para que suban o bajen en su trayectoria horizontal"
+
+      *** NO ES UNA VENTANA DE 40 FRAMES: ES UN INSTANTE ***
+      El frame de la patada es el $A3 -> $A0, en f155.  Se aprieta arriba,
+      abajo o nada AHORA, y eso decide la trayectoria de toda la bola.
+      [COMPROBADO con el usuario]
+
+      *** CORRIGE LA ESTIMACION DE 42.3 ***
+
+      El usuario habia estimado '50 frames de startup y otros 40 de paralisis
+      donde al dispararla puedes desviar su trayectoria'.  El startup real
+      medido son 31 frames ($A3 de f124 a f155), y el desvio no tiene ventana:
+      tiene un frame.
+
+      *** LO QUE NO SE HA MEDIDO: SI EL DESVIO SIGUE ACTIVO EN VUELO ***
+      La caja de la bola dura 39 a 43 frames.  Si durante esos frames el
+      $5F se queda en $19 pero la Y cambia, el desvio es continuo y hay
+      ventana de verdad.  PARA SABERLO HACE FALTA QUE EL SCRIPT MIDA LA Y
+      DEL OBJETO CADA FRAME.  [ABIERTO]
+
+      *** Y ESO SERIA UNA MEJORA DEL SCRIPT ***
+      El script ya mide la X del objeto.  Falta la Y, y con la Y sola
+      sabemos si la bola sube, baja o va recta en cada frame.
+
+  51.7  DONDE ESTAMOS CON LOS PRECIOS
+
+      SENSU, MEDIDOS
+
+        $A8   pistola                       2   (6 con A+B)
+        $A0   bola rasante                  4
+        $A1   bola media                    4
+        $A2   bola anti-aerea                4
+        $AC   bola aerea en aire            4
+        $A4   parry de alto y medio        16
+        $A6   parry de bajo                16
+        $A3   ULTI (las tres bolas)        50
+
+        KURAMA, MEDIDOS
+        $A2   proyectil rosa              16
+        $A3   planta                      24
+        $A5   latigo                      16
+        $A0   hojas B                     16
+        $A1   hojas A                     24
+        $A6   ULTI                        200
+        $A4   SIN MEDIR   (predicho 12)
+
+      *** LO QUE FALTA PARA JUZGAR LA PARTICION ***
+      El numero que el solucionador predice para el $A3 de Sensui y el $A4
+      de Kurama.  Con 8 de 8 medidos en Sensui y 7 de 8 en Kurama, el
+      resto es una COMPROBACION, no una discusion.
+
+      *** Y HAY QUE TENER CUIDADO CON EL NOMBRE DE LA SUPER ***
+      Kurama: $A6.  Sensui: $A3.  No siempre esta en el mismo sitio del
+      rango.  Si la particion supone una posicion fija para la super, ya
+      se rompio antes de comparar numeros.  [ABIERTO]
+
+================================================================================
+================================================================================

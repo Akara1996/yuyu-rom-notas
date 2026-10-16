@@ -991,6 +991,72 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
   Se sabe DONDE esta el rank:  en el clashbox.  Y ahora se sabe que HAY DOS.
 
+  *** CORRECCION MAYOR DEL 15-10-2026:  EL RANK ES UNO, NO DOS ***
+
+  Todo lo de arriba sobre "rank fisico" y "rank proyectil" como dos campos
+  estaba MAL.  No hay dos.  Hay uno, y es el de proyectiles.
+
+  *** LA REGLA QUE MANDA, DICHA POR EL USUARIO ***
+
+      "No importa el nivel de dano o de stun que tenga una habilidad fisica,
+       con B debil podes parar CUALQUIER golpe fisico sea basico, especial o
+       de ulti y sin importar el dano o stun que produzca ese ataque."
+
+      "el juego no discute los clashes fisicos, los permite totalmente
+       aunque los golpes sean dispares, contrario a la ley de proyectiles
+       donde lo que manda es el poder."
+
+      "incluso con el mero clash que produce correr hacia adelante puedes
+       hacer clasheo a un golpe que te saca como 30 de vida si te golpea
+       directo, y esto incluye a esta burla."
+
+  *** O SEA ***
+
+      fisico vs fisico        SIEMPRE CLASHEA.  No hay debate, no hay
+                              escalonamiento, no importa el dano ni el
+                              stun.  Incluye basicos, especiales, ultis y
+                              la provocacion.
+
+      fisico vs proyectil     SI se discute, y ahi si manda el poder.
+                              Un clashbox el proyectil si llega.
+
+  *** Y ESO DEJA UN SOLO CAMPO DE RANK, NO TRES ***
+
+      el dano              cuanta vida quita
+      el rank proyectil   contra proyectiles
+
+  Y la respuesta a "por que no cerraba con una sola regla de dano contra
+  dano"  es:  porque el dano solo compara con el dano cuando los dos lados
+  son proyectiles.  En fisico el juego nunca pregunta.
+
+  *** LA PRUEBA 2 DEL LISTADO ESTA CANCELADA ***
+
+  "el dash contra el golpe da el rank fisico"  no sirve para nada:  el dash
+  clasha contra cualquier golpe fisico del juego, siempre.  Es el caso mas
+  debil de la regla, no el mas fuerte.  Por eso el dash parecia "el tope".
+
+  *** LO QUE SI SIRVE, Y ES UNA SOLA PRUEBA ***
+
+  Un reigan de nivel conocido contra el golpe.  Eso da el unico rank que
+  existe.
+
+  *** Y LA CORRECCION A LA PROVOCACION DE KUWABARA ***
+
+  Antes se escribio que "no lo podes tocar" porque manda a $25 y dura 140
+  frames.  ESTA MAL.  Lo que pasa es que FALLASTE y te estunea a vos, aun
+  con el personaje mas resistente.  El riesgo es tuyo, no del rival.
+
+  *** OJO CON LO QUE DICE ESTO PARA LOS PROXIMOS TESTS ***
+
+  - NINGUN test de "este golpe clasha contra este otro" tiene sentido si
+     los dos son fisicos.  Se puede_skippear completo.
+  -  La unica comparacion que vale es fisico contra proyectil, y ahi lo que
+     decide es si el clashbox ALCANZA al proyectil, no su poder.
+  -  El poder de un proyectil SOLO se discute contra otro proyectil.
+  -  Y el B debil bloquea TODOS los fisicos, incluidas las ultis.  Eso
+     significa que el bloqueo no es un recurso scarce en fisico:  solo
+     importa contra proyectiles y contra la gestion del espacio.
+
   *** EL RANK SON DOS CAMPOS, NO UNO ***
 
       rank_fisico      el clashbox contra GOLPES FISICOS
@@ -1028,7 +1094,9 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
   *** LA PRUEBA QUE SEPARA LOS DOS,  Y SON DOS RESETS ***
       1.  un reigan de nivel conocido contra el golpe   da el rank proyectil
-      2.  el dash contra el golpe                       da el rank fisico
+      2.  el dash contra el golpe                       CANCELADA 15-10
+          El clash fisico no se disputa.  El dash clasha contra todo.
+          Esta prueba no mide nada:  da SIEMPRE el mismo resultado.
 
   *** Y LA CAJA ENORME E INVISIBLE QUEDA FUERA ***
 

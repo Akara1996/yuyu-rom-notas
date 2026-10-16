@@ -325,7 +325,7 @@ A("  UTF8Encoding($false).")
 A("")
 A("  *** Y EL RASTREADOR NO DIBUJA, PERO EL USUARIO SI VE LINEAS ***")
 A("  No es el script:  es la fraccion sub-pixel de la posicion del mundo, que")
-A("  tiembla uno o dos pixeles aunque el personaje este quieto.  Cosmético.")
+A("  tiembla uno o dos pixeles aunque el personaje este quieto.  Cosmtico.")
 A("")
 ================================================================================
 
@@ -368,4 +368,68 @@ A("")
   Que un externo lo hiciera significa que el juego tiene un punto de entrada
   facil para colgar una tecnica nueva.  [DERIVADO]
 
+================================================================================
+
+================================================================================
+================================================================================
+  11.  EL REGISTRO DE PERSONAJES:  CUAL ES CUAL Y DONDE ESTA
+
+  *** ESTA SECCION NO SE BORRA NUNCA.  ES EL INDICE DEL PROYECTO. ***
+
+  Esta seccion existe porque el 15-10 se perdio el nombre del personaje que
+  mas tiempo llevamos.  Los 7 PDF de ITSUKI PDF son del PRIMER personaje que
+  mapeamos, y nunca seFinnaron en la carpeta LUAS ni en este archivo.  El
+  bloque de notas tiene que responder "que personajes hay y donde esta cada
+  uno" sin que haya que acordarse.  [DERIVADO]
+
+      personaje  entrada  tablaA     documento             PDF
+      ---------  -------  ---------  --------------------  ------
+      GENKAI     1        $0BCAAA    GENKAI TECNICAS      si, 5 pag
+      KURAMA     2        $0BF75A    KURAMA TECNICAS      si, 13 pag
+      (sin nom)  3        $0C229A    ---                  ---
+      YUSUKE?    4        $0C4EEA    YUSUKE TECNICAS      si, 10 pag
+      HIEI       5        $0C7C9A    HIEI TECNICAS        si, 17 pag
+      (sin nom)  6        $0CA6DA    ---                  ---
+      (sin nom)  7        $0CCC7A    ---                  ---
+      ITSUKI     8        $0CF99A    ITSUKI TECNICAS      si, 4 pag
+                                 y 7 PDF viejos en ITSUKI PDF
+      (sin nom)  9        $0D1E5A    ---                  ---
+      (sin nom) 10        $0D4A9A    ---                  ---
+      (sin nom) 11        $0D777A    ---                  ---
+
+  *** 6 PERSONAJES DOCUMENTADOS.  4 IDENTIFICADOS POR ENTRADA. ***
+
+  *** Y DOS SIN SABER QUE ENTRADA SON ***
+
+      YUSUKE      la entrada 4 es la UNICA con $A0 $A1 $A6 $AA $B8, que son
+                  los 5 ids de Yusuke.  PERO su $AA da 38 de dano en el ROM
+                  contra los 119 medidos.  NO CIERRA.  Si cierra, aparece
+                  una sexta capacidad:  el $A2, 2 golpes de 16 y 4, sin
+                  comando.  [DERIVADO]
+
+      "SENSU"     el personaje del documento SENSU TECNICAS.txt:  pistola,
+                  4 bolas, 2 parry, 2 contras, ulti $A3 de 50.  No comparte
+                  ninguna tecnica con Itsuki.  Candidatas:  la 3 (trae $A3
+                  $A4 $A5) y la 6 (trae $A5 $A7 $A8).  [ABIERTO]
+
+  *** Y POR QUE "SENSU" NO ES ITSUKI, EN UNA LINEA ***
+
+  Los cuatro registros del documento viejo coinciden con la entrada 8, el
+  dispatcher de $68 es nuestro, y el backflip de la intangibilidad que
+  esta en SISTEMAS desde el principio es el post-estado $B1 del DIVE KICK.
+  La derivacion completa esta en CONTEXTO.txt seccion 96.1.
+
+  *** Y DONDE ESTA CADA COSA ***
+
+      GENERAL\SISTEMAS.txt      las reglas, 18 secciones
+      GENERAL\PROYECTO.txt      este archivo
+      GENERAL\METODO.txt        el procedimiento, 26 secciones
+      GENERAL\CONTEXTO.txt      el registro historico, 12.000 lineas
+      GENERAL\MOVES DE TODOS.txt    las tablas del ROM de los 11
+      GENERAL\HIT STATE.txt     $68, estados, hitstop
+      LUAS\                     los .LUA, todos juntos
+      <PERSONAJE> PDF\          un PDF por personaje
+
+  *** REGLA:  SI SE CREA, BORRA O MUEVE UN DOCUMENTO, ESTA TABLA SE ACTUALIZA
+  EN LA MISMA RONDA.  NO HAY EXCEPCION.  ***
 ================================================================================

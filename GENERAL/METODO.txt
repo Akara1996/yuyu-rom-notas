@@ -1945,3 +1945,58 @@ FIN DEL IDEARIO
   no un dato.  Los .txt SI son del proyecto y se editan a mano.
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+27.  EL REGISTRO DE PERSONAJES NO SE TOCA, SE MANTIENE
+================================================================================
+================================================================================
+
+      "quiero ver si llevas la cuenta o te perdiste y no esta
+       funcionando la idea de los blocks de notas recontextualizadores"
+
+
+  *** LO QUE PASO ***
+
+  Itsuki fue el PRIMER personaje que mapeamos, y tiene 7 PDF.  Ningun
+  documento del proyecto decia eso.  El resultado fue que se perdio de
+  vista durante compactaciones, y se termino escribiendo un documento
+  entero sobre un personaje que se llamaba distinto.
+
+  *** POR QUE FALLA EL BLOQUE DE NOTAS ***
+
+  CONTEXTO.txt tiene 12.000 lineas y se consulta con grep.  Es un
+  registro, no un indice.  Un indice tiene que estar en un archivo
+  chico que se lee entero.
+
+  *** LA REGLA ***
+
+      PROYECTO.txt seccion 11   el registro de personajes
+                                 que personaje es cual entrada, y
+                                 donde esta su documento
+
+  Se actualiza en la MISMA RONDA en que se crea, borra o mueve
+  cualquier documento.  Sin excepcion.
+
+  *** Y QUE MAS SE DEBE ANOTAR AHI ***
+
+      que personajes NO tienen documento todavia
+      que entrada es candidata de cual
+      los documentos viejos que siguen siendo fuente
+
+  *** Y LA REGLA PARA ABRIR UN PERSONAJE NUEVO ***
+
+      1.  crear la carpeta  <PERSONAJE> PDF
+      2.  crear el .txt con cabecera, ronda 1 y PENDIENTES   (seccion 26)
+      3.  agregar la fila del personaje en PROYECTO.txt seccion 11
+      4.  recien ahi empezar a medir
+
+  *** Y LO QUE SE HIZO CON ESTA MISMA SECCION ***
+
+  Los 7 PDF de Itsuki se compactaron en un solo documento de 315
+  lineas, y los 7 originales quedan como fuente sin tocar.  El
+  documento nuevo dice, en su seccion 4, que NO copia la tabla de $68
+  ni el hitstop:  dice donde estan.  Copiar es como se duplican los
+  datos y empiezan a contradecirse.  [DERIVADO]
+================================================================================
+================================================================================

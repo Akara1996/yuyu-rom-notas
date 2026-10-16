@@ -1164,6 +1164,33 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
 
 
+
+  *** Y LOS 29 FRAMES DE LA PLANTA SON LA EXPLICACION DEL CLASH ***
+
+  "es una tecnica que tiene mal startup, tarda medio segundo en emerger y
+   solo entonces aparecen las hit y clashboxes"  (usuario, 15-10)
+
+  O sea que el clash de la planta no es por rank:  es que durante medio
+  segundo no hay nada.  El proyecto lo llama FISICA por como se comporta
+  cuando ya salio, pero el motivo de que se pueda clashear es la ausencia
+  de caja durante el arranque.
+
+  Y el .LUA lo dice solo, leyendo el bit 6 de la tabla B:
+
+      "bit6=INACTIVO, o sea el juego no lee esa direccion en este estado
+       (0x1EC06).  DATO UTIL:  este estado NO TIENE CAJA DE GOLPE ACTIVA."
+
+  *** ESTO ES UNA TERCERA COSA QUE SE CONFUNDE CON LA INTANGIBILIDAD Y NO
+  ES LO MISMO ***
+
+      intangibilidad      el personaje desaparece del juego:  no hay hurtbox
+      arranque sin caja   el golpe todavia no sale:  no hay hit ni clash
+
+  Las dos producen lo mismo en pantalla y se miden distinto.  La segunda
+  solo dura el arranque.
+
+
+
   *** LOS OBJETOS CON DISTANCIA ELEGIDA POR A/B/C, Y LADO ELEGIDO POR EL
   FACING ***
 

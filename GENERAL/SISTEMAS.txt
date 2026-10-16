@@ -1279,6 +1279,67 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
 
 
+
+  *** Y EL DEDAL, QUE ESTA DESCRITO MAL EN VARIOS LUGARES ***
+
+      es de TOGURO MAYOR,  entrada 9.  No de Kuwabara.
+
+      golpea SIN clashbox
+      perfora la barrera de Toguro menor
+      64 de stun o mas
+      CONSUME MANA.  Es una tecnica,  no una burla.
+
+  Y es el segundo ataque con mas aturdimiento individual del juego.  El
+  primero es la provocacion.  Los dos, 64.
+
+  *** Y LA PROVOCACION NO ES UNA TECNICA ***
+
+  Es A+B+C,  el estado $14,  y no cuesta mana propio:  le SACA mana al rival.
+  48 medidos,  dos veces.
+
+  *** Y EL $67 SOLO SEPARA PROYECTIL DE FISICO EN LOS OBJETOS ***
+
+  En los objetos si:  $67 = $01 proyectil,  $67 = $02 fisico.  Cuatro de cuatro.
+
+  En los golpes de personaje NO:  la provocacion de Kuwabara es HIT+CLASH,  es
+  un golpe fisico,  y tiene $67 = $01.
+
+  *** Y $67 Y $68 SON INDEPENDIENTES ***
+
+                    $68=$01    $68=$05
+      $67=$01     shuriken   reikodan
+      $67=$02     hoja dim.  planta
+
+  Las cuatro combinaciones existen.  Y en los personajes:
+      la provocacion   $67=$01  $68=$05
+      la ulti de KU    $67=$02  $68=$02
+
+  *** Y HAY UNA QUINTA FUENTE DE INTANGIBILIDAD, Y NO LA SABIA NADIE ***
+
+  No es una tecnica del atacante.  Es el estado del VICTIMA.
+
+  La mascara de la tabla B durante un derribo:
+
+      $25   en el piso   PUSH+HURT    $12
+      $28   por el aire  PUSH         $08
+      $29   por el aire  PUSH         $08
+      $2A   por el aire  PUSH         $08
+      $2B   se asienta   PUSH+HURT    $12
+
+  *** $28, $29 Y $2A NO TIENEN HURTBOX.  MEDIDO:  227 frames. ***
+
+  Un derribo deja al rival intocable mientras vuela.  [COMPROBADO]
+
+  Y encaja con el $69:  la fisica lo mueve,  y por eso el STOP TIME de Itsuki
+  no congela al lanzado.  El que esta en el aire y no se lo puede tocar es el
+  mismo.
+
+  Las otras cuatro fuentes de intangibilidad:  el backflip de Itsuki
+  (accidental),  el Afterimage de Hiei (tecnica),  el backdash (esquiva),  y
+  el frame 0 del teleport de Itsuki (sin confirmar).
+
+
+
   *** RESUELTO:  EL $67 DEL OBJETO DICE SI ES PROYECTIL O FISICO ***
 
   Cuatro objetos medidos, cuatro etiquetas del usuario:

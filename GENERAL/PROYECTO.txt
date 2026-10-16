@@ -440,7 +440,8 @@ A("")
       ---------  -------  -------------------  -------  -------------------
       GENKAI     1        GENKAI TECNICAS      5 pag    completo, 11 de 15
       KURAMA     2        KURAMA TECNICAS      13 pag   completo, 7
-      KUWABARA   3        KUWABARA TECNICAS    2 pag    RONDA 1.  Solo la
+      KUWABARA   3        KUWABARA TECNICAS    7 pag    11 de 11 con nombre.  Faltan $AB, los
+                                    mandos sin id y el alcance de la estocada
                                                         tabla del ROM.  Los
                                                         8 ids sin mapear
       YUSUKE     4        YUSUKE TECNICAS      10 pag   completo, 4

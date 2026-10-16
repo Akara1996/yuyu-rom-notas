@@ -1197,6 +1197,47 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
 
 
+
+  *** RESUELTO:  EL $67 DEL OBJETO DICE SI ES PROYECTIL O FISICO ***
+
+  Cuatro objetos medidos, cuatro etiquetas del usuario:
+
+      objeto              $64  $65  $66  $67  $68   que es
+      -------------------  ---  ---  ---  ---  ---   -----------------
+      Shuriken (Kuwabara)  1E   08   06   01   01    PROYECTIL
+      Reikodan  (Genkai)   1E   06   06   01   05    sin clasificar
+      Hoja dimensional     1E   08   06   02   01    FISICA con clash
+      Planta      (Kurama) 1E   08   04   02   05    FISICA con clash
+
+      *** $67 = 01  PROYECTIL ***
+      *** $67 = 02  FISICO   ***
+
+  *** Y LOS OTROS TRES CAMPOS NO SIRVEN PARA ESO ***
+
+      $65  el dano:      08 08 06 08   sin patron
+      $66  el stun:      06 06 06 04   sin patron
+      $68  la reaccion:  01 01 01 05   ese NO va con proyectil ni fisico.
+                           Los dos de Kuwabara dan 01 y los otros dos 05,
+                           y eso es por personaje o por tecnica, no por
+                           la categoria.
+
+  *** EL $67 ES EL UNICO QUE PARTE EL GRUPO EN DOS ***
+  Y son cuatro casos, dos de cada lado.  [FUERTE], falta uno para que sea
+  [COMPROBADO].
+
+  *** Y EL $67 NO ES EL BOTON ***
+  El boton es lo que cambia la distancia del spawn.  El $67 no cambia con
+  el boton.  O sea que el $67 es de la TECNICA, no del comando.  Eso lo
+  descarta como confound y lo deja como criterio.
+
+  *** Y CUANTO VALE ***
+
+  Hay 36 entradas en la tabla de objetos y once identificadas.  Con este
+  criterio, leer el $67 de cada una es leer UN BYTE del ROM, y clasificar
+  las 36 sin gastar una sola partida.
+
+
+
   *** Y HAY UNA TERCERA CATEGORIA:  LOS OBJETOS QUE SON FISICOS ***
 
   Correccion del usuario, 15-10.  Porque "hecho de objetos" y "proyectil"

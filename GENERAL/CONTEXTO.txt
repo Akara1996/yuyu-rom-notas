@@ -7735,3 +7735,149 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+62. NIVEL 1 DEL REIGAN:  LA ESCALA ESTA CERRADA  (15-10)
+================================================================================
+================================================================================
+
+  62.1  NIVEL 1:  6 DE DANO, 5 DE MANA, $20
+
+      [GOTEO] f90   mp 223 -> 218   (perdio 5 en 30 frames)  $5F=$A4
+      [HP]    f110  P4  223 -> 217  (-6)   P4: $00 -> $20
+      [$5F]   f112  P1: $A4 -> $00
+
+      *** Y LA ESCALA DEL DANO ESTA CERRADA ***
+
+        nivel   dano    saltos desde el anterior
+        -----   ------  -------------------------------
+        1         6     ---
+        2         8      +2
+        3        12      +4
+        4        16      +4
+        5        24      +8
+        6        32      +8
+        7        48      +16
+        8        64      +16
+
+      *** LOS SALTOS:  2, 4, 4, 8, 8, 16, 16 ***
+
+      *** CADA POTENCIA DE DOS APARECE UNA VEZ Y LA SIGUIENTE OTRA VEZ ***
+
+        2  una vez
+        4  dos veces
+        8  dos veces
+        16 dos veces
+        32 dos veces
+
+      *** Y ESO ES UNA FORMULA CERRADA ***
+
+        el salto al nivel n  =  2 x 2^(n/2 redondeado hacia abajo)
+
+      Con eso los ocho niveles caen exactos y las predicciones siguen igual:
+
+        nivel 9     64 + 32  =  96
+        nivel 10    96 + 32  = 128
+
+  62.2  *** Y EL REIGAN TIENE DOS FORMAS, NO UNA ***
+
+      *** EL NIVEL 1 NO ES UN OBJETO.  ES UNA CAJA EN EL PERSONAJE. ***
+
+      En el log del nivel 1 NO aparece ninguna linea [OBJ].  El handler de
+  $300 se mantiene en cero durante toda la maniobra.  O sea que no hay
+  entidad proyectil: hay una caja en el cuerpo del jugador.
+
+      *** LO MISMO QUE LA PISTOLA DE SENSU ($A8) ***
+      "su hitbox es un rectangulo delgado a partir de su mano, no es un
+       proyectil"
+
+      [COMPROBADO]  El Reigan sin cargar es un golpe corto.  Cargado es un
+  proyectil que viaja.
+
+        nivel 1       caja en el personaje     no viaja     6 de dano
+        niveles 2-8   objeto $01 a $07        viaja       8 a 64
+
+      *** Y ESO TAMBIEN EXPLICA EL PRECIO ***
+        nivel 1    5 de mana
+        nivel 2   12 de mana
+
+      Y que la diferencia sea de 5 a 12 y no de 8 a 16 tiene sentido: el
+  salto del nivel 1 al 2 es el unico que convierte un golpe en un proyectil.
+  [DERIVADO]
+
+  62.3  *** POR QUE EL SCRIPT NUNCA VIO EL OBJETO DEL NIVEL 1 ***
+
+      *** Y NO ERA EL OBJETO: ERA QUE NO HAY OBJETO ***
+
+      Pero hay un problema real debajo.  Los ids de objeto van:
+
+        nivel 2  ->  $5F = $01
+        nivel 3  ->  $5F = $02
+        ...
+        nivel 8  ->  $5F = $07
+
+      *** O SEA QUE EL NIVEL 1 SERIA $5F = $00 ***
+
+      *** Y $00 ES LO QUE EL SCRIPT LEE COMO VACIO ***
+      La condicion es: si el estado del objeto es distinto de cero, hay
+  objeto.  Un objeto en $00 seria INVISIBLE para el rastreador.
+
+      *** NO AFECTA AL NIVEL 1, QUE NO TIENE OBJETO ***
+      Pero si algun objeto del juego usa $00 como estado, el script no lo va
+  a ver nunca.  [ABIERTO]
+
+      LA PRUEBA: disparar el nivel 1 a un rival lejano.  Si le llega, hay
+  objeto.  Si no llega, es una caja corta del cuerpo y no hay nada que buscar.
+  [ABIERTO]
+
+  62.4  *** LA ESCALA, CON SU ANCLA INFERIOR ***
+
+        Reigan 1  = 6       <   Reigan 2  = 8  =  Chu nivel 1
+        Reigan 3  = 12            Reigan 4  = 16
+        Reigan 5  = 24            Reigan 6  = 32
+        Reigan 7  = 48            Reigan 8  = 64  =  ulti de Sensui
+
+      "Reigan 2 empata con el lv1 de chu, que gana a reigan 1"
+
+      *** LOS SEIS EMPAREJAMIENTOS CUADRAN CON LA ESCALA ***
+      "Reigan LV3 empata con las bolas normales de sensui"  ->  las bolas
+  hacen 12.
+
+      *** Y ESO FIJA EL VALOR DE LAS BOLAS DE SENUI, QUE NO PODIAMOS LEER ***
+      Su blob esta sin inicializar (seccion 48.2) y el HP medido no lo
+  distinguiendo.  Con el emparejamiento sabemos que es 12.  [DERIVADO]
+
+  62.5  LO QUE CIERRA ESTA TABLA Y LO QUE NO
+
+      *** CERRADO ***
+
+        la escala de dano, de 6 a 64, con la forma de los saltos
+        que el nivel 1 es una caja del personaje y no un proyectil
+        que la reaccion sube con el nivel: $20 hasta el 6, $25 desde el 7
+        que el knockback llega al maximo en el nivel 5
+        que el dano y el stun son exactos en los ocho niveles medidos
+
+      *** ABIERTO ***
+
+        - los niveles 9 y 10 (prediccion: 96 y 128)
+        - si el nivel 1 tiene o no entidad
+        - si Genkai y Chu tienen los ocho niveles
+        - el tiempo de carga exacto de cada nivel
+
+      *** Y AHORA LA TABLA DE OBJETOS TIENE UN MAPA ***
+
+      $0D9A3E  Reigan 2        $0D9A5E  Reigan 6
+      $0D9A42  Reigan 3        $0D9A62  Reigan 7
+      $0D9A46  Reigan 4        $0D9A66  Reigan 8
+      $0D9A4A  libre           $0D9A6A  libre
+      $0D9A4E  libre           ...
+      $0D9A52  libre           $0D9A86  rosa de Kurama
+      $0D9A56  libre
+      $0D9A5A  Reigan 5
+
+      Doce entradas libres.  Los registros van con paso $10 exacto:
+      $0D936A, $0D937A, $0D938A, $0D939A, $0D93AA, $0D93BA, $0D93CA.
+
+================================================================================
+================================================================================

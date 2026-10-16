@@ -477,31 +477,86 @@ A("")
   *** SENSUI ES EL UNICO QUE NO GASTA 200 EN EL SUPER.  50. ***
 
   ==========================================================================
-  11.3  QUE HAY QUE CORREGIR POR ESTE MAPA
-  ==========================================================================
+11.3  LO QUE ESTABA MAL Y NO ESTABA MAL
 
-  *** EN SENSU TECNICAS.txt HAY DOS IDs MAL ***
+  *** ME EQUIVOQUE UNA VEZ, Y ESTA ES LA CORRECCION ***
 
-  El personaje que medimos es la ENTRADA 6.  Se confirma por dos vias
-  independientes:  $26 = 54, que solo es de Sensui, y $A8, que es la pistola
-  y solo la entrada 6 lo tiene.
+  Al mapear los 11 nombres se concluyo que SENSU TECNICAS.txt tenia dos ids
+  mal, porque la entrada 6 no aparece con $A4 ni con $A6 en la lista de
+  "con golpe" de MOVES DE TODOS.txt.
 
-  Pero la entrada 6 tiene:  $A0 $A1 $A2 $A5 $A7 $A8 $AC $B8  con golpe,
-  y una no listada.  NO tiene $A4 ni $A6.
+  ESO ESTABA MAL.  Los dos ids existen.
 
-      el documento dice   2 parry en $A4 y $A6
-      el ROM dice         $A4 y $A6 no existen para SENSUI
+  *** POR QUE ME CONFUNDI ***
 
-  Lo mas probable:  los parry son $A5 y $A7, que si existen.  Y el que no
-  tiene hit record es $A3, la ulti:  el dano de la Sper Bola Roja gigante
-  lo da un OBJETO, no un hit record, asi que el lector del ROM no lo lista.
+  "con golpe" no es "existe".  El lector del ROM imprime SOLO los moves que
+  tienen hit record.  Un move sin hit record existe igual y no aparece.
 
-  *** ESO ESTA SIN VERIFICAR.  NO SE REESCRIBIO EL DOCUMENTO. ***
-  Se corrige jugando:  entrar con Sensui, hacer el parry, leer $5F.
+  Y el puntero NO sirve para detectinglos:  la tabla es uniforme y los 128
+  ids de $80 a $FF tienen puntero distinto de cero,including los muertos.
 
-  *** Y EL .LUA YA TIENE LOS 11 NOMBRES ***
-  LUAS\IDENTIFICA PERSONAJES.LUA, el bloque CONOCIDOS.  Los numeros de
-  ficha van en un comentario, aclarando que son del wiki y no del ROM.
+  *** LO QUE DICE EL ROM, LEIDO DIRECTAMENTE ***
+
+  El registro de un move esta en tablaA + el puntero de 2 bytes que esta en
+  tablaA + id*2.  Para $80 eso da $0CAEDA, que es lo que imprime el .LUA.
+
+      id    registro   bytes del registro
+      $A0  $0CB0F2    08 64 00 00 49 00 7F 80
+      $A1  $0CB122    08 64 00 00 49 00 7F 80
+      $A2  $0CB152    08 64 00 00 49 00 7F 80
+      $A3  $0CB182    04 9B 00 00 00 00 8F 80    LA ULTI
+      $A4  $0CB19A    18 2A 10 00 47 00 84 84    PARRY DE ALTO
+      $A5  $0CB1AA    04 81 00 00 48 00 83 83    su golpe
+      $A6  $0CB1D2    18 1E 10 00 47 00 84 80    PARRY DE BAJO
+      $A7  $0CB1E2    02 94 00 00 48 00 80 83    su golpe
+      $A8  $0CB212    02 2B 00 00 00 00 82 82    LA PISTOLA
+      $A9  $0CB28A    00 00 80 00 00 00 00 00    muerto
+      $AA  $0CB292    00 00 80 00 00 00 00 00    muerto
+      $AB  $0CB29A    00 00 80 00 00 00 00 00    muerto
+      $AC  $0CB2A2    08 6F 08 80 49 00 81 85
+      $AD  $0CB2D2    00 00 80 00 00 00 00 00    muerto
+      $AE  $0CB2DA    00 00 80 00 00 00 00 00    muerto
+      $B8  $0CB32A    10 94 00 00 70 00 7F 83    el agarre
+
+  *** Y $A4 Y $A6 SON LA MISMA COSA CON UN BYTE DISTINTO ***
+
+      $A4   18 2A 10 00 47 00 84 84
+      $A6   18 1E 10 00 47 00 84 80
+
+  La ficha los llama "Puo de patada (alto) A+B" y "(bajo) abajo+A+B".
+  Y la diferencia encaja:
+
+      byte 1     $A4 = 42      $A6 = 30
+      byte 6     los dos  $84      velocidad X +4
+      byte 7     $A4 = $84   $A6 = $80    $A4 sube +4, $A6 no
+
+  *** Y EL BYTE 0 DEL REGISTRO ES $5A ***
+
+  $A4 tiene 18, y el log dio  "dur $5A=18".  $A5 tiene 04, y el log dio
+  "dur $5A=04".  $A8 tiene 02, y el log dio "dur $5A=02".  Tres de tres.
+
+  ESTO CONTRASTA CON EL .LUA, que dice "byte(+0)=$04 pero $5A vivo=$18,
+  la lectura NO es de fiar".  Ese aviso era sobre la TABLA B, que es otra
+  cosa.  El REGISTRO si es de fiar en su byte 0.
+
+  *** COMO SE DISTINGUE UN MOVE REAL DE UNO MUERTO ***
+
+  Los muertos son siempre  00 00 80 00 00 00 00 00.  El 80 es el sesgo, no
+  contenido.  Un move real tiene algo distinto de 00 en el byte 1, en el 3,
+  en el 4 o en el 6.
+
+  *** LO QUE SIGUE SIN SABERSE DE SENSUI ***
+
+  [ ]  $AC   que es.  Tiene hit record, asi que el lector lo list6, pero no
+               esta en ningun comando medido
+  [ ]  $A0 $A1 $A2   tres tecnicas de un golpe de 4 de dano cada una, con
+               attr $3E.  No sabemos que comandos las llaman
+  [ ]  $A3   la ulti.  Registro con contenido  04 9B 00 00 00 00 8F 80.
+               El dano lo da un objeto, no un hit record, que es por eso
+               que el lector del ROM no la lista.  50 de mana.
+
+  *** Y NO SE REESCRIBIO NINGUN DOCUMENTO ***
+
 
   ==========================================================================
   11.4  DONDE ESTA CADA COSA

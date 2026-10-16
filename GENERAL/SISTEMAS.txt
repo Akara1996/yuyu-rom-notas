@@ -1181,6 +1181,60 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       el lado del que sale lo manda el facing,  $61
       el ancla de la curacion era MANO-2,  slot+$200
 
+
+  *** LA TABLA DE DISTANCIAS DE LOS OBJETOS CON A/B/C ***
+
+  Medida en los tres personajes que tienen la tecnica:
+
+      boton   distancia real   quien lo midio
+      ------  ---------------  -----------------------------------
+      A       176 px           la Hoja dimensional de Kuwabara
+      B       112 px           la Planta de Kurama
+      C        48 px           la Planta de Kurama
+
+  *** Y LOS TRES COMPARTEN LA MISMA TABLA ***
+
+  Itsuki tiene 176 / 112 / 48 px reales, con nominales 384 / 320 / 256.  Los
+  tres personajes usan los mismos tres valores y los mismos nominales.  Es
+  UNA sola tabla en el ROM, no una por personaje.  [COMPROBADO]
+
+  *** Y EL ESTADO DEL PERSONAJE ES EL MISMO PARA LOS TRES BOTONES ***
+
+  La Planta con B y con C da $A3 en los dos casos.  Lo unico que cambia es
+  DONDE nace el objeto.  O sea que para el id y para el precio,  una sola
+  medicion del boton A sirve para los tres.  [COMPROBADO]
+
+  *** Y LA CONVERSION DE NOMINAL A REAL ***
+
+      384 -> 176
+      320 -> 112
+      256 ->  48
+
+  No es una division limpia.  Diferencia de 208 en los dos primeros y de
+  208 en el tercero.  O sea que REAL = NOMINAL - 208.  [DERIVADO, y vale
+  confirmarlo con un caso mas]
+
+  *** Y EL .LUA YA DICE CUANDO UN ESTADO NO TIENE CAJA DE GOLPE ***
+
+  Salio asi, el 15-10, con la planta de Kurama:
+
+      "golpe: NO se imprime.  bit6=INACTIVO, o sea el juego no lee esa
+       direccion en este estado (0x1EC06).  Los bytes de ahi son de otro
+       frame.  DATO UTIL:  este estado NO TIENE CAJA DE GOLPE ACTIVA."
+
+  *** Y ESO ES JUSTO POR QUE LA PLANTA SE PUEDE CLASHEAR CON EL DASH ***
+  No es que tenga rank.  Es que durante el arranque no tiene caja.  Y eso
+  lo dice el script solo, sin medir el clash.
+
+  *** Y CORRECCION A LO QUE DIJE ANTES ***
+
+  Escribi que "para los objetos el byte 0 del registro es fiable y para los
+  personajes no".  ESTA MAL.  El log dice "lectura VERIFICADA" estado por
+  estado, y no se puede adivinar cual:  el $A3 de Kurama, que es un estado
+  de PERSONAJE, salio verificado.  El aviso va por estado, no por tipo.
+
+
+
   *** Y POR QUE IMPORTA ***
 
   Porque si el estado es el mismo para A, B y C,  UNA sola medicion del $5F

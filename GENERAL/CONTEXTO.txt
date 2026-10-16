@@ -7016,3 +7016,165 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+57. LA CARGA ES UN COSTE PROGRESIVO, NO UN UMBRAL  (15-10)
+================================================================================
+================================================================================
+
+  57.1  *** CORRECCION: NO HAY UMBRAL, HAY MANA QUE SE GASTA ***
+
+      El usuario: "el juego rechaza la tecnica antes de cobrarla no
+       necesariamente, se necesita un 70% para cargar todo el reigan, pero
+       recuerda que dije que lleva un tiempo hacerlo, y TU decides cuando parar
+       la carga."
+
+      "Puedes cargar de 0 a 100% si el enemigo lo permite"
+      "Dejarlo al 60-70%"
+      "O cargar hasta donde tu mana te lo permita: si tienes 30% de mana
+       posiblemente llegues hasta el nivel 4"
+
+  *** LO QUE DIJE ESTA MAL.  NO ES UNA CONDICION, ES UN PRECIO. ***
+
+      Yo: "el juego RECHAZA la tecnica antes de cobrarla"
+      Realidad: no rechaza nada.  La carga COME mana mientras crece, y el
+      jugador la detiene cuando quiere.
+
+  *** O SEA: EL NIVEL SE COMPRA CON MANA ***
+
+        mucho mana  ->  lo cargas mas  ->  proyectil mas fuerte
+        poco mana   ->  lo cargas menos ->  proyectil mas chico
+
+      Y no hay ningun minimo para empezar: de 0 a 100% es un continuo.
+      [COMPROBADO por el usuario]
+
+  *** ESO ES MAS ELEGANTE QUE UN UMBRAL Y MAS DIFICIL DE MEDIR ***
+      Con un umbral, con el man lleno siempre se carga igual.  Con un coste
+      progresivo, dos partidas con el mismo man pueden dar proyectiles
+      distintos, segun cuanto tiempo le des al enemigo.
+
+  57.2  *** Y EL 5% Y EL 10% SI SON UN COSTE, YA ESTA RESUELTO ***
+
+      "aunque tengas el reigan cargado, si decidis guardarlo, el juego te pide
+       como minimo el man suficiente para disparar un reigan nivel 1, y en
+       aire el costo de yusuke es mayor para disparar"
+
+      *** EL MINIMO ES EL PRECIO DE UN REIGAN NIVEL 1.  NO UN UMBRAL. ***
+
+      Y en el aire el costo de YUSUKE es mayor.  O sea que el recargo por
+      disparar en el aire es POR PERSONAJE, no universal.  [DERIVADO]
+
+      *** LO QUE ABRE ESO ***
+      El usuario: 'Yusuke puedes disparar su carga en el aire.'  Es el unico con
+      frase en este mensaje.  Los otros dos (Genkai y Chu) no quedaron
+      claros.  [ABIERTO]  Preguntar si los tres pueden disparar la carga
+      en el aire y si el recargo es igual para los tres.
+
+  57.3  LA TABLA DE NIVELES, Y COMO SE MIDE
+
+      *** HAY SEIS NIVELES Y CADA UNO TIENE UN PRECIO ***
+
+      nivel 1   el mas barato   es el minimo para disparar una carga guardada
+      ...
+      nivel 6   el mas caro      equivalente en potencia a la ulti de Sensui
+
+      *** Y NO SON LINEALES: 30% DE MANA LLEGA 'POSIBLEMENTE A NIVEL 4' ***
+      Si fueran lineales, 30 de 70 seria menos de la mitad, o sea nivel 3.
+      El usuario dice 4.  O la relacion no es lineal, o cargar al 100% no
+      cuesta el 70% entero.  [ABIERTO]
+
+  *** LA MEDICION QUE CIERRA LA TABLA: SEIS DISPAROS, SEIS DANOS ***
+
+        1.  man lleno, cargar y soltar en 6 momentos distintos
+        2.  medir el HP que se lleva cada uno
+        3.  seis numeros = la tabla de niveles completa
+
+      Con el .LUA alcanza con la linea [HP]: el dao ya sale medido.  No hace
+      falta ningun cambio de script.  UNA PARTIDA.
+
+      *** Y EL .LUA YA MIDE LA Y DEL PROYECTIL (ver 58) ***
+      Con eso tambien sale el TAMAO de cada nivel.  Dos numeros por nivel:
+      dao y tamao.
+
+  57.4  LO QUE NO SE SABE DE LA CARGA
+
+      - el man exacto de cada uno de los seis niveles
+      - si la relacion mana-nivel es lineal o no
+      - si el recargo por disparar en el aire es igual para los tres
+      - cuantas cargas guardadas se pueden acumular a la vez
+      - si la carga se puede usar como objeto sin dispararla (ver 55.5)
+
+================================================================================
+================================================================================
+58.  EL .LUA AHORA MIRA LOS OCHO SLOTS DE OBJETO  (15-10)
+================================================================================
+================================================================================
+
+  *** QUE SE CAMBIO, Y POR QUE ***
+
+  CONTEXTO 54.3: el script registraba el estado de P4 y el man de P4 pero NO
+  el objeto, porque miraba los dos slots de P1.  En una partida de dos
+  jugadores se vea la mitad de la partida.
+
+  Archivo:  YYH Docs\HIEI LUAS\HIEI SET MOVE.LUA
+  Copia:    YYH Docs\_backup txt\HIEI SET MOVE.LUA.bak   (141.771 bytes)
+
+  *** 1. LOS OCHO SLOTS, EN VEZ DE DOS ***
+
+        P1-OBJ1   $FF8500        P3-OBJ1   $FF8D00
+        P1-OBJ2   $FF8600        P3-OBJ2   $FF8E00
+        P2-OBJ1   $FF8900        P4-OBJ1   $FF9100
+        P2-OBJ2   $FF8A00        P4-OBJ2   $FF9200
+
+      Se anuncian en la linea [5F-MANO] y se nombran P1-OBJ1 .. P4-OBJ2.
+      MANO-1 y MANO-2 era un nombre que sugeria 'las dos manos de Itsuki';
+      ahora el nombre dice de quien es el objeto.
+
+  *** 2. LA Y DEL OBJETO ***
+
+      El script leia la X (OFF_WX_LO = $40) y ahora tambien la Y (OFF_WY_LO =
+      $44).  Sale en la linea de estado del objeto:
+
+           (estado anterior $%02X  |  X=%s  Y=%s  duenoX=%s  dist=%d px)
+
+      *** Y ESO ABRE LA PREGUNTA DE 56.5 ***
+      "solo velocidad, tienen la misma altura"  era sobre la rosa A y la B.
+      Ahora se puede medir si los NIVELES DE CARGA cambian el tamao, que es
+      lo que todavia no sabemos.
+
+  *** 3. LA DISTANCIA VA CONTRA EL DUENO, NO CONTRA P1 ***
+
+      Antes era dist = |X_objeto - X_P1|.  Ahora es |X_objeto - X_dueno|.
+      Antes un objeto de P4 se media contra el personaje equivocado.
+
+  *** 4. LA ATRIBUCION DE IMPACTOS BARRO LAS OCHO ***
+
+      Antes se comparaban solo las dos cajas de P1.  Un golpe de un objeto de
+      P3 o P4 salia como 'SIN MANO ACTIVA'.  Ahora se busca la de menos
+      frames encima entre las ocho.
+
+  *** 5. EL RESUMEN DE CAJAS ABiertas LISTA LAS OCHO ***
+
+           cajas abiertas ahora: P1-OBJ1=3 f   P4-OBJ2=17 f
+
+  58.1  *** LO QUE SE MANTUVO ***
+
+      PASIVO: no escribe en la memoria del juego, no usa joypad.set, no dibuja.
+      Solo lectura, igual que antes.
+
+  *** Y LAS 13 SUSTITUCIONES FUERON EXACTAS ***
+      Las tablas (act, est5f, b6, ini, fin, a0, a1, cambio) estaban indexadas
+      por OFFSET, y por eso no podian distinguir dos jugadores: los slots de P1
+      y los de P4 se pisaban en la misma clave.  Ahora van por indice 1..8.
+
+  *** VERIFICACION ***
+
+        luajit -bl   compila el archivo entero   exit code 0
+        3127 lineas, 143.697 bytes, sin BOM, CRLF conservado
+
+      El script ahora imprime al arrancar las ocho direcciones vigiladas, para
+      que se puedan verificar a ojo contra el log.
+
+================================================================================
+================================================================================

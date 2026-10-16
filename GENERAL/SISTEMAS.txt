@@ -1392,6 +1392,52 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
 
 
+
+  *** Y LA MASCALA DEL DASH:  MEDIDA.  EL DASH NO TIENE CAJA DE GOLPE. ***
+
+  Con la herramienta BLOB-J, el 15-10, con Kuwabara:
+
+      [BLOB-J] P1  $5F=$0B  anim $02  se prendio: CLASH   mascara=$26
+
+  $26 = 0010 0110.  Bit 5 = CLASH.  Bit 2 = GRAB.  Y un bit sin nombre.
+
+  *** EL BIT 6 (HIT) NO ESTA.  EL DASH NO TIENE CAJA DE GOLPE. ***
+
+  [COMPROBADO].  O sea que la hipotesis del usuario de que "hacen lo mismo que
+  si hubieran tirado un ataque" no aplica como ataque mudo:  no hay golpe.
+  Lo que hay es una clashbox,  y los 28 frames de hitstop del clasheo hacen
+  que se VE como un ataque.  Ver CONTEXTO.txt 109.2.
+
+  *** Y LAS MASCARAS DE LOS ESTADOS DE REPOSO Y CARRERA ***
+
+      $00  parado     mascara $12 = HURT + un bit sin nombre
+      $05  corriendo  mascara $12 = la misma
+
+  Obvio:  caminando tenes hurtbox.  Y el bit que no es HURT sigue sin nombre.
+
+  *** Y HAY UN $C4 POR PERSONAJE ***
+  En el mismo log:  P1 con $C4 = 08  y  P4 con $C4 = 06.  El factor de dano
+  no es global.  Nunca se habian visto dos personajes en el mismo log.  [COMPROBADO]
+
+  *** Y EL $65 SIN CAJA DE GOLPE ES BASURA, Y HAY QUE DECIRLO ***
+
+  En los estados sin HIT,  el log daba:
+
+      $5F=$00  +65 DANO=01
+      $5F=$05  +65 DANO=03
+      $5F=$00  +65 DANO=06
+      $5F=$05  +65 DANO=07
+      $5F=$0B  +65 DANO=02
+
+  Si eso fuera dano,  el personaje estaria sacando de 1 a 7 mientras camina.
+  No es dano:  es lo que dejo el golpe anterior,  porque sin el bit 6 nadie
+  escribe $65 ni $66.
+
+  La herramienta ahora imprime  +65 DANO=-  y  +66 stun=-  cuando no hay
+  HIT.  Un numero sin HIT es ruido y se lee como dato.  [DERIVADO]
+
+
+
   *** LOS TRES MANDOS YA TIENEN ID:  GUARDIA, DEFENSA BAJA Y DASH ***
 
       $09   la guardia de pie          $00 -> $09

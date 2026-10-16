@@ -2165,3 +2165,35 @@ FIN DEL IDEARIO
   `luajit -bl` da exit 0 con este error:  el error es de EJECUCION, no de
   sintaxis.  Compilar no dice que ande.  La unica prueba es correrlo.
 ================================================================================
+
+================================================================================
+28.5  UNA HERRAMIENTA POR FRAME NECESITA UN CRITERIO DE IMPRESION
+
+  *** QUE PASO ***
+
+  El bloque BLOB-J imprimia cuando la mascara de la tabla B o el blob
+  cambiaban.  Como cada animacion tiene su propia tabla B,  la mascara cambia
+  en cada frame del golpe.  Resultado: el usuario recibio "demasiadas lineas".
+
+  *** LA REGLA ***
+
+  Una herramienta que se ejecuta cada frame no puede imprimir por "cambio".
+  El cambio por frame es ruido.
+
+  Imprimir por EVENTO:
+
+      flanco de subida    un bit pasa de 0 a 1
+      flanco de bajada    un bit pasa de 1 a 0
+      cambio de estado    el $5F del slot cambia
+
+  Los tres son pocos y cada uno significa algo.
+
+  *** Y PONER UN TOPE DE Lineas POR ESTADO ***
+  Un golpe muy largo puede disparar muchos flancos.  Con un tope de 6 lineas
+  por entrada al estado,  la herramienta se calla sola y no hay que apagarla.
+
+  *** Y EL DATO SE CONSERVA MEJOR ***
+
+  Una linea con TODOS los bits que se prendieron juntos da mas informacion que
+  una linea por frame repetida.  Menos ruido y mas seal.
+================================================================================

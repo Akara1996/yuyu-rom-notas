@@ -704,61 +704,82 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       un golpe fisico contra ella  dos hitbox:  NO clashean, se golpean
       un agarre contra ella        no es una colision de caja
 
-  *** O SEA QUE LA BARRERA NUNCA CLASHEA:  GANA ***
-  El atacante choca contra un golpe, no contra un bloqueo.  Por eso puede
-  hacersele un agarre:  el agarre no es una colision de caja.  [DERIVADO]
+  *** LA BARRERA:  CORREGIDO, SI TIENE CLASHBOX ***
 
-  *** Y ESO LA CONVIERTE EN UN FIJO, Y LOS FIJOS TIENEN RANK ***
+  Yo escribi que no clashea.  Mal.  Los adjetivos del 'no tiene clashbox y
+  si hitbox' se referian al ATAQUE que la pasa, no a la barrera.
 
-  Una barrera fija pegada al personaje es un fijo, como la planta, las hojas
-  y el parry.  Y los fijos se comparan contra el proyectil con la MISMA
-  regla ya medida en la seccion 7.  O sea que:
+      "El unico ataque que traspasa la barrera NO TIENE CLASH"
 
-      el reigan de nivel conocido SIRVE DE REGLA DIRECTAMENTE
-      no hay que inventar ningun metodo nuevo para esta tecnica
+  Si la barrera no tuviera clashbox, no habria nada que traspasar.
 
-  *** Y LA DIRECCIONALIDAD ES DATO NUEVO ***
+  *** TIENE DOS CAJAS, Y VIVEN DISTINTO ***
 
-  Que sea SOLO frontal dice que la caja se coloca segun el facing.  O sea
-  que hay un signo.  Es el mismo mecanismo que el del centro X de las cajas,
-  que se niega por el facing con neg.w d6 en $01EBD8.  [DERIVADO]
+      "durante pocos frames iniciales la hitbox que te manda a volar"
+      "incluso cuando ya paso el tiempo de hitbox sigue rompiendo dragon"
 
-  *** Y LA CAJA INVISIBLE ENORME SIGUE SIENDO LA PISTA DEL RANK ***
+      la HITBOX     manda a volar      solo al principio   reloj corto
+      el CLASHBOX   rompe proyectiles  todo el tiempo     reloj largo
 
-  Lo que cambia es el motivo:  antes creia que era un golpe fisico con rank
-  alto.  Es un OBJETO con rank alto.  Y un objeto con rank alto y dano bajo
-  ya lo teniamos a la vista:  la bola de Sensui destruye proyectiles y su
-  dano es 12.  Ese era el ejemplo, y no lo use.  [DERIVADO]
-  *** Y POR QUE NO ME DABA CUENTA ***
+  Y k < m, porque en el frame k todavia no rompe y si.
 
-  Lo unico que me habia hecho pensar en intangibilidad era que rompe el
-  dragon sin hacer dano.  Pero eso lo hace CUALQUIER objeto de rank alto con
-  dano bajo, y hay varios.  Los proyectiles hacen EXACTAMENTE eso:  la bola
-  de Sensui destruye proyectiles y su dano es 12.  Ese era el ejemplo a la
-  vista, y no lo use.  [DERIVADO]
+  *** EL ARRANQUE Y LA DISTANCIA, DE LOS CINCO HECHOS ***
 
-  *** LO QUE NO SE RESUELVE SOLO ***
+      "le gana en cualquier momento excepto si estas demasiado pegado como
+       para que la hit toque tu hurt"
 
-      si clasheando es el clash del juego o la palabra de uso
+      arranque        te manda a volar      de cerca
+      mantenimiento   no te pega            de lejos
 
-  Si es el clash del juego, entonces tiene clashbox, y el dato 5 seria falso.
-  Si es la palabra de uso, el dato 5 manda y lo que hay es una hitbox.
-  Los dos pueden ser ciertos si la barrera tiene HIT para el rival y CLASH
-  para el proyectil, que son dos campos distintos.  [ABIERTO]
+  El agarre pasa las dos:  no es una colision de caja, es una entrada de
+  estado.  [COMPROBADO por el usuario]
 
-  *** Y NO SE CONFUNDE CON LA INTANGIBILIDAD DE LA SECCION ANTERIOR ***
+  *** LA REGLA DEL CLASHBOX:  EL RANK ESTA EN LA CAJA, NO EN EL DANO ***
 
-  La intangibilidad es el Afterimage de Hiei y la Espada de fuego:  hurtbox
-  en cero, el proyectil pasa y no se consume.  Eso NO es lo mismo que una
-  barrera, porque una barrera CONSUME el proyectil.  [COMPROBADO]
+      "Mi conclusion temporal es que es imposible destruir un proyectil sin
+       clashbox."
 
-  *** LA INVENCIBILIDAD:  RESUELTO, Y NO HACIA FALTA LA PRUEBA ***
+      con clashbox     compara ranks, rompe o choca, DIBUJA particula
+      sin clashbox     ni intenta:  se ignoran los dos y el proyectil pasa
+
+  *** Y LA PARTICULA ES EL RASTRO VISIBLE DEL RANK ***
+
+      "cuando un ataque basico no es suficiente para romper un proyectil
+       aparece una particula de clasheo aunque no se concrete un clasheo, con
+       este ataque no sucede, el proyectil ignora tu ataque como tu ataque al
+       proyectil y te golpea."
+
+  Cuando dos golpes se encuentran y el rank no alcanza, el juego DIBUJA el
+  intento.  Con el ataque sin clash no hay intento de nada.
+
+  *** ES MAS FUERTE QUE LA HIPOTESIS DEL RANK POR SEPARADO ***
+
+  No hace falta un campo de rank nuevo:  el clashbox ya existia.  Lo que se
+  resolvio es DONDE esta.  Y eso cierra la pregunta de la seccion anterior.
+
+  Es falsable y barato:  todo golpe que rompa un proyectil tiene clashbox,
+  y el que no lo rompe, no lo tiene.
+
+  *** Y EXPLICA EL TECHO DE LOS BASICOS ***
+
+  Un basico tiene clashbox.  Su rank es el de su golpe, y por eso topa en el
+  nivel 4.  Un especial tiene mas rank y llega al 5.  [DERIVADO]
+
+  *** LO QUE SIGUE SIN MEDIRSE:  EL NUMERO ***
+
+  Ahora se sabe DONDE esta el rank.  El valor sigue sin estar medido.
+
+  *** Y LA CAJA ENORME E INVISIBLE QUEDA FUERA ***
+
+  La hitbox es la del dano.  El dano es minimo.  O sea que el TAMANO de la
+  hitbox NO es el rank.  [DERIVADO del hecho 5]
+  *** LA INTANGIBILIDAD:  RESUELTO, Y NO HACIA FALTA LA PRUEBA ***
 
   El proyecto NO tiene un cuarto mecanismo.  Tiene dos, y uno de ellos es
   la falta de hurtbox.
 
       proyectil vs proyectil    se anulan segun rank
-      fisico vs proyectil       lo destruye si el rank alcanza
+      fisico vs proyectil       lo destruye si el clashbox alcanza
       sin hurtbox vs proyectil   no hay colision:  el proyectil PASA
 
       "te vuelves intangible, hemos comprobado con .LUA que varias tecnicas
@@ -771,13 +792,19 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       "y si, puede golpear a otros jugadores, no lo desarmaste, omitiste el
        ataque con intangibilidad"
 
-  *** O SEA QUE LA INTANGIBILIDAD DESCARTA EL DESARME ***
+  *** LA INTANGIBILIDAD DESCARTA EL DESARME ***
 
   Son excluyentes:  un proyectil que atraviesa a un personaje intangible
   sigue igual de fuerte.  Solo se paso por alto.  [COMPROBADO por el
   usuario, y es conocimiento empirico de los jugadores]
 
-  *** Y HIEI TIENE DOS TECNICAS INVENCIBLES, AMBAS CON HURTBOX EN CERO ***
+  *** Y NO SE CONFUNDE CON LA BARRERA DE TOGURO MENOR ***
+
+  La intangibilidad es el Afterimage de Hiei y la Espada de fuego:  hurtbox
+  en cero, el proyectil pasa y NO se consume.  La barrera es un fijo con
+  clashbox, y el proyectil SI se consume.  Opuestos.  [COMPROBADO]
+
+  *** HIEI TIENE DOS TECNICAS INVENCIBLES, AMBAS CON HURTBOX EN CERO ***
 
       Afterimage        (abajo, arriba) x2     invencible, ATRAVIESA rival
       Espada de fuego   A + B                  invencible, alcanza DETRAS
@@ -790,7 +817,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       $A7   4 anims, 16 frames, sin frame activo
       $A9   4 anims, 32 frames, sin frame activo
 
-  *** Y LA INVENCIBILIDAD NO ES UN BONO:  ES LA LISTA VACIA ***
+  *** LA INVENCIBILIDAD NO ES UN BONO:  ES LA LISTA VACIA ***
   La lista de hurtbox se arma en $01EB40.  Si no tiene entrada para el
   personaje en esos frames, no hay nada que tocar.  [DERIVADO]
 
@@ -805,6 +832,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   saber de antemano cuales son.  Y las 88 celdas de la mascara de cancel
   podrian llevar la duracion de invencibilidad al lado.
 
+================================================================================
 15.  COMO SE MIDE  (el detalle esta en METODO.txt)
 
 ================================================================================

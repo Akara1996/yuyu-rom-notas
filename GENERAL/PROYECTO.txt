@@ -104,6 +104,10 @@ Donde estamos, que falta y en que orden
 
   *** ORDEN 2:  LA ESCALERA DE RANK DE LOS GOLPES FISICOS ***
 
+    PERSONAJE ACTIVO:  GENKAI.  El motivo es cerrar el trio de la carga
+    guardada:  Yusuke medido,  Genkai y Chu sin medir.  Si los tres tienen
+    la misma mecanica, es un sistema.  Si uno difiere, son variantes.
+
     El usuario ya mide esto a mano:
 
       todos rompen hasta el reigan L3 con el golpe fuerte

@@ -296,27 +296,62 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
 ================================================================================
 6.  LA TABLA DE REACCIONES
-================================================================================
+===============================================================================
 
   *** $68 ES EL INDICE.  LA TABLA TIENE 16 ENTRADAS, DE 0 A 15. ***
 
-  SEIS FILAS MEDIDAS:
+  SIETE FILAS MEDIDAS:
 
       $68 = 0   ->  $20   hitstun simple    Reigan de Yusuke, niveles 2 a 6
       $68 = 1   ->  $21   tambaleo          rosa, pistola, bola rasante
       $68 = 5   ->  $25   derribo           planta, hoja, patada de C
-      $68 = 6   ->  $26   lanzador          patada de B
+      $68 = 6   ->  $26   lanzador          patada de B, adelante+A de Genkai
       $68 = 8   ->  $2F   empuje diagonal   agarre de Kurama, parry baja
+      $68 = 9   ->  $2F   empuje diagonal   Kurama $B8 y Sensui $A7
       $68 = 10  ->  $25   derribo           dragon de Hiei
+
+  *** Y CUATRO MAS CON EL ESTADO MEDIDO PERO EL INDICE NO ***
+
+      $23   derribo ciego     abajo+A de Genkai      el $68 no se sabe
+      $26   lanzador          adelante+A de Genkai   el $68 no se sabe
+      $21 / $20 / $25         shotgun y mil punos de Yusuke
+      $2F                     los agarres
+
+  *** LO QUE FALTA:  SEIS DE LOS DIECISEIS INDICES ***
+
+      $68 = 10  ->  $25   derribo           dragon de Hiei
+      $68 = ?   ->  $21 / $20 / $25         shotgun y mil punos de Yusuke
 
   *** $68 VIVE EN EL BLOQUE DEL AGARRADOR, NO EN EL DE LA VICTIMA ***
   'Sensui provoca $30 a todos': da igual a quien le pegues.
 
   *** Y DOS PERSONAJES DISTINTOS PUEDEN LLEVAR EL MISMO $68 ***
   Kurama lleva $68=9 en $B8.  Sensui lleva $68=9 en $A7.  Los dos dan $2F.
-  O sea que $68 es una propiedad del GOLPE, no del personaje.
+
+  *** Y ESTE ES EL MOTOR DE LA CADENA DE CAIDA ***
+
+      $26  lanzador        el primero, y mete al rival en la cadena
+      $25  derribo con ventana
+      $28  se levanta
+      $29  todavia en el suelo
+      $2A  de pie todavia aturdido
+      $2B  vuelve
+
+  *** $26 ESTA AL PRINCIPIO, Y ESO NO SE SABIA HASTA GENKAI ***
+  El adelante+A de Genkai lo midio entero:
+      $00 -> $26 -> $25 -> $28 -> $29 -> $2A
+  [COMPROBADO]
+
+  *** Y $23 ES UN ATRAJO:  ENTRA Y SALE DIRECTO ***
+
+      $00 -> $23 -> $2A
+
+  cadena.  Y el PDF de Kurama ya lo llamaba derribo ciego, con $23 en el
+  campo de reaccion:  o sea que el estado estaba en el ROM y se leia dos
+  veces.  [COMPROBADO]
 
   *** LO QUE SI DEPENDE DE LA VICTIMA ***
+
   Solo lo que puede recibir DESPUES.  Cuatro cosas:
 
       hurtboxes             donde se le puede pegar
@@ -326,7 +361,6 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
   Ver HIT STATE.txt para la tabla completa y la cadena de caida.
 
-================================================================================
 7.  LOS OBJETOS Y EL RANGO DE PROYECTILES
 ================================================================================
 

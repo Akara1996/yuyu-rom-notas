@@ -448,7 +448,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       el Reigan de Yusuke     objeto que viaja     DE OBJETO no da mana
 
 ================================================================================
-12.  LA CARGA ALMACENADA
+11.  LA CARGA ALMACENADA
 ================================================================================
 
   *** LA TECNICA DE GUARDAR ES UN ESTADO, Y CUNTA COMO UN GOLPE MAS ***
@@ -478,7 +478,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   *** Y SE PUEDE DISPARAR EN EL AIRE, SOLO YUSUKE ***
 
 ================================================================================
-13.  LAS TECNICAS DE CADENCIA
+12.  LAS TECNICAS DE CADENCIA
 ================================================================================
 
   *** HAY DOS PERSONAJES CON EL MISMO MOTOR, Y NO ES COINCIDENCIA ***
@@ -516,7 +516,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   [COMPROBADO]
 
 ================================================================================
-14.  EL DADO DEL DANO
+13.  EL DADO DEL DANO
 ================================================================================
 
   *** LA VARIACION DE DANO NO ES UNA RUIDO SUELTO:  EL SHOTGUN LA EXPONE ***
@@ -551,7 +551,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   del instrumento.  Si esta en la tabla, es el juego.  [DERIVADO]
 
 ================================================================================
-15.  COMO SE MIDE  (el detalle esta en METODO.txt)
+14.  COMO SE MIDE  (el detalle esta en METODO.txt)
 ================================================================================
 
   *** LO QUE ENTREGA EL .LUA, POR PERSONAJE ***

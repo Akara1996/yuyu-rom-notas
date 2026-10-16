@@ -1,0 +1,225 @@
+PROYECTO
+Donde estamos, que falta y en que orden
+================================================================================
+
+================================================================================
+1.  QUE ARCHIVO SE LEE CUANDO
+================================================================================
+
+  *** DESPUES DE CADA COMPACTACION, EN ESTE ORDEN ***
+
+    1.  SISTEMAS.txt    las reglas.  Entero.
+    2.  PROYECTO.txt    este archivo.  Entero.
+    3.  HIT STATE.txt   solo si la ronda toca reacciones.
+
+  *** Y QUE NO SE LEE ENTERO ***
+
+    CONTEXTO.txt      el archivo.  Se busca con grep, nunca entero.
+    METODO.txt        las lecciones.  Se consulta por numero.
+    MOVES DE TODOS    los 227 golpes del ROM.  Se busca.
+
+================================================================================
+2.  QUE HAY EN CADA ARCHIVO
+================================================================================
+
+  SISTEMAS.txt          las reglas que valen para mas de un personaje.
+                        478 lineas.  Es el que se lee.
+
+  PROYECTO.txt          este archivo: el plan y el estado.
+
+  METODO.txt            las 23 lecciones de procedimiento.  Venia siendo
+                        IDEARIO.txt, renombrado.  Sin cambios de fondo.
+
+  CONTEXTO.txt          el archivo historico: una seccion por ronda, en
+                        orden, con los logs y las conclusiones.  Crece sin
+                        limite.  NO se lee entero.
+
+  HIT STATE.txt         la tabla de reacciones y todos los estados del
+                        juego.  Solo crece.
+
+  MOVES DE TODOS.txt    los 227 golpes del ROM, los 11 personajes.
+                        GENERADO.  No se edita a mano.
+
+  AVANCE DECOMP.txt     el peso de cada personaje en la ROM.
+
+  <PERSONAJE> PDF/      una carpeta por personaje, con el .txt y el PDF.
+                        HIEI, KURAMA, SENSU.  Se generan con scripts.
+
+  _backup txt/          copia de todo, antes de tocar cualquier cosa.
+
+================================================================================
+3.  LO QUE ESTA TERMINADO
+================================================================================
+
+      SISTEMA                              ESTADO
+      ----------------------------------  ---------------------------
+      mapa de comandos                     TERMINADO, 4 personajes
+      precios del mana                     MEDIDO, 4 personajes
+      tabla de reacciones                  6 de 16 filas medidas
+      cadena de caida                      completa hasta $2B
+      formula del mana                     9 secuencias, 4 personajes
+      tabla de cancel                      8 celdas de 88
+      objetos y rangos                     15 objetos identificados
+      escala del Reigan                    8 niveles, closes en 6
+      rebanco de stun                      las 3 piezas, con el bloqueo
+      cerrajuras y relojes                  el modelo, falta el $300
+      dos familias de golpe                terminado
+      lectura del blob                     +65 y +66 confirmados
+
+================================================================================
+4.  PERSONAJE POR PERSONAJE
+================================================================================
+
+      pj       basicos  tecnicas  precios  doc
+      -------  -------  --------  -------  --------
+      Hiei        8        8        3      HIEI PDF, 13 pag
+      Kurama      8        7        6      KURAMA PDF, 12 pag
+      Sensui      8        9        8      SENSU PDF, 8 pag
+      Yusuke      ?        7        5      falta
+      Genkai      -        -        -      -
+      Chu         -        -        -      -
+      Kuwabara    -        -        -      -
+      Itsuki      -        -        -      -
+      el otro     -        -        -      -
+
+  *** LOS ONCE, SEGUN WIKIPEDIA Y MOBYGAMES ***
+
+  Yusuke   Kurama   Hiei      Kuwabara   Genkai   Chu
+  Jin      Itsuki   Sensui    Toguro hermano mayor   Toguro hermano menor
+
+  NO hay Raizen en este juego: es del juego de SNES.
+
+================================================================================
+5.  LO QUE FALTA, EN ORDEN
+================================================================================
+
+  *** ORDEN 1:  TERMINAR LOS CUATRO PERSONAJES MEDIDOS ***
+
+    - Yusuke:  los dos ultimos comandos
+    - Hiei:    $A7, $A9, $AA, $AB y el resto de los no identificados
+    - Kurama:  $A4, el unico id sin medir
+    - Sensui:  la tabla del ROM, para leer sus golpes
+
+  *** ORDEN 2:  LA MASCARA DE CANCEL DE LOS ONCE ***
+
+    8 basicos x 11 personajes = 88 celdas.  Llevamos 8.
+    Con eso esta el balance del juego escrito en una tabla.
+
+  *** ORDEN 3:  LA ESCALA DE RANGO DE LOS 27 OBJETOS SIN NOMBRE ***
+
+    Un Reigan de nivel conocido contra cada objeto.  Se lee en que nivel
+    empatan.  UNA PARTIDA POR OBJETO, y con eso quedan los 27 con su lugar
+    en la escala sin medir su dano.
+
+  *** ORDEN 4:  LOS UMBRALES DE STUN DE LOS ONCE ***
+
+    El valor de $80 por personaje.  Con eso se sabe quien aguanta un combo
+    largo y quien entra a 255 a la primera.
+
+  *** ORDEN 5:  LAS PARTES QUE NO SE TOCAN HASTA EL FINAL ***
+
+    - la particion de precios de la tabla del ROM
+      (acierta 6 de 6 en Kurama, pero con 4 de 11 personajes no alcanza)
+    - la variacion de dano de los golpes fisicos
+      (probablemente universal: una medicion por personaje no diria nada)
+
+================================================================================
+6.  LO QUE ESTA ABIERTO Y DEPENDE DE UNA PRUEBA
+================================================================================
+
+      que resolver                     la prueba que lo cierra
+      ------------------------------  -----------------------------------
+      el +16 duplicado del remate     ulti que no haga conectar el remate
+      el segundo golpe de la planta   repetir la planta
+      la variacion de dano            repetir 5 veces un golpe, por pj
+      si adelante+A pegado agarra     adelante+A pegado
+      el $7E del bloqueio             leer $7E con signo
+      si el reigan aereo se carga     C en el aire
+      los niveles 9 y 10              man lleno, cargar al tope
+      el otro con la patada al abajo  cual es
+      la tecnica solo-CPU de Jin      Jin como P4, leer los estados
+      los sprites sin usar             la lista de tu amigo
+      el reflect de Genkai            no existe en el juego
+      el giro de los proyectiles      la Y del objeto por nivel de carga
+
+================================================================================
+7.  LO QUE HAY QUE REVISAR EN EL SCRIPT
+================================================================================
+
+      - $7E con signo, y avisar cuando vale 255
+      - el volley de los objetos al vuelo, cuando el rival dispara
+      - la linea de MP sale antes que la de HP: se atribuye un golpe tarde
+
+  *** Y LOS AGUEROS CONOCIDOS, QUE NO SON FALLAS ***
+
+      un objeto con $5F = 0 es invisible
+      un objeto que dura menos de 8 frames puede escaparse
+
+================================================================================
+8.  LA RONDA DE CADA PERSONAJE NUEVO
+================================================================================
+
+  *** NO HAY QUE MEDIR ESTO:  YA SE SABE ***
+
+      los 8 basicos de suelo      $82 $80 $83 $81 $86 $84
+      los 3 aereos                 $95 $90 $94
+      la guardia                   $09
+      el cambio de plano           $0F
+      el agarre                    $B8, y pegado da el agarre
+      la tabla de cancel           el comando, no los frames
+
+  *** Y SI HAY QUE MEDIR, EN ESTE ORDEN ***
+
+    1.  los 8 basicos:  id y los tres numeros, start / recover / active
+    2.  cada tecnica:  id, man, y si da +2 o nada (fisico u objeto)
+    3.  cada tecnica:  cancelable si o no
+    4.  cada tecnica:  los dos relojes, cuando recupers movimiento y
+        cuando recupers tecnica
+    5.  la ulti:  id, man, y cuantos golpes fisicos mete
+
+  *** Y SIEMPRE:  UN COMANDO POR RESET, CON EL RIVAL A DISTANCIA CONOCIDA ***
+
+================================================================================
+9.  COMO SE USA EL .LUA
+================================================================================
+
+  *** PASIVO:  no escribe en la memoria del juego, no usa joypad.set,
+  no dibuja.  Solo lee. ***
+
+  APIs que existen y estan probadas:
+    emu.registerafter     la que se usa
+    emu.registerbefore
+    emu.registerstart
+    memory.readbyte
+    dofile
+
+  NO existe emu.registerinput:  crashea el script.  No se usa.
+
+  *** Y NUNCA CON Set-Content:  mete BOM y rompe FBNeo ***
+  Para escribir un .LUA:  [System.IO.File]::WriteAllLines con
+  UTF8Encoding($false).
+
+================================================================================
+10.  LO QUE ESTA EN LA ROM Y NO SE USA
+================================================================================
+
+  *** TRES CAPAS, Y SOLO ESTABAMOS MAPEANDO UNA ***
+
+    1.  lo que esta y funciona
+    2.  lo que esta y NO se usa
+        - el reflect de Genkai (el sonido esta en el banco de audio)
+        - el Reigan aereo diagonal de Genkai (los sprites existen)
+        - la voz de Yoko en la ulti de Kurama (la pista existe)
+    3.  lo que se usa y el humano NO puede ejecutar
+        - una tecnica de Jin que usa la CPU
+
+  *** Y LA LISTA DE SPRITES SIN USAR ES GRATIS ***
+  Un amigo que lee tiles puede decir que personajes tienen graficos que no
+  corresponden a nada.  Es contenido perdido sin gastar una partida.
+
+  *** Y LA RASTA DE PROYECTILES ESTA EN LA HACK PERDIDA ***
+  Un grupo chino reconstruyo el reflect de Genkai a mano.  Se perdio el ROM.
+  Que un externo lo hiciera significa que el juego tiene un punto de entrada
+  facil para colgar una tecnica nueva.  [DERIVADO]
+
+================================================================================

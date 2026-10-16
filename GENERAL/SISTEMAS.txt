@@ -1,0 +1,478 @@
+SISTEMAS
+Las reglas del juego que valen para mas de un personaje
+================================================================================
+
+  Este es el archivo que se lee ENTERO.  CONTEXTO.txt es el archivo y se
+  busca con grep.  Si una regla esta aca, vale para todos; si esta sola en
+  CONTEXTO, es de un personaje o de una ronda.
+
+================================================================================
+0.  INDICE
+================================================================================
+
+      1.  el mapa de comandos
+      2.  los precios del mana
+      3.  la formula del mana ganado
+      4.  la tabla de cancelacion
+      5.  los estados del jugador
+      6.  la tabla de reacciones
+      7.  los objetos y el rango de proyectiles
+      8.  las cerrajuras y los relojes
+      9.  el stun y su bloqueo
+      10. las dos familias de golpe
+      11. como se mide
+
+================================================================================
+1.  EL MAPA DE COMANDOS:  GLOBAL
+================================================================================
+
+  Los comandos son los mismos para los once.  Medido en Hiei, Kurama,
+Sensui y Yusuke.  Catorce ids, cero excepciones.
+
+      comando                     id      tipo
+      --------------------------  ------  ---------------------------
+      A                           $82     basico
+      Adelante + A                $83     basico
+      ABAJO + A                   $86     basico
+      B                           $80     basico
+      Adelante + B                $81     basico
+      A en aire                   $95     basico
+      ARRIBA + A en aire          $94     basico
+      B en aire                   $90     basico
+      C (guardia)                 $09     guardia
+      C + arriba                  $0F     cambio de plano
+      Adelante o atras + A        $B8     el agarre, si estas pegado
+      A + B                       $A4     tecnica, distinto por personaje
+
+  *** LO QUE TIENE VARIAS FORMAS ***
+
+      adelante + A pegado      $B8   el agarre
+      atras + A pegado         $B8   el agarre invertido
+      atras + A con distancia  $83   el golpe normal
+
+  *** EL AGARRE, CONFIRMADO POR FUERA ***
+  GameFAQs del Genesis: 'atras / adelante + A (close) = Throw'.  Es la unica
+  fuente externa que confirma un hallazgo nuestro.
+
+  *** EL ID ES LA RANURA, EL DATO ES DEL PERSONAJE ***
+
+  El mismo id significa cosas distintas en personajes distintos.  Ejemplos
+  medidos:
+
+      $A3   Kurama = la planta          Sensui = la carga de la ulti
+      $A4   Hiei = el parry alto         Sensui = el parry alto
+                         Yusuke = el Reigan
+      $A6   Hiei = la ulti      Kurama = la ulti      Sensui = el parry bajo
+      $AC   Sensui = la bola aerea      Yusuke = el Reigan aereo
+      $A7   Kurama = etapa de la ulti    Sensui = el contraataque del parry
+
+  *** Y LOS TIEMPOS SON POR PERSONAJE, AUNQUE EL ID SEA GLOBAL ***
+  El A de Kuwabara es rapidisimo.  El adelante+A de Yusuke es rapidisimo.
+  El mismo comando en distintos personajes no dura lo mismo.
+
+================================================================================
+2.  LOS PRECIOS DEL MANA
+================================================================================
+
+  *** NO HAY UN PRECIO POR ID.  HAY UN PRECIO BASE Y UN FACTOR ***
+
+  Factores medidos:
+
+      cuantos botones       Sensui, pistola    1 boton = 2    2 botones = 6
+      mantener pulsado      el Reigan           mas pulsado = mas caro
+      tiempo de carga       el Reigan           1 de mana por frame
+
+  *** UN MISMO ID CON DOS PRECIOS ***
+
+      ABAJO,ABAJO + A       de Sensui      $A8    2 de mana
+      ABAJO,ABAJO + B       de Sensui      $A8    2 de mana
+      ABAJO,ABAJO + A+B     de Sensui      $A8    6 de mana
+
+  *** LOS PRECIOS MEDIDOS, POR PERSONAJE ***
+
+  HIEI
+      dragon, parry, corte de ave         8 a 24
+      la ulti                            200
+
+  KURAMA
+      proyectil rosa                      16
+      latigo, hojas B, rosa, latigo A    16
+      planta, hojas A                    24
+      la ulti                            200
+      $A4                                sin medir
+
+  SENSU
+      pistola                             2   (6 con A+B)
+      las cuatro bolas                    4
+      los dos parry                      16
+      la ulti                             50
+
+  YUSUKE
+      Reigan sin cargar                   5
+      Reigan en modo carga                4
+      Reigan aereo                       24
+      la ulti                            200 + 4
+
+  *** EL RANGO DE PRECIOS VARIA POR PERSONAJE Y POR UN FACTOR 100 ***
+
+      Hiei    de  8 a 200
+      Kurama  de 16 a 200
+      Sensui  de  2 a  50
+
+  *** Y NO ES UN RANGO POR PERSONAJE SINO UNA DIFERENCIA DE TECNICA ***
+  La ulti cuesta 200 para Hiei, Kurama y Yusuke.  Sensui es la excepcion,
+  y su lore dice por que.
+
+  *** Y LA ULTI NO SIEMPRE ESTA EN EL MISMO ID ***
+
+      Hiei $A6    Kurama $A6    Sensui $A3    Yusuke $AA
+
+  *** LOS UMBRALES, QUE NO SON PRECIOS ***
+
+  *** LA ULTI (DESPERACION) NECESITA VIDA POR DEBAJO DEL 50% ***
+  Los once lo respetan.  Ninguno rompe la regla.  El man solo tiene que
+  estar lleno.  [COMPROBADO por el usuario]
+
+  *** Y LA ULTI SE PUEDE REPETIR CUANDO HAY MANA ***
+
+      Yusuke   204 de mana    223    la puede repetir
+      Kurama   200 de mana    223    no: la deja sin nada
+      Hiei     200 de mana    223    no
+      Sensui    50 de mana    223    hasta cuatro veces
+
+  *** Y HAY UNA TECNICA QUE SE PUEDE GUARDAR Y DISPARAR DESPUES ***
+
+      man para cargar al tope            unos 70%
+      man para disparar una carga guardada    el de un nivel 1
+      man para dispararla en el aire       mas caro, en Yusuke
+
+  Solo tres personajes: YUSUKE, GENKAI y CHU.  Y solo YUSUKE la dispara
+  en el aire; los otros dos no tienen la tecnica.
+
+================================================================================
+3.  LA FORMULA DEL MANA GANADO
+================================================================================
+
+  *** EL PREMIO DEL GOLPE n DE UN COMBO ES  2 x (n - 1) ***
+  Y SOLO LO COBRAN LOS GOLPES FISICOS.  Un proyectil no da mana.
+
+  Verificada en nueve secuencias distintas y en cuatro personajes.
+
+      n=1   0        n=5   +8
+      n=2   +2       n=6   +10
+      n=3   +4       n=7   +12
+      n=4   +6       n=8   +14
+
+  *** Y EL PRIMER GOLPE NO DA NADA PORQUE LA FORMULA LO DICE ***
+  2 x (1 - 1) = 0.  No es un caso especial.
+
+  *** CUIDADO: EL SCRIPT REPORTA UN GOLPE DE ATRAS ***
+  En el log, la linea de MP sale ANTES que la de HP del mismo frame.  O sea
+  que el premio se ve en el frame siguiente al golpe que lo causo.
+
+  *** LO QUE SE SABE Y NO SE SABE ***
+
+  En seis golpes de un mismo tecnica medidos, el dano sale exacto al de
+$65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
+  NO SE HA RESUELTO si es universal.  Ver PROYECTO.txt.
+
+  Y hay un caso raro: la planta de Kurama da 8 y luego 16, el doble
+  exacto.  Un solo caso, sin explicar.
+
+================================================================================
+4.  LA TABLA DE CANCELACION
+================================================================================
+
+      golpe              se cancela a tecnica
+      ----------------  ---------------------------------
+      A de pie           SI, desde el primer golpe
+      ABAJO + A          SI
+      B de pie           SI
+      Adelante + B       SI
+      A en aire          SI
+      B en aire          SI
+      ARRIBA + A aereo   DIFICIL
+      Adelante + A       NO
+
+  Medido en Sensui.  Con los once son 88 celdas, y esa matriz ES el
+  balance del juego.  [ABIERTO]
+
+  *** Y ADELANTE + A NO ES CANCELABLE PORQUE PEGADO ES UN AGARRE ***
+  Adelante+A pegado al enemigo da $B8.  Un agarre no se cancela.  [DERIVADO]
+
+  *** Y HAY CANCELLACION AEREA:  EL ESTADO $07 ***
+
+      $AC -> $07 -> $AC        se puede volver a entrar
+
+  $07 es el estado POST-TECNICA AEREA de todo el juego.  No es de un
+  personaje.  Medido en Sensui y en Yusuke.
+
+================================================================================
+5.  LOS ESTADOS DEL JUGADOR
+================================================================================
+
+      $00   de pie, el reposo
+      $01   al caer
+      $02   agachado
+      $03   la entrada del agarre
+      $05   arranque de golpe en suelo
+      $06   entrar a un ataque aereo
+      $07   POST-TECNICA AEREA, ventana de cancel
+      $08   aire libre
+      $09   guardia de pie
+      $0B   otro post-tecnica
+      $0D   arranque del salto
+      $0E   la caida, dur $5A = $FF es bucle infinito
+      $0F   el cambio de plano
+
+  *** $03, $05, $06 Y $0B SON PUERTAS:  ESTADOS DE TRANSICION ***
+  Los cuatro sirven para lo mismo: entrar a un golpe desde un sitio
+  distinto.  El mismo golpe pasa por un estado distinto segun como llegues.
+  [DERIVADO]
+
+  *** $0F ES EL CAMBIO DE PLANO, Y TIENE SU MECANICA ***
+
+    - se hace con C + arriba, o con el boton Y de Sega
+    - el personaje queda estatico, el sprite se hace mas chico
+    - dura 52 frames, $5A = $48
+    - en el plano de atras NO lo alcanzan los ataques
+    - EXCEPTO: curacion, drenaje por burla, Stop Time y el slowmo global
+    - las cajas desaparecen al instante
+
+  Medido identico en Hiei y Kurama.  [COMPROBADO]
+
+================================================================================
+6.  LA TABLA DE REACCIONES
+================================================================================
+
+  *** $68 ES EL INDICE.  LA TABLA TIENE 16 ENTRADAS, DE 0 A 15. ***
+
+  SEIS FILAS MEDIDAS:
+
+      $68 = 0   ->  $20   hitstun simple    Reigan de Yusuke, niveles 2 a 6
+      $68 = 1   ->  $21   tambaleo          rosa, pistola, bola rasante
+      $68 = 5   ->  $25   derribo           planta, hoja, patada de C
+      $68 = 6   ->  $26   lanzador          patada de B
+      $68 = 8   ->  $2F   empuje diagonal   agarre de Kurama, parry baja
+      $68 = 10  ->  $25   derribo           dragon de Hiei
+
+  *** $68 VIVE EN EL BLOQUE DEL AGARRADOR, NO EN EL DE LA VICTIMA ***
+  'Sensui provoca $30 a todos': da igual a quien le pegues.
+
+  *** Y DOS PERSONAJES DISTINTOS PUEDEN LLEVAR EL MISMO $68 ***
+  Kurama lleva $68=9 en $B8.  Sensui lleva $68=9 en $A7.  Los dos dan $2F.
+  O sea que $68 es una propiedad del GOLPE, no del personaje.
+
+  *** LO QUE SI DEPENDE DE LA VICTIMA ***
+  Solo lo que puede recibir DESPUES.  Cuatro cosas:
+
+      hurtboxes             donde se le puede pegar
+      distribucion          como esta repartido el cuerpo
+      animacion de reaccion que postura muestra
+      tamano general        cuanto ocupa y cuanto pesa
+
+  Ver HIT STATE.txt para la tabla completa y la cadena de caida.
+
+================================================================================
+7.  LOS OBJETOS Y EL RANGO DE PROYECTILES
+================================================================================
+
+  *** HAY DOS TIPOS DE OBJETO Y SOLO UNOS CHOCAN ENTRE SI ***
+
+      VIAJAN    se mueven y colisionan.   rosa, dragon, bolas, Reigan
+      FIJOS     nacen y se quedan.        planta, hojas, parry
+
+  *** EL RANGO DE UN PROYECTIL ES SU POTENCIA, NO SU TIPO ***
+
+        rango MAYOR     el menor explota, el mayor sigue
+        rango IGUAL     LOS DOS explotan
+
+  Medido en cinco tipos de proyectil y en seis niveles de carga.
+  [COMPROBADO]
+
+  *** Y LA IGUALDAD ESTA IMPLEMENTADA, NO QUE NO SE COMPRUEBE ***
+  Si la regla fuera 'si A > B gana A', dos iguales no empatarian.  Empatan.
+  O sea que el codigo compara los dos rangos y trata la igualdad.
+  [DERIVADO]
+
+  *** LA ESCALA, CON SUS ANCLAS ***
+
+        la rosa de Kurama         el piso, 4 de dano
+        Reigan nivel 1            6 de dano
+        Reigan nivel 2            8 de dano
+        = Chu nivel 1
+        Reigan nivel 3            12 de dano
+        = las bolas de Sensui
+        Reigan nivel 4            16
+        Reigan nivel 5            24
+        Reigan nivel 6            32
+        Reigan nivel 7            48
+        Reigan nivel 8            64
+        = la ulti de Sensui
+        el dragon de Hiei         el techo, 88 de dano
+
+  *** LOS SALTOS DE LA ESCALA DEL REIGAN ***
+  6, 8, 12, 16, 24, 32, 48, 64.  Los saltos son 2, 4, 4, 8, 8, 16, 16.
+  Cada potencia de dos aparece dos veces.
+  Prediccion: nivel 9 = 96, nivel 10 = 128.  [DERIVADO]
+
+  *** $300 ES UN HANDLER POR TIPO DE OBJETO ***
+
+      $0001300C   proyectil normal, invocacion, hoja, planta, dragon
+      $000134C2   proyectil cargable
+
+  *** Y HAY AL MENOS DOS SLOTS DE OBJETO POR JUGADOR ***
+
+      slot 1   base + $100        slot 2   base + $200
+
+      *** Y UNO SOLO SE PUEDE CONSERVAR:  UNA CARGA GUARDADA ***
+
+  *** LA TABLA DE OBJETOS ESTA EN UN SOLO LUGAR ***
+
+      $0D9A3E   Reigan nivel 2      $0D9A86   rosa de Kurama
+      $0D9A42   Reigan nivel 3      $0D9A8A   hoja de Kurama
+      $0D9A46   Reigan nivel 4      $0D9AB6   planta de Kurama
+      $0D9A5A   Reigan nivel 5      $0D9AD2   dragon de Hiei
+      $0D9A5E   Reigan nivel 6      $0D9ABA   bola rasante de Sensui
+      $0D9A62   Reigan nivel 7      $0D9AC6   bola media de Sensui
+      $0D9A66   Reigan nivel 8      $0D9ACE   bola aerea de Sensui
+      $0D9A6A   libre               $0D9B12   bola gigante rasante
+                                $0D9B16   bola gigante media
+
+  *** DOCE ENTRADAS LIBRES A LA FECHA ***
+  O son mas niveles de carga, o hay proyectiles muertos.  48 bytes lo dicen.
+  [ABIERTO]
+
+  *** Y EL BLOB DEL OBJETO ***
+
+      +64   banderas.  Los bits 0-1 suben con el nivel de carga.
+      +65   DANO.    CONFIRMADO con datos limpios.
+      +66   STUN.    CONFIRMADO con datos limpios.
+      +67   sin nombre.  01 en el Reigan, 02 en los demas.  No es el rango.
+      +68   indice de reaccion
+
+  Los proyectiles de Sensui tienen el registro SIN INICIALIZAR: +65 en
+  cero aunque el golpe haga 12.  Hay que buscar en el codigo donde el juego
+  escribe +$65.  [ABIERTO]
+
+================================================================================
+8.  LAS CERRAJUDAS Y LOS RELOJES
+================================================================================
+
+  *** UN CERROJO POR JUGADOR, Y BLOQUEA SOLO TECNICAS ***
+
+      bloqueado    una tecnica nueva mientras hay una viva o un objeto
+      permitido    los basicos, el salto y el movimiento, SIEMPRE
+
+  *** LA VENTANA NO ES UN DATO ANTERIOR A LA ANIMACION ***
+  No es que el personaje este ocupado: es que el objeto sobrevive mas que
+  la animacion, y el cerrojo se abre cuando se va el objeto.
+
+      la rosa      38 f de animacion   45 f de objeto   +7
+      la planta    57 f de animacion   97 f de objeto   +40
+
+  La diferencia es por tecnica, no fija.  [COMPROBADO]
+
+  *** Y LA EXCEPCION DE DOS ROSAS NO ES UNA EXCEPCION ***
+  La primera ya no esta viva, o sea el cerrojo ya se abrio.  Lo dificil es
+  el tiempo, no la regla.
+
+  *** Y LA VENTANA DE DERRIBO NO NECESITA UN MECANISMO PROPIO ***
+  Si los basicos nunca estan bloqueados, la ventana es el tiempo que el
+  rival tarda en levantarse.
+
+  *** $24 ES EL ESTADO UNICO DE DERRIBO CON VENTANA ***
+
+      $25 -> $24    la planta de Kurama
+      $30 -> $24    el agarre de Sensui, y la patada en el aire
+      $2F -> $24    la parry baja de Sensui, y el agarre de Kurama
+
+  Se entra desde cualquier derribo en cuanto entra un golpe basico.
+  *** LA VENTANA SE ABRE AL PEGAR, NO AL DERRIBAR. ***
+  Es un sistema de combo, no un efecto del derribo.
+
+================================================================================
+9.  EL STUN Y SU BLOQUEO
+================================================================================
+
+  *** HAY TRES CONCEPTOS Y SOLO CONOCIAMOS DOS ***
+
+      $80   el UMBRAL del personaje: cuantos golpes de stun aguanta
+      $7E   la CUENTA que baja en cada impacto
+      255   el BLOQUEO: 5 segundos sin poder ser stuneado
+
+  *** EL UMBRAL VARIA POR PERSONAJE ***
+  Algunos aguantan mucho antes de stunearse y otros muy poco.
+  [COMPROBADO por el usuario]
+
+  *** Y EL CONTADOR RESTA EL STUN COMPLETO AUNQUE NO QUEDE ***
+
+      $7E 28 -> 65532      un proyectil de 32 de stun sobre un 28
+      $7E 24 -> 65528
+
+  Se va por debajo de cero, y el rival entra a 255.  $7E es CON SIGNO.
+
+  *** O SEA: EL STUN ES UN RECURSO FINITO QUE SE RECARGA SOLO ***
+  En 255 no le pueden hacer casi nada, y dura 5 segundos.
+  [COMPROBADO por el usuario]
+
+  *** CONSECUENCIA PARA LOS COMBOS ***
+  Un combo largo no es solo dano: es dano mas stun, y el stun tiene techo.
+
+================================================================================
+10.  LAS DOS FAMILIAS DE GOLPE
+================================================================================
+
+  *** FISICO:  LAS CAJAS SALEN DEL CUERPO DEL PERSONAJE ***
+
+      - da mana en combo
+      - entra en clash, y el agresionador TAMBIEN se frena
+      - se puede cancelar a tecnica
+
+  *** DE OBJETO:  LAS CAJAS SALEN DE OTRA ENTIDAD ***
+
+      - NO da mana
+      - NO entra en clash: el dueno sigue a velocidad normal
+      - hay un numero maximo de objetos vivos a la vez
+
+      *** Y ESTA REGLA CLASIFICA SIN MIRAR EL MANA ***
+      Si das +2 de mana, es fisico.  Si no das nada, es de objeto.
+      Y en un clash: si frenas, es fisico; si seguis derecho, es objeto.
+
+  *** DOS EJEMPLOS QUE PARECEN LO MISMO Y NO LO SON ***
+
+      la pistola de Sensui    hitbox del cuerpo    FISICA    da mana
+      el Reigan de Yusuke     objeto que viaja     DE OBJETO no da mana
+
+================================================================================
+11.  COMO SE MIDE  (el detalle esta en METODO.txt)
+================================================================================
+
+  *** LO QUE ENTREGA EL .LUA, POR PERSONAJE ***
+
+      el id            el estado en el frame del gasto
+      el precio        la caida de man
+      el dano real     el blob vivo del golpe, no la tabla
+      el stun real     lo mismo
+      el estado rival  el $5F que entra la victima
+      la cadena        cuantos golpes seguidos y con que multiplicador
+      los tiempos      startup, recovery, active, de cada golpe
+      los objetos      su id, su blob, su posicion, su Y
+
+  *** LOS TRES FORMAS DE CLASIFICAR UN GOLPE, SIN MIRAR EL MANA ***
+
+      el man         +2 es fisico, nada es de objeto
+      el clash        frenar es fisico, seguir derecho es de objeto
+      la caja         si sale del cuerpo es fisica
+
+  *** Y LO QUE EL SCRIPT NO VE ***
+
+      objetos con $5F = $00      invisibles por la condicion st ~= 0
+      objetos que duran menos de 8 frames
+      antes de la seccion 58, los slots del rival
+
+  *** UN AGUERO NO ES EVIDENCIA DE AUSENCIA ***
+  Si una linea no aparece, antes de concluir que algo no existe, leer la
+  CONDICION del rastreador y ver si ese caso cae en su puerta.
+
+================================================================================

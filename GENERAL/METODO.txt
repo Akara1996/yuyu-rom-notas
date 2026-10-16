@@ -1,3 +1,26 @@
+METODO
+Las lecciones de procedimiento.  Renombrado desde IDEARIO.txt sin cambios.
+================================================================================
+  *** SE CONSULTA POR NUMERO, NO SE LEE ENTERO ***
+  Las mas importantes del proyecto:
+
+    17   no declarar una regla con siete casos
+    19   una tabla dice CUANDO, no SI PUEDO
+    19.b una cadena dice ORDEN, no PAPEL
+    20   no declarar una ruina antes de terminar de medir
+    21   preguntar en vez de resolverlo yo
+    22   un agujero del instrumento no es evidencia de ausencia
+    23   una explicacion plausible que rompe una secuencia conocida es peor
+
+  Y ADEMAS, POR COMO SE ESCRIBE UN DOCUMENTO:
+
+    - COMPROBADO es PROCEDENCIA, no precision
+    - lo que no se sabe se escribe como no se sabe
+    - una conclusion lleva el porcentaje del dato que la sostiene
+    - si el usuario dice 'mas adelante', es pendiente y no se resuelve
+
+================================================================================
+
 ================================================================================
 IDEARIO  --  LO QUE TRAJIMOS DE LA CARPETA VIEJA
 ================================================================================

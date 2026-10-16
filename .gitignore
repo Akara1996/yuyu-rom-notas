@@ -1,6 +1,9 @@
-# Solo se versionan los dos documentos de memoria del proyecto.
-# Todo lo demas (ROM, scripts, PDFs, .LUA) queda fuera a proposito.
+# Solo se versionan los documentos de memoria del proyecto.
+# Se separan por tema: las reglas, el plan y el metodo.
+# El archivo historico (CONTEXTO.txt) NO se versiona: son 8500 lineas de
+# registro y se consulta con grep, no se lee.
 *
 !GENERAL/
-!GENERAL/CONTEXTO.txt
-!GENERAL/IDEARIO.txt
+!GENERAL/SISTEMAS.txt
+!GENERAL/PROYECTO.txt
+!GENERAL/METODO.txt

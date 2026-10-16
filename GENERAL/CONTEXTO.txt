@@ -6541,3 +6541,125 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+54. EL CHOQUE DE DOS ROSAS, Y UN AGUJERO DEL SCRIPT  (15-10)
+================================================================================
+================================================================================
+
+  54.1  *** DOS ROSAS SIEMPRE EMPATAN ***
+
+      "2 rosas de 2 kuramas chocando, no se si el log lo lee pero siempre
+       empatan, no importa si una era A o B ni si tuvo mas tiempo de
+       recorrido."
+
+  *** EL EMPATE ES TOTAL Y SIEMPRE.  [COMPROBADO por el usuario] ***
+
+      no importa la variante      A contra B, empate
+      no importa el tiempo        la que lleva mas rato, empate
+
+  *** O SEA: EL RANGO SE COMPARA POR OBJETO, NO POR ANTIGUEDAD ***
+  [DERIVADO]  Descarta el desempate por orden de creacion.
+
+  54.2  *** LA REGLA DE COLISION, EN SUS DOS CASOS ***
+
+        rango MAYOR     el menor explota, el mayor sigue
+        rango IGUAL     LOS DOS explotan
+
+      "el dragon continua, estas explotan"  ->  el dragon tiene mas rango
+      "siempre empatan"                      ->  dos rosas tienen el mismo
+
+  *** Y QUE EL EMPATE EXISTA EN EL CODIGO ES UN DATO ***
+
+  Si la regla fuera 'si A > B gana A, si no gana B', dos rosas NO
+  empatarian: una ganaria.  El hecho de que las dos mueran significa que
+  el CODIGO COMPARA LOS DOS RANGOS Y TRATA LA IGUALDAD COMO UN CASO.
+  O sea que la igualdad esta implementada, no que simplemente no se comprueba.
+  [DERIVADO]
+
+  *** LO QUE ESO IMPLICA PARA EL DRAGON ***
+      "ninguno le gana"  implica que el dragon es estrictamente el maximo.
+  Y por la misma logica, DOS DRAGONES SE ANIQUILARIAN entre si.
+
+  LA PRUEBA: dos Hieis soltando el dragon uno contra el otro.  Si los dos
+  desaparecen, la regla del empate funciona tambien en el tope.
+  [ABIERTO]
+
+  *** Y ESO CIERRA EL ORDEN DE 53.1 POR LOS DOS EXTREMOS ***
+
+      tope       el dragon        gana a todo
+      piso       la rosa          pierde contra todo lo que se mueve
+
+      *** PERO LA ROSA NO PIERDE CONTRA LA PLANTA ***
+      La planta no viaja, no choca.  El orden es solo entre proyectiles.
+      Ver 53.2.
+
+  54.3  *** EL SCRIPT SOLO MIRA LOS OBJETOS DE P1 ***
+
+      "no se si el log lo lee"
+
+  *** MANO-1 Y MANO-2 SON LOS DOS SLOTS DE P1.  NO LOS DE DOS JUGADORES. ***
+
+        MANO-1   $FF8500   =  base de P1 ($FF8400) + $100
+        MANO-2   $FF8600   =  base de P1 + $200
+        P4       $FF8800   + $100  =  $FF8900   <-- NO SE MIRA
+
+      *** Y EN ESTE LOG SE VE ***
+
+        f227  P4: $01 -> $A2      P4 tambien dispara una rosa
+        f240  [GOTEO] P4 mp 207 -> 191  (-16)
+        f240  MANO-1: $0A -> $00  el objeto de P1 desaparece en el choque
+
+      El script registro el ESTADO de P4 y el MANA de P4, pero NO el objeto
+      de P4.  EN UN TEST DE DOS JUGADORES SE VE LA MITAD DE LA PARTIDA.
+      [COMPROBADO]
+
+  *** Y ESO LIMITA LO QUE PODEMOS MEDIR ***
+
+        - no podemos ver el proyectil del rival
+        - no podemos comparar el comportamiento de dos personajes en la
+          misma partida con el mismo script
+        - el efecto de la colision solo se ve desde el lado de P1
+
+  *** LA MEJORA DEL SCRIPT ***
+
+      Los slots de objeto de los cuatro jugadores serian:
+
+        P1   $FF8500   $FF8600
+        P2   $FF8900   $FF8A00
+        P3   $FF8D00   $FF8E00
+        P4   $FF9100   $FF9200
+
+      Son 8 slots.  El script mira 2.  Los otros 6 son ocho lineas mas.
+      NO ESCRIBE NADA EN LA MEMORIA: solo lee.  [ABIERTO]
+
+  54.4  LA ROSA: 38 FRAMES DE ANIMACION Y 45 DE OBJETO
+
+        f187  $05 -> $A2      la animacion de Kurama
+        f194  el objeto nace
+        f225  $A2 -> $00      la animacion TERMINA
+        f240  el objeto muere en el choque
+
+      *** EL OBJETO SOBREVIVE 7 FRAMES A LA ANIMACION ***
+
+        la rosa      38 f de animacion     45 f de objeto    +7
+        la planta    57 f de animacion     97 f de objeto   +40
+
+      *** Y ESO ES LO QUE HACE QUE EL CERROJO SEA MAS LARGO QUE EL GOLPE ***
+      El cerrojo de 43.2 no tiene una duracion propia: se abre cuando se va
+      el ultimo objeto, y el objeto se va DESPUES de la animacion.  La
+      diferencia es la que feltimos.  [DERIVADO]
+
+      *** Y LA DIFERENCIA ES POR TECNICA, NO FIJA ***
+      +7 en la rosa, +40 en la planta.  [COMPROBADO]
+
+      *** OJO: ESO NO CIERRA 43.3 ***
+      Alli el usuario dijo que con la rosa lenta ya puede mover a media
+      pantalla.  Si la animacion son 38 frames y el objeto 45, la diferencia
+      es de 7.  Pero el movible empieza cuando termina la animacion, o sea
+      en el frame 38, no en el 45.  LAS DOS MEDIDAS TIENEN QUE SER
+      SIMULTANEAS PARA SEPARARLOS.  [ABIERTO]
+
+================================================================================
+================================================================================

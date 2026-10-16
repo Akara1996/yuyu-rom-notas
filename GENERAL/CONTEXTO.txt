@@ -8064,3 +8064,147 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+65. LOS REIGAN DE YUSUKE:  AEREO, CARGA Y GUARDADO  (15-10)
+================================================================================
+================================================================================
+
+  El usuario pidio: cuando veas que algo tiene sentido por si solo para tu
+  razonamiento pero no se condice con una posible secuencia, preguntame.
+  Aplicado en IDEARIO.txt seccion 23.
+
+  65.1  A Y B:  MISMO PRECIO, MISMO DANO, DISTINTA VELOCIDAD
+
+      Reigan A   5 de mana   6 de dano   $20   RAPIDO
+      Reigan B   5 de mana   6 de dano   $20   LENTO
+
+      *** A Y B NO SON NIVELES DISTINTOS: SON LA MISMA COSA A DOS
+          VELOCIDADES ***
+      El usuario: aplica en todos sus niveles.  La diferencia A/B se mantiene
+  en los ocho niveles, como la rosa de Kurama.  [COMPROBADO]
+
+      *** Y CORRIGE LO QUE ESCRIBI EN 49.4 CON LA CITA DE LA WIKI ***
+
+      De la wiki, del Reigan de Yusuke: If you HOLD A or B, he will consume
+  MORE SPIRIT ENERGY to make it bigger.
+
+      *** ESO ES MANTENER, NO ELEGIR A O B.  SON DOS COSAS DISTINTAS ***
+
+        mantener     bola mas grande, mas mana
+        A o B        dos velocidades, el mismo mana
+
+      Y la de dos velocidades existe en mas personajes: la rosa de Kurama y
+  el reigan de Yusuke.  [DERIVADO]
+
+  65.2  *** C NO ES UN DISPARO:  ES UN MODO DE CARGA ***
+
+      ABAJO,ADELANTE + C   4 de mana   y NO dispara nada
+
+      El usuario: No dispara, yusuke se pone en posicion de reigan pero lo que
+  hace es ir cargando gradualmente su reigan.
+
+      Si presionas C NUEVAMENTE o ATRAS mientras carga, GUARDA el reigan.
+  Si presionas A o B, DISPARAS el reigan a la velocidad correspondiente en el
+  estado de carga hasta el que estaba cuando hayas pulsado.
+
+      *** LA MECANICA COMPLETA, CON SUS TRES SALIDAS ***
+
+        C                 entrar en modo carga, 4 de mana
+        C otra vez        GUARDAR la carga
+        atras             GUARDAR la carga   (lo mismo)
+        A                 disparar lo cargado, rapido
+        B                 disparar lo cargado, lento
+
+      *** Y ESO EXplica EL GUARDADO QUE ANOTAMOS EN 55.5 ***
+
+      De la wiki: By cancelling the charge with C, he will STORE IT.
+
+      El wiki decia C y el usuario dice C o atras.  Los dos.  [COMPROBADO]
+
+      *** LO QUE NO SE HA MEDIDO TODAVIA ***
+      Guardar y disparar despues.  El log de esta ronda termino en el
+  disparo, no en el guardado.  [ABIERTO]
+
+  65.3  *** EL REIGAN AEREO:  $AC,  24 DE MANA ***
+
+      *** $AC ES EL MISMO ID QUE LA BOLA AEREA DE SENSU ***
+
+        Sensui   ABAJO,ADELANTE + A/B/C en aire   $AC    4 de mana
+        Yusuke   ABAJO,ADELANTE + A o B en aire   $AC   24 de mana
+
+      *** SEIS VECES MAS CARO, Y ES EL MISMO ID ***
+
+      El id es la ranura.  El precio y el tipo de golpe son del personaje.
+      [COMPROBADO]
+
+      *** Y $07, LA VENTANA AEREA, ES UNIVERSAL ***
+
+        $AC -> $07 -> $0E    en Sensui, en el combo de 3 bolas aereas
+        $AC -> $07 -> $0E    en Yusuke, en el reigan aereo
+
+      $07 es el estado POST-TECNICA AEREA de todo el juego, no de un
+  personaje.  [DERIVADO]
+
+      *** 24 DE MANA POR 6 DE DANO: 0.25 POR MANA ***
+
+        reigan aereo      24 de mana    6 de dano    0.25
+        reigan de suelo    5 de mana    6 de dano    1.20
+
+      *** CINCO VECES PEOR, O SEA QUE NO ES UN GOLPE DE DANO ***
+      Si el aereo llegara al nivel 8 serian 64 de dano por unos 160 de mana,
+  contra 136 de suelo.  Sigue peor.  [DERIVADO]
+
+      Lo que el aereo compra es el ANGULO: dispara desde arriba, donde el
+  rival no tiene salida.  [DERIVADO]
+
+  65.4  *** EL TRUCO DEL REIGAN AEREO RASANTE ***
+
+      El usuario: el reigan puede disparase en el aire, pero si haces
+  ABAJO,ADELANTE,ARRIBA + A o B, parece que el input sigue tomando el comando
+  de reigan aunque hayas saltado por ultimo, y entonces disparas un reigan a
+  2 pixeles del suelo.
+
+      *** O SEA: EL INPUT SE QUEDA CARGADO Y EL SALTO NO LO BORRA ***
+
+      El motion se registra en el suelo, despues saltas, y el boton ejecuta la
+  version AEREA de ese motion.  El resultado es un reigan aereo LANZADO
+  desde el suelo: sale a 2 pixeles de altura.  [COMPROBADO por el usuario]
+
+      *** Y ESO ES UN AGUERO DE INPUT, NO UNA TECNICA ***
+      No hay comando nuevo: hay un comando con el timing equivocado.
+  [DERIVADO]
+
+      *** Y EL SCRIPT YA LO DISTINGUE ***
+
+        f88   $05 -> $0D     salto
+        f93   $0D -> $06     el aire
+        f95   $06 -> $AC     el reigan aereo
+
+  65.5  YUSUKE: EL REIGAN ES UNA FAMILIA DE CINCO COMANDOS
+
+      ABAJO,ADELANTE + A             disparo rapido, nivel 1      5 MP
+      ABAJO,ADELANTE + B             disparo lento, nivel 1        5 MP
+      ABAJO,ADELANTE + C             modo carga                   4 MP
+      ABAJO,ADELANTE + A o B en aire   reigan aereo               24 MP
+      ABAJO,ADELANTE,ARRIBA + A o B   aereo rasante              24 MP
+
+      *** Y EL NIVEL SE ELIGE EN EL MOMENTO DE DISPARAR ***
+      El usuario: disparas el reigan a la velocidad correspondiente en el
+  estado de carga hasta el que estaba cuando hayas pulsado.
+
+      O sea: la carga se puede cortar en CUALQUIER punto.  No hay que llegar
+  al tope.  Y el mana gastado es el tiempo cargado, segun 61.3.  [DERIVADO]
+
+  65.6  LO QUE NO SE SABE DE YUSUKE
+
+      - si el reigan aereo se puede cargar con C en el aire
+      - que se ve en memoria cuando el reigan esta GUARDADO.  Es el
+        proyectil guardado, el tercer estado de objeto de 55.5.
+      - la ulti: id, precio, dano, y si termina con un reigan gigante
+      - el A+B de Yusuke
+      - los 8 basicos de Yusuke con sus tres numeros
+
+================================================================================
+================================================================================

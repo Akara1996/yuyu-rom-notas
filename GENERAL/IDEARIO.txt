@@ -1578,3 +1578,81 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+23.  SI ROMPE UNA SECUENCIA YA CONOCIDA, NO ES UN DATO NUEVO  (15-10)
+================================================================================
+================================================================================
+
+  El usuario: cuando veas que algo TIENE SENTIDO POR SI SOLO para tu
+  razonamiento, pero NO SE CONDICE CON UNA POSIBLE SECUENCIA -si es que la
+  tiene- preguntame.
+
+  *** Y ESO ES DISTINTO DE LA 22 ***
+
+      22   un agujero del instrumento produce una AUSENCIA falsa
+      23   una AUSENCIA contradictoria produce una MECANICA inventada
+
+  *** EL CASO ***
+
+  El nivel 1 del Reigan no aparecia en el log.  Y mi razonamiento fue:
+
+      todos los Reigan son proyectiles  --  pero este no aparece
+      -->  entonces este no es un proyectil
+
+  *** Y ESO ROMPIA DOS SECUENCIAS CONOCIDAS ***
+
+    1.  la escala del Reigan, donde los ocho niveles son proyectiles
+    2.  la regla del man, desde la seccion 44: SOLO los golpes FISICOS
+        cobran man, y un proyectil NO lo cobra
+
+  *** Y TENIA LA PRUEBA EN CONTRA DE MI PROPIA HIPOTESIS Y NO LA USE ***
+  El usuario lo dijo de la mejor forma posible: un golpe fisico SIN LAS
+  PROPIEDAS DE UN GOLPE FISICO.
+
+  Si fuera fisico daria mana.  No daba.  Y yo tenia esa regla anotada desde
+  hace semanas.
+
+  *** EL MECANISMO DEL ERROR ***
+
+  La hipotesis alternativa ME SONABA plausible: una caja en el cuerpo es una
+  cosa que existe en los juegos.  Y cuando algo suena plausible, el
+  razonamiento lo acepta sin pedirle que no rompa nada.
+
+  *** LA REGLA ***
+
+  *** UNA EXPLICACION PLAUSIBLE QUE ROMPE UNA SECUENCIA CONOCIDA ES PEOR
+      QUE UNA IMPLAUSIBLE QUE NO LA ROMPE. ***
+
+  Antes de aceptar una lectura que contradice algo ya establecido:
+
+    1.  escribi EXPLICITAMENTE que secuencia contradice
+    2.  si es que hay alguna.  Si no hay ninguna, no me quejo
+    3.  si la hay, la contradiccion gana: la lectura esta mal
+    4.  si no puedo explicar la contradiccion, PREGUNTO
+
+  *** LA HERRAMIENTA:  LA LISTA DE SECUENCIAS CONOCIDAS ***
+
+  Cada vez que se establece una regla conviene tenerla escrita como lista,
+  para poder consultarla cuando aparece una lectura que la contradice.  Si no
+  esta escrita, no se puede saber que la contradice.  [DERIVADO]
+
+  Las que ya estan escritas y sirven:
+
+    -  el mana solo lo cobran los golpes FISICOS          (44.3)
+    -  un id es la ranura y el dato es del personaje     (46.5)
+    -  los basicos son los mismos ids en los once       (45.1)
+    -  un proyectil no da mana y no se ve afectado por su propio clash
+    -  un objeto con $5F = 0 es invisible para el rastreador   (62.3)
+
+  *** Y LA SEGUNDA REGLA, MAS DURA ***
+
+  *** SI TENGO LA PRUEBA EN CONTRA DE LO QUE ESTOY PROPONIENDO, ESO SE
+      MIRA PRIMERO. ***
+
+  No hace falta inventar el porque: basta con notar que mi propuesta no
+  cumple una regla que ya conozco.  Eso la descarta sola.
+
+================================================================================
+================================================================================

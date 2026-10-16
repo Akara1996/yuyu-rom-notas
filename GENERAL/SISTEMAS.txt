@@ -20,7 +20,10 @@ Las reglas del juego que valen para mas de un personaje
       8.  las cerrajuras y los relojes
       9.  el stun y su bloqueo
       10. las dos familias de golpe
-      11. como se mide
+      11. la carga almacenada
+      12. las tecnicas de cadencia
+      13. el dado del dano
+      14. como se mide
 
 ================================================================================
 1.  EL MAPA DE COMANDOS:  GLOBAL
@@ -445,7 +448,110 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       el Reigan de Yusuke     objeto que viaja     DE OBJETO no da mana
 
 ================================================================================
-11.  COMO SE MIDE  (el detalle esta en METODO.txt)
+12.  LA CARGA ALMACENADA
+================================================================================
+
+  *** LA TECNICA DE GUARDAR ES UN ESTADO, Y CUNTA COMO UN GOLPE MAS ***
+
+      f175   $A4 -> $13         el estado de guardar con atras
+      f177   $13 -> $00         de pie, con la carga a punto
+
+  *** HAY DOS FORMAS DE GUARDAR Y NO SON LO MISMO ***
+
+      guardar con C       $A4 -> $00         directo
+      guardar con atras   $A4 -> $13 -> $00   con un estado de paso
+
+  *** Y GUARDAR CONSERVA EL NIVEL EXACTO ***
+
+      Carga a nivel 4, guardado, disparado con A = nivel 4.  Medido dos veces.
+      El nivel no se pierde, no se reinicia a 1 y no se recalcula.
+      [COMPROBADO]
+
+  *** LOS TRES PRECIOS DEL CICLO ***
+
+      entrar al modo carga           4 de mana
+      GUARDAR                        1 de mana
+      disparar lo guardado          4 de mana
+
+  *** SOLO SE CONSERVA UNA CARGA ***
+
+  *** Y SE PUEDE DISPARAR EN EL AIRE, SOLO YUSUKE ***
+
+================================================================================
+13.  LAS TECNICAS DE CADENCIA
+================================================================================
+
+  *** HAY DOS PERSONAJES CON EL MISMO MOTOR, Y NO ES COINCIDENCIA ***
+
+     Sensui   la pistola        ABAJO,ABAJO + A
+      Yusuke   el SHOTGUN       ABAJO,ABAJO + A / B / C
+
+  Las dos: pulsadas rapidas, el mismo tope, el mismo motor de dao.
+  [COMPROBADO]
+
+  *** LAS REGLAS, QUE SON LAS MISMAS EN LAS DOS ***
+
+      el numero de pulsadas      es lo que decide cuantos golpes entran
+      el tope                     6 golpes
+      con un solo boton           3 a 4 golpes
+      con dos botones             5 a 6 golpes
+      la cadencia                 cada 7 frames con dos botones
+
+  *** Y EN EL AIRE ES MAS DIFICIL CONTROLARLO ***
+
+      "se ejecuta demasiado rapido, es mas facil decidir cuantos darle
+       directo al enemigo porque tienes mejor ventana gracias a los
+       frames de impacto"
+
+  En el suelo los frames de impacto dan una ventana para elegir cuantos
+  pegar.  En el aire no hay ventana.  [COMPROBADO por el usuario]
+
+  *** Y LAS DOS TERMINAN SIEMPRE EN UN ESTADO FIJO ***
+
+      $21   tambaleo, el primer golpe
+      $20   hitstun, los golpes intermedios
+      $25   derribo, el ultimo golpe
+
+  Una escalera de tres pasos, no aleatoria.  El $25 abre a $24.
+  [COMPROBADO]
+
+================================================================================
+14.  EL DADO DEL DANO
+================================================================================
+
+  *** LA VARIACION DE DANO NO ES UNA RUIDO SUELTO:  EL SHOTGUN LA EXPONE ***
+
+      golpes   dano de cada golpe                    total
+      ------  ------------------------------------  ------
+      3        3,  6,  8                            17
+      4        6,  8,  3,  4                        21
+      5        5,  6,  8,  3,  4                    26
+      6        6,  4,  6,  3,  3,  3                25
+
+  *** CINCO VALORES EN UNA SOLA TECNICA:  3, 4, 5, 6 y 8 ***
+  Y el orden cambia en cada intento.
+
+  *** Y MAS GOLPES NO ES MAS DANO ***
+
+      3 golpes   17 de dano total
+      6 golpes   25 de dano total
+
+  El total no escala con los golpes.  Es una tecnica de PRESION, no de
+  dano.  [COMPROBADO]
+
+  *** LO QUE NO SE SABE AUN ***
+
+  Si la tirada es por golpe o por tecnica.  Si el valor sale de la tabla
+  del golpe o de un azar del juego.  Si los objetos tienen el mismo azar
+  (no se ha medido: los proyectiles salen exactos).  [ABIERTO]
+
+  *** Y LA REGLA DE ORO QUE CORRIGE EL RUIDO ***
+
+  Si un golpe da un numero que no esta en la tabla del golpe, es ruido
+  del instrumento.  Si esta en la tabla, es el juego.  [DERIVADO]
+
+================================================================================
+15.  COMO SE MIDE  (el detalle esta en METODO.txt)
 ================================================================================
 
   *** LO QUE ENTREGA EL .LUA, POR PERSONAJE ***

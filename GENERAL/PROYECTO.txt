@@ -75,7 +75,7 @@ Donde estamos, que falta y en que orden
       Hiei        8        8        3      HIEI PDF, 13 pag
       Kurama      8        7        6      KURAMA PDF, 12 pag
       Sensui      8        9        8      SENSU PDF, 8 pag
-      Yusuke      ?        7        5      falta
+      Yusuke      -        9        6      falta el PDF
       Genkai      -        -        -      -
       Chu         -        -        -      -
       Kuwabara    -        -        -      -
@@ -93,12 +93,16 @@ Donde estamos, que falta y en que orden
 5.  LO QUE FALTA, EN ORDEN
 ================================================================================
 
-  *** ORDEN 1:  TERMINAR LOS CUATRO PERSONAJES MEDIDOS ***
+  *** ORDEN 1:  TERMINAR HIEI Y LEER LA TABLA DEL ROM ***
 
-    - Yusuke:  los dos ultimos comandos
-    - Hiei:    $A7, $A9, $AA, $AB y el resto de los no identificados
+    - Hiei:  $A7, $A9, $AA, $AB y el resto de los no identificados
     - Kurama:  $A4, el unico id sin medir
     - Sensui:  la tabla del ROM, para leer sus golpes
+
+  *** ORDEN 2:  EL PDF DE YUSUKE ***
+
+    Hiei, Kurama y Sensui tienen documento.  Yusuke esta medido pero sin
+    escribir.  Son 9 tecnicas, 6 precios, el guardado y la escala del reigan.
 
   *** ORDEN 2:  LA MASCARA DE CANCEL DE LOS ONCE ***
 
@@ -132,7 +136,9 @@ Donde estamos, que falta y en que orden
       el +16 duplicado del remate     ulti que no haga conectar el remate
       el segundo golpe de la planta   repetir la planta
       la variacion de dano            repetir 5 veces un golpe, por pj
-      si adelante+A pegado agarra     adelante+A pegado
+      de donde sale el dado del dano  el codigo del A6 en el ROM
+      la invencibilidad del shotgun   que le peguen en el primer frame
+      el drenaje tras guardar         un log sin cadencia de botones
       el $7E del bloqueio             leer $7E con signo
       si el reigan aereo se carga     C en el aire
       los niveles 9 y 10              man lleno, cargar al tope

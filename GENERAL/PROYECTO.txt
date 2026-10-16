@@ -75,7 +75,7 @@ Donde estamos, que falta y en que orden
       Hiei        8        8        3      HIEI PDF, 13 pag
       Kurama      8        7        6      KURAMA PDF, 12 pag
       Sensui      8        9        8      SENSU PDF, 8 pag
-      Yusuke      -        9        6      falta el PDF
+      Yusuke      -        9        6      YUSUKE PDF, 7 pag
       Genkai      -        -        -      -
       Chu         -        -        -      -
       Kuwabara    -        -        -      -
@@ -99,28 +99,48 @@ Donde estamos, que falta y en que orden
     - Kurama:  $A4, el unico id sin medir
     - Sensui:  la tabla del ROM, para leer sus golpes
 
-  *** ORDEN 2:  EL PDF DE YUSUKE ***
+  Los cuatro personajes con documento: Hiei 13 pag, Kurama 12, Sensui 8,
+  Yusuke 7.  [TERMINADO]
 
-    Hiei, Kurama y Sensui tienen documento.  Yusuke esta medido pero sin
-    escribir.  Son 9 tecnicas, 6 precios, el guardado y la escala del reigan.
+  *** ORDEN 2:  LA ESCALERA DE RANK DE LOS GOLPES FISICOS ***
 
-  *** ORDEN 2:  LA MASCARA DE CANCEL DE LOS ONCE ***
+    NUEVO, y es lo que mas rinde.  El usuario ya medir a mano que:
+
+      todos rompen hasta el reigan L3 con el golpe fuerte
+      la mayoria no pasa de L4 con un basico;  L5 con un especial
+      un personaje rompe un L5 con una habilidad fisica
+      uno tiene una habilidad que rompe un DRAGON con dano minimo
+
+    El rank de un golpe es el NIVEL MAS ALTO de reigan que rompe.  Tres
+    tests por golpe lo ubican entre dos niveles de una escala YA medida.
+    Ahi esta el secreto del por que no es el dano:  son dos campos.
+
+    Antes de las 88 celdas de cancel, porque las dos cosas son el balance
+    del juego escrito en tablas, y la del rank sale mas barata.
+
+  *** ORDEN 3:  TERMINAR HIEI Y LEER LA TABLA DEL ROM ***
+
+    - Hiei:  $A7, $A9, $AA, $AB y el resto de los no identificados
+    - Kurama:  $A4, el unico id sin medir
+    - Sensui:  la tabla del ROM, para leer sus golpes
+
+  *** ORDEN 4:  LA MASCARA DE CANCEL DE LOS ONCE ***
 
     8 basicos x 11 personajes = 88 celdas.  Llevamos 8.
     Con eso esta el balance del juego escrito en una tabla.
 
-  *** ORDEN 3:  LA ESCALA DE RANGO DE LOS 27 OBJETOS SIN NOMBRE ***
+  *** ORDEN 5:  LA ESCALA DE RANGO DE LOS 27 OBJETOS SIN NOMBRE ***
 
     Un Reigan de nivel conocido contra cada objeto.  Se lee en que nivel
     empatan.  UNA PARTIDA POR OBJETO, y con eso quedan los 27 con su lugar
     en la escala sin medir su dano.
 
-  *** ORDEN 4:  LOS UMBRALES DE STUN DE LOS ONCE ***
+  *** ORDEN 6:  LOS UMBRALES DE STUN DE LOS ONCE ***
 
     El valor de $80 por personaje.  Con eso se sabe quien aguanta un combo
     largo y quien entra a 255 a la primera.
 
-  *** ORDEN 5:  LAS PARTES QUE NO SE TOCAN HASTA EL FINAL ***
+  *** ORDEN 7:  LAS PARTES QUE NO SE TOCAN HASTA EL FINAL ***
 
     - la particion de precios de la tabla del ROM
       (acierta 6 de 6 en Kurama, pero con 4 de 11 personajes no alcanza)
@@ -139,7 +159,11 @@ Donde estamos, que falta y en que orden
       de donde sale el dado del dano  el codigo del A6 en el ROM
       la invencibilidad del shotgun   que le peguen en el primer frame
       el drenaje tras guardar         un log sin cadencia de botones
-      el $7E del bloqueio             leer $7E con signo
+      el rank del golpe fisico        L3, L4 y L5 contra el mismo golpe
+      quien rompe el dragon           cual personaje y cual tecnica
+      el rank en la memoria           el A64 del golpe fisico, si existe
+      intangible o desarmado          un tercero en la fila del reigan
+      el precio de guardar con A/B    el camino que no dio linea MOV
       si el reigan aereo se carga     C en el aire
       los niveles 9 y 10              man lleno, cargar al tope
       el otro con la patada al abajo  cual es

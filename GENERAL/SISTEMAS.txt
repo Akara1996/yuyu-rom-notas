@@ -23,7 +23,8 @@ Las reglas del juego que valen para mas de un personaje
       11. la carga almacenada
       12. las tecnicas de cadencia
       13. el dado del dano
-      14. como se mide
+      14. la destruccion de proyectiles
+      15. como se mide
 
 ================================================================================
 1.  EL MAPA DE COMANDOS:  GLOBAL
@@ -497,14 +498,16 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       con dos botones             5 a 6 golpes
       la cadencia                 cada 7 frames con dos botones
 
-  *** Y EN EL AIRE ES MAS DIFICIL CONTROLARLO ***
+  *** Y NO SE USA EN EL AIRE:  ES UN ATAQUE DE SUELO ***
 
-      "se ejecuta demasiado rapido, es mas facil decidir cuantos darle
-       directo al enemigo porque tienes mejor ventana gracias a los
-       frames de impacto"
+      *** CORREGIDO POR EL USUARIO ***
 
-  En el suelo los frames de impacto dan una ventana para elegir cuantos
-  pegar.  En el aire no hay ventana.  [COMPROBADO por el usuario]
+      "Shotgun es un ataque de suelo, no se usa en aire y la unica tecnica
+       aerea que yusuke posee es el reigan, ninguna mas, obviamente esto
+       incluye todos los niveles de reigan previamente cargados."
+
+  El estado $A6 existe, pero solo en suelo.  La unica tecnica aerea de
+  Yusuke es el Reigan, en todos sus niveles.  [CORREGIDO]
 
   *** Y LAS DOS TERMINAN SIEMPRE EN UN ESTADO FIJO ***
 
@@ -536,8 +539,21 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       3 golpes   17 de dano total
       6 golpes   25 de dano total
 
-  El total no escala con los golpes.  Es una tecnica de PRESION, no de
-  dano.  [COMPROBADO]
+  *** LO MEDIDO Y LO QUE NO:  NO SON LO MISMO ***
+
+  MEDIDO   el dano por golpe varia entre 3 y 8, y el total no escala con
+           la cantidad de golpes.   [COMPROBADO, 4 secuencias]
+
+  "quiza pueda verse afectado por la variable de dano, necesitamos pruebas
+   exhaustivas para determinarlo"
+
+  Los NUMEROS son solidos.  La palabra DADO todavia no:  3, 4, 5, 6 y 8
+  pueden ser una tirada aleatoria, o pueden ser el valor de la tabla del
+  golpe en un frame distinto.  SON DOS MECANISMOS CON EL MISMO SINTOMA.
+  [ABIERTO]
+
+  La prueba que los separa:  leer la tabla del $A6 en el ROM.  Si los ocho
+  valores estan ahi, es tabla.  Si hay uno solo, el resto sale de codigo.
 
   *** LO QUE NO SE SABE AUN ***
 
@@ -551,7 +567,108 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   del instrumento.  Si esta en la tabla, es el juego.  [DERIVADO]
 
 ================================================================================
-14.  COMO SE MIDE  (el detalle esta en METODO.txt)
+14.  LA DESTRUCCION DE PROYECTILES
+================================================================================
+
+  *** HAY TRES RELACIONES DISTINTAS, Y CONFUNDIRLAS ES EL ERROR CLASICO ***
+
+      proyectil vs proyectil    se anulan segun rank.   Seccion 7.
+      fisico vs proyectil       lo destruye si el rank alcanza.
+      invencible vs proyectil   lo ATRAVIESA y el proyectil sigue.
+
+  *** LO SABIDO, MEDIDO A MANO POR EL USUARIO ***
+
+      todos los personajes, con sus golpes FUERTES (las variantes de A)
+            rompen hasta un reigan NIVEL 3
+      despues, la mayoria de los A ya no rompen un NIVEL 4
+      hay personajes que si y personajes que no
+      el NIVEL 4 es el limite habitual de un golpe basico
+      algun golpe especial llega a romper un NIVEL 5.  Nada mas.
+
+  *** Y HAY TRES CASOS QUE DICEN MAS QUE EL LIMITE ***
+
+      golpe debil  ->  rompe proyectil debil
+      golpe fuerte ->  rompe proyectil mediano
+      un personaje rompe un NIVEL 5 con una habilidad FISICA
+
+  *** LA ESCALA DEL PROYECTIL YA ESTA MEDIDA (seccion 7) ***
+
+      rosa 4 | L1 6 | L2 8 | L3 12 | L4 16 | L5 24 | L6 32 | L7 48
+      L8 64 | dragon 88
+
+  *** LO QUE FALTA ES EL LADO FISICO DE LA COMPARACION ***
+
+  Hay escalera de rank de proyectil.  No hay escalera de rank de golpe
+  fisico.  Ese es un agujero de MEDICION, no de teoria.
+
+  *** Y LA DEFINICION QUE LO HACE MEDIBLE, SIN CODIGO ***
+
+      el rank de un golpe = el NIVEL MAS ALTO de reigan que rompe
+
+  Con esa definicion cada golpe fisico del juego tiene un numero, y se los
+  puede ordenar entre si.  El reigan cargado es el REGLA.
+
+      probar en L3    si rompe, el rank es mayor que el de L3
+      probar en L4    si rompe, el rank es mayor que el de L4
+      probar en L5    si rompe, el rank es mayor que el de L5
+
+  Tres tests por golpe, y el rank queda ubicado entre dos niveles de una
+  escala que YA esta medida.
+
+  *** POR QUE NO PUEDE SER EL DANO:  LA EXCEPCION QUE LO ROMPE ***
+
+  Hay un personaje con una habilidad que:
+
+      saca muy poca vida al enemigo
+      destruye un DRAGON (88, el techo de la escala) sin recibir dano
+      grita, infla el pecho, y genera una caja de colision ENORME
+      es una habilidad DEFENSIVA
+
+  *** DANO MINIMO, RANK MAXIMO.  AL REVES QUE TODOS LOS DEMAS. ***
+
+  O sea que el dano y el rank son DOS CAMPOS, y el juego compara rank
+  contra rank.  Eso explica los tres casos raros de una sola vez.
+
+  *** Y LA CAJA ENORME ES LA PISTA ***
+
+  Una caja grande normalmente sirve para PEGAR: mas cobertura.  Ahi sirve
+  para INTERCEPTAR, que es lo contrario.  Que un solo numero agrande la
+  caja en los dos sentidos es la forma mas economica de programarlo, y por
+  eso el mismo numero sirve para las dos cosas.  [DERIVADO, sin medir]
+
+  *** DONDE PODRIA ESTAR EL RANK DEL GOLPE FISICO ***
+
+  El blob del objeto tiene $64 con los bits 0-1 = el nivel de carga.  Ese
+  ES el rank del proyectil.  Si el golpe fisico tiene un blob de la misma
+  forma en la misma posicion, el rank esta ahi.  [ABIERTO, sin medir]
+
+  *** LA INVENCIBILIDAD NO ES LO MISMO QUE DESTRUIR ***
+
+      "las tecnicas que tienen varios frames de invulnerabilidad pueden
+       hacer desviar un proyectil grande, es decir, te pasa de largo"
+
+  El proyectil ATRAVIESA al personaje y SIGUE.  No se consume, no explota,
+  no hace dano.  Es una tercera relacion, no un caso raro de la segunda.
+
+  *** LO QUE EL LOG PUEDE LEER DE ESO ***
+
+  SI:  el frame en que las cajas se superponen, que no hay linea de HP, y
+  que el objeto sigue vivo despues.
+
+  NO:  el flag de intangibilidad en si.  No esta en ninguna direccion que el
+  script rastree; el script ve cajas, vida y estados, no prioridades.
+
+  *** LA PREGUNTA QUE SEPARA LOS DOS MECANISMOS ***
+
+      intangible    el personaje no existe para el proyectil ese frame
+      desarmado     el proyectil sigue pero ya no hace dano a nadie
+
+  LA PRUEBA:  que le pasa al TERCERO de la fila.  Si el reigan sigue de
+  largo y todavia le hace dano a un tercero, es intangibilidad.  Si sigue
+  de largo y no le hace dano a nadie mas, esta desarmado.
+
+================================================================================
+15.  COMO SE MIDE  (el detalle esta en METODO.txt)
 ================================================================================
 
   *** LO QUE ENTREGA EL .LUA, POR PERSONAJE ***

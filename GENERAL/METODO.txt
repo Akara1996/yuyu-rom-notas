@@ -2000,3 +2000,95 @@ FIN DEL IDEARIO
   datos y empiezan a contradecirse.  [DERIVADO]
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+28.  CUIDADO CON LEER UN .LUA:  EL LADO DE LA LECTURA TAMBIEN CUENTA
+===============================================================================
+
+  *** LO QUE SE SABIA, Y ESTA MAL POR LA MITAD ***
+
+      "Nunca Set-Content en .LUA:  mete BOM y rompe FBNeo.  Para escribir un
+       .LUA usar [System.IO.File]::WriteAllLines con UTF8Encoding($false)."
+
+  Eso previene el BOM.  NO previene la corrupcion de acentos, que es otra cosa
+  y pasa por el otro lado.
+
+  *** LO QUE PASO EL 15-10 AL INSTALAR LA HERRAMIENTA DEL BLOB ***
+
+  Se parcheo el .LUA con Python, que lee y escribe UTF-8 bien, y se instalo
+  asi:
+
+      Get-Content -Raw  ->  [System.IO.File]::WriteAllText(..., UTF8Encoding($false))
+
+  *** Y ESO DESTRuyo LOS ACENTOS ***
+
+  Get-Content -Raw SIN -Encoding lee como Windows-1252, no como UTF-8, porque el
+  archivo no tiene BOM y PowerShell no puede adivinar.  El WriteAllText
+  despues volvia a escribir UTF-8.  O sea:  UTF-8 leido como 1252 y
+  reescrito como UTF-8.  Doble codificacion.
+
+      antes    U+00C1    U+00E9    U+00F1 
+      despues  U+00C3    U+00E9    U+0161    U+00D0    U+00E5 
+
+  El archivo quedo 576 bytes MAS CHICO siendo 53 lineas mas largo.  Ese fue el
+  aviso.  *** SI EL ARCHIVO CRECE Y ESTA MAS CHICO, ESTA CORROMPIDO. ***
+
+  *** Y TAMBIEN SE PERDIERON LOS FINALES DE LINEA ***
+  El original era CRLF entero.  El parche salio con LF.  3126 bytes de menos.
+
+  *** LA REGLA QUE SIRVE ***
+
+      1.  parchear con Python, que maneja UTF-8 bien
+      2.  instalar con Copy-Item,  que copia BYTES
+      3.  NUNCA con Get-Content -Raw + WriteAllText
+
+  Y si hay que usar WriteAllText,  leer con ReadAllText y UTF8 explicito:
+
+      [System.IO.File]::ReadAllText($p, [System.Text.Encoding]::UTF8)
+
+  *** Y COMO VERIFICAR, QUE ES LO QUE SALVO ESTO ***
+
+      luajit -bl  $dst        ->  exit 0   (sintaxis)
+      primeros 3 bytes        ->  45 45 32 (sin BOM)
+      comparar la paleta no-ASCII con el respaldo
+      comparar CRLF contra LF
+
+  Las cuatro.  La primera sola no alcanza:  el archivo roto compilaba igual.
+
+  *** Y LA CITA DEL ARCHIVO ROTO ***
+
+      U+0430    U+5E72    U+7684    U+90E8 
+
+  Esos no son mios:  son de una corrupcion ANTERIOR del proyecto, de cuando se
+  colaron textos en chino y en cirilico.  El archivo estaba limpio de UTF-8
+  igual, pero con basura de otro origen dentro.  Queda como esta.
+  [ABIERTO]
+
+  ================================================================================
+  28.2  LA HERRAMIENTA NUEVA:  [BLOB-J]
+
+  Se agrego al rastreador el bloque BLOB-J, que imprime el blob del JUGADOR
+  en +$64..$68 y +$C4 mientras tiene caja abierta.
+
+  *** POR QUE HACE FALTA ***
+
+  La linea BLOB VIVO que ya existia era SOLO de los OBJETOS:  la sacaba
+  `detectar_golpes_manos`, con `base` = la direccion del objeto.  Del
+  personaje no se imprimia nada.  Y sin el $65 no hay dano que leer.
+
+  *** QUE IMPRIME ***
+
+      [BLOB-J] P1  $5F=$0B  anim $03  +64=1E  +65 DANO=00  +66 stun=00
+                +67=00  +68=00  |  +C4=00
+
+  Solo mientras el bit 6 de la tabla B esta puesto,  y solo cuando el blob
+  CAMBIO desde el frame anterior.  Asi no llena el log.
+
+  *** QUE RESUELVE ***
+
+  Que solo dos personajes rompen proyectiles con el dash.  Si durante el
+  $0B salen lineas BLOB-J,  el dash es un ataque mudo con hit record.  Si no
+  salen,  el dash no tiene golpe y el clash viene de otro lado.
+================================================================================
+================================================================================

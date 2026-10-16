@@ -2092,3 +2092,37 @@ FIN DEL IDEARIO
   salen,  el dash no tiene golpe y el clash viene de otro lado.
 ================================================================================
 ================================================================================
+
+================================================================================
+28.3  EL LIMITE DE 200 LOCALES DEL RASTREADOR
+
+  *** QUE PASO ***
+
+  Al agregar el bloque BLOB-J con helpers sueltos:
+
+      luajit: main function has more than 200 local variables
+
+  200 es el maximo de LuaJIT para un chunk.  El archivo ya estaba al limite y
+  lo avisa en un comentario propio.
+
+  *** LA REGLA ***
+
+  Meter los helpers DENTRO de la funcion que los usa,  como locals de ella.
+  Los locals de una funcion no cuentan para el limite del chunk.
+
+      antes     BLOB_J + blob_jugador + MASK_BS + lista_de + mask_de
+                = 5 locales nuevos de nivel superior  ->  NO COMPILA
+
+      despues   BLOB_J + blob_jugador
+                = 2 locales nuevos de nivel superior  ->  compila
+
+  *** Y CADA AGREGADO AL RASTREADOR GASTA UNO DE ESOS 200 ***
+  El archivo tiene 3221 lineas.  Antes de agregar una funcion de nivel
+  superior,  hay que contar.  Si no entra,  va dentro de otra.
+
+  *** Y COMO SE CUENTA ***
+
+      luajit -bl  <archivo>   y mirar el exit code.  Exit 1 con el mensaje
+                               de "more than 200 local variables"  es el
+                               aviso.  No lo tira en la sintaxis.
+================================================================================

@@ -262,39 +262,63 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
 ================================================================================
 5.  LOS ESTADOS DEL JUGADOR
-================================================================================
+===============================================================================
 
       $00   de pie, el reposo
-      $01   al caer
-      $02   agachado
+      $01   al caer, y el agachado
+      $02   transicion de un frame, entre $01 y $00 o $0A
       $03   la entrada del agarre
       $05   arranque de golpe en suelo
       $06   entrar a un ataque aereo
       $07   POST-TECNICA AEREA, ventana de cancel
       $08   aire libre
       $09   guardia de pie
+      $0A   la defensa baja
       $0B   otro post-tecnica
       $0D   arranque del salto
       $0E   la caida, dur $5A = $FF es bucle infinito
       $0F   el cambio de plano
+      $13   guardar una carga sin soltar el boton
+      $14   la burla
+      $40   elagarre de suelo, con la victima esperando
+      $41   el agarre aereo, con la victima esperando
+
+  *** $01 ES EL NUDO DEL SUELO, Y $02 ES EL PASO ***
+  Al aterrizar:    $0E -> $02 -> $01 -> $00    1 frame en $02
+  Con abajo + C:   $01 -> $02 -> $0A            51 frames en $02
+  O sea que $02 no es 'el otro agachado':  es el estado de transicion.  [COMPROBADO]
 
   *** $03, $05, $06 Y $0B SON PUERTAS:  ESTADOS DE TRANSICION ***
-  Los cuatro sirven para lo mismo: entrar a un golpe desde un sitio
-  distinto.  El mismo golpe pasa por un estado distinto segun como llegues.
-  [DERIVADO]
+  Los cuatro sirven para lo mismo: entrar a un golpe desde un sitio distinto.
+  El mismo golpe pasa por un estado distinto segun como llegues.  [DERIVADO]
+
+  *** Y $40 Y $41 SON LOS ESTADOS DE ESPERA DE LOS AGARRES ***
+  $40 con el agarre de suelo, que manda a $2F.  $41 con el aereo, que manda a
+  $26.  Mismo dano, mismo numero de golpe, resultado distinto.  [COMPROBADO]
+
+  *** EL AGARRE DE SUELO TE LANZA AL AIRE ***
+      $B8 -> $0D -> $06 -> $95 -> $B9 -> $07 -> $0E
+  O sea que en el aire tenes el A en aire y despues el agarre aereo.  34 de
+  dano en cadena, y termina en la cadena de caida.  [COMPROBADO en Genkai]
+
+  *** Y EL AGARRE TELEPORT A LA VICTIMA ***
+      TELE frame 221   P4 se movio -60, 63, 7, 50 de golpe
+  O sea que el agarre lo trae a vos.  [COMPROBADO]
 
   *** $0F ES EL CAMBIO DE PLANO, Y TIENE SU MECANICA ***
-
-    - se hace con C + arriba, o con el boton Y de Sega
+    - se hace con C + arriba, o con el boton Y de Sega, que es directo
     - el personaje queda estatico, el sprite se hace mas chico
-    - dura 52 frames, $5A = $48
+    - dura 51 frames los dos
     - en el plano de atras NO lo alcanzan los ataques
     - EXCEPTO: curacion, drenaje por burla, Stop Time y el slowmo global
     - las cajas desaparecen al instante
+  [COMPROBADO]
 
-  Medido identico en Hiei y Kurama.  [COMPROBADO]
+  *** Y LA GUARDIA NO TIENE DURACION FIJA ***
+  Dura lo que el boton este apretado.  Los 121 de Hiei y los 105 de Yusuke
+  fueron lo que el usuario mantuvo.  [COMPROBADO en tres personajes]
 
-================================================================================
+
 6.  LA TABLA DE REACCIONES
 ===============================================================================
 

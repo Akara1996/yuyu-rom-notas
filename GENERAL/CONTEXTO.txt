@@ -7378,3 +7378,218 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+60. LA TABLA DE CARGA DEL REIGAN:  SIETE NIVELES, SEIS EXACTOS  (15-10)
+================================================================================
+================================================================================
+
+  60.1  *** LA TABLA COMPLETA ***
+
+      nivel  id objeto  registro   tabB        $65      $66     $64  $68
+      -----  ---------  ---------  -----------  -------  ------  ---  ---
+      1      sin ver    -          -            ?        ?       ?    ?
+      2      $01        $0D936A    $0D9A3E    $08 =  8  $04=4  $1C  $00
+      3      $02        $0D937A    $0D9A42    $0C = 12  $06=6  $1D  $00
+      4      $03        $0D938A    $0D9A46    $10 = 16  $08=8  $1D  $00
+      5      $04        $0D939A    $0D9A5A    $18 = 24  $0C=12 $1E  $00
+      6      $05        $0D93AA    $0D9A5E    $20 = 32  $10=16 $1E  $00
+      7      $06        $0D93BA    $0D9A62    $30 = 48  $18=24 $1E  $05
+
+  *** SON SIETE NIVELES, NO SEIS ***
+      El usuario conto seis.  Hay un septimo.  [COMPROBADO]
+
+  *** Y EL DANO MEDIDO COINCIDE CON $65 EN LOS SEIS ***
+
+      nivel   $65    medido     $66    medido
+      ------  -----  ---------  -----  ---------
+      2       8       -8          4       -4
+      3      12      -12          6       -6
+      4      16      -16          8       -8
+      5      24      -24         12      -12
+      6      32      -32         16      -16
+      7      48      -48         24      -24
+
+      *** DOCE NUMEROS, DOCE ACIERTOS.  CERO VARIACION.  ***
+
+      *** Y LA SECUENCIA DE DANO NO ES LINEAL ***
+        8, 12, 16, 24, 32, 48
+
+      Los tres primeros son +4, los dos siguientes +8, el ultimo +16.
+      Hay saltos.  [DERIVADO]
+
+      *** Y SOLO EL NIVEL 7 DERRIBA ***
+
+        niveles 2 a 6   $68 = $00   ->  $20   hitstun simple
+        nivel 7         $68 = $05   ->  $25   DERRIBO
+
+      *** SEIS NIVELES DE PRESION Y UNO DE ROMPIDA ***
+      El top es el unico que cambia el estado del rival.  [COMPROBADO]
+
+  60.2  *** $68 = 0 -> $20.  SEXTA FILA MEDIDA DE LA TABLA ***
+
+        $68 = 0   ->  $20   hitstun simple    Reigan niveles 2 a 6
+        $68 = 1   ->  $21   tambaleo          rosa, pistola, bola rasante
+        $68 = 5   ->  $25   derribo           planta, hoja, patada de C
+        $68 = 6   ->  $26   lanzador          patada de B
+        $68 = 8   ->  $2F   diagonal          agarre de Kurama, parry baja
+        $68 = 10  ->  $25   derribo           dragon de Hiei
+
+      SEIS DE LAS DIEZSEIS FILAS CON MEDICION PROPIA.
+
+  60.3  *** EL MANA SE COBRA EN PARTES, Y LOS TOTALES NO SUBEN ***
+
+        nivel  GOTEO      total
+        1      4           4
+        2      12         12
+        3      21         21
+        4      14         14      <<<< MENOS que el nivel 3
+        5      15 + 30    45
+        6      7  + 30    37      <<<< MENOS que el nivel 5
+        7      4+31+30    65
+
+      *** NO HAY UNA TABLA DE PRECIOS POR NIVEL ***
+      Hay un CAUDAL que baja mientras carga.  El GOTEO salta en varias lineas
+  porque cada una es una muestra de 30 frames, no un precio.  [COMPROBADO]
+
+      *** Y ESO EXPLICA LA DISCREPANCIA QUE DIJO EL USUARIO ***
+
+      El usuario: puedes cargar de 0 a 100% si el enemigo lo permite, o cargar
+  hasta donde tu mana te lo permita.
+
+      *** EL MANA QUE PAGAS ES EL TIEMPO QUE TE DIO EL RIVAL ***
+      Y EL DANO ES EL NIVEL AL QUE LLEGASTE.  SON DOS COSAS SEPARADAS.
+  [DERIVADO]
+
+      *** Y ESO ES UN MECANISMO DE PRESION REAL ***
+      Cargar contra un rival que te castiga es caro.  El proyectil grande no
+  sale gratis: sale pagado con el tiempo que le regalaste.  [DERIVADO]
+
+  60.4  *** $67 = 01 EN EL REIGAN, 02 EN LOS DEMAS.  Y NO ES EL RANGO ***
+
+        $67 = 01   todos los niveles del Reigan
+        $67 = 02   rosa, planta, hoja, dragon
+        $67 = 00   los proyectiles de Sensui  (registro sin inicializar)
+
+      *** DESCARTADO COMO RANGO ***
+      El usuario: Reigan LV3 empata con las bolas normales de Sensui.
+
+      Las bolas de Sensui son objetos comunes como la rosa.  Si $67 fuera el
+  rango, el Reigan ganaria a la rosa por tener 01 contra 02.  Y el Reigan
+  pierde contra todo.  [DERIVADO]
+
+      *** LO QUE SI SERIA:  UN CAMPO DE FAMILIA ***
+      1 = proyectil cargable, 2 = proyectil normal o invocacion.
+  [DERIVADO]  Un solo caso de cada lado; no alcanza.
+
+  60.5  *** $300 SI ES UN HANDLE POR TIPO.  ME EQUIVOQUE EN 41.2 ***
+
+      el objeto de Kurama, de Hiei y de Sensui   $0001300C
+      el objeto del Reigan                        $000134C2
+
+  *** HAY DOS HANDLERS.  Y HACIA FALTA UN CUARTO TIPO PARA VERLO ***
+
+  En 41.2 conclui que $300 era un estado COMPARTIDO porque los tres objetos
+  que habia dado el mismo valor.  ESTABA MAL: no habiaTodavia un cuarto
+  tipo de objeto para contrastar.  Un solo caso no es una regla.
+
+  *** $300 = UN PUNTERO A CODIGO, UNO POR TIPO DE OBJETO ***
+
+      $0001300C   proyectil normal, invocacion, hoja, planta, dragon
+      $000134C2   proyectil cargable
+
+      $4B6 de diferencia entre los dos.  Es codigo real y se puede desensamblar.
+
+      *** Y ESO ES LA PUERTA A TODO EL SISTEMA DE OBJETOS ***
+      Al desensamblar $134C2 se ve el codigo que actualiza un proyectil
+  cargable: su crecimiento, su colision y su destruction.  Y si la rutina
+  elige por $67 o por $5F, es la misma para los siete niveles.
+
+  60.6  *** $64 VARIA CON EL NIVEL DE CARGA ***
+
+        $1C   nivel 2                $1E   niveles 5, 6 y 7
+        $1D   niveles 3 y 4           $1E   dragon, planta
+                                     $1D   rosa
+
+      *** bits 0-1, que el script lee como knockback ***
+        $1C   0    nivel 2, y el nivel 2 NO empuja a nadie
+        $1D   1    niveles 3 y 4
+        $1E   2    niveles 5, 6 y 7, y el 7 es el que derriba
+
+      O sea que el knockback SUBE con el nivel.  El proyectil mas caro empuja
+  mas.  [DERIVADO]
+
+  60.7  *** LAS ANCLAS DE LA ESCALA, ENTRE PERSONAJES ***
+
+      El usuario: Reigan 2 empata con el lv1 de chu, que gana a reigan 1.
+      El usuario: Reigan LV3 empata con las bolas normales de sensui.
+
+        Reigan 1     <   Reigan 2 = Chu nivel 1
+        Reigan 3     =   las bolas normales de Sensui
+        Reigan 6     =   la ulti de Sensui   (de 56.3)
+        por encima     el dragon
+
+      *** O SEA: LA ESCALA TIENE REFERENCIAS EN VARIOS PERSONAJES ***
+      Y eso es valiosisimo: con la tabla del Reigan ya completa, se puede
+  situar CUALQUIER proyectil del juego en la escala sin medir su dano:
+  basta encontrar contra que empata.  [DERIVADO]
+
+      *** Y ESO CONVIERTE LOS 27 OBJETOS SIN NOMBRE EN MEDIBLES ***
+      No hace falta jugarlos.  Un choque contra un Reigan de nivel conocido
+  y se lee el emparejamiento.  UNA PARTIDA POR OBJETO.  [DERIVADO]
+
+      *** Y EL RANGO Y EL DANO SON COSAS DISTINTAS ***
+      El rango esta en la colision, que se mide por emparejamiento.  El dano
+  esta en el blob.  Se pueden medir por separado.
+
+  60.8  LA TABLA DE OBJETOS EMPIEZA ANTES DE $0D9A86
+
+      Los tabB del Reigan estan en $0D9A3E a $0D9A62, y la rosa en $0D9A86.
+      O sea que el Reigan esta ANTES.  La tabla no arranca en $0D9A86.
+
+      $0D9A3E   Reigan nivel 2
+      $0D9A42   Reigan nivel 3
+      $0D9A46   Reigan nivel 4
+      $0D9A5A   Reigan nivel 5      (+$14: cinco entradas de salto)
+      $0D9A5E   Reigan nivel 6
+      $0D9A62   Reigan nivel 7
+      $0D9A86   rosa de Kurama
+      $0D9A8A   hoja de Kurama
+      $0D9AB6   planta de Kurama
+      $0D9AD2   dragon de Hiei
+      $0D9ABA   bola rasante de Sensui
+      $0D9AC6   bola media de Sensui
+      $0D9ACE   bola aerea de Sensui
+      $0D9B12   bola gigante rasante
+      $0D9B16   bola gigante media
+
+      *** HAY 5 ENTRADAS LIBRES ENTRE EL NIVEL 4 Y EL 5 ***
+      $0D9A4A, $0D9A4E, $0D9A52, $0D9A56 y una mas.  O hay entradas para
+  Reigans de otra anchura, o hay contenido muerto.  [ABIERTO]
+
+      *** Y EL DRAGON ESTA ENTRE DOS DE KURAMA ***
+      planta en $0D9AB6, dragon en $0D9AD2, bola rasante en $0D9ABA.  El
+  orden de la tabla NO es por personaje.  [DERIVADO]
+
+  60.9  LO QUE FALTA DE LA TABLA
+
+      - el nivel 1: el objeto aparece y se va en 8 frames sin que el script
+        lo vea.  Falta el caso.
+      - si el nivel 1 tiene id $00 o uno propio
+      - las 5 entradas libres entre el nivel 4 y el 5
+      - el mana exacto por nivel, que no sale limpio porque se cobra continuo
+      - si la tabla del Reigan es la MISMA que la de los proyectiles normales
+        o una aparte.  Los tabB son consecutivos, lo que SUGIERE que es la
+        misma.  [DERIVADO]
+
+  *** LA RONDA QUE MAS RINDE DE TODAS ***
+
+      *** UN REIGAN DE NIVEL CONOCIDO CONTRA CADA OBJETO QUE FALTA ***
+      Un choque por objeto y se lee el nivel con el que empata.  Con la tabla
+  del Reigan completa, es una medida por objeto.
+
+      *** Y ESO DA EL RANGO DE LOS 27 OBJETOS SIN MEDIR NADA MAS ***
+
+================================================================================
+================================================================================

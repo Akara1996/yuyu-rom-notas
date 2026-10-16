@@ -7178,3 +7178,203 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+59. LO QUE ESTA EN LA ROM Y NO SE USA:  SPRITES, SONIDOS, IA  (15-10)
+================================================================================
+================================================================================
+
+  "este juego tiene sonidos y cosas que no llegaron a usarlas pero estan en
+   la rom
+
+  59.1  *** LA CARGA EN AIRE: SOLO YUSUKE ***
+
+      "Genkai y Chu directamente no pueden dispararlos en aire, carecen de la
+       tecnica"
+
+  *** CORRIGE LO QUE ANOTABA EN 57.2 ***
+      Yo decia: "en el aire el costo de YUSUKE es mayor", como si el recargo
+  fuera una regla del juego.
+
+      *** NO: SOLO YUSUKE TIENE LA TECNICA.  LOS OTROS DOS NO LA TIENEN. ***
+
+        Yusuke   puede cargar en el aire   y cuesta mas
+        Genkai   no tiene la tecnica
+        Chu      no tiene la tecnica
+
+      *** O SEA: YUSUKE TIENE UNA TECNICA MAS QUE LOS OTROS DOS ***
+      Con la misma base de carga.  Y el recargo no es una regla: es una
+  tecnica que solo uno tiene.  [COMPROBADO por el usuario]
+
+  *** Y ESO ES UNA DIFERENCIA DE CONTENIDO, NO DE PRECIO ***
+      Los tres comparten el motor de carga.  Uno tiene encima una tecnica
+  aerea que los otros dos noalinkaron.  [DERIVADO]
+
+  59.2  *** SPRITES SIN USAR:  GENKAI TENIA UN REIGAN AEREO DIAGONAL ***
+
+      Un amigo que reviso los tiles de los personajes:
+
+      "segun los sprites resultantes genkai iba a poder disparar su reigan
+       diagonal abajo en aire (a diferencia de yusuke que lo dispara recto),
+       mas o menos con sensui."
+
+  *** O SEA: HAY GRAFICO DE UNA TECNICA QUE NO ESTA CONECTADA ***
+
+      *** Y ESO ES INFORMACION MUY BARATA Y MUY RARA ***
+      Los graficos se hicieron antes que el codigo, y cuando una tecnica se
+  saca no se borran los tiles: quedan.  O sea que los sprites son un
+  REGISTRO DE LO QUE SE QUISO HACER Y SE SACO.  [DERIVADO]
+
+      *** LA DIAGONAL ABAJO ES LA DE SENSUI: $AC ***
+      La tecnica existe en el juego, con otro personaje, con otra estetica.
+  El sprite de Genkai seria la version de Genkai de la misma idea.  Lo que
+  no se sabe es si comparte el estado $AC o tendria uno propio.  [ABIERTO]
+
+  *** LOS MISMOS TILES PUEDEN DECIR QUE OTROS PERSONAJES TUVIERON MAS ***
+      Si un amigo puede leer los tiles, puede listar los sprites que NO
+  corresponden a ninguna tecnica existente, personaje por personaje.  Eso es
+  una lista de contenido cortado.  [DERIVADO]  Vale la pena pedirle esa
+  lista antes de seguir con las rondas.
+
+  59.3  *** DOS SONIDOS EN LA ROM QUE NUNCA SUENAN ***
+
+      "en el banco de sonidos existen 2 fuentes de audio que jamas son usadas
+       por genkai y kurama"
+
+      *** EL DE GENKAI: UNA TECNICA DE REFLEXION ***
+
+      "pertenece a una tecnica usada en el anime y manga que es capaz de
+       devolver un ataque de energia demoniaca/espiritual"
+
+      *** O SEA: GENKAI TENIA UN REFLECT.  NO ESTA EN EL JUEGO. ***
+
+      "en el anime y manga"  -- la tecnica existe en la fuente, en el juego
+  no.  O sea que el banco de sonidos conserva el efecto de audio de una
+  tecnica que se elimino del codigo.  [COMPROBADO por el usuario]
+
+      *** Y ESO CONECTA CON 53.4: EL RANGO DE PROYECTILES ***
+
+      El reflect es la operation INVERSA del choque.  Si dos proyectiles del
+  mismo rango se aniquilan, un reflect es 'ganar siempre'.  Si el juego
+  Guards contra la colision de proyectiles, el sitio natural para un reflect
+  esta ahi.  [DERIVADO]
+
+      *** Y EL USUARIO YA HABIA OBSERVADO EL FENOMENO SIN EL NOMBRE ***
+
+      "los AB de hiei y kurama... si clasheas contra esos ataques, ellos
+       quedan en clash tambien, con la planta esto no sucede"
+
+      O sea que el CLASH de 43.5 es un mecanismo de colision.  Y un reflect
+  seria el caso extremo.  [DERIVADO]
+
+      *** EL DE KURAMA:  LA VOZ DE YOKO, Y NUNCA SUENA ***
+
+      "en caso de kurama existe una pequena pista de sonido que tiene la voz
+       de yoko, y kurama solo se transforma en yoko durante la ulti pero
+       nunca usa ese sonido."
+
+      *** O SEA: LA ULTI DE KURAMA TRANSFORMA, Y LA TRANSFORMACION ES MUDIA ***
+
+      $A6 = 200 de mana, 88 de dano, y el juego tiene la voz de Yoko en el
+  banco y no la reproduce.  [COMPROBADO por el usuario]
+
+      *** Y ESO ES INFORMACION SOBRE LA TRANSFORMACION ***
+      Si el juegoprepared la voz, es que en algun momento la reproducia.  Y si
+  la ulti es la unica vez que Kurama es Yoko, entonces la voz pertenece a la
+  ulti y se perdio al recortarla.  [DERIVADO]
+
+  59.4  *** UNA TECNICA QUE SOLO LA CPU PUEDE USAR:  JIN ***
+
+      "hay una tecnica que la cpu puede usar con jin pero los jugadores no,
+       mi idea es desbloquear esa tecnica porque claramente existe"
+
+  *** ESO ES UNA CLASE ENTERA DE CONTENIDO QUE NO SABIA QUE EXISTIA ***
+
+      El juego no solo tiene tecnicas que no se usan: tiene tecnicas que se
+  usan, pero SOLO las usa la maquina.  [COMPROBADO por el usuario]
+
+  *** COMO SE BUSCA, Y HAY DOS CAMINOS ***
+
+      CAMINO 1, DESDE EL JUEGO.  Barato y de una partida.
+
+        El .LUA ya sigue el $5F de los CUATRO slots, no solo el de P1.  Con
+  Jin como P4 controlado por la maquina, se anotan todos los estados que
+  entra.  Los que P1 no puede alcanzar con ninguna secuencia de botones son
+  tecnicas solo-CPU.  NO HACE FALTA NINGUN CAMBIO DE SCRIPT.
+
+      CAMINO 2, DESDE LA ROM.  Caro pero completo.
+
+        El juego tiene DOS caminos para entrar a una tecnica:
+
+          el del JUGADOR   lee el pad y despacha por el motion
+          el de la IA      elige de una tabla y escribe el estado
+
+        Una tecnica solo-CPU es una que existe en el segundo y no en el
+  primero.  O SEA: HAY UNA TABLA DE MOVIMIENTOS DE LA IA, Y TIENE
+  ENTRADAS QUE EL JUGADOR NO PUEDE ALCANZAR.
+
+      *** Y LA PISTA CONCRETA QUE TENEMOS ***
+
+      La tabla de costes tiene 104 entradas.  De ellas 21 todavia NO
+  LEEMOS el id (seccion 30 de este mismo archivo).  Si alguna de esas 21 es
+  una tecnica solo-CPU, es una entrada que el parser del jugador no puede
+  alcanzar pero que la IA si.  [DERIVADO]
+
+      *** Y HAY UN SEGUNDO INDICIO, MAS FUERTE ***
+
+      "el juego rechaza la tecnica antes de cobrarla" -- NO.  Pero para una
+  tecnica que el humano no puede ejecutar, el juego tiene que rechazar el
+  input de otra manera: o la tabla no tiene entrada, o tiene una entrada
+  apuntando a un id que el parser nunca genera.  [DERIVADO]
+
+      *** OJO CON EL ALCANCE DE ESTA AFIRMACION ***
+      Que exista una tecnica solo-CPU con Jin es un DATO del usuario.  Que las
+  21 entradas ilegibles la contengan es una HIPOTESIS con una sola pieza a
+  favor.  Se lee con el camino 1.
+
+  59.5  *** LA HACK CHINA PERDIDA ***
+
+      "hace tiempo encontramos una hack rom que tenia esa tecnica de genkai,
+       era hecha por chinos, reconstruyeron la tecnica como pudieron pero
+       tenia muchas fallas, si tuviese ese ROM podria hacerle los ajustes
+       que necesitaria para verse bien pero lo he perdido y solo se consigue
+       en foros chinos con cuenta -que pide numero de telefono chino-"
+
+  *** LO QUE SE PUDO SALVAR DE ELLA, Y ES LO IMPORTANTE ***
+
+      Que la tecnica de Genkai (el reflect) SE PUEDE IMPLEMENTAR.  Los
+  chinos la reconstruyeron a mano desde cero, o sea que no era imposible:
+  el juego tiene los hooks, la box y el sonido.  Lo que faltaba era el
+  codigo que la invoca.  [DERIVADO]
+
+      *** Y ESO DICE ALGO DE LA ESTRUCTURA DEL JUEGO ***
+      Si un externo pudo colgar una tecnica nueva de un golpe existente, el
+  juego tiene un punto de entrada FACIL: se engancha en un golpe que ya
+  funciona.  [DERIVADO]
+
+      *** LO QUE NO SE HIZO Y SE PUEDE HACER AUN ***
+      "reconstruyeron la tecnica como pudieron pero tenia muchas fallas"
+
+      Las fallas eran de ajuste: timings, offsets, caja.  Esas se corrigen con
+  el .LUA: es literalmente lo que mide.  Lo que falta es el enganche, y eso
+  se busca en la ROM.  [DERIVADO]
+
+  59.6  *** LO QUE ESTO ABRE PARA EL PROYECTO ***
+
+      Hay TRES capas de contenido que no estamos mapeando:
+
+        1.  lo que esta y funciona
+        2.  lo que esta y NO se usa      graficos y sonidos
+        3.  lo que se usa y el humano NO puede   tecnicas de la IA
+
+      La capa 3 es la nueva.  Y es la unica que se puede MEDIR sin tocar el
+  ROM: basta con poner a la CPU y mirar.  [DERIVADO]
+
+      *** Y LA LISTA DE SPRITES SIN USAR ES GRATIS ***
+      Un amigo que lee tiles puede decir que personajes tienen sprites que no
+  corresponden a nada.  Eso es una lista de tecnicas perdidas, y no requiere
+  ni una partida.  Pedirsela.  [DERIVADO]
+
+================================================================================
+================================================================================

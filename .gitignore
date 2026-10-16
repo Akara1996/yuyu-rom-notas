@@ -2,8 +2,12 @@
 # Se separan por tema: las reglas, el plan y el metodo.
 # El archivo historico (CONTEXTO.txt) NO se versiona: son 8500 lineas de
 # registro y se consulta con grep, no se lee.
+# Las tablas del ROM SI se versionan: no se pueden regenerar sin
+# volver a correr el lector, y therein los golpes de los 11.
 *
 !GENERAL/
 !GENERAL/SISTEMAS.txt
 !GENERAL/PROYECTO.txt
 !GENERAL/METODO.txt
+!GENERAL/MOVES DE TODOS.txt
+!GENERAL/HIT STATE.txt

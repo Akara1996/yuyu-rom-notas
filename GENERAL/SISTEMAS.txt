@@ -103,6 +103,16 @@ Sensui y Yusuke.  Catorce ids, cero excepciones.
 
   *** LOS PRECIOS MEDIDOS, POR PERSONAJE ***
 
+GENKAI   CUATRO HABILIDADES, DIEZ COMANDOS, OCHO PRECIOS
+      la carga       abajo,adelante + A / B / C    5  /  5  /  4
+      Reikodan A     abajo,abajo + A                32
+      Reikodan B     abajo,abajo + B                16
+      Uppercut A     $A3   suelo o aire             16
+      Uppercut B     $AE   suelo o aire             14
+      el agarre      $B8   suelo                    -
+      el agarre      $B9   aire                     -
+      (falta la tercera tecnica con variable A/B)
+
   HIEI   OCHO TECNICAS, TRES CON PRECIO MEDIDO
 
       $A2   Espada de fuego   A+B                        32
@@ -430,11 +440,11 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   *** $300 ES UN HANDLER POR TIPO DE OBJETO ***
 
       $0001300C   proyectil normal, invocacion, hoja, planta, dragon
-      $000134C2   proyectil cargable
+      $000134C2   proyectil cargable, el Reigan
+      $00012C96   rafaga multiple, las dos variantes del Reikodan de Genkai
 
-  *** Y HAY AL MENOS DOS SLOTS DE OBJETO POR JUGADOR ***
+  *** Y HAY OCHO SLOTS DE OBJETO POR JUGADOR ***
 
-      slot 1   base + $100        slot 2   base + $200
 
       *** Y UNO SOLO SE PUEDE CONSERVAR:  UNA CARGA GUARDADA ***
 
@@ -448,11 +458,11 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       $0D9A62   Reigan nivel 7      $0D9AC6   bola media de Sensui
       $0D9A66   Reigan nivel 8      $0D9ACE   bola aerea de Sensui
       $0D9A6A   libre               $0D9B12   bola gigante rasante
-                                $0D9B16   bola gigante media
+      $0D9A72   PROYECTIL DE GENKAI  $0D9B16   bola gigante media
 
-  *** DOCE ENTRADAS LIBRES A LA FECHA ***
-  O son mas niveles de carga, o hay proyectiles muertos.  48 bytes lo dicen.
-  [ABIERTO]
+  *** UNA ENTRADA MENOS LIBRE ***
+  El proyecto de Genkai ocupo el primer hueco.  El numero de huecos que
+  quedan hay que volver a contarlo sobre la tabla.  [ABIERTO]
 
   *** Y EL BLOB DEL OBJETO ***
 

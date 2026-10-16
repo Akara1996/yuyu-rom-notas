@@ -1486,3 +1486,95 @@ FIN DEL IDEARIO
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+22.  UN AGUERO EN EL INSTRUMENTO NO ES EVIDENCIA DE AUSENCIA  (15-10)
+================================================================================
+================================================================================
+
+  El caso: el nivel 1 del Reigan no aparecia en el log.  Escribi que no
+  habia objeto, y que era una caja en el cuerpo del personaje.
+
+  El usuario: SI viaja, SI clashea, NO da mana, y el clash NO le afecta.
+
+  *** ESTA ES UNA QUINTA ENSEANZA, Y ES DISTINTA DE LAS OTRAS CUATRO ***
+
+      17     no declarar una regla con siete casos
+      19     una tabla dice CUANDO, no SI PUEDO
+      19.b   una cadena dice ORDEN, no PAPEL
+      20     no declarar una ruina antes de terminar de medir
+      21     preguntar en vez de resolverlo yo
+      22     *** un agujero en el instrumento no es evidencia ***
+
+  *** LAS CINCO ANTERIORES SON:  DECLARE DEMASADO ***
+  Esta es al reves: declare poco, y de mas.  [DERIVADO]
+
+  22.1  LA REGLA
+
+  *** ANTES DE CONCLUIR QUE ALGO NO EXISTE, PREGUNTAR SI EL
+      INSTRUMENTO PUEDE VERLO. ***
+
+      El sintoma 'no aparece en el log' tiene varias causas posibles:
+
+        1.  no existe
+        2.  existe pero el rastreador tiene un AGUERO para ese caso
+        3.  existe pero nace y muere dentro de la ventana que se mira
+        4.  existe pero vive en una parte de la memoria que no se mira
+
+      *** Y LA 2 SE COMPRUEBA EN UN SEGUNDO ***
+
+      El rastreador tiene la condicion: si el estado del objeto es distinto
+  de cero, hay objeto.  Los ids del Reigan siguen id = nivel - 1.  El nivel 1
+  es $00.  O sea que el agujero era EXACTO y previsible.
+
+      *** LO QUE HAY QUE HACER ANTES DE DESPACHAR ***
+
+        - leer la CONDICION del rastreador y ver que estados esconde
+        - si el estado que espero cae en esa condicion, buscar otro campo
+        - en vez de concluir por el log, volcar crudo los slots aunque den 0
+
+  22.2  *** CUANDO EL LOG ES AMBIGUO, COLECCIONAR COMPORTAMIENTOS ***
+
+      El usuario no disputo el log.  Dio cuatro hechos INDEPENDIENTES:
+
+        viaja por su cuenta          -> tiene posicion
+        clashea                      -> esta en el sistema de proyectiles
+        no da mana en combo          -> es de objeto, no fisico
+        el clash no le afecta a el   -> es de otra entidad
+
+      *** CUATRO HECHOS INDEPENDIENTES, UNA CLASIFICACION ***
+      Y ninguno estaba en el log.  Todos salen de jugar.
+
+      *** ESTO ES MAS BARATO Y MAS SEGURO QUE ARGUMENTAR CON EL DATO ***
+      El log dice lo que se midio.  El comportamiento dice lo que ES.
+      Cuando no coinciden, gana el comportamiento.
+
+  22.3  *** Y LO QUE NO SE ROMPIO EN NINGUNA DE LAS CINCO ***
+
+      *** EL LOG NUNCA MINTO ***
+
+      En los cinco casos el log dijo la verdad sobre lo que el rastreador
+  estaba mirando.  Lo que nunca dice es POR QUE.  Y las cinco veces el
+  error fue inventar el POR QUE.
+
+      *** LA REGLA DE ORO ***
+
+      El log es una foto.  La foto no dice que no haya nada fuera del
+  encuadre.  Y YO ESTUVO TRATANDO CADA FOTO COMO SI FUERA EL MAPA.
+
+  22.4  *** LO QUE ESTO CAMBIA PARA EL PROYECTO ***
+
+      Cada vez que se mide un personaje, el .LUA tiene un AGUERO conocido:
+
+        - los objetos con estado $00 no se ven
+        - un objeto que nace y muere en menos de 8 frames puede escaparse
+        - antes solo se veian los slots de P1
+
+      *** Y CADA UNO SE ESCRIBE COMO UNA LIMITACION CONOCIDA ***
+      no como un fallo escondido.  Una limitacion documentada se compensa
+  mirando por otro lado; una limitacion escondida produce conclusiones
+  falsas.  [DERIVADO]
+
+================================================================================
+================================================================================

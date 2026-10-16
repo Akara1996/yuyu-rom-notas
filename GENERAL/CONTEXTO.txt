@@ -8011,3 +8011,56 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+64.  PROCEDIMIENTO PARA CUANDO EL LOG DE UNA RONDA ES AMBIGUO  (15-10)
+================================================================================
+================================================================================
+
+  *** ESTO SE USA EN CADA RONDA, Y ANTES DE INTERPRETAR NADA ***
+
+  1.  LEER LA CONDICION DEL RASTREADOR ANTES DE CONCLUIR NADA
+
+      El .LUA tiene estas puertas cerradas:
+
+        - un objeto con $5F = $00 no se anuncia    (puerta: st ~= 0)
+        - un objeto que dura menos de ~8 frames puede no entrar en ventana
+        - antes de la seccion 58 solo se veian los slots de P1
+
+      Si lo que espero cae en una de esas, el log va a estar callado y NO
+  PORQUE NO EXISTA.
+
+  2.  VOLCAR CRUDO EN VEZ DE CONCLUIR
+
+      Cuando una linea no aparece pero el comportamiento dice que deberia,
+  la respuesta es un volcado: los bytes del slot, aunque valgan 0.  No una
+  interpretacion.
+
+  3.  PEDIR COMPORTAMIENTOS, NO INTERPRETACIONES
+
+      Al usuario hay que pedirle lo que SE VE, no lo que SIGNIFICA:
+
+        viaja o no viaja                clashea o no
+        da man o no                   afecta al dueno o no
+        cual es el estado del rival    cuanto dura en pantalla
+
+      Esos son hechos.  Lo que significan sale despues.
+
+  4.  CUANDO HAYA UN DATO NUEVO, REVISAR LOS DOCUMENTOS VIEJOS
+
+      Las secciones de CONTEXTO y los PDF por personaje se corrigen en el
+  mismo momento.  Un documento que dice lo que se creia hace un mes es peor
+  que no tener documento: uno lee el equivocado creyendolo cierto.
+
+  *** LOS TRES ERRORES QUE ESTA SECCION CUBRE ***
+
+      43.2   conclui que no se podia atacar, de una duracion
+      44.4   conclui que $06 era el salto, de una cadena
+      63.2   conclui que no habia objeto, de una linea que faltaba
+
+      Los tres: el esqueleto del log estaba bien y le puse un sentido.
+  *** NINGUNO FUE UN DATO MAL LEIDO.  FUERON TRES ROLES INVENTADOS. ***
+
+================================================================================
+================================================================================

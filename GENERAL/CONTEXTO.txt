@@ -6399,3 +6399,145 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+53. CIERRA 39.5:  HAY UNA JERARQUIA DE PROYECTILES  (15-10)
+================================================================================
+================================================================================
+
+  53.1  *** LO QUE DIJO EL USUARIO ***
+
+      "el dragon, ademas de ser el unico proyectil del juego que puede
+       manejarse libremente, tambien vence a las bolas de Sensui al colisionar:
+       estas explotan, el dragon continua"
+
+      "tiene el dano de proyectil mas alto y tambien la mayor prioridad de
+       colision entre proyectiles, ninguno le gana"
+
+  *** CIERRA EL [ABIERTO] DE 39.5 ***
+  La jerarquia de proyectiles EXISTE, y el dragon es el tope.  [COMPROBADO]
+
+  *** Y CON LA ROSA DE KURAMA, EL ORDEN SE CIERRA POR LOS DOS EXTREMOS ***
+      el dragon     el mas fuerte      88 de dano
+      la rosa       el mas debil       4 de dano
+
+      "el proyectil mas debil del juego (no solo por dano producido, se
+       desintegra contra los demas proyectiles debiles)"
+
+  *** O SEA: LA ROSA PIERDE CONTRA OTRA PROYECTIL DEBIL ***
+  No solo contra las fuertes.  Contra las debiles tambien.  Y eso significa
+  que NO hay una regla de 'fuerte vence a debil': hay un ORDEN.  [DERIVADO]
+
+  *** Y ENTRE LOS EXTREMOS HAY ALGO QUE NO CONOCEMOS ***
+  Solo sabemos quien gana y quien pierde.  Los 34 proyectiles que faltan en
+  la tabla (seccion 52.6) tienen su lugar en algun punto de ese orden.
+
+  53.2  *** NO TODOS LOS OBJETOS SON PROYECTILES ***
+
+      *** DOS TIPOS, Y SOLO UNOS CHOCAN ENTRE SI ***
+
+        VIAJAN    se mueven y colisionan con otros proyectiles
+                  la rosa de Kurama, el dragon de Hiei, las bolas de Sensui
+
+        FIJOS     nacen en un punto y se quedan
+                  la planta de Kurama, las hojas, y la parry de Sensui
+
+      "una planta que emerge desde el suelo"  -- no se mueve.
+      "varias hojas a su alrededor rotando"  -- giran sobre un centro fijo.
+
+      *** LA PLANTA Y LAS HOJAS NO TIENEN RANGO DE COLISION ***
+      Y por eso no compiten con el dragon ni con nada.  [DERIVADO]
+
+      *** COMO SE DISTINGUEN EN LOS DATOS ***
+      Las que viajan tienen el $5F con una transicion de velocidad despues
+      de nacer.  Las fijas no: aparecen y ya estan.  Y las fijas tienen el
+      box mas corto.  [ABIERTO]  Falta un caso mas para cerrarlo.
+
+  53.3  *** EL DRAGON ES EL UNICO QUE SE MANEJA, Y ESO EXPLICA A HIEI ***
+
+      "el unico proyectil del juego que puede manejarse libremente"
+
+  *** O SEA: EL ESTADO CONGELADO DE HIEI ES ESTE ***
+      "ambos quedan paralizados mientras manejan sus habilidades"
+
+  Mover el dragon requiere mantener la entrada de lado.  El estado congelado
+  de $300 no es una pantalla de carga: es el estado de APUNTAR.  Y su duracion
+  es la duracion de la punteria.  [DERIVADO]
+
+      *** Y ESO CONTRADICE MI FORMULACION DE 43.2 ***
+
+      Ahi escribi que $300 era 'estoy ocupado con esto', una especie de
+      bloqueo.  Para Hiei es mas bien 'estoy apuntando'.  Misma variable,
+      dos lecturas.  La de Sensui es bloqueo corto; la de Hiei es punteria
+      larga.  [DERIVADO]
+
+  53.4  *** DONDE PUEDE ESTAR EL RANGO, Y DONDE NO ***
+
+      *** $67 NO ES.  VALE 2 EN LOS NUEVE OBJETOS LEIDOS. ***
+
+      *** EL ORDEN DE LA TABLA NO ES.  ***
+      tabB:  rosa $0D9A86 ... dragon $0D9AD2 ... bolas $0D9B16
+      El dragon es el septimo de nueve.  No es el primero.
+
+      *** EL ORDEN DE LOS REGISTROS TAMPOCO ***
+      registro: planta $0D941A ... dragon $0D94FA ... bolas $0D9582
+      El dragon es el cuarto de nueve.
+
+      *** $64 NO SIRVE CON SUS DATOS ***
+
+        dragon   $1E    bit5=1
+        planta   $1E    bit5=1
+        bola     $20    bit5=1
+        rosa     $1D    bit5=0
+        hoja     $3D    bit5=0
+
+      Si el bit 5 fuera el rango, la planta seria tan prioritaria como el
+      dragon.  No lo es.  DESCARTADO.
+
+      *** LO QUE MAS PROBABLE ES: UN VALOR POR PERSONAJE ***
+      El rango no estaria en el objeto sino en el bloque del personaje, y
+      el gestor de colisiones compararia el del dueno de cada proyectil.
+      Eso explicaria que el dragon sea el UNICO que gana: es el valor
+      maximo de los once.  [DERIVADO]
+
+  53.5  *** LA PRUEBA QUE LO DECIDE ***
+
+      *** DOS ROSAS EN LA MISMA TRAYECTORIA ***
+
+      Si una explota y la otra no, hay un RANGO y se rompe el empate por
+      algun lado (orden de creacion, id del dueno, posicion).
+
+      Si las dos explotan, el rango es simetrico entre iguales, y el
+      desempate no importa porque las dos son la misma.
+
+      *** LA PRUEBA DEFINITIVA: DRAGON CONTRA ROSA ***
+      "ninguno le gana"  esta frase del usuario implica que el dragon gana a
+  todo.  Si el dragon le gana a la rosa, el rango va del 11 al 1 y podemos
+  escribir el orden completo.  [ABIERTO]
+
+  53.6  LO QUE SABEMOS DE LOS PROYECTILES
+
+      tipo        dano   stun   react.  Who
+      ----------  -----  -----  ------  -------------------------------
+      dragon      $58    $20    $0A    Hiei, unico manejable, tope
+      bola grande $00*   $00*   $00*   Sensui, $A3
+      bola aerea  $00*   $00*   $00*   Sensui, $AC
+      bola media  $00*   $00*   $00*   Sensui, $A1
+      bola rasante $00*  $00*   $00*   Sensui, $A0
+      planta      $08    $04    $05    Kurama, fija
+      hoja        $08    $06    $05    Kurama, fija
+      rosa        $04    $04    $01    Kurama, la mas debil
+
+      *** (*) los proyectiles de Sensui tienen el registro en cero ***
+      Ver 48.2 y 52.7: con la semantica fijada, el cero NO es ruido.  El
+      registro no esta inicializado, y por eso no sabemos su dano ni su
+      stun aunque los midamos en el log.  [ABIERTO]
+
+      *** Y ESO ES UN AGUJERO QUE SE PUEDE CERRAR DESDE EL CODIGO ***
+      El danio se escribe en $65 en el momento del impacto.  Hay que
+      encontrar donde se escribe y mirar que valor le pone el juego.  Es la
+      unica forma de leer el dano del proyectil sin jugarlo.
+
+================================================================================
+================================================================================

@@ -290,6 +290,43 @@ Donde estamos, que falta y en que orden
 
 ================================================================================
 9.  COMO SE USA EL .LUA
+===============================================================================
+
+  *** LOS .LUA ESTAN EN LA CARPETA LUAS, TODOS JUNTOS ***
+
+  Antes estaban separados:  HIEI LUAS con el del rastreador,  ITSUKI LUAS con
+  los detectores de tecnica.  El 15-10 se unificaron en UNA sola carpeta, y el
+  rastreador paso a llamarse por lo que hace y no por quien lo usaba.
+
+      LUAS\CHARACTER MOVE LUAS.LUA       EL rastreador.  Es el que corre para
+                                          todos los personajes, y el que
+                                          produce las lineas MOV, CAJA, OBJ,
+                                          HP, GOTEO, MP GANA, TELE y CONTEXTO
+      LUAS\IDENTIFICA PERSONAJES.LUA      dice que personaje es cada slot
+      LUAS\QUE HACE CADA LUA.txt          que hace cada uno
+      LUAS\ITSUKI *.LUA                   los detectores de tecnica, uno por
+                                          tecnica de Itsuki
+
+A("  *** NO DIBUJA EN PANTALLA.  SOLO LEE. ***")
+A("")
+A("  APIs que existen y estan probadas:")
+A("    emu.registerafter     la que se usa")
+A("    emu.registerbefore")
+A("    emu.registerstart")
+A("    memory.readbyte   readword   readdword   readlong")
+A("    joypad.get        solo para leer el boton de MODE, nunca para escribir")
+A("    dofile")
+A("")
+A("  NO existe emu.registerinput:  crashea el script.  No se usa.")
+A("")
+A("  *** Y NUNCA CON Set-Content:  mete BOM y rompe FBNeo ***")
+A("  Para escribir un .LUA:  [System.IO.File]::WriteAllLines con")
+A("  UTF8Encoding($false).")
+A("")
+A("  *** Y EL RASTREADOR NO DIBUJA, PERO EL USUARIO SI VE LINEAS ***")
+A("  No es el script:  es la fraccion sub-pixel de la posicion del mundo, que")
+A("  tiembla uno o dos pixeles aunque el personaje este quieto.  Cosmético.")
+A("")
 ================================================================================
 
   *** PASIVO:  no escribe en la memoria del juego, no usa joypad.set,

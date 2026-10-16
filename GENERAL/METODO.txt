@@ -379,7 +379,7 @@ IDEARIO  --  LO QUE TRAJIMOS DE LA CARPETA VIEJA
       golpes). NO es el hitstun.
      - el buff SE VA al ganar la pelea o al agotarse el mana
 
-  ESTO AFECTA AL GOTEO_ACTIVO DE HIEI SET MOVE.LUA: se escribio suponiendo
+  ESTO AFECTA AL GOTEO_ACTIVO DE CHARACTER MOVE LUAS.LUA: se escribio suponiendo
   que el goteo era propio de un estado del dragon. Si comparte mecanismo con
   las manos, puede que no haga falta un estado nuevo sino el mismo.
 
@@ -388,7 +388,7 @@ IDEARIO  --  LO QUE TRAJIMOS DE LA CARPETA VIEJA
 
     EL RITMO: 1 DE MANA CADA 3 FRAMES.  0,33 MP por frame.  La barra
     entera se vacia en ~11 SEGUNDOS.  Medido con la traza [GOTEO] del
-    HIEI SET MOVE.LUA, que imprime una linea cada 30 frames SOLO cuando el
+    CHARACTER MOVE LUAS.LUA, que imprime una linea cada 30 frames SOLO cuando el
     mana baja.
 
     EL GOTEO NO DEPENDE DEL ESTADO: con el $5F en $00, o sea Hiei parado y
@@ -1875,5 +1875,73 @@ FIN DEL IDEARIO
   deducido del log.  Lo deduje de un numero que ahora sabemos que mezcla
   tecnica y colados.  La CONCLUSION era correcta y el RAZONAMIENTO no.
   [CORREGIDO por el usuario]
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+26.  EL PDF SE ABRE EN LA PRIMERA RONDA, NO EN LA DECIMA
+===============================================================================
+
+      "agrega al ideario y documentos pertinentes la orden de crear el PDF ya
+       en la primer ronda de cualquier PJ anotando pendientes que se iran
+       resolviendo como hayan mas rondas.  No queremos acumular 10 rondas y
+       que despues de un compilado hagas un PDF con huecos."
+
+  *** POR QUE ***
+  El PDF es el documento que se lee.  Si se hace al final, sale con huecos y
+  uno lo lee creyendolo completo.  Un documento que dice lo que se creia hace
+  un mes es PEOR que no tener documento.
+
+  *** LA REGLA ***
+
+      ronda 1          se crea el PDF con lo medido hasta ahi
+                       mas una seccion PENDIENTES con lo que falta
+      cada ronda mas   se actualiza el PDF, y se tachan pendientes
+      al final         el PDF esta completo por construccion
+
+  *** Y LA SECCION PENDIENTES ES OBLIGATORIA DESDE EL DIA UNO ***
+  No es un parche al final:  es la parte del documento que dice lo que NO
+  sabemos.  Un PDF sin PENDIENTES parece finished y no lo esta.
+
+  *** Y QUE PONE EN LOS PENDIENTES ***
+
+      lo que no se pudo medir en esa ronda
+      lo que quedo a medio camino
+      las tecnicas del ROM sin comando
+      los mandos que no se probaron
+      el numero de golpes que dio un log cortado
+
+  *** Y POR QUE NO ESPERAR ***
+  Porque el orden real de un proyecto no es el que uno planeo.  El PDF obliga
+  a que cada ronda termine con un cierre, y a que lo que se aprendio este
+  escrito antes de que se le olvide COMO se aprendio.
+
+  *** LO QUE SE HIZO MAL ESTE PROYECTO ***
+  Genkai lleva 6 rondas y todavia no tiene PDF.  Hiei y Kurama tardaron mucho
+  mas que Yusuke y Genkai, que se hicieron casi enteras en una sola.  Es la
+  unica vez que se acumulo.  [DERIVADO]
+
+  *** Y LA REGLA PARA CUANDO SE EMPIEZA UN PERSONAJE NUEVO ***
+
+      1.  crear la carpeta  <PERSONAJE> PDF
+      2.  crear el .txt con la cabecera, la ronda 1, y la seccion PENDIENTES
+      3.  recien ahi empezar a medir
+
+  El PDF de un personaje nuevo arranca incompleto por definicion.  Y eso es
+  correcto:  lo incompleto se ve desde el dia uno.  [DERIVADO]
+
+  *** Y LOS PDF QUE YA EXISTEN, Y DONDE ESTAN ***
+
+      HIEI PDF     13 paginas     Hiei, 8 tecnicas, 3 precios
+      KURAMA PDF   13 paginas     Kurama, 7 tecnicas, 6 precios
+      SENSU PDF     9 paginas     Sensui, 9 tecnicas, 8 precios
+      YUSUKE PDF   10 paginas     Yusuke, 4 tecnicas, 7 precios
+      GENKAI PDF    pendiente     Genkai, 9 tecnicas alcanzables de 11
+
+  *** Y LOS GENERADORES DEL PDF VIVEN FUERA DEL PROYECTO ***
+  mk_pdf.py convierte un .txt de Courier en PDF:  python mk_pdf.py <txt> <pdf>
+  Vive en la carpeta temporal, no en el proyecto, porque es una herramienta y
+  no un dato.  Los .txt SI son del proyecto y se editan a mano.
 ================================================================================
 ================================================================================

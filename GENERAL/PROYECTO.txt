@@ -70,17 +70,38 @@ Donde estamos, que falta y en que orden
 4.  PERSONAJE POR PERSONAJE
 ================================================================================
 
-      pj       basicos  tecnicas  precios  doc
-      -------  -------  --------  -------  --------
-      Hiei        8        8        3      HIEI PDF, 13 pag
-      Kurama      8        7        6      KURAMA PDF, 12 pag
-      Sensui      8        9        8      SENSU PDF, 8 pag
-      Yusuke      -        4        7      YUSUKE PDF, 7 pag
-      Genkai      -        -        -      -
-      Chu         -        -        -      -
-      Kuwabara    -        -        -      -
-      Itsuki      -        -        -      -
-      el otro     -        -        -      -
+      pj         entrada  basicos  tecnicas  precios  documento
+      ---------  -------  -------  --------  -------  ------------------------
+      GENKAI     1        9        11 de 15  -        GENKAI TECNICAS,  5 pag
+      KURAMA     2        8        7         6        KURAMA TECNICAS, 14 pag
+      KUWABARA   3        9        8 de 11   7        KUWABARA TECNICAS, 7 pag
+      YUSUKE     4?       9        4         7        YUSUKE TECNICAS, 10 pag
+      HIEI       5        8        8         3        HIEI TECNICAS,  17 pag
+      SENSUI     6        8        9         8        SENSU TECNICAS,  9 pag
+      JIN        7        -        -         -        sin empezar
+      ITSUKI     8        10       5         -        ITSUKI TECNICAS,  4 pag
+      TOGURO +   9        -        -         -        sin empezar
+      CHUI       10       -        -         -        sin empezar
+      TOGURO -   11       -        -         -        sin empezar
+
+      *** 6 CON DOCUMENTO.  5 SIN EMPEZAR.  DE LOS 6,  UNO SIN CONFIRMAR
+      QUE ENTRADA ES  (YUSUKE,  el 4 con el $AA que no cierra). ***
+
+      *** Y DE LOS ONCE,  CUATRO IDENTIFICADOS POR ENTRADA ***
+      GENKAI 1,  KURAMA 2,  HIEI 5,  ITSUKI 8.  Los otros siete se
+      identifican por el stun de $26.  Ver seccion 11.1.
+
+      *** Y LOS PRECIOS CONTADOS SON LOS DISTINTOS, NO LAS TECNICAS ***
+
+      *** Y LO QUE FALTA EN CADA UNO, EN ORDEN DE RENTA ***
+        Genkai     $A2 y $AF sin comando.  Los cuatro mandos sin medir
+        Kurama     los cuatro mandos sin medir.  El alcance de su proyectil
+        Yusuke     $A2, $A4 y $AC sin mapear
+        Hiei       los cuatro mandos sin medir
+        Sensui     $A0 $A1 $A2 $AC sin comando.  Los cuatro mandos
+        Itsuki     $85 sin identificar.  El frame 65 del teleport
+        Kuwabara   $AA y $AB.  El alcance de la estocada.  Los cuatro mandos
+
 
   *** LOS ONCE, SEGUN WIKIPEDIA Y MOBYGAMES ***
 

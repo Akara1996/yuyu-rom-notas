@@ -1314,7 +1314,15 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       la provocacion   $67=$01  $68=$05
       la ulti de KU    $67=$02  $68=$02
 
-  *** Y HAY UNA QUINTA FUENTE DE INTANGIBILIDAD, Y NO LA SABIA NADIE ***
+  *** LO QUE NO SE SABE:  POR QUE $28 NO TIENE HURTBOX ***
+  NO es una quinta fuente de intangibilidad.  Ese nombre queda ELIMINADO.
+
+  Los estados de lanzamiento no se congelan con el STOP TIME:  es una regla
+  escrita y medida,  y no se vuelve a discutir.  PERO no congelarse no es lo
+  mismo que no tener hurtbox,  y que los dos salgan en los mismos estados
+  no prueba que tengan la misma causa.  [ABIERTO]
+
+
 
   No es una tecnica del atacante.  Es el estado del VICTIMA.
 
@@ -1650,6 +1658,38 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
   Y es la PRIMERA vez que un estado NEUTRAL tiene clashbox.  La regla se
   habia aplicado solo a golpes y a proyectiles.  [DERIVADO]
+
+
+  *** LOS MANDOS:  TRES CON ID CONFIRMADO ***
+
+      $09   la guardia de pie       C                     duracion = la del boton
+      $0A   la defensa baja         ABAJO + C
+      $0B   el dash                 adelante, adelante    24 a 52 frames
+      $0F   el cambio de plano      C + arriba  (o Y)    51 frames
+      $0C   el backdash             por confirmar         33 frames
+
+  *** Y LOS DOS QUE YA TIENEN LA MASCARA MEDIDA ***
+
+  El backdash arranca SIN hurtbox y lo agarra despues:
+
+      $0C anim $00   PUSH        $08    sin hurtbox
+      $0C anim $06   PUSH+HURT   $12    ya lo tiene
+
+  Y el cambio de plano tiene  dur $5A = $FF,  que es bucle infinito:  51
+  frames y vuelve a empezar.
+
+  *** Y LA ULTI DE KUWABARA ARRANCA SIN HURTBOX, Y ESO ES LO QUE EL USUARIO
+  VIO ***
+
+      $AA anim $00   PUSH        $08    sin hurtbox, sin HIT, sin CLASH
+      $AA anim $04   HIT+CLASH   $44    golpea,  y AUN SIN HURTBOX
+      $AA anim $06   HURT        $12    ya lo tiene
+
+  O sea que durante el arranque puede desviar proyectiles sin recibir dano:
+  tiene CLASH y no tiene HURTBOX.  14 frames medidos entre la entrada en $AA
+  y el primer golpe.  [COMPROBADO por el usuario en pantalla, y por la mascara]
+
+
 
   *** EL BACKDASH NO TIENE HURTBOX:  ESO ES LA INTANGIBILIDAD ***
       "hace un esquive hacia atras, durante estos frames no hay hurtbox,

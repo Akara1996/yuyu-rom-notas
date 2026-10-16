@@ -6150,7 +6150,7 @@ PARA ABRIR OTRO PERSONAJE
 
       *** Y AL SER UN SOLO GOLPE, NO APLICA LA REGLA DE MULTIGOLPE ***
       No puede fallarse el segundo, el tercero y el cuarto.  Es la primera
-      tecnica de un solo golpe que we've visto de verdad.  [COMPROBADO]
+      tecnica de un solo golpe que hemos visto visto de verdad.  [COMPROBADO]
 
   51.5  LA PATADA DE LA ULTI: LA MISMA PATADA DE LAS NORMALES
 
@@ -6820,6 +6820,199 @@ PARA ABRIR OTRO PERSONAJE
       Tirar la rosa a ras de suelo contra el enemigo y medir la altura de
       la caja.  Si la de B es mas alta, es una bola mas grande, no una mas
       lenta.  UNA PRUEBA.  [ABIERTO]
+
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+56. ULTI Y CARGA: DOS CATEGORIAS DE VERDAD, Y UNA SOLA ESCALA DE RANGO
+    (15-10)
+================================================================================
+================================================================================
+
+  56.1  CORRECCION: LA ULTI DE SENSI ES UNA ULTI
+
+  *** ME EQUIVOQUE ***
+
+      Yo escribi que $A3 podia ser una carga y no una desesperacion, y que
+  habia que probarlo con la vida por encima del 50%.
+
+      El usuario: "sensui necesita estar en el umbral de vida baja para usar
+       su ulti, por eso es que ES UNA ULTI aunque le cueste 1/4 que a los
+       demas, lo que no es ulti es un reigan"
+
+  *** ES UNA ULTI.  CON UMBRAL.  Y LA PRUEBA NI HACE FALTA. ***
+
+      "No, ES UNA ULTI, ningun personaje rompe esta regla."
+
+  *** LOS ONCE RESPETAN EL UMBRAL.  [COMPROBADO por el usuario] ***
+
+      *** LO QUE SI FUE CERTERO: LA DIFERENCIA ES EL PRECIO ***
+      "aunque le cueste 1/4 que a los demas"  -- 50 contra 200.  Correcto.
+  Lo que me equivoque fue la CATEGORIA, no la cifra.
+
+  56.2  *** LAS DOS CATEGORIAS, SEPARADAS POR FIN ***
+
+      ULTI (desperacion)
+
+        - umbral de vida por debajo del 50%
+        - man lleno
+        - los once lo respetan, ninguno rompe la regla
+        - costo alto, 200 en los demas, 50 en Sensui
+
+      CARGA (proyectil cargable)
+
+        "tres personajes tienen esta habilidad"  ->  YUSUKE, GENKAI, CHU
+        "puedes hacerlo con la vida al 100%"
+
+      *** SON DOS MOTOS DISTINTOS Y LLEGAN AL MISMO POTENCIAL ***
+
+        un reigan al 100%  tiene  la misma potencia  que  la ulti de Sensui
+
+  *** Y ESO ES LO QUE RESPONDE A LA PREGUNTA 2 DE 55.6 ***
+      "los 3 ataques genkai chu yusuke llegan al nivel de sensui cuando se
+       cargan al 100%"
+
+      *** Y LA RESPUESTA A LA 3 ***
+      "Si, empatan si ambos estan exactamente al 100%, tambien si estan al
+       75% ambos"
+
+      *** ES DECIR: MISMA CARGA = EMPATE.  DISTINTA CARGA = NO EMPATE. ***
+      [COMPROBADO]
+
+  56.3  *** EL RANGO ES UNA ESCALA, Y EN ELLA HAY DOS COSAS DISTINTAS ***
+
+      El usuario a la pregunta 1: "el nivel si cuenta, un reigan 2 gana a
+       reigan 1 siempre."
+
+  *** EL RANGO NO ES EL TIPO: ES EL PODER ***
+
+        reagan nivel 1   <   reigan nivel 2   <   ...   <   nivel 100%
+
+      Y en el nivel 100% esta la ulti de Sensui.  EMPATAN con el reigan
+      cargado al maximo, aunque sean tecnicas distintas, de personajes
+      distintos, y con un boton distinto.
+
+      *** O SEA: NO HAY CATEGORIAS EN EL CHOQUE, SOLO POTENCIA ***
+
+      La jerarquia de la 53.1 no es de tipos: es de niveles.  Y el dragon
+      esta por ENCIMA del 100%.  [DERIVADO]
+
+      *** LA ESCALA, COMO LA VEMOS HOY ***
+
+        mas bajo    la rosa de Kurama
+        ...         los otros proyectiles, sin medir
+        100%        reigan cargado al maximo  ==  ulti de Sensui
+        mas alto    el dragon de Hiei
+
+  56.4  *** TRES UMBRALES DE MANA EN LA CARGA, MEDIDOS POR EL USUARIO ***
+
+      "necesitas como el 70% para cargarlo de principio a fin"
+      "si lo guardas necesitas minimo 5% para dispararlo"
+      "10% para dispararlo en el aire"
+
+      *** TRES NUMEROS, Y NINGUNO ESTA EN NINGUN LOG QUE TENGAMOS ***
+
+        ~70%   man necesario para completar la carga
+        5%     man mnimo para disparar una carga guardada, en suelo
+        10%    man mnimo para disparar una carga guardada, en el aire
+
+      "obviamente pierdes la carga una vez disparada"  -- no se recarga sola.
+      "Yusuke puedes disparar su carga en el aire."
+
+      *** Y HAY UN DATO QUE NO TENIA: LA MANA ES UN UMBRAL, NO UN PRECIO ***
+      Si hace falta el 70% para cargar, entonces el juego RECHAZA latecnica antes
+      de cobrarla.  Eso es un chequeo previo, y es el mismo mecanismo que el
+      umbral de vida de la ulti: una condicion que se cumple o no.
+
+      *** O SEA: HAY DOS UMBRALES Y UN COSTE ***
+
+        umbral 1   la vida, para la ULTI
+        umbral 2   el man, para la CARGA
+        coste      el man, para lo de siempre
+
+      [ABIERTO]  Si el 5% es un REQUISITO o un COSTE, no se sabe.  Se
+      lee: si con el 5% exacto todavia dispara, es requisito.
+
+  56.5  *** UN PROYECTIL MAS CARGADO NO ES MAS RAPIDO ***
+
+      "un proyectil mas cargado no es mas pesado al desplazarse, es igual de
+       rapido, solo que pareciera mas rapido por que su radio de activacion
+       es mayor, pero en definitiva, un reigan pequeno no es mas rapido que
+       uno gigante"
+
+  *** ESO CAMBIA LO QUE HEMOS MEDIDO COMO VELOCIDAD ***
+
+      >>> Cuando hemos visto medido 'A es mas rapido que B', lo que se mide es el
+      >>> RADIO DE LA CAJA, no la velocidad del objeto.
+
+      *** Y LA CAJA DE UN PROYECTIL ES UNA HURTBOX ***
+
+  *** Y ESO LA CONECTA CON 47.1, QUE PARECIA OTRO TEMA ***
+
+      "el unico que la victima si puede determinar es el tipo de combo que
+       puede recibir luego, debido a las hurtboxes, distribucion, tipo de
+       animacion de reaccion a los golpes y su tamano general"
+
+      *** O SEA: LA HURTBOX HACE DOS TRABAJOS ***
+
+        1. hace que un proyectil grande PAREZCA mas rapido
+        2. decide que combo puede recibir el rival
+
+      No son dos cosas parecidas: es la misma caja.  [DERIVADO]
+
+      *** LA PRUEBA DE LA 6: LA ROSA A Y LA B SON IGUALES ***
+      "solo velocidad, tienen la misma altura, siguen la misma linea Y en X."
+
+      MI HIPOTESIS DE QUE B ERA UNA ROSA MAS CARGA ESTA CAIDA.  [COMPROBADO]
+      $A2 de Kurama lanza la misma caja a distinta velocidad.  No hay
+      diferencia de tamao.  Y los dos hacen 4 de dano.
+
+      *** LO QUE NO SE HA MEDIDO: EL TAMAO ENTRE NIVELES DE CARGA ***
+      Si el reigan al 25% tiene la caja mas chica que el al 100%, la
+      diferencia existe ahi aunque no exista entre A y B.  PARA ESO HACE
+      FALTA QUE EL SCRIPT MIDA LA ALTURA DE LA CAJA.  [ABIERTO]
+
+  56.6  LA ROSA DE KURAMA:  $A2 = 16, Y LA CAJA ESCALA CON LA DISTANCIA
+
+      "tire una rosa de esquina a esquina intentando moverme en direccion al
+       enemigo la mayor distancia posible antes que le impacte"
+
+      *** $A2 = 16 DE MANA.  [COMPROBADO] ***
+      Es el ultimo precio de Kurama que faltaba de la particion, y coincide.
+
+      *** LA CAJA CRECE CON LA DISTANCIA, Y HAY CUATRO MEDIDAS ***
+
+        distancia corta          CAJA de 20 f
+        media                    CAJA de 33 f
+        larga                    CAJA de 46 f
+        esquina a esquina        CAJA de 62 f
+
+      Obvio en retrospectiva, pero son cuatro puntos de una misma recta y
+       ningun otro proyectil con cuatro distancias medidas.  [DERIVADO]
+
+      *** Y EL RIVAL ENTRO EN $21: TAMBALEO.  4 DE DANO.  EL MAS DEBIL. ***
+
+  56.7  *** $0B = EL ESTADO POST-TECNICA ***
+
+        la rosa      $A2 -> $0B -> $00
+        la parry     $A7 -> $05 -> $0B -> $80   (B de pie desde ahi)
+
+      "asi que $0B no es solo la entrada a un basico: es el ESTADO DE
+       DESPUES DE UNA TECNICA, y desde ahi se puede entrar a un golpe
+       basico.  O sea que es la ventana de cancel.  [DERIVADO]
+
+  56.8  LO QUE QUEDA ABIERTO
+
+      - donde vive el RANGO.  No es $67, ni el orden de la tabla, ni el
+        registro.  Ahora sabemos que es una ESCALA DE PODER y no un tipo,
+        y eso acota mucho la busqueda.
+      - el valor exacto de la rosa, la planta y las hojas en esa escala.
+        Solo sabemos que la rosa es el minimo y el dragon el maximo.
+      - si el 5% y el 10% de la carga son requisito o coste
+      - la altura de la caja segun el nivel de carga (falta la Y en el script)
+      - los otros 8 personajes de la ronda, y los 27 objetos sin identificar
 
 ================================================================================
 ================================================================================

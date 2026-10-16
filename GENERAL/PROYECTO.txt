@@ -370,102 +370,142 @@ A("")
 
 ================================================================================
 
-================================================================================
 11.  EL REGISTRO DE PERSONAJES:  CUAL ES CUAL Y DONDE ESTA
 
   *** ESTA SECCION NO SE BORRA NUNCA.  ES EL INDICE DEL PROYECTO. ***
 
   Existe porque el 15-10 se perdio el nombre del personaje que mas tiempo
   llevamos.  Los 7 PDF de ITSUKI PDF son del PRIMER personaje que mapeamos, y
-  ningun documento decia eso.  El bloque de notas tiene que responder "que
-  personajes hay y donde esta cada uno" sin que haya que acordarse.
+  ningun documento decia eso.
 
-  *** Y LA PRIMERA VERSION DE ESTA TABLA ESTABA MAL ***
+  *** Y EL 15-10 SE CERRARON LOS 11 NOMBRES, SIN JUGAR UNA PARTIDA ***
 
-  La arme con las 11 filas del ROM, y por eso un personaje sin entrada
-  conocida no tenia donde entrar.  SENSUI quedo afuera, y solo en el texto.
-  La tabla esta POR PERSONAJE, no por entrada.  Una entrada sin nombre es
-  un dato del ROM;  un personaje sin documentar es un agujero en el
-  proyecto.  Lo segundo se ve a simple vista.  [DERIVADO]
+  No hacia falta un reset por personaje.  Hacen falta DOS cosas que ya
+  estaban en la carpeta RESPALDO del amigo y nunca se abrieron:
 
-  ==============================================================================
-  LISTA A.  LOS 6 PERSONAJES QUE YA MAPEAMOS
-  ==============================================================================
+      FICHAS_DE_PERSONAJES.pdf     los 11 personajes con su lista completa de
+                                   golpes, danio, man, comando y super
+      remake_godot\data\
+      game_data.json               el stun POR PERSONAJE, leido del ROM
 
-      personaje  entrada  tablaA     documento        PDF      tecnicas
-      ---------  -------  ---------  ---------------  -------  ------------
-      GENKAI     1        $0BCAAA    GENKAI TECNICAS  5 pag    11 de 15
-      KURAMA     2        $0BF75A    KURAMA TECNICAS  13 pag   7
-      YUSUKE     4 ??     $0C4EEA    YUSUKE TECNICAS  10 pag   4  (+ $A2?)
-      HIEI       5        $0C7C9A    HIEI TECNICAS    17 pag   8
-      ITSUKI     8        $0CF99A    ITSUKI TECNICAS  4 pag    5
-                                        + 7 PDF viejos
-      SENSUI     ??       ??         SENSU TECNICAS   9 pag    9
+  ==========================================================================
+  11.1  EL MAPA COMPLETO DE LOS 11
+  ==========================================================================
 
-      6 DE 11.  4 con entrada confirmada.  2 sin.
+      entrada  tablaA     $26  peso  $32  personaje
+      -------  ---------  ---  ----  ---  ------------------------
+          1    $0BCAAA     34   10    02  GENKAI
+          2    $0BF75A     40   12    04  KURAMA
+          3    $0C229A     56   14    08  KUWABARA
+          4    $0C4EEA     48   16    06  YUSUKE
+          5    $0C7C9A     44   18    02  HIEI
+          6    $0CA6DA     54   1A    02  SENSUI
+          7    $0CCC7A     46   1C    04  JIN
+          8    $0CF99A     40   1E    02  ITSUKI
+          9    $0D1E5A     38   20    04  TOGURO (hermano mayor)
+         10    $0D4A9A     48   22    06  CHUI
+         11    $0D777A     62   7C    08  TOGURO (hermano menor)
 
-  *** Y LOS ?? ***
+      *** Y $26 ES EL STUN MAXIMO DEL PERSONAJE ***
+      Y $2C vale lo mismo que $26, byte por byte, en las once entradas.
+      Es el unico campo de la entrada que se sabia que era "por personaje"
+      y que no se sabia que era.  Ver HIT STATE.txt.
 
-      YUSUKE = 4 ??    la entrada 4 es la UNICA con $A0 $A1 $A6 $AA $B8, que
-                       son los 5 ids de Yusuke.  PERO su $AA da 38 de dano en
-                       el ROM contra los 119 medidos.  NO CIERRA.
-                       Si cierra, aparece una sexta capacidad:  el $A2, dos
-                       golpes de 16 y 4, sin comando.  [DERIVADO]
+  ==========================================================================
+  11.2  COMO SE CRUZARON, PASO A PASO
+  ==========================================================================
 
-      SENSUI = 3 o 6 ?? el personaje de SENSU TECNICAS.txt:  pistola de 6
-                       balas, 4 bolas, 2 parry, 2 contras, ulti $A3 de 50.
-                       No comparte ninguna tecnica con Itsuki.
-                       Candidatas:  la 3, que trae $A3 $A4 $A5, y la 6, que
-                       trae $A5 $A7 $A8.  [ABIERTO]
+  *** 1.  LAS 4 ANCLAS QUE YA TENIAM ***
 
-  *** Y POR QUE "SENSU" NO ES ITSUKI, EN UNA LINEA ***
+      entrada 1 = GENKAI    entrada 2 = KURAMA
+      entrada 5 = HIEI      entrada 8 = ITSUKI
 
-  Los cuatro registros del documento viejo coinciden con la entrada 8, el
-  dispatcher de $68 es nuestro, y el backflip de la intangibilidad que
-  esta en SISTEMAS desde el principio es el post-estado $B1 del DIVE KICK.
-  La derivacion completa esta en CONTEXTO.txt seccion 96.1.
+  *** 2.  LA LISTA DE STUN DE game_data.json ***
 
-  ==============================================================================
-  LISTA B.  LAS 7 ENTRADAS DEL ROM SIN NOMBRE
-  ==============================================================================
+      "stun_max_real=RESUELTO.  Por personaje: 40, 56, 48, 44, 54, 46,
+       40, 38, 48, 62."
 
-      entrada  tablaA     que se sabe de ella
-      -------  ---------  -------------------------------------------------
-      3        $0C229A    candidata de SENSUI
-      4        $0C4EEA    candidata de YUSUKE.  no cierra el $AA
-      6        $0CA6DA    candidata de SENSUI
-      7        $0CCC7A    nada
-      9        $0D1E5A    nada
-      10       $0D4A9A    el .LUA dice TOGURO.  SIN CONFIRMAR
-      11       $0D777A    el .LUA dice CHU.  SIN CONFIRMAR
+  Son 10 valores para 11 personajes, y falta el 34 de Genkai.  Si se leen
+  como las entradas 2 a 11, los cuatro valores que caen en una ancla ya
+  conocida dan 40 / 44 / 40 para KURAMA, HIEI e ITSUKI.  Los tres dan bien.
 
-      *** 7 SIN NOMBRE, Y SOLO 2 TIENEN ALGO ADENTRO.  5 ESTAN VACIAS. ***
+  *** 3.  LEYENDO $26 DEL ROM CONFIRMA QUE LA HIPOTESIS ERA LA CORRECTA ***
 
-  *** Y LAS 5 VACIAS SON JUSTAMENTE LAS 5 QUE FALTAN DEL ROSTER ***
+  $26 da 34 40 56 48 44 54 46 40 38 48 62 en orden de entrada.  Es la
+  misma lista con el 34 de Genkai al frente, que es el que faltaba.  [COMPROBADO]
 
-  Hay 11 entradas en el ROM.  Mapeamos 6.  Faltan 5.
+  *** 4.  LA FICHA DA UN STUN UNICO PARA 9 DE LOS 11 ***
 
-  El roster del juego tiene 11 personajes, y con Itsuki y Sensui como dos
-  personas distintas son exactamente:
+      Sensui 54   Jin 46   Itsuki 40   Genkai 34   Kuwabara 56
+      Hiei 44     Kurama 40  Chui 48     Toguro mayor 38  Toguro menor 62
 
-      Yusuke  Kurama  Hiei  Kuwabara  Genkai  Chu  Jin  Itsuki  Sensui
-      Toguro Mayor  Toguro Menor
+  Solo YUSUKE y CHUI tienen el mismo 48, y son los unicos que quedan.
 
-  11 - 6 que mapeamos = 5:  Kuwabara, Chu, Jin, Toguro Mayor, Toguro Menor.
+  *** 5.  YUSUKE Y CHUI SE SEPARAN CON UN SOLO GOLPE ***
 
-  *** O SEA QUE LAS 5 ENTRADAS VACIAS SON ESOS 5, Y NO HAY UN PERSONAJE
-  DE MAS.  El "11 personajes" de MOVES DE TODOS.txt es el roster entero. ***
+      entrada 4   $83 = 2 golpes, dano 10, 8
+      entrada 10  $83 = 1 golpe,  dano 16
 
-  Consecuencia util:  SENSUI NO PUEDE SER UNA ENTRADA NUEVA.  Tiene que ser
-  la 3 o la 6, y la otra de las dos es uno de los cinco de arriba.  [DERIVADO]
+      la ficha de YUSUKE:  "adelante+A  alto  x2  15+10"
+      la ficha de CHUI:    "adelante+A  alto  16"
 
-  *** Y CADA ENTRADA VACIA SE CIERRA CON UN SOLO RESET ***
-  Entrar con el personaje, correr LUAS\IDENTIFICA PERSONAJES.LUA, leer la
-  tablaA.  El .LUA ya los nombra cuando la entrada aparece en la tabla.
+  Un golpe contra dos.  Y el $A6 de la entrada 4 son DOCE golpes encadenados
+  de 3 que son chip salvo los cuatro ultimos, que es exactamente el
+  Escopetazo de Yusuke ("6x3 (+4xN), 32 de mana").  Chui no tiene nada
+  parecido.  [COMPROBADO]
 
-  ==============================================================================
-  11.1  DONDE ESTA CADA COSA
-  ==============================================================================
+  *** 6.  EL PESO $42 ESTA EN ORDEN Y EL $32 CICLA ***
+
+      $42   10 12 14 16 18 1A 1C 1E 20 22 7C
+            sube de a 2, y el 11 se sale con 7C
+
+      $32   02 04 08 06 02 02 04 02 04 06 08
+            cicla en 02 04 08 06
+
+  *** Y LA TABLA DE LA FICHA ESTA AL FINAL DEL PDF ***
+
+      Luchador          Global  Stun  Ataque  Dano max  Mana super
+      Toguro (menor)    A       62    S       60        200
+      Yusuke            A+      48    A       64        200
+      Jin               A       46    A       24        200
+      Chui              A-      48    A       64        200
+      Toguro (mayor)    B       38    A       20        200
+      Hiei              B       44    B       88        200
+      Sensui            B       54    A       64         50
+      Kurama            B       40    B       128       200
+
+  *** SENSUI ES EL UNICO QUE NO GASTA 200 EN EL SUPER.  50. ***
+
+  ==========================================================================
+  11.3  QUE HAY QUE CORREGIR POR ESTE MAPA
+  ==========================================================================
+
+  *** EN SENSU TECNICAS.txt HAY DOS IDs MAL ***
+
+  El personaje que medimos es la ENTRADA 6.  Se confirma por dos vias
+  independientes:  $26 = 54, que solo es de Sensui, y $A8, que es la pistola
+  y solo la entrada 6 lo tiene.
+
+  Pero la entrada 6 tiene:  $A0 $A1 $A2 $A5 $A7 $A8 $AC $B8  con golpe,
+  y una no listada.  NO tiene $A4 ni $A6.
+
+      el documento dice   2 parry en $A4 y $A6
+      el ROM dice         $A4 y $A6 no existen para SENSUI
+
+  Lo mas probable:  los parry son $A5 y $A7, que si existen.  Y el que no
+  tiene hit record es $A3, la ulti:  el dano de la Sper Bola Roja gigante
+  lo da un OBJETO, no un hit record, asi que el lector del ROM no lo lista.
+
+  *** ESO ESTA SIN VERIFICAR.  NO SE REESCRIBIO EL DOCUMENTO. ***
+  Se corrige jugando:  entrar con Sensui, hacer el parry, leer $5F.
+
+  *** Y EL .LUA YA TIENE LOS 11 NOMBRES ***
+  LUAS\IDENTIFICA PERSONAJES.LUA, el bloque CONOCIDOS.  Los numeros de
+  ficha van en un comentario, aclarando que son del wiki y no del ROM.
+
+  ==========================================================================
+  11.4  DONDE ESTA CADA COSA
+  ==========================================================================
 
       GENERAL\SISTEMAS.txt         las reglas, 18 secciones
       GENERAL\PROYECTO.txt         este archivo
@@ -475,6 +515,10 @@ A("")
       GENERAL\HIT STATE.txt        $68, estados, hitstop
       LUAS\                        los .LUA, todos juntos
       <PERSONAJE> PDF\             un PDF por personaje
+
+      RESPALDO\FICHAS_DE_PERSONAJES.pdf   los 11 con su lista completa
+      RESPALDO\remake_godot\data\game_data.json   datos crudos del remake
+      RESPALDO\_disasm_tools\             los lectores de ROM
 
   *** REGLA:  SI SE CREA, BORRA O MUEVE UN DOCUMENTO, ESTA SECCION SE
   ACTUALIZA EN LA MISMA RONDA.  NO HAY EXCEPCION.  ***

@@ -879,3 +879,50 @@ sigue siendo cierto, pero hay que decirlo con precision:
 
 ================================================================================
 ================================================================================
+
+================================================================================
+STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
+================================================================================
+
+  El stun maximo de cada personaje esta en el byte $26 de su entrada en
+  $01275B.  Y $2C vale lo MISMO, byte por byte, en las once entradas.
+
+      entrada  $26  $2C  personaje
+      -------  ---  ---  ------------------------
+          1    34   34  GENKAI
+          2    40   40  KURAMA
+          3    56   56  KUWABARA
+          4    48   48  YUSUKE
+          5    44   44  HIEI
+          6    54   54  SENSUI
+          7    46   46  JIN
+          8    40   40  ITSUKI
+          9    38   38  TOGURO (hermano mayor)
+         10    48   48  CHUI
+         11    62   62  TOGURO (hermano menor)
+
+  Es el valor que se copia a $7E en $15A4A y $18694.  El nombre del byte
+  en RAM es $80, que es donde el motor lo lee durante el combate.
+
+  *** LO QUE ESTO RESUELVE ***
+
+  Que dos personajes con el mismo $66 pueden tener distinta ventana de
+  hitstun.  El presupuesto $7E es por golpe; el tope $26 es por
+  personaje.  Los golpes hasta el knockdown son ceil($80 / $66), y el
+  $80 depende de quien los dos.  [DERIVADO]
+
+  *** Y ESTO ES LO QUE IDENTIFICA A LOS 11 PERSONAJES ***
+
+  Cruzando $26 con el stun de la ficha de cada personaje se cierra el
+  mapa entero sin jugar una partida.  Ver PROYECTO.txt seccion 11.2.
+
+  *** Y $42 Y $32, QUE NO SABIAMOS QUE ERAN ***
+
+      $42   10 12 14 16 18 1A 1C 1E 20 22 7C
+            sube de a 2 en las diez primeras.  El 11 se sale con 7C.
+            [ABIERTO]  Probablemente peso o tamano.
+
+      $32   02 04 08 06 02 02 04 02 04 06 08
+            cicla en 02 04 08 06.  [ABIERTO]
+================================================================================
+================================================================================

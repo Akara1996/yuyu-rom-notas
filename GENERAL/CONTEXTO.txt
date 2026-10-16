@@ -8208,3 +8208,206 @@ PARA ABRIR OTRO PERSONAJE
 
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+66. LA ULTI DE YUSUKE, Y EL BLOQUEO DE STUN  (15-10)
+================================================================================
+================================================================================
+
+  66.1  *** LA PREDICCION DEL USUARIO FUE EXACTA ***
+
+      La prediccion: si la ulti da 7 fisicos + reigan, solo 8 golpes, pero la
+  ganancia de mana solo te la da a partir del hit 2 y los proyectiles no
+  cuentan, o sea que solo sumara 2+4+6+8+10+12.  Y con el adelante+B delante,
+  2 hits mas: el 2 hit dara +2 y cada hit de la ulti sumara 7 ganancias dando
+  8 secuencias = 16.
+
+      *** MEDIDO:  8 GANANCIAS, TERMINANDO EN 16.  ***
+      *** CONTRA 7 FISICOS + 1 PROYECTIL.  ***
+
+      *** EL PROYECTIL NO CUENTA.  CONFIRMADO POR EL USUERO Y POR EL LOG:
+      tras el golpe del reigan no hay ninguna linea de MP GANA. ***
+
+  66.2  *** LO QUE SOBRA:  EL +16 DUPLICADO AL FINAL ***
+
+      Ul ti SOLA:   +2  +4  +6  +8  +10  +12  +16
+      Adelante+B:   +4  +6  +8  +10  +12  +14  +16  +16
+
+      "adelante B son 2 hit, eso quiere decir que el 2 hit dara +2"
+
+      *** EN LOS DOS LOGS EL ULTIMO +16 ESTA REPETIDO ***
+      Y EN LOS DOS CASOS CAE 3 FRAMES DESPUES DEL GOLPE QUE MANDA AL RIVAL
+  A $2F.  O SEA QUE COINCIDE CON EL REMATE.
+
+      "el ultimo golpe de yusuke en su ulti recicla animacion de agarre de
+       yusuke, que es muy parecida a la de kurama"
+
+      *** LA EXPLICACION MAS PROBABLE:  EL REMATE CUENTA COMO DOS ***
+
+      El agarre es una tecnica de DOS ETAPAS (seccion 47): la victima pasa
+  por $40 antes de $2F.  Si el juego cuenta las dos etapas como dos golpes
+  del combo, hay un premio de mas.  [DERIVADO]
+
+      *** O LA ALTERNATIVA:  EL FINAL DE LA ESCALA SUBE A +16 ***
+
+      O sea que el 7mo golpe paga 16 en vez de 14.  Con ocho golpes fisicos
+  seria 0,2,4,6,8,10,12,16.  Sin multiplo.  [ABIERTO]
+
+      *** NO LA DECLARO NINGUNA DE LAS DOS.  LA PRUEBA ES UNA ***
+
+      *** ULTI QUE NO HACE CONECTAR EL REMATE ***
+      Si el +16 duplicado desaparece, es el agarre.  Si sigue, es la escala.
+  UNA PRUEBA.
+
+  66.3  *** LA ULTI DE YUSUKE:  $AA, 200 + 4, Y DISPARA EL REIGAN SOLO ***
+
+      *** NO HACE FALTA GUARDAR NADA: LA ULTI CARGA Y DISPARA EL REIGAN ***
+
+        f190   $AA -> $A4            entra al modo carga
+        f210   4 de mana             el precio del modo carga
+        f214   objeto $07           $65 = $40 = 64    medido -64  EXACTO
+        f215   P4 -64               $2F -> $25   derribo
+
+      "el reigan max de yusuke durante la ulti carga igual o mas rapido que la
+       bola de sensui para lograr conectar toda la secuencia, y si, puede
+       cancelarse"
+
+      *** O SEA: LA ULTI REGALA UN REIGAN NIVEL 8 ***
+      Y no es un regalo: una carga normal a mano tarda demasiado para que el
+  proyectil llegue.  La de la ulti es mas rapida.  [COMPROBADO por el
+  usuario, y el log confirma que sale solo sin ningun input]
+
+      *** Y SOLO SE GUARDA UNA CARGA A LA VEZ ***
+      "el jamas conservara mas de 1 carga por vez"
+
+      [COMPROBADO]  Es decir: $A4 no es un contador, es un estado.  Entrar a
+  $A4 carga una vez; entrar otra vez ya con una carga guardada la pierde o la
+  reemplaza.  [DERIVADO]
+
+  66.4  *** LAS CUATRO ULIS, JUNTAS ***
+
+      personaje   id      mana   dano de la ulti   dano del reigan   total
+      -----------  ------  -----  ---------------  -----------------  ------
+      Hiei        $A6      200      88                 -               88
+      Kurama      $A6      200      88                 -               88
+      Sensui      $A3       50       -                64               64
+      Yusuke      $AA      200      55                64              119
+
+      *** EL COSTE DE LA ULTI ES 200 PARA TODOS MENOS SENSU ***
+
+      "tiene 223 como todos, pero sus tecnicas son extremadamente baratas"
+
+      *** Y LA ULTI DE YUSUKE ES LA MAS FUERTE DEL JUEGO: 119 ***
+
+        Yusuke    119 de dano por 204 de mana    0.58 por mana
+        Hiei      88 de dano por 200 de mana    0.44 por mana
+        Kurama    88 de dano por 200 de mana    0.44 por mana
+        Sensui    64 de dano por  50 de mana    1.28 por mana
+
+      *** Y LA DE YUSUKE ES LA MAS COMPLEJA ***
+      Las otras tres son un golpe.  Esta son 7 golpes fisicos mas un
+  proyectil, y el reigan se puede cancelar y guardar para otra combinacion.
+  [DERIVADO]
+
+      *** Y LA ULTI NO SIEMPRE ESTA EN EL MISMO ID ***
+        Hiei $A6      Kurama $A6      Sensui $A3      Yusuke $AA
+
+      O sea que la posicion de la ulti en la tabla VARIA POR PERSONAJE.  Y eso
+  afecta a la particion de precios: no se puede asumir que la ulti este en la
+  ultima entrada del bloque.  [DERIVADO]
+
+  66.5  *** $7E: EL BLOQUEO DE STUN, QUE NO SABIAM QUE EXISTIA ***
+
+      El usuario, de otros .LUA de medicion:
+
+      "vimos que el STUN alcanza brevemente ese enorme numero, pero luego
+       baja a 255, y luego de 5 segundos sin recibir dano, vuelve a bajar
+       hasta el umbral de STUN que la victima tiene"
+
+      "los 255 que se ponen durante 5 segundos y se refresca ese timing cada
+       vez que se da un golpe dentro de esa ventana de tiempo pareciera ser
+       una especie de PROTECCION CONTRA STUN LOOP para los personajes con bajo
+       nivel."
+
+      *** HAY TRES CONCEPTOS DISTINTOS Y SOLO CONOCIAMOS DOS ***
+
+        $80   el UMBRAL del personaje: cuantos golpes de stun aguanta
+        $7E   la CUENTA que baja en cada impacto
+        255   el BLOQUEO: 5 segundos sin poder ser stuneado
+
+      *** Y EL UMBRAL VARIA POR PERSONAJE ***
+
+      "algunos aguantan mucho antes de STUNEARSE y otros muy poco"
+
+      *** EL DATO QUE LO CONFIRMA ESTA EN ESTE LOG ***
+
+        $7E stun: 28 -> 65532      el reiganLV8 resta 32 de un 28
+        $7E stun: 24 -> 65528      el mismo caso
+
+      *** 65532 ES -4 Y 65528 ES -8.  EL RESTO BAJO DE CERO. ***
+
+      O sea que el contador RESTA el stun completo aunque no quede, y se va
+  por debajo.  Cuando eso pasa, el rival entra en 255 y NO SE PUEDE STUNEAR
+  durante 5 segundos.
+
+      *** O SEA: EL STUN ES UN RECURSO FINITO Y SE RECARGA SOLO ***
+
+      Un personaje con umbral alto puede recibir dos golpes pesados antes de
+  pasar a 255.  Uno con umbral bajo entra a 255 a la primera.  Y EN 255 NO LE
+  PODE HACER CASI NADA.  [COMPROBADO por el usuario]
+
+      *** ESO ES UNA DEFENSA QUE NO SABIA QUE EXISTIA ***
+      Y cambia como se lee un combo largo: no es solo damage, es damage mas
+  stun, y el stun tiene un techo.
+
+      *** LO QUE EL .LUA DEBERIA HACER Y NO HACE ***
+
+      Cuando $7E vale 255, imprimir BLOQUEO 255f en vez del numero.  Y
+  cuando vale mas de 32767, imprimirlo con signo.  [ABIERTO]
+
+  66.6  LA DIVISION DE LOS BLOCK DE NOTAS:  MI PROPUESTA
+
+      *** EL CRITERIO, PARA NO MEZCLAR CONCEPTOS ***
+
+        un hecho NUEVO lo cambia?      ->  va a un archivo de SISTEMA
+        no, es el registro de una ronda? ->  va al archivo de RONDAS
+
+      *** Y POR QUE ESO IMPORTA ***
+      El problema de un solo archivo de 9000 lineas no es el tamano: es que
+  cada dato nuevo obliga a decidir en que seccion va, y con razonamientos
+  mezclados se acumulan las reglas generales DENTRO de secciones de
+  personaje.  La formula del mana esta en la seccion de Kurama y aplica a los
+  once.
+
+      *** PROPUESTA:  CUATRO ARCHIVOS, Y DOS YA EXISTEN ***
+
+      00 CONTEXTO.txt    los SISTEMAS, con indice.  Lo que se lee entero.
+                        mapa de comandos, precios, cancel, formula del mana,
+                        rango, procedimientos.  Target: 1500 lineas.
+
+      01 RONDAS.txt      el REGISTRO.  Una seccion por ronda, cronologico.
+                        Con los logs y lo que se concluyo.  NO SE LEE ENTERO:
+                        se busca con grep.  Crece sin limite.
+
+      HIT STATE.txt     YA EXISTE.  La tabla de reacciones y todos los estados.
+                        Including el bloqueo de 255.  Solo crece.
+
+      PROYECTO.txt      el PLAN: que falta, en que orden, como se mide cada
+                        cosa.  Se actualiza una vez por personaje.
+
+      *** LA REGLA PARA QUE NO SE DUPLIQUE TRABAJO ***
+
+        un hallazgo va a UN archivo de sistema, y a RONDAS solo una linea
+        que diga donde quedo.
+
+      *** Y YO PROPONGO HACERLO, PERO EN DOS TIEMPOS ***
+
+      Primero armo PROYECTO.txt y el indice de 00 CONTEXTO.txt.  Eso ya
+      arregla el problema de no saber que hay adentro.
+      La mudanza de las 65 secciones se hace despues, cuando este quieto el
+      formato.  Si empiezo por la mudanza ahora y despues cambia el criterio,
+  hay que deshacerla.
+
+================================================================================
+================================================================================

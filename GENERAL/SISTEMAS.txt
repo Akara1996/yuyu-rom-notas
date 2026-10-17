@@ -2014,3 +2014,211 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   CONDICION del rastreador y ver si ese caso cae en su puerta.
 
 ================================================================================
+
+================================================================================
+================================================================================
+143.  LA  MUERTE.  CHIP  NO  MATA.  Y  EL  VALOR  MUERTO  ESTA  EN  EL  CODIGO
+===============================================================================
+
+  *** (usuario)  ***
+
+      "en este juego no mueres por chip damage, puedes quedar en 0 de vida y
+       aun asi bloquear exitosamente ataques que bajan vida al bloquear,
+       se necesita un golpe directo para morir, y el juego establece el valor
+       muerto por debajo de 0"
+
+  *** Y  EL  ROM  CONFIRMA  LAS  DOS  ULTIMAS  FRASES  AL  BYTE.  ***
+
+  ================================================================================
+  143.1  $013B42:  tst.w $78(a0)  +  bmi.s
+
+      013B40   00 04 67 42 4A 68 00 78 6B 3C 30 28 00 40 90 6D
+      013B50   00 40 6A 02 44 40 0C 40 00 18 6E 2A 30 28 00 44
+
+      $013B42   4A 68 00 78      tst.w $78(a0)      *** PRUEBA  EL  HP  ***
+      $013B46   6B 3C            bmi.s $013B84       *** SI  ES  NEGATIVO:  SALTA  ***
+
+  *** SI  EL  HP  ES  NEGATIVO  NO  CURA.  PUNTO.  ***   [VERIFICADO]
+
+  *** Y  LA  PAGINA  17  DEL  PDF  DE  ITSUKI  LO  TIENE  ESCRITO  COMO  ***
+  *** PENDIENTE  #6:  "Resuelto en el codigo:  $013B44  hace  tst.w $78(a0)  y  ***
+  *** bmi  saltea.  Si el HP es negativo no cura".  ***
+
+  *** LO  UNICO  QUE  LE  FALTA  A  LA  CITA  ES  EL  PAR  EXACTO:  ***
+
+      *** LA  INSTRUCCION  ESTA  EN  $013B42.  EL  BMI  EN  $013B46.  ***
+      *** EL  PDF  DICE  $013B44,  QUE  ES  EL  BYTE  DE  LA  EXTENSION  (.W).  ***
+
+  ================================================================================
+  143.2  Y  HAY  CUATRO  SITIOS  DEL  ROM  QUE  PONEN  -1024  EN  EL  HP
+
+      *** ESTO  ES  EL  "VALOR  MUERTO  POR  DEBAJO  DE  0"  DEL  USUARIO.  ***
+      *** Y  ESTA  EN  CUATRO  LUGARES  DISTINTOS.  ***   [VERIFICADO]
+
+  ---- $00F8A2 -----------------------------------------------------------
+
+      00F8A0   66 18 0C 68 FC 00 00 78 67 10 4A 01 6A 06 12 28
+      00F8B0   00 6F 60 06 B2 28 00 6F 66 0A 41 E8 04 00 51 C8
+
+      $00F8A2   0C 68 FC 00 00 78   move.w #$FC00, $78(a0)
+
+      *** PRECEDIDO  POR  UN  CONTADOR  EN  $0126(a0)  Y  POR  move.w #$0080  ***
+      *** PARECE  CONTABILIDAD  DE  RONDA.  ***
+
+  ---- $00F908 -----------------------------------------------------------
+
+      $00F908   0C 68 FC 00 00 78   move.w #$FC00, $78(a0)
+      *** EL  MISMO  BLOQUE,  COPIADO.  ***
+
+  ---- $0126A8 -----------------------------------------------------------
+
+      0126A0   4E B9 00 01 56 F0 0C 6D FC 00 00 78 67 06 4E B9
+      0126B0   00 02 08 D8 4E B9 00 01 57 72 4E B9 00 00 15 80
+
+      $0126A8   0C 6D FC 00 00 78   move.w #$FC00, $78(a5)
+
+      *** ESTA  JUSTO  ANTES  DE  UN  DESPACHO:  ***   jmp $0156F0 / jmp $0208D8
+      *** *** ES  EL  DESPACHADOR  DEL  KO.  ***
+
+  ---- $01A1A2 -----------------------------------------------------------
+
+      01A19E   67 00 B9 5A 3B 7C FC 00 00 78 60 00 B9 50 22 2D
+
+      $01A1A2   3B 7C FC 00 00 78   move.w #$FC00, $78(a5)
+
+  ================================================================================
+  143.3  Y  LA  MISMA  RUTINA  REGALA  DOS  DATOS  MAS
+  ================================================================================
+
+      $013B6E   06 68 00 10 00 78   addi.w #$0010, $78(a0)
+      *** +16.  LA  CURACION  DE  ITSUKI  SON  16.  CONFIRMADO.  ***
+
+      $013B74   0C 68 00 DF 00 78   move.w #$00DF, $78(a0)
+      $013B7C   31 7C 00 DF 00 78   move.w #$00DF, $78(a0)
+      *** $00DF = 223.  EL  TOPE  ESTA  EN  EL  CODIGO,  EN  DOS  FORMAS.  ***
+
+      *** EL  TOPE  DE 223  ESTABA  DERIVADO  DEL  IDEARIO  ($01FA1E).  ***
+      *** AHORA  TAMBIEN  ESTA  VERIFICADO  EN  LA  RUTINA  DE  CURACION.  ***
+
+  *** Y  $78  ES  UN  SOLO  REGISTRO  PARA  LA  BARRA.  ***
+  *** 223  ES  EL  TOPE  DE  LA  VIDA  Y  TAMBIEN  EL  DE  LA  MANA.  ***
+
+  ================================================================================
+  143.4  LA  REGLA  DEL  JUEGO
+  ================================================================================
+
+      *** (usuario)  [COMPROBADO]  ***
+
+          1.  el  chip  damage  NO  MATA
+          2.  se  puede  estar  en  0  y  seguir  BLOQUEANDO  el  chip
+          3.  hace  falta  un  GOLPE  DIRECTO  para  morir
+          4.  el  juego  escribe  un  VALOR  MUERTO  por  debajo  de  0
+
+      *** LO  QUE  EL  ROM  APORTA  ***
+
+          el  HP  es  CON  SIGNO  ($78, word)
+          y  el  juego  LEE  EL  SIGNO:  si  es  negativo  no  cura
+          y  hay  CUATRO  RUTINAS  que  PONEN  -1024
+
+      *** LO  QUE  EL  ROM  NO  DICE  ***
+
+          *** NO  DICE  NADA  DEL  CHIP.  ***  [ABIERTO]
+          Si  el  chip  tiene  un  CLAMP  PROPIO  o  un  SUELO,  no  lo  sabemos.
+          Solo  sabemos  que  el  chip  bloqueado  no  mata.  (usuario)
+
+  ================================================================================
+  143.5  Y  EL  LOG  DE  CHUI  MUESTRA  EL  -1024
+  ================================================================================
+
+      [HP] frame 472   P4  $78:  -24 -> -1024   (-1000)
+      $5F  frame 472 -- P4:  $28 -> $29   (anim $59=0,  dur $5A=18)
+
+  *** -1024  EXACTO.  ES  EL  VALOR  MUERTO  DEL  ROM.  ***   [VERIFICADO]
+
+  *** EL  DELTA  ES  -1000  PORQUE  VENIA  DE  -24.  EL  CODIGO  NO  RESTA  ***
+  *** 1000:  PONE  EL  VALOR.  ***
+
+  ------------------------------------------------------------------------------
+      $25   f96    derribo con ventana
+      $25   f446 -> $28   dur $5A=08        el rival se levanta
+      $28   f472 -> $29   dur $5A=18   con  HP = -1024
+  ------------------------------------------------------------------------------
+
+      *** $28  Y $29  SON  LOS  ESTADOS  FINALES.  ***   [DERIVADO]
+
+  *** Y  HAY  UNA  COSA  QUE  NO  ENCAJA  Y  NO  VOY  A  RESOLVER  SOLO  ***
+
+      *** P1  ESTABA  EN  $00  (PARADO),  LEJOS,  Y  NO  HABIA  NINGUN  GOLPE  ***
+      *** SUYO  EN  ESE  MOMENTO.  EL  -1024  APARECIO  200  FRAMES  DESPUES  ***
+      *** DEL  ULTIMO  GOLPE  NUESTRO.  ***   [ABIERTO]
+
+      *** LA  PREGUNTA  ***
+
+            MURIO  POR  EL  COMBO  DE  CHUI  (golpes  directos,  que  si  matan)
+          o    MURIO  POR  ALGO  QUE  PASO  EN  EL  f472  ?
+
+      *** EL  f472  ESTA  EN  EL  LOG  COMO  [HP]  SIN  ATRIBUIR  A  NINGUN  ***
+      *** COMANDO.  Y  EL  f472  ES  JUSTO  DONDE  EL  JUEGO  ESCRIBE  -1024  ***
+
+  ================================================================================
+  143.6  Y  $AC  =  LA  CADENA  DE  B  EN  EL  AIRE.  CHUI  18 DE 18
+  ================================================================================
+
+      *** (usuario)  "masheo BBBB aire"  ***
+
+      $00 -> $05   f82      el paso
+      $05 -> $0D   f84      el dash
+      $0D -> $06   f89
+      $06 -> $90   f90      *** $90  =  EL  B  AEREO  ***
+      $90 anim $02   HIT+CLASH
+      [HP] f96   P4   7 -> -2   (-9)      P4:  $00 -> $25
+      [MOV 01] B  id=$90  mana -8         pulsada en el 129
+      $90 -> $AC   f130     *** $AC  =  LA  CADENA  ***
+      $AC anim $01   $64=15   $68=05    +2 MP    -6 HP
+      $AC anim $03   $64=15   $68=00    +4 MP    -5 HP
+      $AC anim $05   $64=15   $68=01    +6 MP    -3 HP
+      $AC anim $07   $64=16   $68=00    +8 MP    -8 HP
+      $AC anim $09   $64=15   $68=01    (no hay HP)
+      $AC -> $0E   f349     *** 219  FRAMES  ***
+      $0E -> $01   f363
+      $01 -> $00   f376
+
+  *** $90  =  EL  B  AEREO.  EL  ESPEJO  DE  $95.  ***
+
+      8 de man    1 golpe    9 de dano    $25
+
+  *** $AC  =  LA  CADENA  DE  B  EN  EL  AIRE.  8  ANIMS  CON  CAJA.  ***
+  *** EL  ROM  DECIA  8/8.  CONFIRMADO.  ***   septimo acierto del contador
+
+  ------------------------------------------------------------------------------
+                      A  EN  EL  AIRE        B  EN  EL  AIRE
+                      $95 + $AD              $90 + $AC
+                      --------------------   --------------------
+    patada, man              12                     8
+    patada, dao             15                     9
+    cadena                   $AD                    $AC
+    duracion de la cadena    175 f                 219 f
+    golpes de la cadena      4  (-24)              4  (-22)
+    man que devuelve         +20                   +20
+    --------------------   --------------------
+    neto                     +8                   +12
+    dao total               39                    31
+  ------------------------------------------------------------------------------
+
+  *** LA  DE  B  DOMINA:  MAS  LARGA,  MAS  BARATA,  MISMO  PRECIO  DE  MANA  ***
+
+  ------------------------------------------------------------------------------
+                      $AD  (cadena de A)      $AC  (cadena de B)
+    $64 de los golpes    $15 $15 $15 $16 $15  $15 $15 $15 $16 $15   IGUAL
+    $68 de los golpes    05  00  01  00  01  05  00  01  00  01   IGUAL
+    anims con caja       8                      8                      IGUAL
+  ------------------------------------------------------------------------------
+
+  *** SON  LA  MISMA  PLANTILLA  CON  OTROS  NUMEROS.  ***
+
+  *** Y  EL  RIVAL  NO  SE  MUEVE  DE  $25  EN 219  FRAMES.  ***
+
+  *** $0E  DE  NUEVO:  LA  CAIDA  DESPUES  DEL  AEREO.  ***
+================================================================================
+================================================================================
+================================================================================

@@ -1979,3 +1979,201 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+148.  TOGURO  MAYOR.  LOS  NUEVE  BASICOS  Y  EL  DEDAL
+===============================================================================
+
+  *** RONDA 1  DE  2.  EL  PDF  SE  HACE  EN  LA  SEGUNDA.  ***
+
+  ================================================================================
+  148.1  LOS  NUEVE  BASICOS.  Y  SON  LOS  MISMOS  QUE  CHUI
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    entrada            id     anim    $64   $65   $66    $68     frames
+    ------------------------------------------------------------------
+    A  en el suelo      $82    $03    $0E   $0F   $0C    $00       40
+    ADELANTE + A        $83    $03    $0E   $0F   $0C    $00       42
+    ABAJO  + A          $86    $02    $0A   $0F   $0E    $04       46
+    B  en el suelo      $80    $02    $0C   $03   $02    $00       12
+    ADELANTE + B        $81    $01    $0D   $08   $08    $00       17
+    ABAJO  + B          $84    $01    $08   $03   $02    $01       18
+    A  en el aire       $95    $02    $06   $0C   $0A    $01       35
+    ARRIBA + A  (aire)  $94    $02    $06   $0E   $0C    $01       31
+    B  en el aire       $90    $01    $04   $03   $02    $00       42
+  ------------------------------------------------------------------------------
+
+  *** LOS  NUEVE  IDS  SON  EXACTAMENTE  LOS  DE  CHUI.  EN  LAS  MISMAS  CASILLAS.  ***
+
+  *** LA  BANDA  COMPARTIDA  QUEDA  CONFIRMADA  POR  SEGUNDO  PERSONAJE  CONSECUTIVO.  ***
+  *** Y  QUEDAN  SOLO  DOS  EXTRAS  EN  LOS  ONCE:  $85  (HIEI)  Y  $87  (ITSUKI).  ***  [VERIFICADO]
+
+  *** Y  ABAJO+A  DA  $68=04  ->  $23.  ***   *** SEGUNDO  PERSONAJE  QUE  LO  CONFIRMA.  ***
+
+  ================================================================================
+  148.2  LAS  DURACIONES  SON  POR  PERSONAJE,  PERO  LOS  IDS  SON  COMPARTIDOS
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    id      Chui      Toguro mayor
+    ------------------------------------------------------------
+    $82      36 f          40 f
+    $80      14 f          12 f
+    $81      27 f          17 f
+    $84      29 f          18 f
+  ------------------------------------------------------------------------------
+
+  *** MISMO  ID,  DISTINTA  DURACION.  O  SEA  QUE  LA  BANDA  COMPARTIDA  ES  EL  ***
+  *** INDICE,  Y  CADA  PERSONAJE  TIENE  SU  PROPIA  ANIMACION  DETRAS.  ***   [VERIFICADO]
+
+  ================================================================================
+  148.3  Y $67  DISTINGUE  EL  A  DEL  B  EN  TOGURO  MAYOR
+  ================================================================================
+
+      todos  los  A  de  Toguro  mayor      +67=02
+      todos  los  B  de  Toguro  mayor      +67=01
+
+      *** EN  CHUI  $67  SIEMPRE  ERA  $01.  ***   [VERIFICADO]
+
+  *** O  SEA  QUE  $67  MARCA  EL  TIPO  DE  GOLPE.  ***   [FUERTE]
+
+  ================================================================================
+  148.4  Y $C4  ES  UN  DATO  POR  PERSONAJE
+  ================================================================================
+
+      Toguro mayor    todas  las  lineas   +C4=04
+      Chui            todas  las  lineas   +C4=06
+
+  *** $C4  ESTA  EN  EL  BLOB  DESDE  EL  PRIMER  DIA  Y  NUNCA  LO  HEMOS  SABIDO  LEER.  ***
+  *** ES  UN  STAT  POR  PERSONAJE.  ***   [VERIFICADO]
+
+  ================================================================================
+  148.5  LOS  CUATRO  MANDOS.  MEDIDOS  POR  PRIMERA  VEZ
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    mando              id              frames   que pasa
+    ------------------------------------------------------------------
+    el  dash           $0B               20    mascara $26  =  PUSH + CLASH + HURT
+    el  backdash       $0C               32    mascara $08  =  PUSH
+    el  backdash       $0C               33    despues $12  =  HURT
+    la  provocacion    $09 -> $14         76    *** LE  SACO  36  DE  MANA  AL  RIVAL  ***
+  ------------------------------------------------------------------------------
+
+      $00 -> $09   f63       $09 -> $14   f64      $14 -> $00   f140
+      [GOTEO] f90   P4  mp 187 -> 151   (perdio 36 en 30 frames)
+
+  *** ***  LA  FICHA  DECIA  QUE  LA  PROVOCACION  DE  TOGURO  MAYOR  COSTA  36.  ***  ***
+  *** ***  Y  SALIO  EXACTO  36.  PRIMERA  VEZ  QUE  LA  FICHA  ACIERTA  UN  PRECIO.  ***  ***
+
+  *** Y  $0B  Y $0C  LOS  DAN  LAS  DOS  TECLAS  (X  Y  Z).  ***   [VERIFICADO]
+
+  ================================================================================
+  148.6  EL  DEDAL.  ABAJO,ABAJO + C
+  ================================================================================
+
+      $01 -> $A1   f101
+      $A1 anim $02   HIT   (NO  CLASH)   mascara $3A
+                     +64=1C   +65=04   +66=40   +67=02   +68=03
+      [GOTEO] f120   mp 223 -> 215   (perdio 8)
+      $A1 -> $00   f165      *** 64  frames  ***
+
+  *** *** $66  =  $40  =  64.  EL  STUN  ES  64.  VERIFICADO.  ***  ***
+
+  *** Y  TOGURO  MAYOR  TIENE  STUN  MAXIMO  38.  ***
+
+      *** GOLPES  HASTA  DERRIBO  =  ceil( 38 / 64 )  =  1  ***   [VERIFICADO]
+
+  *** *** UN  SOLO  GOLPE  LO  TUMBA.  CONFIRMADO  EN  PANTALLA.  ***  ***
+
+  ================================================================================
+  148.7  Y  LA  CADENA  DE  CAIDA  COMPLETA.  MEDIDA  EN  UN  SOLO  GOLPE
+  ================================================================================
+
+      [HP] f84    P4  223 -> 217  (-6)    mundo P1=1053  P4=1104  dist=51
+      P4:  $00 -> $25   f84     *** DERRIBO  INMEDIATO,  EN  EL  GOLPE  ***
+
+      $25   f84  ->  $28  f136      *** 52  frames  ***
+      $28   f136 ->  $29  f162      *** 26  frames  ***
+      $29   f162 ->  $2A  f187      *** 25  frames  ***
+      $2A   f187 ->  $2B  f206      *** 19  frames  ***
+
+  *** *** LA  CADENA  COMPLETA:  $25 -> $28 -> $29 -> $2A -> $2B.  ***   [VERIFICADO]
+
+  *** Y  $28  =  26  FRAMES  Y  $29  =  25  FRAMES.  ***
+
+  *** *** COINCIDEN  EXACTAMENTE  CON  LAS  MEDICIONES  INDEPENDIENTES  DEL  OTRO  ***
+  *** *** PROYECTO,  QUE  DIJO  26  Y  25  SIN  VER  NUNCA  NUESTRO  LOG.  ***  ***
+
+  ================================================================================
+  148.8  Y  ESO  ES  EL  "ANTI  CANCEL"  DEL  DEDAL
+  ================================================================================
+
+  *** EL  DEDAL  TUMBA  PERO  SOLO  52  FRAMES.  UNA  CAIDA  NORMAL  DURA  76.  ***
+
+  *** Y  $2B  ESTA  EN  EL  RANGO  $28-$2D,  QUE  RESETE  EL  CONTADOR  DE  COMBO.  ***
+
+  *** *** O  SEA  QUE  EL  DEDAL  TE  TUMBA  PERO  NO  TE  DEJA  COMBOEAR.  ***  ***
+  *** *** POR  ESO  DICE  "NO  SE  PUEDE  CANCELAR":  NO  ES  QUE  NO  TE  PUEDA  ***  ***
+  *** *** GOLPEAR,  ES  QUE  DESPUES  DEL  GOLPE  NO  QUEDA  VENTANA.  ***  ***
+
+  ================================================================================
+  148.9  Y  NO  ES  $27
+  ================================================================================
+
+      *** EL  DEDAL  DA  $68 = 3  ->  $21,  QUE  ES  HITSTUN  NORMAL.  ***  ***
+
+  *** EL  DERRIBO  NO  VIENE  DE  $68:  VIENE  DE  QUE  EL  PRESUPUESTO  DE  STUN  ***
+  *** SE  HIZO  NEGATIVO  EN  EL  MISMO  GOLPE.  ***
+
+  *** *** $27  SIGUE  SIN  VERSE  EN  PANTALLA.  ***   [ABIERTO]
+
+  ================================================================================
+  148.10  UN  DIFERE  NUEVO
+  ================================================================================
+
+      *** EL  BLOB  DICE  $65 = 04.  EL  [HP]  DICE  -6.  ***   [ABIERTO]
+
+  *** *** TERCER  DIFERE  DE  $65  CONTRA  [HP].  ***  ***
+
+      Los  otros  dos:  el  segundo  golpe  seguido  de  Jin,  y  $A1  de  Chui  al  aire.
+
+  *** LOS  TRES  SON  AL  AIRE  O  EL  SEGUNDO  GOLPE  SEGUIDO.  ***   [FUERTE]
+  *** *** NO  HAY  NI  UN  CASO  CONECTANDO  Y  LIMPIO  QUE  FALLE.  ***  ***
+
+  ================================================================================
+  148.11  Y  LA  TABLA  DE  TOGUURO  MAYOR  QUEDA  CONFIRMADA
+  ================================================================================
+
+      CONTEXTO: $50 = $0D1E5A    $8C = $0D2C6A
+
+  *** ESO  ES  EL  SLOT  7  DE  LAS  DIEZ  RUTINAS  DE  INIT,  Y  SU  STUN  MAXIMO  ***
+  *** ES  38.  QUE  ES  EXACTAMENTE  EL  DE  TOGURO  MAYOR.  ***   [VERIFICADO]
+
+  ================================================================================
+  148.12  EL  ESTADO  DE  TOGUURO  MAYOR
+  ================================================================================
+
+      MEDIDOS (10)
+
+          $82  $83  $86  $80  $81  $84        los  nueve  basicos  con  $90  $94  $95
+          $0B  el  dash            20 f
+          $0C  el  backdash        32 f
+          $09 -> $14  la  provocacion   76 f   36  de  mana
+          $A1  EL  DEDAL            8  de  mana   64  de  stun   1  golpe  tumba
+
+      SIN MEDIR
+
+          *** la  ulti  $AA $AB        NO  ESTA  MEDIDA  ***
+          *** $A0  y  $A3  y  $AC         ***  ***
+          *** el  agarre  $B8          ***  ***
+          *** "A+B"  la  Aguja  de  todo  el  cuerpo  ***   ***  C  ES  UNA  TECNICA  DISTINTA  ***
+          *** "ABAJO,ADELANTE+ A/B"  la  estocada  marcial  ***   ***  ***
+          *** "ABAJO,ABAJO+ A/B"  la  aguja  subterranea  ***   ***  C  ES  EL  DEDAL  ***  ***
+          *** "ABAJO,ARRIBA+ A/B/C"  el  impostor  ***   ***  ***
+          *** "ABAJO,ADELANTE,ARRIBA,ABAJO,ARRIBA+ A"  el  SOLO  QUE  PEGA  POR  DETRAS  ***  ***  DANO  x2  ***  ***
+================================================================================
+================================================================================
+================================================================================

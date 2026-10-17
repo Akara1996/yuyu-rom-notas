@@ -211,7 +211,8 @@
   La tabla de $68 elige el PRIMER estado.  Despues la fisica te lleva por
   una cadena:
 
-      $26 -> $25 -> $28 -> $29 -> $2A -> $00
+      *** MEDIDA ENTERA EL 17-10 CON EL DEDAL DE TOGURO MAYOR:  ***
+      *** $25 52f -> $28 26f -> $29 25f -> $2A 19f -> $2B  ***  [VERIFICADO]
       $30 -> $28 -> $29 -> $2A -> $00
       $2F -> ...
 

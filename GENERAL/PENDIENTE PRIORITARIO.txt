@@ -225,15 +225,41 @@
 6.  LOS TESTS
 ================================================================================
 
-  *** TEST 1.  BLOQUEADO PARADO  VS  AGACHADO.  DOS EN UNO  ***
+  *** TEST 1.  EL MISMO GOLPE DOS VECES  VS  DOS GOLPES DISTINTOS  ***
 
-      Es el mas barato del proyecto:  sirve para los once personajes.
+      *** [CAMBIADO EL 17-10.  El de parado contra agachado era mio  y]
+      *** parece equivocado.  Este es el bueno. ***
 
-          rival bloqueando PARADO,    que le peguen   ->  $20 o $21 ?
-          rival bloqueando AGACHADO,  que le peguen   ->  el otro
+          el MISMO golpe dos veces a un enemigo en el aire
+              ->  el rival se loopea en UN solo estado
 
-      Con cualquier personaje y cualquier golpe basico.
-      Cierra las dos parejas (0,1) y (2,3)  y dice cual es el de arriba.
+          dos golpes DISTINTOS a un enemigo en el aire
+              ->  el rival alterna $20  y  $21
+
+      *** SI SE CONFIRMA:  $20  Y $21  SON ANIMACIONES  NO REACCIONES. ***
+      *** Y ENTONCES $68=0  $68=1  $68=2  $68=3  SON SOLO DOS CASOS: ***
+
+          0  y 2  ->  $20    hitstun y chip,  la misma animacion
+          1  y 3  ->  $21    lo mismo,  con la animacion alternativa
+
+      *** Y EL $68  DECIDE EL EFECTO.  LA ANIMACION LA DECIDE  ***
+      *** EL CONTADOR DE GOLPES DEL COMBO,  O EL PROPIO RIVAL.  ***
+
+  *** TEST 1 bis.  EL DRAGON DE HIEI  ***
+
+      El mas barato del proyecto para la tabla de $68.
+
+          dos golpes de un basico de Hiei a un enemigo en el aire
+              primero SIN el dragon    ->  backflip     (el usuario)              despues CON el dragon   ->  knockdown
+
+      *** Y DA LA MITAD DE LA TABLA:  $21  Y $25  EN UN MISMO
+      PERSONAJE,  CON EL MISMO GOLPE.  ***
+
+  *** TEST 1 ter.  EL AFTERIMAGE DE HIEI  ***
+
+      ADELANTE x4.  La unica tecnica sin boton. Y $85 es lo unico que Hiei tiene de mas en $80-$8F.
+      ->  ADELANTE x4 da $85?
+
 
   *** TEST 2.  EL AGARRE DE KUWABARA  ***
 

@@ -2589,3 +2589,30 @@ o
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+  LA BANDA $80-$8F.  LOS BASICOS SON UNA TABLA COMPARTIDA
+================================================================================
+
+      $80  $81  $82  $83  $84   VIVOS  EN LOS ONCE
+      $85  VIVO  SOLO EN HIEI
+      $86  VIVO  EN LOS ONCE
+      $87  VIVO  SOLO EN ITSUKI
+      $88  a  $8F  MUERTOS  EN LOS ONCE
+
+      *** EL PATRON ES IDENTICO EN LOS ONCE.  68 VIVOS DE 176.  ***
+      *** O SEA QUE NO ES UNA TABLA POR PERSONAJE.  ***
+      Cada personaje tiene su propio dato  (anims,  dano)  en el mismo id.
+
+      *** Y $85  LO TIENE SOLO HIEI  Y $87  SOLO ITSUKI.  ***
+      Son eslabones de la cadena de masheo que solo esos personajes
+      tienen.  $85  nunca se ha disparado.  [ABIERTO]
+
+      *** Y TAMBIEN EXISTE $C0-$FF,  CON EL MISMO PATRON EN LOS ONCE  ***
+      239 o 240 punteros no nulos por personaje.  [DERIVADO]
+      Nunca sale en un log.  [ABIERTO]
+
+      *** EL ESPACIO DE ESTADOS NO ES $00-$BF.  ES MUCHO MAS GRANDE. ***
+
+================================================================================

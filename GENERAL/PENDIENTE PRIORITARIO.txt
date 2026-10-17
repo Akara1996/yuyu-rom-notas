@@ -456,7 +456,8 @@
 
   [x]  $20 y $21  son parado y agachado?   NO.  Son dos animaciones de pie
        que se alternan para que el combo no se vea loopeado.  (usuario, 17-10)
-       Y CON EL MISMO GOLPE REPETIDO  SE LOOPEA  UNA  SOLA:  $21 $21 $21  medido.
+Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
+       Las dos corridas con golpes reales  dan  $20 $21 $20.
 
   [x]  Hay cadena de A en Chui?   NO.  Cuatro A  =  cuatro $82.
        $A1  es  un  CANCEL,  no  el  cuarto  A.  La ventana  son  36  frames.

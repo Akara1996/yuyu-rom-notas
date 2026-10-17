@@ -16854,3 +16854,628 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+139.  $A1  ES UN CANCEL.  CONFIRMADO
+===============================================================================
+
+  *** LO QUE SE SABIA  ***
+
+      (usuario)  "a que te refieres con A y luego B?"
+
+  *** Y ERA UNA PREGUNTA CORRECTA,  PORQUE LO ESCRIBE COMO UN HECHO Y NO LO ERA  ***
+
+  ================================================================================
+  139.1  EL LOG LITERAL
+
+      f178  $00 -> $82              el A
+            $82 anim $01  HIT+CLASH   <- el A CONECTA
+      f184  [MOV 01] P1  B            <- se aprieta B
+      f187  $82 -> $A1
+
+  *** EL B  SE APRIETO EN EL FRAME ACTIVO DE $82.  NO DESPUES.  ***
+
+  ================================================================================
+  139.2  Y B SOLO DESDE EL SUELO  =  $80
+
+      $00 -> $80   f159        $80 -> $00   f173        14 frames
+
+      $80 anim $02   HIT+CLASH   mascara $4E
+                     +64=0C   +65=04   +66=04   +68=00
+
+  *** B  SOLO  DA $80.  NO DA $A1.  ***
+
+  *** O SEA QUE $A1  NO ES UNA COMBINACION DE COMANDOS  ***
+  *** ES UN CANCEL:  APRETAR UN BOTON EN TU PROPIO FRAME ACTIVO  ***
+
+  *** Y ESO REORDENA LA LECTURA DE LA BANDA $80-$8F  ***
+  Los ids no son solo "que golpe es".  Son tambien "que pasa si aprieto aqui".
+  Y las seis diferencias entre personajes  ($85  de Hiei,  $87  de Itsuki)
+  podrian ser LOS CANCELES QUE ESE PERSONAJE TIENE.
+
+  *** Y ESO CONECTA TRES COSAS ABIERTAS DE GOLPE  ***
+      el $85  de Hiei   =  su Afterimage?  o su cancel?
+      the $87 de Itsuki =  sus tres manos?  o su cancel?
+      el $A1  de Chui   =  un cancel confirmado
+
+  ================================================================================
+  139.3  Y LOS BASICOS DE CHUI.  LOS DOS WHIFFEARON
+
+  --------------------  -----  ---------  ------  ---------  ----  --------
+                      id     man   arranque  dao   $64     $68   estado
+  A en suelo   $82      ?      ?       ?       ?    $0E     $05   $25
+  B en suelo   $80      ?      14 f     4     $0C     $00   $20
+  --------------------  -----  ---------  ------  ---------  ----  --------
+
+  *** EL A  DE CHUI  DA DERRIBO CON VENTANA:  $68 = 5  ->  $25  ***
+  *** EL B  DA HITSTUN NORMAL:                $68 = 0  ->  $20  ***
+
+  *** Y ESO ES LA DIFERENCIA ENTRE A  Y  B  EN UN BASICO:  NO EL GOLPE,  ***
+  *** SI EL ESTADO EN EL QUE DEJA AL RIVAL  ***
+
+  (usuario)  "los basicos producen knockdown con ventana de 8 frames"
+  *** ESO ES $68 = 5.  Y AHORA ESTA MEDIDO EN CHUI.  ***
+
+  *** Y NINGUNO DE LOS DOS CONECTO:  NI [HP]  NI [MP GANA]  ***
+  Los dos se midieron al aire.  Falta con el rival al alcance para tener el
+  dano real  y  la serie de man.
+
+  ================================================================================
+  139.4  Y $0C  ES UN VALOR NUEVO DE $64
+
+  *** LOS $64  QUE HEMOS VISTO  ***
+
+      $00   NADA.  Los tres campos de golpe son ruido.
+      $0C   el B basico de Chui
+      $0E   el A basico de Chui
+      $1D   los golpes 2 a 5 de la ulti de Chui
+      $1E   el golpe final de la ulti de Chui
+      $3E   los tornados y la ulti de Jin
+
+  *** Y SON TODOS OFFSETS:  12, 14, 29, 30, 62  ***
+  *** O SEA QUE $64  ES UN INDICE O UNA DISTANCIA DENTRO DE UNA TABLA  ***
+
+  *** Y LA REGLA SE SIGUE CUMPLIENDO  ***
+      $64 = $00   ->  $65, $66 y $68  son RUIDO
+      $64 != $00  ->  son REALES
+
+  *** CON ESTE DATO NUEVO LA CORRELACION SUBE  ***
+
+      $64 = $00   ->  5 de 5   RUIDO
+      $64 != $00  ->  7 de 7   REALES
+
+  *** Y ENTRE LOS $64 != $00  NO HAY NI UN SOLO FALLO.  ***
+
+  *** Y EL "DIFIERE" DE $A2  SIGUE SIENDO EL UNICO DUDOSO  ***
+      era el segundo golpe seguido.  [ABIERTO]
+
+  ================================================================================
+  139.5  LA MATRIZ DE CANCELES.  CUATRO PRUEBAS DE UN BOTON
+
+  *** SI $A1  ES UN CANCEL,  TIENE QUE SALIR DESDE CUALQUIER FRAME ACTIVO  ***
+
+      A  y  en el frame activo de B   ->  $A1 ?   u  otra cosa ?
+      B  y  en el frame activo de A   ->  $A1      MEDIDO
+      A  y  en el frame activo de A   ->  ?        el auto-cancel
+      B  y  en el frame activo de B   ->  ?
+
+  *** CUATRO PRUEBAS.  Y SI LAS CUATRO SON DISTINTAS,  LA BANDA $80-$8F  ***
+  *** NO SON "GOLPES BASICOS":  SON LA TABLA DE CANCELES.  ***
+
+  *** Y ESO EXPLICA POR QUE HIEI  Y  ITSUKI  TIENEN UN ID MAS QUE LOS DEMAS  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+140.  $A1  ES UN CANCEL.  CERRADO.  Y EL "3 VIAS"  ES LA ULTI
+===============================================================================
+
+  *** LO QUE SE SABIA  ***
+
+      CONTEXTO 139  decia:  "$A1 es un cancel.  B en el frame activo de A"
+      PENDIENTE PRIORITARIO TEST 9  pedia la matriz de canceles.
+
+  ================================================================================
+  140.1  LAS DOS CORRIDAS DE AAAA.  Y LA SEGUNDA DECIDE
+
+      ---- corrida 1 (al aire) ---------------------------------
+
+      $00 -> $82   f99        $82 -> $00   f135
+      [MOV 01] P1 A  id=$00  (pulsada en el 135)
+      $00 -> $A1   f136
+
+      *** EL ID EN EL MOMENTO DE APRETAR  ERA $00.  EL RIVAL DEL CANCEL.  ***
+
+      ---- corrida 2 (al aire) ---------------------------------
+
+      $00 -> $82   f85        $82 -> $00   f121
+      [MOV 01] P1 A  id=$82  (pulsada en el 116)
+      $00 -> $A1   f122
+
+      *** EL ID EN EL MOMENTO DE APRETAR  ERA $82.  ***   [MOV 01] P1 A  id=$82
+      *** LA PULSADA FUE EN EL FRAME 116.  Y $82  TERMINO EN EL 121.  ***
+      *** O SEA QUE SE APRETO 5 FRAMES ANTES DE QUE TERMINARA.  ***
+
+  *** ESTO ES LA PRUEBA QUE FALTABA  ***
+  *** El boton era A.  No B.  Y el estado era $82.  No $00.  ***
+
+  *** $A1  ES UN CANCEL.  PUNTO.  NO ES EL "CUARTO A".  ***
+
+  ================================================================================
+  140.2  Y LA VENTANA DEL CANCEL  SON  36  FRAMES
+
+      $82  arranca en f85   y  vuelve a $00  en f121       36 frames
+      la pulsacion del cancel  fue en f116
+
+  *** LA VENTANA ES ANCHA.  NO ES UN FRAME.  ***
+  *** ALcanza CON VOLVER A APRETAR A  ANTES DE QUE $82  VUELVA A $00.  ***
+
+      $82  anim $01  tiene la caja en el frame 9 del movo
+      pero el cancel entra hasta el frame 36
+
+  *** O SEA QUE HAY DOS COSAS DISTINTAS DENTRO DE $82  ***
+
+      la ventana de CAJA    1 golpe,  al principio
+      la ventana de CANCEL  36 frames,  toda la duracion
+
+  *** Y ESO ES POR QUE A,A  NO DABA $A1  ***
+  En la prueba A,A  el segundo A  llego en f49  y $82  habia terminado en f48.
+  Uno frame tarde.  Por eso dos $82.
+
+  ================================================================================
+  140.3  $A1  MEDIDO OTRA VEZ.  Y LAS TRES REACCIONES SON IGUALES
+
+      $00 -> $A1   f122      $A1 -> $00   f139       17 frames
+      [GOTEO] f150   123 -> 107   (perdio 16)
+
+      anim $01   $64=00   $65=01   $66=0E   $68=05   RUIDO  ($64 = $00)
+      anim $03   $64=1D   $65=00   $66=02   $68=01   ->  $21
+      anim $05   $64=1D   $65=06   $66=02   $68=01   ->  $21
+      anim $07   $64=1D   $65=00   $66=02   $68=01   ->  $21
+
+  *** 4 ANIMS CON CAJA.  LA TABLA DEL ROM DECIA 4.  QUINTA VEZ QUE ACIERTA.  ***
+  *** 16 DE MANA.  17 FRAMES.  4 GOLPES.  ***
+
+  *** Y LOS TRES $68  VALIDOS  SON  $01.  LOS TRES.  ***
+
+  *** ESO ES EXACTAMENTE LO QUE DIJO EL USUARIO  ***
+  "cuando haces combo exactamente con el mismo golpe, se loopea el mismo
+   estado en el rival"
+
+  *** LA AL AIRE:  $21 $21 $21.  MISMO ESTADO TRES VECES.  ***
+
+      y conectando:  $20  $21  $20
+      (ahi si alterna,  pero son $20 y $21  que son hitstun, no derribo)
+
+  *** Y LOS ULTIMOS TRES GOLPES  DE UN COMBO CONECTADO  ***
+      $20  $21  $20   todos hitstun
+  *** O SEA QUE $A1  ES HITSTUN,  NO DERRIBO.  ***
+
+  ================================================================================
+  140.4  CORRECCION IMPORTANTE:  $65  NO OBEDECE LA REGLA DE $64
+
+  *** LO QUE HABIA ESCRITO  ***
+      $64 = $00   ->  $65, $66 y $68 son RUIDO
+      $64 != $00  ->  son REALES
+
+  *** HAY QUE PARTIRLO EN DOS  ***
+
+      $64 = $00   ->  RUIDO
+      $64 != $00  ->  $68  ES REAL        8 de 9
+      $64 != $00  ->  $66  PROBABLE       (no verificado)
+      $64 != $00  ->  $65  ES RUIDO       *** FALLA  ***
+
+  *** LA PRUEBA DEL FALLO  ***
+
+      anim $03  de $A1   con $64=1D  en las dos corridas
+
+          conectando:   $65 = 04
+          al aire:      $65 = 00
+
+      *** MISMO ANIM.  MISMO $64.  $65  DISTINTO.  ***
+
+  *** Y EL DAO REAL  NO CUADRA CON $65  EN NINGUN CASO  ***
+      $65=03  dio  -8
+      $65=04  dio  -6
+      $65=04  dio  -6
+      $65=06  dio  -8
+
+  *** CONCLUSION  ***
+  *** $65  NO ES EL DAO.  NO EN NINGUN CASO.  EL UNICO DAO ES [HP].  ***
+  *** Y ESO VALE TAMBIEN PARA $66.  El unico stun fiable  es el que se ve
+      en pantalla,  no el del blob.  ***
+
+  *** LO QUE SI OBEDECE LA REGLA  ***
+  *** $68.  8 de 9 aciertos.  El noveno  es el del segundo golpe seguido de
+      Jin,  que ya estava marcado como el unico DIFIERE.  ***
+
+  ================================================================================
+  140.5  LA CORRECCION DEL USUARIO:  EL "TRES VIAS"  ES LA ULTI
+
+  *** LO QUE YO PROPUSE COMO SIGUIENTE PASO  ***
+      "ABAJO,ADELANTE,ARRIBA + A   motion de tres vias,  que no tenemos en
+       ningun otro personaje"
+
+  *** ESTA MAL  ***
+
+  *** EL USUARIO  ***
+      "ese comando de 3 vias es la ulti y ya la hice"
+
+  *** Y ADEMAS EL MISMO USUARIO  LO HABIA DICHO ANTES,  Y ESTABA EN EL PDF  ***
+
+      [usuario]  "no tiene abajo arriba,  sacando la ulti"   [ABIERTO]
+
+      *** LEIDO MAL.  "NO TIENE ABAJO-ARRIBA  SALVO LA ULTI"  SIGNIFICA  ***
+      *** QUE ABAJO,ADELANTE,ARRIBA  ES  LA  ENTRADA  DE  LA  ULTI.  ***
+
+  *** Y LA ULTI YA ESTA MEDIDA ENTERA  ***
+      $AA $AB   200 de man   $2F  en los 5 primeros golpes   $30  al final
+
+  *** Y A+B  TAMBIEN ESTABA MEDIDO  Y LO DABA POR FALTA  ***
+      $A4   16 de man   0 ANIMS CON CAJA
+
+  *** 0 ANIMS CON CAJA  ES LO QUE TIENE QUE TENER UNA EVASION.  CUADRA.  ***
+
+  *** $A4  =  LA EVASION ENGAOSA.  ***
+
+  *** ASI QUE DE LA LISTA DEL USUARIO,  QUEDAN DOS SIN MEDIR  ***
+      AAAA  y  BBBB
+      el reigan propio de Chui en el suelo
+
+  *** Y AAAA  YA ESTA MEDIDO:  NO HAY CADENA.  CUATRO A  =  CUATRO $82.  ***
+  *** BBBB  NO.  ***
+
+  ================================================================================
+  140.6  Y EL AFTERIMAGE DE HIEI,  MEDIDO ENTERO
+
+      *** LA PRUEBA  ***
+          usuario:  "Hiei adelante x4"
+
+      $00 -> $05   f72      $05 -> $00   f76      el paso
+      $00 -> $05   f80      $05 -> $0B   f82      el paso
+      $0B -> $A0   f96                          *** TELE  +64  ***
+      $A0 -> $A1   f118                         *** TELE  -64  ***
+      $A1 -> $00   f141
+      [GOTEO] f120   199 -> 191   (perdio 8)
+
+  ------------------------------------------------------------------
+    man            8          [GOTEO] f120
+    duracion       45 f       f72 -> f141,  del paso al ultimo frame
+    $0B            14 f       f82 -> f96
+    $A0            22 f       f96 -> f118
+    $A1            23 f       f118 -> f141
+  ------------------------------------------------------------------
+
+  *** LOS DOS TELEPORTES  SE CANCELAN.  EL NETO ES CERO.  ***
+  *** LLEGA AL MISMO SITIO DE DONDE PARTIO.  ***
+
+  *** Y NO TIENE CAJA.  LAS CUATRO MASCARAS  SON $12  (PUSH+HURT).  ***
+  *** NO HACE DAO.  ES PURO MOVIMIENTO.  ***
+
+  *** Y $85  NO ES EL AFTERIMAGE.  MI HIPOTESIS  ERA FALSA.  ***
+  *** $85  SIGUE SIN NOMBRE.  ***
+
+  *** Y $A0  Y $A1  EN HIEI  NO SON  EL CANCEL DE CHUI.  ***
+  Mismo numero,  personaje distinto.  Otra vez.
+
+  ================================================================================
+  140.7  Y LA MATRIZ DE CANCELES,  COMPLETA
+
+      A -> A      dos $82 limpios       *** NO HAY AUTO-CANCEL  ***
+      B -> B      dos $80 limpios       *** NO HAY AUTO-CANCEL  ***
+      B -> A      $80 -> $82            *** CANCEL  ***
+      A -> B      $82 -> $A1             *** CANCEL  ***
+      A  y  B juntos                   $A4   la evasion,  16 de man
+
+  *** LA REGLA  ***
+      *** EL CANCEL SOLO FUNCIONA CON UN BOTON DISTINTO.  ***
+
+  *** Y NO ES SIMETRICO  ***
+      B -> A  cancela  a  un BASICO   ($82)
+      A -> B  cancela  a  una TECNICA ($A1)
+
+  *** Y $A1  ES SOLO-CANCEL  ***
+  *** Desde $00  ningun camino neutro llega a $A1.  ***
+
+  ================================================================================
+  140.8  Y $A1  CONECTADO:  EL OTG DE CHUI.  5 GOLPES
+
+      *** (usuario)  ***
+      "no pega al piso,  eleva al enemigo con ventana de 8 y ahi entran
+       mientras lo levantas mas"
+
+      $00 -> $82   f133
+      $82 anim $01   HIT+CLASH   $64=00   $68=00
+      [HP] f138   P4  223 -> 203   (-20)
+      P4:  $00 -> $25              *** EL RIVAL CAE A $25  ***
+      $82 -> $A1   f155
+      $A1 anim $01   $64=00   $68=05
+      [MP GANA] f158   +2
+      [HP] f158   P4  203 -> 195   (-8)
+      $A1 anim $03   $64=1D   $68=00
+      [MP GANA] f177   +4
+      [HP] f177   P4  195 -> 189   (-6)
+      $A1 anim $05   $64=1D   $68=01
+      [MP GANA] f196   +6
+      [HP] f196   P4  189 -> 183   (-6)
+      $A1 anim $07   $64=1E   $68=00
+      [MP GANA] f215   +8
+      [HP] f215   P4  183 -> 175   (-8)
+      $A1 -> $00   f232
+      P4:  $25 -> $28   f294
+
+  ------------------------------------------------------------------
+                      golpe   HP     MP GANA   $68   estado rival
+      $82  anim $01        1   -20      -       00    $25  derribo
+      $A1  anim $01        2    -8      +2      05    $25
+      $A1  anim $03        3    -6      +4      00    $25
+      $A1  anim $05        4    -6      +6      01    $25
+      $A1  anim $07        5    -8      +8      00    $25
+      ------------------------------------------------------------------
+      TOTAL                   48      +20
+  ------------------------------------------------------------------
+
+  *** $A1  CUESTA 16 Y DEVUELVE 20.  NETO +4.  ***
+  *** ES LA TECNICA MAS BARATA DE CHUI  SI CONECTAS CUATRO GOLPES.  ***
+
+  *** Y EL RIVAL NO CAMBIO DE ESTADO  NUNCA  ***
+      entro en $25  en el f138  y  salio en $28  en el f294
+      *** 156 FRAMES  EN UN SOLO ESTADO.  ***
+
+  *** ESO ES LO QUE DIJO EL USUARIO:  EL MISMO GOLPE REPETIDO LOOPEA  ***
+  *** PERO ACA NO LLEGO NI A $20  NI A $21:  LA REACCION DEL A DE CHUI  ***
+  *** ES $68 = 5  ->  $25  DERRIBO CON VENTANA.  UN SOLO ESTADO FIJO.  ***
+
+  ================================================================================
+  140.9  Y LA VENTANA DEL COMBO:  19 FRAMES
+
+      f138   f158   f177   f196   f215
+
+  *** LOS CINCO GOLPES  A 19-20 FRAMES  UNO DEL OTRO  ***
+  *** Y LOS CUATRO PAGOS  SALIERON.  LA VENTANA AGUANTO LAS CUATRO VECES.  ***
+
+      *** ESTA EN EL TOPE DEL RANGO QUE DIJO EL USUARIO PARA A  (16 a 19).  ***
+
+  *** Y EL [MP GANA]  DICE  "a: A (id $82)"  EN LOS CUATRO  ***
+  *** O SEA QUE LOS 5 GOLPES  SE ATRIBUYEN A LA PULSACION DE A.  ***
+  *** LA SERIE ES POR COMBO,  NO POR GOLPE INDIVIDUAL.  ***
+
+  ================================================================================
+  140.10  DONDE ESTA CHUI
+  ================================================================================
+
+  MEDIDOS (8 de 18)
+
+      $82   A en el suelo          0 man    $64=0E  $68=05  ->  $25
+      $80   B en el suelo          0 man    $64=0C  $68=00  ->  $20
+      $A1   cancel A en A           16 man   4 golpes  17 f
+      $A4   la evasion engaosa     16 man   0 ANIMS CON CAJA
+      $A2   ABAJO,ABAJO suelo A     20 man   23 f   21 dao   $26
+      $A2   ABAJO,ABAJO suelo B     16 man   16 f   23 dao   $26
+      $AF   ABAJO,ABAJO aire A      20 man   30 f   19 dao   $25 -> $B0
+      $AE   ABAJO,ABAJO aire B      16 man   15 f   20 dao   $25 -> $B0
+      $B0   el backflip
+      $AA $AB  la ulti              200 man  6 golpes 91 dao  $2F y $30
+
+  SIN MEDIR (8)
+
+      $A0   $A3   $A5   $A6   $A7   $AC   $AD   $B1
+
+  *** $A6  Y $A7  SON SIN CAJA.  PROBABLES MANIOBRAS,  COMO $A4.  ***
+  *** $AC  Y $AD  SON LOS DOS QUE PRODUCEN $30.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+141.  BBBB  DA  $A0.  Y  >A  DA  EL REIGAN
+===============================================================================
+
+  ================================================================================
+  141.1  SI HAY CADENA DE B.  Y LA DE A Y LA DE B NO SON IGUALES
+
+  *** EL USUARIO  ***
+
+      "B,B,B,B (salen hasta 2 B normales hasta que agarre el imput)"
+
+  *** EL LOG  ***
+
+      $00 -> $80   f73       (dur $5A=02)
+      $80 anim $02  HIT+CLASH   dos veces
+      [MOV 01] P1 B  id=$80  mana -12      pulsada en el 84
+      $80 -> $A0   f88
+      [GOTEO] f90   223 -> 211   (perdio 12)
+      $A0 anim $01 $03 $05 $07   HIT+CLASH   4 veces
+      $A0 -> $00   f121      (dur $5A=0A)
+
+  *** Y LA TABLA DEL ROM  $A0  =  4/4  ANIMS CON CAJA.  Y SON 4.  ***
+  *** SEXTA VEZ QUE ACIERTA.  ***
+
+  ------------------------------------------------------------------
+                          $A1  (AAAA)          $A0  (BBBB)
+                          -------------------  -------------------
+      man                 16                  12
+      anims con caja      4                   4
+      duracion al aire    17 f                33 f
+      duracion conectando 77 f               63 f
+      $64 de los golpes   $1D $1D $1E         $1D $1D $1E
+  ------------------------------------------------------------------
+
+  *** LA CADENA DE B  ES MAS BARATA  Y  PEGA MENOS  ***
+
+      $A1   5 golpes   48 de dano   cuesta 16   neto +4
+      $A0   3 golpes   17 de dano   cuesta 12   neto -6
+
+  ================================================================================
+  141.2  Y LA DURACION SE ESTIRA CUANDO CONECTA
+
+      $A1   al aire     17 f        conectada   77 f
+      $A0   al aire     33 f        conectada   63 f
+
+  *** EL MOVO SE ALARGA PARA CUBRIR TODAS SUS CAJAS.  ***
+  *** CUANDO WHIFFEA  SE CORTA.  ***
+
+  ================================================================================
+  141.3  CORRECCION:  $20  Y $21  SI  ALTERNAN  CON  EL  MISMO  GOLPE
+
+  *** LO QUE ESCRIBE  HACE UN RATO  ***
+
+      $A1  al aire   $68 = $01  $01  $01     ->  $21 $21 $21
+      "eso confirma lo que dijo el usuario:  el mismo golpe loopea un estado"
+
+  *** ESTO ESTA MAL.  RECALCULO.  ***
+
+  *** ESA CORRIDA  ERA  AL AIRE.  NO HUBO NI UN [HP].  NI UN [MP GANA].  ***
+
+  *** O SEA QUE  NO  HUBO  NI  UN  GOLPE  QUE  PRODUJERA  UNA  REACCION.  ***
+  *** EL $68  DEL BLOB  AHI  ES  EL  VALOR  CONFIGURADO  DEL  GOLPE.  ***
+  *** NO  ES  EL  ESTADO  DE  NADIE.  ***
+
+  *** NO  PRUEBA  NADA.  ***
+
+  *********************  LAS DOS CORRIDAS QUE SI  TENIAN  GOLPES REALES  *
+
+      $A1  conectando        $68 = $00  $01  $00      ->  $20  $21  $20
+
+      $A0  conectando        el $5F  DEL  RIVAL:
+                               f133   $00 -> $20
+                               f155   $20 -> $21
+                               f178   $21 -> $20
+                               f209   $20 -> $00
+
+  *** Y EL DATO DE $A0  VIENE  DEL  RIVAL,  NO  DEL  BLOB.  ES  EL  BUENO.  ***
+
+  *** $20  $21  $20.  ALTERNAN.  CON  EL  MISMO  GOLPE.  ***
+
+  *** LA AFIRMACION  "SE LOOPEA  EL  MISMO  ESTADO"  NO  ESTA  CONFIRMADA.  ***
+  *** En las dos unicas corridas con golpes reales,  ALTERNAN.  ***
+
+  *** LO QUE SI CONFIRMA EL USUARIO  ***
+  *** $20  Y $21  SON  LAS  DOS  ANIMACIONES  DE  PI  QUE  SE  INTERCALAN  ***
+  *** ESO SIGUE  EN  PIE.  Y ESO  ESTA  EN  EL  $5F  DEL  RIVAL.  ***
+
+  *** LO QUE  NO  ESTA  EN  PIE  ES  LA  PARTE  DEL  LOOP.  [ABIERTO]  ***
+
+  ================================================================================
+  141.4  >A  =  EL  REIGAN  DE  CHUI.   $05  ->  $A6  ->  $A7
+
+  *** EL USUARIO  ***
+
+      "Reigan de chui lv minimo -equivale a reigan lv2 genkai y yusuke-"
+
+  *** EL LOG  ***
+
+      [MOV 01] P1  >A  id=$05  mana -4        pulsada en el 97
+      $05 -> $A6   f98      (dur $5A=06)
+      $A6 -> $A7   f99      (dur $5A=08)
+      [OBJ] f101   P1 $300:  handler=$0001361E  vida=256  $6E=$01
+                        *** $6E  IGUAL QUE UN JUGADOR  ***
+      [5F-MANO] f112   P1-OBJ1: $00 -> $21   dist=64 px
+      [MOV 02] P1-OBJ1  golpe  id=$21  mana -0
+          BLOB VIVO  +64 attrs=1C  +65 DANO=08  +66 stun=04  +67=01  +68=00
+      [OBJ] f113   handler=0  vida=0        *** EL OBJETO SE FUE  ***
+      [GOTEO] f120   195 -> 189   (perdio 6)   $5F=$A7
+      $A7 -> $00   f137      (dur $5A=0A)
+      [IMPACTO] f144   P4 167 -> 159  (-8)
+          $7E stun: 62 -> 58  (-4)     $69 hitpause=16
+          [CAJA] P1-OBJ1  ACTIVA = 32 f  (frames 113..144)
+          anim $59 de 0 a 1   startup 0 f   recovery 1 f
+
+  ------------------------------------------------------------------
+      $05   la carga        4 de man
+      $A6   el sorteo        1 frame    (f98 -> f99)
+      $A7   el reigan vivo   38 frames  (f99 -> f137)
+      objeto                8 de dano   4 de stun   32 f de caja
+  ------------------------------------------------------------------
+      TOTAL                10 de man
+
+  *** $A6  Y $A7  TIENEN  0  ANIMS  CON  CAJA  EN  LA  TABLA  DEL  ROM.  ***
+  *** CONFIRMADO:  0/0  Y  0/0.  ***
+
+  *** Y NO HAY NINGUN  CONFLICTO.  ***
+
+  ================================================================================
+  141.5  CORRECCION IMPORTANTE:  CERO CAJA  NO  SIGNIFICA  EVASION
+
+  *** LO QUE  ESCRIBE  ANTES  EN  ESTE  MISMO  DOCUMENTO  ***
+
+      "*** $A6  Y $A7  SON SIN CAJA.  PROBABLES MANIOBRAS,  COMO $A4. ***"
+      "$A6  $A7  Las tres sin caja.  Que hacen si no pegan."
+
+  *** FALSO.  $A6  Y $A7  SON  EL  REIGAN.  ***
+
+  *** Y  EL  MOTIVO  POR  EL  QUE  NO  TIENEN  CAJA  ES  OTRO  ***
+
+      *** EL  JUGADOR  NUNCA  PEGA  CON  EL  REIGAN.  PEGA  EL  OBJETO.  ***
+      *** LA  CAJA  ESTA  EN  EL  OBJETO,  NO  EN  EL  PERSONAJE.  ***
+
+  *** REGLA  ***
+
+      *** 0  ANIMS  CON  CAJA  EN  EL  PERSONAJE  NO  SIGNIFICA  NADA  ***
+
+      puede ser:  una evasion  ($A4)
+                  una maniobra sin golpe  ($B0 el backflip)
+                  un hechizo que actua por objeto  ($A6 $A7)
+
+      *** HAY  QUE  MIRAR  SI  APARECE  UN  [OBJ].  ***
+
+  ================================================================================
+  141.6  Y EL OBJETO  DEL  REIGAN  ES  DE  UN  SOLO  USO
+
+      [OBJ] f101   vida=256   $6E=$01   handler=$0001361E
+      [OBJ] f113   vida=0     handler=0   *** se fue  ***
+
+  *** NACE CON 256  Y  SE  CONSUME  EN  EL  PRIMER  CONTACTO.  ***
+
+  *** Y LA  CAJA  SIGUE  VIVA  31  FRAMES  MAS  DESPUES  DE  QUE  EL  ***
+  *** OBJETO  DESAPARECIO  (  f113  a  f144  ).  ***
+
+  *** O  SEA  QUE  LA  CAJA  Y  EL  OBJETO  NO  SON  LO  MISMO.  ***
+
+  ================================================================================
+  141.7  DONDE ESTA CHUI  CON  EL  ROM  DE  AL  LADO
+
+  ROM:  $A0 4/4   $A1 4/4   $A2 1/1   $A3 1/1   $A4 0/0   $A6 0/0
+        $A7 0/0   $AA 5/5   $AB 1/1   $AC 8/8   $AD 8/8   $AE 1/1
+        $AF 1/1   $B0 0/0   $B1 0/0   $B8 1/1
+
+  *** $A5  NO ESTA  EN  LA  LISTA.  ESTA  MUERTO  EN  CHUI.  ***
+
+  ================================================================================
+  141.8  MEDIDOS (11 de 18)
+  ================================================================================
+
+      $82   A en el suelo           0 man   $64=0E  $68=05  -> $25
+      $80   B en el suelo           0 man   $64=0C  $68=00  -> $20
+      $A1   A repetido en A        16 man   4 golpes   5 al conectar   48 dmg
+      $A0   B repetido en B        12 man   4 golpes   3 al conectar   17 dmg
+      $A4   la evasion enganosa    16 man   0 ANIMS CON CAJA
+      $A2   ABAJO,ABAJO suelo A    20 man   23 f  21 dmg  $26
+      $A2   ABAJO,ABAJO suelo B    16 man   16 f  23 dmg  $26
+      $AF   ABAJO,ABAJO aire  A    20 man   30 f  19 dmg  $25 -> $B0
+      $AE   ABAJO,ABAJO aire  B    16 man   15 f  20 dmg  $25 -> $B0
+      $B0   el backflip            0 ANIMS CON CAJA
+      $05   la carga del reigan     4 man
+      $A6   el sorteo del reigan    0 ANIMS CON CAJA
+      $A7   el reigan vivo          0 ANIMS CON CAJA  38 f
+      objeto del reigan   8 dmg  4 stun  32 f  un solo uso  10 man
+      $AA $AB  la ulti             200 man  6 golpes  91 dmg  $2F y $30
+      $B8   el agarre
+
+  SIN MEDIR (3)
+
+      *** $A3    1  ANIM  CON  CAJA  ***
+      *** $AC    8  ANIMS  CON  CAJA  ***
+      *** $AD    8  ANIMS  CON  CAJA  ***
+      *** $B1    0  anims  con  caja  ***
+
+  *** $AC  Y $AD  SON  LO  QUE  MAS  PESO  TIENE  A  UN  PIE  ***
+  *** 8  anims  con  caja  cada  uno.  Y  SON  LOS  DOS  QUE  PRODUCEN  $30.  ***
+  *** O  SEA  QUE  SON  LAS  TECNICAS  QUE  MONTEAN  AL  RIVAL.  ***
+================================================================================
+================================================================================
+================================================================================

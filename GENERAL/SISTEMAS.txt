@@ -1630,9 +1630,13 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
               +2+4+6 = 12   no alcanza para otro Jigen to
               +6+8+10 = 24  alcanza          [COMPROBADO]
 
-      *** Y EL GOLPE BLOQUEADO NO CUENTA PARA NADA  ***
-      ni paga  ni avanza.  [ABIERTO]  falta probarlo.
+      *** UN GOLPE CUENTA SI:  ENTRA EN LA HURT,  EL RIVAL NO LO
+      BLOQUEA,  Y NO HUBO GAP.  *(**
+      *** Y SI CUENTA:  AVANZA EL CONTADOR SIEMPRE  (tambien los de
+      objeto y proyectil),  Y PAGA SOLO SI ES FISICO. ***
 
+      *** BLOQUEADO = NI AVANZA NI PAGA.  WHIFF = ROMPE EL COMBO. ***
+      [ABIERTO]  de cuantos frames es la ventana.
     *** Y POR ESO NADIE EXPLOTA LA ULTI EN EL JUEGO REAL  ***
         $28   la caida                 PUSH
         $29   la caida larga           PUSH

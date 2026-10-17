@@ -337,3 +337,60 @@
 
   [x]  La ventana de un B es 8 y la de un A es 16?
        SI,  a ojo del usuario.  Falta el numero exacto.  TEST 6.
+
+================================================================================
+================================================================================
+*** TEST 9.  LA MATRIZ DE CANCELES.  CUATRO PRUEBAS DE UN BOTON  ***
+
+      *** $A1  DE CHUI  RESULTA SER UN CANCEL:  B EN EL FRAME ACTIVO DE A  ***
+
+      B solo desde el suelo  =  $80.  No $A1.  MEDIDO.
+
+      *** O SEA QUE LA BANDA $80-$8F  NO SON SOLO "GOLPES BASICOS"  ***
+      Son tambien "que pasa si aprieto aqui".  Y las diferencias entre
+      personajes  ($85  de Hiei,  $87  de Itsuki)  pueden ser los canceles
+      que ese personaje tiene.
+
+      *** LAS CUATRO PRUEBAS  ***
+
+          A  apretado en el frame activo de B   ->  $A1 ?
+          B  apretado en el frame activo de A   ->  $A1   MEDIDO
+          A  apretado en el frame activo de A   ->  ?     el auto-cancel
+          B  apretado en el frame activo de B   ->  ?
+
+      *** Y CON LAS CUATRO,  HIEI  E ITSUKI  ***
+
+          ADELANTE x4  en Hiei   ->  $85 ?     (el Afterimage)
+          el mismo cancel en Itsuki  ->  $87 ?
+
+      *** SI LAS CUATRO SON DISTINTAS,  LA TABLA $80-$8F  ES LA TABLA DE
+      CANCELES  Y NO LA DE GOLPES.  ***  Eso reordena los basicos de todo el
+      juego  y habria que reescribirlos.
+
+  ================================================================================
+  LO QUE NO HAY QUE BUSCAR MAS
+  ================================================================================
+
+  [x]  Todos los lanzamientos horizontales son $26?   SI.
+       $26 solo sale de $68 = 6,  y a $26 no llega nadie mas.
+
+  [x]  $2F es un estado de Chui?   NO.  Es el destino del $68 = 9,
+       el empuje diagonal,  y lo producen seis agarres.
+
+  [x]  El $68 del blob siempre sirve?   NO.  Solo si $64 != $00.
+       Con $64 = $00  hay que leer el estado de la victima.
+       Correlacion:  $64 = $00  ->  5 de 5 RUIDO.
+                     $64 != $00  ->  7 de 7 REALES.
+
+  [x]  El $65 del blob siempre es el dao?   NO.  Misma regla.
+
+  [x]  $20 y $21  son parado y agachado?   NO.  Son dos animaciones de pie
+       que se alternan para que el combo no se vea loopeado.
+       (usuario, 17-10)
+
+  [x]  Hay cadena de A en Chui?   NO.  $82  es el basico de A  y las cuatro
+       pulsaciones dan $82.  $A1  es un cancel.
+
+  [x]  Los basicos son por personaje?   NO.  $80-$8F  es una tabla
+       compartida.  $85  es solo de Hiei  y $87  solo de Itsuki.
+================================================================================

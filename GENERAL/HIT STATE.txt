@@ -2408,3 +2408,306 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+150.  TOGURO  MAYOR.  EL  IMPOSTOR,  EL  RELOJ  DEL  STUN  Y  EL  EXPLOIT
+===============================================================================
+
+  ###############################################################################
+  150.1  CORRECCION  MIA.  EL  DEDAL
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "No, te estas equivocando.  El stun de dedal es de 64, y Toguro menor tiene
+       un aguante de 62, es el que mas golpes aguanta antes de aturdirse, pero
+       este golpe lo aturde de una, sin golpes previos, es junto a la burla de
+       kuwabara el unico golpe capaz de estunear al 100% de los personajes de
+       1 solo hit sin danos previos."
+
+  *** *** YO  DIJE  "LE  FALTAN  SOLO  2".  ESO  ES  VERIFICADAMENTE  CIERTO  Y  A  LA  ***
+  *** *** VEZ  UNA  FORMA  DE  DECIR  QUE  ES  UNA  FALLA.  ***  ***
+
+  *** *** LO  CORRECTO  ***
+
+      *** EL  DEDAL  ES  UNO  DE  LOS  DOS  UNICOS  GOLPES  DEL  JUEGO  QUE  TUMBAN  A  ***
+      *** CUALQUIERA  DE  LOS  ONCE  DESDE  CERO,  SIN  GOLPES  PREVIOS.  ***
+
+      *** EL  OTRO  ES  LA  PROVOCACION  DE  KUWABARA,  QUE  META  STUN  64.  ***
+
+  *** *** SON  LOS  DOS  UNICOS  GOLPES  CON  STUN  64  DEL  JUEGO.  ***  ***
+
+  ###############################################################################
+  150.2  Y  EL  DEDAL  NO  TIENE  CLASH.  ESTA  EN  LA  MASCARA
+  ###############################################################################
+
+      $A1 anim $02   HIT   mascara $3A      ***  SOLO  HIT.  NO  HIT+CLASH  ***
+
+  ------------------------------------------------------------------------------
+    mascara    que  lleva                     que  significa
+    ------------------------------------------------------------------
+    $12     PUSH + HURT                     el  normal
+    $08     solo PUSH                       la  pushbox
+    $26     PUSH + CLASH + HURT             el  dash
+    $44     HIT + CLASH                     un  golpe  normal  con  clash
+    $4E     HIT + CLASH                     otro  golpe  normal  con  clash
+    $3C     HIT + CLASH                     el  inicio  de  la  ulti
+    *** $3A     HIT  Y  NADA  MAS            ***  EL  DEDAL  ***  ***  SIN  CLASH  ***
+  ------------------------------------------------------------------------------
+
+  *** *** EL  DEDAL  NO  GENERA  CAJA  DE  CLASH.  ***   [VERIFICADO]
+
+  *** Y  ESO  ES  LO  QUE  LO  HACE  GANAR  LOS  TRADES  ***
+
+  *** (usuario)  ***
+
+      "el dedal NO TIENE CLASH, significa que gana trades de golpes porque el dedo
+       ignora colisiones, siempre y cuando el enemigo atacante no tenga muy lejos
+       su hurtbox del alcance de su hitbox; en ese caso recibes el golpe porque no
+       puedes clashearlo y el queda zafe.  Entonces contra el dedal lo ideal son
+       golpes que se prolonguen muy lejos de tu propia hurt."
+
+  *** *** O  SEA:  EL  DEDAL  GANA  A  CUANTO  MAS  LEJOS  ESTE  TU  CAJA  DE  GOLPE  Y  ***
+  *** *** MAS  CERCA  TU  HURTBOX.  ***
+
+  ###############################################################################
+  150.3  A + B  EN  EL  SUELO  =  $A0.   LA  AGUJA  DE  TODO  EL  CUERPO
+  ###############################################################################
+
+  *** (usuario)  "Saca agujas hacia ambos lados, tiene unos pocos frames de
+  invulnerabilidad iniciales y 2 cajas bastante grandes en ambas direcciones"  ***
+
+      [MOV 01] AB  id=$00  mana 24      pulsada en el 26
+      $80 -> $A0   f28
+      $A0 anim $00   PUSH          mascara $08
+      $A0 anim $03   HIT+CLASH     mascara $44   +64=00  +65=01  +66=02  +68=00
+      [HP] f41   P4  223 -> 209  (-14)   mundo P1=1053  P4=1104  dist=51
+      P4:  $00 -> $25   f42
+      $A0 anim $04   HURT          mascara $12   +64=1E
+      $A0 -> $00   f99      *** 71  frames  ***
+      P4:  $25 -> $28  f111      ->  $29  f137
+
+  ------------------------------------------------------------------------------
+      man           24
+      duracion      71  f
+      dano          14
+      $68           ---  $64 = $00,  ruido
+      estado        $25  CON  VENTANA   (del  $5F  del  rival)
+      2  cajas      una  a  cada  lado
+  ------------------------------------------------------------------------------
+
+  *** *** $A0  ES  LA  TECNICA  MAS  CARA  DE  TOGURO  MAYOR  QUE  NO  ES  ULTI.  ***  ***
+  *** *** 24  DE  MANA.  ***  ***
+
+  *** *** Y  ESTA  HECHA  DE  ESPALDAS  AL  ENEMIGO  Y  PEGO  IGUAL,  A  51  px.  ***  ***
+
+  *** *** $64 = $1E  EN  EL  ANIM  $04.  OTRO  VALOR  NUEVO.  ***  [VERIFICADO]
+
+  ###############################################################################
+  150.4  ABAJO,ARRIBA + A/B/C  =  EL  IMPOSTOR.  Y  EL  CLON  ES  UN  OBJETO
+  ###############################################################################
+
+  *** (usuario)  "comparte similitudes con el TP de Itsuki"  ***
+
+  ------------------------------------------------------------------------------
+    boton    $5F del clon    el  teleport    mundo  X    frames  del  $A7
+    ------------------------------------------------------------------
+    A        $A6              +176  px        1105           73
+    B        $A6              +112  px        1041           74
+    C        $A6               -48  px        1076           73
+  ------------------------------------------------------------------------------
+
+      $0D -> $A7    f66  /  f74  /  f65
+      [5F-MANO] f68  P1-OBJ1:  $00 -> $A6   dist=0  px
+      [GOTEO] 8 de mana  en  los  tres
+      [TELE 1]  confirmado  en  los  tres
+
+  *** *** $A6  ES  UN  [OBJ].  EL  CLON.  ***   [VERIFICADO]
+
+  *** *** Y  $A7  ES  EL  JUGADOR.  ***   [VERIFICADO]
+
+  *** *** ESTE  ES  EL  PRIMER  [OBJ]  QUE  VEMOS  CON  EL  ID  $A6.  ***  ***
+
+  *** *** EN  CHUI  $A6  ERA  EL  SORTEO  DEL  REIGAN.  EL  MISMO  NUMERO,  OTRA  COSA.  ***  ***
+
+  ------------------------------------------------------------------------------
+      C   -48  px    ***  APARECE  DETRAS  DE  TOGURO  ***  el  facing  se  invierte
+      B   +112 px    media  distancia
+      A   +176 px    lejos
+  ------------------------------------------------------------------------------
+
+  *** *** Y  NO  SON  COORDENADAS  FIJAS  DE  CAMARA  COMO  EL  TP  DE  ITSUKI.  ***
+  *** *** DEPENDE  DEL  FACING  DE  TOGURO.  COMO  LA  PLANTA  DE  KURAMA.  ***
+
+  *** *** Y  EL  TRACKER  YA  LO  PREDICE  ***
+
+      [EFECTO]  P1 boton=C  destino=304,  dispara en el frame 131
+      >> [EFECTO LLEGADA]  50 frames desde el input
+
+  *** *** Y  EL  CLON  MUERE  SOLO  ***   [5F-MANO] f171  $A6 -> $00   dist=1076 px
+  *** *** O  SEA  UNOS  105  FRAMES  DESPUES  DE  NACER.  ***  [VERIFICADO]
+
+  *** *** (usuario)  "el clon conserva pushbox, y las ultis que requieren contacto  ***
+  *** *** con el enemigo para activar el ataque se activan si tocan el clon  ***
+  *** *** residual,  dejando expuestos a Yusuke, Genkai o Kurama."  ***  [COMPROBADO]
+
+  ###############################################################################
+  150.5  EL  RELOJ  DEL  STUN.  ESTA  EN  EL  ROM
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "tu dijiste varias veces que el umbral es un presupuesto y no un reloj, es
+       verdad pero sucede algo: si un personaje recibio dano y su presupuesto de
+       stun bajo -o sea esta mas cerca de marearse que antes- si aproximadamente
+       durante 5 segundos no recibe ataques directos, el stun se reestablece en
+       0.  Asi que SI hay un reloj interno."
+
+  *** *** ***  TIENE  RAZON.  Y  LAS  DOS  MITADES  ESTAN  EN  EL  ROM.  ***  ***
+
+  ------------------------------------------------------------------------------
+      0x1A282    move.w  #$ff, $7e(a5)      ***  EL  SENTINEL  255  ***
+      0x15A4A    move.w  $80(a5), $7e(a5)   ***  RESET  A  EL  MAXIMO  ***
+      0x18694    move.w  $80(a5), $7e(a5)   ***  OTRO  RESET  AL  MAXIMO  ***
+  ------------------------------------------------------------------------------
+
+  *** *** $7E = $FF  ES  EL  "REFRESCO  A  255  POR  CADA  GOLPE".  ***  ***
+
+  *** *** Y  $7E = $80  ES  EL  "SE  REESTABLECE  A  0  DESPUES  DE  5  SEGUNDOS".  ***  ***
+
+  *** *** ***  O  SEA:  EL  STUN  ES  UN  PRESUPUESTO  CON  DOS  RELOJES  ENCIMA:  ***  ***
+  *** *** ***  UNO  QUE  LO  RESTAURA  A  PLENO  Y  OTRO  QUE  LO  PONE  EN  255.  ***  ***
+
+  ###############################################################################
+  150.6  LA  PROTECCION  ANTI  LOOP  Y  EL  EXPLOIT
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "cuando cruzaste el nivel de stun umbral de tu personaje y quedaste
+       estuneado, tambien hay como 5 segundos en los que si te golpean el stun se
+       reestablece en 255 por cada golpe.  Es una mecanica del juego para evitar
+       un loopeo de stuneos."
+
+  *** *** ESO  ES  EXACTAMENTE  EL  SENTINEL  DE  $1A282.  Y  EL  RESULTADO  ES  QUE  ***
+  *** *** SE  PUEDE  ROMPER  A  LOS  DOS  JUGADORES  A  LA  VEZ.  ***  ***
+
+  *** EL  EXPLOIT,  PASO  A  PASO  ***
+
+  ------------------------------------------------------------------------------
+      1.  le pegas  EL  DEDAL  al  enemigo
+          $66 = 64  contra  un  stun  max  de  62
+
+      2.  se  stunea  al  instante,  SIN  GOLPES  PREVIOS
+          $00 -> $25   f222     [HP] f222  -4
+
+      3.  se  levanta  y  ENTRA  LA  PROTECCION  DE  255  POR  GOLPE
+          $25 -> $28  f274 -> $29  f300 -> $2A  f325 -> $2B  f344
+
+      4.  la  ULTI  POR  DETRAS:  DANO  x2
+          $02 -> $AC  f384       ***  200  DE  MANA  ***
+          $AC -> $AD  f423
+
+      5.  el  stuneo  NO  SE  AGOTA  NUNCA,  POR  QUE  CADA  GOLPE  LO  VUELVE  A  255
+          ***  30  GOLPES  SEGUIDOS.  ***
+
+      6.  el  HP  CRUZA  CERO  EN  EL  GOLPE  22
+          >>> [CRUCE 0] f475   P4  HP  4 -> -5   dist = 4  px
+
+      7.  y  LA  MUERTE  SE  APLAZA:  SIGUEN  ENTRANDO  GOLPES  CON  HP  NEGATIVO
+          f478 -9    f481 -10   f484 -9    f487 -9    f490 -8
+          f493 -8    f508 -9    f511 -8          ***  9  GOLPES  DESPUES  DE  MORIR  ***
+
+      8.  y  solo  ahi  se  apaga  todo
+          $AD -> $AE  f639      la  cola  de  la  ulti
+          P4:  $25 -> $28  f642
+          [HP] f682   -75 -> -1024   (-949)   ***  EL  VALOR  MUERTO  ***
+          P4:  $28 -> $29  f682
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  150.7  Y  LA  MAGNITUD  DEL  DANO
+  ###############################################################################
+
+      La  ulti  por  si  sola  metio  ***  294  DE  DANO  ***
+
+          219  ->  -75      en  31  golpes
+
+      Y  cada  uno  esta  en  el  RANGO  DE  8  A  20  QUE  DICE  EL  BLOB  ***
+
+          $AD anim $00   +64=3E   +65=08   +66=04   +68=00
+
+  *** *** $64 = $3E.  EL  BIT  6  ESTA  PUESTO.  Y  $3E  =  0011  1110.  ***  ***
+
+  ###############################################################################
+  150.8  Y  LA  ULTI  SALIO  A  CUENTA
+  ###############################################################################
+
+      [GOTEO] f390   mp 215 -> 15   (perdio 200)
+      [MP GANA] f434 +2   f435 +4   f446 +6   f447 +8   f448 +10   f449 +12
+      [MP GANA] f459 +30  f460 +18  f461 +20  f462 +22  f463 +24  f466 +26
+      [MP GANA] f467 +26   ***  RELLENO A  TOPE  A  223  (modo  training)  ***
+
+      *** ACUMULADO  +208  EN  31  GOLPES  ***
+
+      *** *** 200  DE  MANA  Y  DEVUELVE  208.  LA  ULTI  SALIO  A  CUENTA.  ***  ***
+
+  *** *** Y  ESO  ES  POR  EL  EXPLOIT:  COMO  EL  STUN  NUNCA  SE  AGOTA,  EL  ***
+  *** *** COMBO  NUNCA  SE  CORTA,  Y  LA  SERIE  DE  MANA  LLEGA  AL  TOPE  DE  223.  ***  ***
+
+  *** *** UNA  TECNICA  DE  200  DE  MANA  QUE  SE  PAGA  SOLA.  ***  [VERIFICADO]
+
+  ###############################################################################
+  150.9  Y  EL  TRACKER  FUNCIONO.  POR  PRIMERA  VEZ  CON  DATOS  REALES
+  ###############################################################################
+
+      >>> [CRUCE 0] f475  P4  HP  4 -> -5   ***  RECIEN  BAJO DE 0 ***
+          mundo P1=1047  P4=1043  dist=4  mov $25
+
+      *** *** LA  DISTANCIA  EXACTA  EN  EL  FRAME  DEL  CRUCE.  4  PX.  ***  ***
+
+  ###############################################################################
+  150.10  LO  QUE  ESTO  CAMBIA  EN  EL  ENTENDIMIENTO
+  ###############################################################################
+
+  *** 1.  EL  STUN  NO  ES  SOLO  UN  PRESUPUESTO.  SON  TRES  COSAS:  ***
+
+          EL  PRESUPUESTO     $7E  baja  con  cada  golpe
+          EL  REFRESCO  A  255 $7E = $FF  en  $1A282
+          EL  RESET  A  PLENO  $7E = $80  en  $15A4A  y  $18694
+
+  *** 2.  POR  ESO  EL  COMBO  ILIMITADO  ES  POSIBLE.  NO  ES  UN  BUG  DE  LA  ***
+  *** *** SALUD:  ES  EL  DISEO.  ***  ***
+
+  *** 3.  "GOLPES  HASTA  DERRIBO  =  ceil($80/$66)"  SOLO  VALE  SI  EL  RIVAL  ***
+  *** *** NO  ESTA  EN  LA  PROTECCION.  ***   *** CORREGIDO  ***  ***
+
+  *** 4.  Y  POR  ESO  LO  QUE  HACE  UN  PERSONAJE  FRGIL  (stun  bajo)  NO  ES  ***
+  *** *** VULNERABLE:  ES  LO  QUE  MAS  DIFICIL  DE  MATAR  ES  UNA  VEZ  STUNEADO.  ***  ***
+
+  ###############################################################################
+  150.11  EL  ESTADO  DE  TOGURO  MAYOR
+  ###############################################################################
+
+      MEDIDOS (17)
+
+          los  nueve  basicos      $80 $81 $82 $83 $84 $86 $90 $94 $95
+          $0B  el  dash                    20 f
+          $0C  el  backdash                32 f
+          $09 -> $14  la  provocacion      76 f   36  de  mana
+          $A1  EL  DEDAL  ABAJO,ABAJO+C     8 man   stun 64   SIN  CLASH
+          $A3  la  mano  larga             24 man   18  dao   104 px
+          $A2  la  mano  corta             16 man   16  dao    64 px
+          $A4  la  estocada                16 man   21  dao    76-84 px
+          $A0  A+B  las  agujas  laterales  24 man   14  dao   2  cajas
+          $A7 + $A6  el  impostor            8 man   A +176  B +112  C -48 px
+
+      SIN MEDIR
+
+          *** la  ulti  $AC $AD $AE   ***  ***  ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS  ***
+          *** el  agarre  $B8  ***   ***  ***
+          *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***  ***
+================================================================================
+================================================================================
+================================================================================

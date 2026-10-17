@@ -1585,6 +1585,57 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
         $2A   la caida final           PUSH
         $2B   el final de un ataque largo
         $2C   BLOQUEANDO UN ATAQUE SOSTENIDO
+    ###############################################################################
+    LA VENTANA DEL COMBO.  A OJO,  SIN MEDIR
+    ###############################################################################
+
+        hit pause                16 frames,  igual para A que para B
+        ventana con un B          8 a 10 frames
+        ventana con un A         16 a 19 frames
+
+        *** Y NO SON GENEROSAS  ***
+        Hay que RESTARLE el startup del ataque siguiente a esa ventana.
+
+        margen real  =  ventana del golpe anterior  -  startup del siguiente
+
+        *** Y ESO PRODUCE EL "ERROR DE CALCULO DE EMPUJE"  ***
+        Elegir un ataque cuyo startup ya no entra en lo que queda.
+
+        *** Y HAY TRES TIPOS DE GAP  ***
+        1.  error de timing al meter presion
+        2.  error de calculo de empuje
+        3.  EL GAP A PROPOSITO,  QUE ES UNA ESTRATEGIA
+
+        *** (usuario)  ***
+        "los que jugamos de forma activa si dejamos gaps a proposito, lo
+         hacemos mientras metemos presion y sabemos que el enemigo tiene
+         una tecnica anti presion que le de intangibilidad temporal,
+         entonces dejamos el gap a proposito para que la usen, la
+         bloqueamos y castigamos el recovery"
+
+        *** O SEA QUE LA RESPUESTA A LA CASI OMNIPOTENCIA ES SACARLE
+        EL ESPACIO.  No se le combaten:  se le da la intangible a
+        proposito,  se bloquea,  y se entra en el recovery. ***
+
+        [ABIERTO]  los numeros exactos.  Se miden con el [MP GANA] que
+        ya tenemos:  si el segundo golpe paga +0,  el combo se rompio.
+
+        $2F   aguantando el vendaval  (la ulti)
+
+    *** $2C  Y  $2F  SON PARES:  LOS DOS ESTADOS DE AGUANTAR  ***
+
+        $2C  aguantar bloqueando          el golpe se vuelve chip
+        $2F  aguantar el vendaval de la ulti
+
+        *** $2F  LO PRODUCE EL PRIMER GOLPE DE LA ULTI DE CHUI  ***
+        El rival entra en $2F y se queda 189 frames.
+        Los golpes 2 a 5 lo dejan en $2F.  El 6 lo saca a $30.
+
+        *** Y ROMPER LA GUARDIA ABRE UN COMBO  ***
+        El golpe que rompe es el golpe 1.  El siguiente paga +2.
+        (usuario)  No hace falta un ataque caro para abrir el combo.
+
+        $2C   BLOQUEANDO UN ATAQUE SOSTENIDO
 
     *** $2C  ES LO QUE HACE UN RIVAL AL AGUANTAR LA ULTI  ***
 

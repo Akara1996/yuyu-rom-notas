@@ -16674,3 +16674,183 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+138.  NO HAY CADENA DE A.  Y $20 / $21  NO SON PARADO Y AGACHADO
+===============================================================================
+
+  ================================================================================
+  138.1  LAS CUATRO PRUEBAS.  Y EL RESULTADO CORRECTO
+
+      A          $00 -> $82   f68     $82 -> $00   f104
+      A,A        $00 -> $82   f53     $82 -> $00   f89
+      A,A,A      $00 -> $82   f57     $82 -> $00   f93
+      A,A,A,A    $00 -> $82   f178    $82 -> $00   (despues,  ver abajo)
+
+      *** LAS CUATRO  DAN $82.  NO HAY CADENA DE A.  ***
+
+      *** $82  ES EL GOLPE BASICO DE A.  Punto.  ***
+
+      *** Y MI CONCLUSION ANTERIOR  ERA FALSA  ***
+      Escribi que "$A1  se entra desde $82,  o sea que AAAA esta en una cadena".
+      *** NO.  $82  es simplemente A.  No hay cadena de A.  ***
+
+  ================================================================================
+  138.2  Y EL QUINTO GOLPE FUE B
+
+      *** EN EL LOG DE "A,A,A,A"  EL BOTON QUE DISPARA $A1  ES B  ***
+
+      [MOV 01] P1  B  id=$82  mana -16
+          $5F vivo=$A1  (el de la pulsada era $82)
+
+      $82 -> $A1   f187
+
+      *** O SEA QUE $A1  NO ES "CUARTO A":  ES  A  LUEGO  B  ***
+
+      *** Y ESO ES UNA COMBINACION DE CAMBIO DE BOTON,  NO UN MASHEO  ***
+
+  ================================================================================
+  138.3  Y $A1  PEGA CINCO,  NO CUATRO
+
+          anim $01   $64=00   +65=01   +66=0E   +68=05   RUIDO
+          anim $03   $64=1D   +65=00   +66=02   +68=01   ->  estado $21
+          anim $05   $64=1D   +65=04   +66=02   +68=00   ->  estado $20
+          anim $07   $64=1D   +65=00   +66=02   +68=01   ->  estado $21
+          anim $01   $64=00   +65=00   +66=04   +68=00   RUIDO
+
+      *** EL QUINTO GOLPE REPITE EL ANIM $01  ***
+
+      *** O SEA QUE LA LISTA DE ANIMS SE REINICIA Y EL CICLO SIGUE  ***
+      $A1  tiene 8 anims  y 4 con bit 4  (los 1, 3, 5, 7).  El quinto golpe
+      vuelve al anim 1.  O sea que el masheo no termina:  lo que termina es
+      el tiempo que estas dentro.
+
+      *** Y EL DAO VARIA ENTRE EJECUCIONES  ***
+      primera vez:  03, 04, 01, 03
+      segunda vez:  01, 00, 04, 00
+      *** EL MISMO GOLPE DANO DISTINTO.  [ABIERTO]  ***
+
+  ================================================================================
+  138.4  LA MAN:  28,  Y SOLO LE PASE 16
+
+      [MOV 01] P1  B  id=$82  mana -16
+      [GOTEO] f210  P1  mp 223 -> 195   (perdio 28)
+
+      *** 28 MEDIDOS.  16 ATRIBUIDOS AL B.  FALTAN 12.  ***  [ABIERTO]
+
+      *** Y EN LOS TRES PRIMEROS TESTS  NO HUBO NINGUN GOTEO  ***
+      A sola,  A A,  y  A A A  no gastaron nada.  O no gastan,  o el GOTEO no
+      los agarro.  Hay que probar A sola con la ventana abierta.
+
+  ================================================================================
+  138.5  Y ESTO CORRIGE LO QUE PENSE DE $20 Y $21
+
+  *** (usuario)  ***
+
+  "Tu tabla de animaciones del masheo de Chu cambia mi interpretacin sobre $20
+   y $21 como animacion de hitstun en victima parado o agachado,  en realidad,
+   son diferentes animaciones de pie que se intercalan entre golpe para dar
+   dinamismo,  hit 2 hace la misma animacion que cuando te golpean a los pies y
+   estas parado,  hit 3 es la animacin estndar cuando recibes golpes a altura
+   media estando parado y esta animacion va cambiando durante cada hit del
+   masheo,  esto no sucede cuando haces combo exactamente con el mismo golpe,
+   se loopea el mismo estado en el rival"
+
+  *** Y TIENE RAZON.  Y ESTA EN LOS DATOS  ***
+
+      $21   $20   $21   en los tres golpes con $64 != 0
+
+      *** O SEA QUE SE ALTERNAN.  Y ESO ES JUSTAMENTE LO QUE SE VE EN PANTANA.  ***
+
+  *** MI HIPOTESIS "PARADO Y AGACHADO"  ESTA MAL  ***  [FUERTE por el usuario]
+
+  *** $20  Y  $21  SON DOS ANIMACIONES DE PIE QUE SE ALTERNAN  ***
+  *** Y EL MOTIVO ES EL DINAMISMO:  QUE UN COMBO NO SE VEA LOOPEADO  ***
+
+  *** Y CUANDO ES EL MISMO GOLPE REPETIDO,  EL RIVAL SE QUEDA EN UNO SOLO  ***
+
+  *** Y ESO CAMBIA EL TEST 1  DEL PENDIENTE PRIORITARIO  ***
+  Bloqueado parado vs agachado  ya NO es el test bueno.
+  Ver la seccion 138.8.
+
+  ================================================================================
+  138.6  LO QUE DICE EL USUARIO DE HIEI Y DEL AFTERIMAGE
+
+  *** "la tcnica afterimage de Hiei se ejecuta presionando Adelante 4 veces
+   (o sea similar al $A1 de Chu si es que te entend bien),  es la nica
+   tcnica del juego que no precisa ningn botn XYZ ABC"  ***
+
+  *** Y MI ENTENDIMIENTO DE $A1  ERA EL EQUIVOCADO.  ***
+  Le dije que $A1  era un eslabon de una cadena.  Y no:  $A1  es  A  LUEGO  B.
+  *** ASI QUE EL AFTERIMAGE  SERIA  ADELANTE  LUEGO  ADELANTE  O ALGO ASI,
+  NO UNA CADENA DE 4. ***  [ABIERTO]
+
+  *** Y ESO ABRE UNA PREGUNTA BARATA  ***
+  $85  es lo unico que Hiei tiene de mas en $80-$8F.  Y su unico basico extra
+  es...  el Afterimage?  ADELANTE x4  ->  $85?
+
+  *** Y LO MISMO CON ITSUKI  ***
+  $87  es lo unico que Itsuki tiene de mas.  En su PDF dice ABAJO+ADELANTE+A.
+  *** (usuario)  "a lo mejor esta relacionado con los 3 golpes distintos que
+  pueden dar sus manos,  o bien su curacin,  IDK"  ***
+  [ABIERTO]
+
+  ================================================================================
+  138.7  Y EL DRAGON DE HIEI CAMBIA LA REACCION DE SUS BASICOS
+
+  *** (usuario)  ***
+
+  "cuando hiei absorbe el dragon,  ademas de aumentar su velocidad y dao
+   producido y hacer dao chip con basicos,  todos sus ataques basicos producen
+   knockdown con ventana de 8 frames a un enemigo en aire.  Este dato es
+   relevante,  porque de los ataques basicos son pocos los que logran esto,  de
+   hecho,  ninguno de los basicos de hiei a un enemigo en aire produce
+   knockdown,  les produce backflip,  cuando tiene el dragon los tira al piso
+   de 1 B dado al enemigo en el aire"
+
+  *** O SEA QUE EL DRAGON CAMBIA EL $68  DE LOS BASICOS DE HIEI  ***
+
+      sin dragon      los basicos dan backflip      =  $21  con ventana 8
+      con dragon      los basicos dan knockdown    =  $25  con ventana 8
+
+  *** Y ESO ES EL TEST MAS BARATO DEL PROYECTO PARA LA TABLA DE $68  ***
+
+      dos golpes del mismo basico de Hiei a un enemigo en el aire
+      primero sin el dragon,  despus con el dragon
+      y leer el $5F del rival
+
+  *** Y ADEMAS DA LA MITAD DE LA TABLA:  $21  Y $25  EN UN MISMO PERSONAJE  ***
+
+  ================================================================================
+  138.8  EL TEST 1 DEL PENDIENTE PRIORITARIO  CAMBIA
+
+  *** EL DE PARADO CONTRA AGACHADO  ERA EL MIO,  Y PARECE EQUIVOCADO.  ***
+
+  *** EL TEST BUENO AHORA ES ESTE  ***
+
+      el MISMO golpe dos veces seguidas a un enemigo en el aire
+          ->  el rival se loopea en UN solo estado
+
+      dos golpes DISTINTOS a un enemigo en el aire
+          ->  el rival alterna $20  y  $21
+
+      *** SI ESO SE CONFIRMA,  $20  Y  $21  SON ANIMACIONES Y NO REACCIONES
+      DISTINTAS.  Y ENTONCES EL $68 = 0  Y EL $68 = 1  NO SON
+      "PARADO" Y "AGACHADO":  SON EL MISMO EFECTO CON DISTINTA ANIMACION.  ***
+
+      *** Y ESO HARIA QUE LA TABLA TENGA MENOS CASOS REALES DE LOS QUE
+      PARECIA,  Y QUE 0, 1, 2  Y 3  SEAN SOLO DOS  ***
+      0  y 2  ->  $20   (hitstun y chip,  misma animacion)
+      1  y 3  ->  $21   (lo mismo,  con la animacion alternativa)
+
+      *** Y ESO ES MAS COHERENTE CON EL JUEGO:  EL $68  DECIDE EL EFECTO,  Y
+      LA ANIMACION LA DECIDE EL CONTADOR DE GOLPES DEL COMBO,  O EL PROPIO
+      RIVAL.  ***  [DERIVADO]
+
+      *** Y ENTONCES LA LISTA DE LAS SEIS FORMAS DE SACAR AL RIVAL DEL SUELO
+      NO CAMBIA,  PERO $20  Y $21  NO SON "DISTINTAS FORMAS":  SON LA MISMA
+      CON DOS ANIMACIONES.  ***
+================================================================================
+================================================================================
+================================================================================

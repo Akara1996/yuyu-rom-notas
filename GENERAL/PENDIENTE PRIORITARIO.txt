@@ -231,13 +231,17 @@
       *** parece equivocado.  Este es el bueno. ***
 
           el MISMO golpe dos veces a un enemigo en el aire
-              ->  el rival se loopea en UN solo estado
+      *** MEDIDO EL 17-10:  NO SE LOOPEA.  Dio  $20 $21 $20.  ***
 
           dos golpes DISTINTOS a un enemigo en el aire
-              ->  el rival alterna $20  y  $21
+      *** FALTA.  Es  el  test  que  falta  ahora.  ***
+      *** Con  un  golpe  que  de  $68 = 0  o  1  (hitstun)  dos  veces.  ***
 
-      *** SI SE CONFIRMA:  $20  Y $21  SON ANIMACIONES  NO REACCIONES. ***
-      *** Y ENTONCES $68=0  $68=1  $68=2  $68=3  SON SOLO DOS CASOS: ***
+      *** Las dos lineas siguientes quedaron anuladas por el recalculo de arriba.
+      *** NO SE CONFIRMO.  RECALCULO DEL 17-10.  ***
+      *** Las dos corridas con golpes reales  DIO  $20 $21 $20:  ***
+      *** ALTERNAN,  con  el  mismo  golpe.  [ABIERTO]  ***
+      *** El calculo  completo  esta  mas  abajo,  en  el  bloque  nuevo.  ***
 
           0  y 2  ->  $20    hitstun y chip,  la misma animacion
           1  y 3  ->  $21    lo mismo,  con la animacion alternativa
@@ -257,8 +261,10 @@
 
   *** TEST 1 ter.  EL AFTERIMAGE DE HIEI  ***
 
-      ADELANTE x4.  La unica tecnica sin boton. Y $85 es lo unico que Hiei tiene de mas en $80-$8F.
-      ->  ADELANTE x4 da $85?
+      ADELANTE x4.  La unica tecnica sin boton.
+      *** RESUELTO EL 17-10:  DA  $05 -> $0B -> $A0 -> $A1.  ***
+      *** 8 de man.  Dos teletransportes de +-64.  Neto cero.  Sin caja.  ***
+      *** Y NO ES $85.  $85  sigue sin nombre.  [ABIERTO]  ***
 
 
   *** TEST 2.  EL AGARRE DE KUWABARA  ***

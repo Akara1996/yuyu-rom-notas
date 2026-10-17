@@ -17479,3 +17479,559 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+142.  CORRECCION:  LA  CAJA  DEL  REIGAN  ES  EL  DAO
+===============================================================================
+
+  *** (usuario)  ***
+
+      "Vuelve a revisar lo que dijiste sobre la caja que vive 31 frames despues
+       de que desaparecio, me parece extrano.  Creo que puede deberse a que,
+       quiza la caja se utiliza como referencia para ubicar el efecto de
+       explosion al momento de la colision, este efecto dura como 35 frames
+       aunque antes de que se disipe por completo ya estas pudiendo disparar
+       otra carga."
+
+  *** TENIA  RAZON.  Y  EL  LOG  LO  CONFIRMA  AL  FRAME.  ***
+
+  ================================================================================
+  142.1  LOS  DOS  DISPAROS,  FRAME  POR  FRAME
+
+  ---- disparo 1 ---------------------------------------------------
+
+      [OBJ] f73    born   vida=256   handler=$0001361E
+      [5F-MANO] f85   P1-OBJ1:  $00 -> $21   dist=70 px
+      [OBJ] f85    gone   vida=0  handler=0
+      [CAJA]  P1-OBJ1  ACTIVA = 34 f  (frames 85..118)
+      [HP]   f118   P4  223 -> 215   (-8)      *** EL ULTIMO  FRAME  DE  LA  CAJA  ***
+
+  ---- disparo 2 ---------------------------------------------------
+
+      [OBJ] f128   born   vida=256   handler=$0001361E
+      [5F-MANO] f139  P1-OBJ1:  $00 -> $21   dist=64 px
+      [OBJ] f140   gone   vida=0  handler=0
+      [CAJA]  P1-OBJ1  ACTIVA = 34 f  (frames 140..173)
+      [HP]   f173   P4  215 -> 207   (-8)      *** EL ULTIMO  FRAME  DE  LA  CAJA  ***
+
+  ================================================================================
+  142.2  EL  DAO  CAE  EN  EL  ULTIMO  FRAME  DE  LA  CAJA.  LAS  DOS  VECES
+
+  *** O  SEA  QUE  LA  CAJA  NO  ES  UN  RESTO  DE  LA  EXPLOSION.  ***
+  *** LA  CAJA  ES  LA  EXPLOSION.  Y  LA  VENTANA  DE  CAJA  Y  EL  DAO  ***
+  *** COINCIDEN  EXACTAMENTE.  34  FRAMES.  ***
+
+  *** Y LO  QUE  ESCRI  ANTES  ESTA  MAL  PLANTEADO  ***
+
+      "el objeto se consume en el primer contacto"
+      "y la caja sigue viva 31 frames despues de que desaparecio"
+      "la caja y el objeto no son lo mismo"
+
+  *** MEDI  LA  VENTANA  DE  LA  CAJA  Y  LA  DI  POR  RESIDUO.  ***
+
+  *** LO  QUE  PASA  ES  ***
+
+      f85   el  objeto  COLISIONA  y  el  juego  le  cambia  el  $5F
+      f85   el  objeto  SE  CONSUME
+      f85   ARRANCA  LA  CAJA,  Y  DURA  34  FRAMES
+      f118  LA  CAJA  SE  CIERRA.  Y  APLICA  EL  DAO.
+
+  ================================================================================
+  142.3  Y LA  CAJA  ES  LO  QUE  PROTEGE  EL  REIGAN
+
+      1er  disparo      la  caja  cierra  en  f118
+      2do  >A  en       f121       ([MOV 03]  pulsada en el 121)
+
+      *** f121  >  f118.  LA  CAJA  YA  SE  HABIA  CERRADO.  ***
+
+  *** O  SEA  QUE  ESTE  LOG  NO  PRUEBA  QUE  SE  PUEDA  DISPARAR  CON  LA  ***
+  *** CAJA  ABIERTA.  AL  CONTRARIO:  EL  SEGUNDO  TIRO  SALIO  3  FRAMES  ***
+  *** DESPUES  DE  QUE  LA  CAJA  SE  CERRARA.  ***
+
+  *** LO  MAS  PROBABLE  ES  QUE  LA  CAJA  ABIERTA  BLOQUEE  EL  REIGAN.  ***
+  *** O  QUE  EL  JUGADOR  NO  RECUPERE  EL  CONTROL  HASTA  QUE  CIERRA.  ***
+  *** [ABIERTO]  --  falta  un  disparo  con  la  caja  a  medio  camino.  ***
+
+  ------------------------------------------------------------------
+      la  caja  del  reigan  =  32, 34, 34  frames  en  tres  medidas
+      la  ventana  y  el  dao  =  el  mismo  frame,  siempre
+      el  tiro  siguiente  =  no  antes  de  que  la  caja  cierre
+  ------------------------------------------------------------------
+
+  ================================================================================
+  142.4  Y EL  "dist = 816 px"  DESPUES  ES  BASURA
+
+      [5F-MANO] f119   P1-OBJ1:  $21 -> $00   dist=816 px
+
+  *** EL  OBJETO  YA  NO  EXISTE  (handler=0).  EL  TRACKER  ESTA  LEYENDO  ***
+  *** BASURA  DE  ESA  DIRECCION  DE  MEMORIA.  NO  ES  UNA  DISTANCIA.  ***
+
+  ================================================================================
+  142.5  Y EL  SEGUNDO  TIRO  DA  $83,  NO  $05
+  ================================================================================
+
+      1er  tiro   $00 -> $01   f62     $01 -> $05   f69    [MOV 01] >A  en el 69
+      2do  tiro   $00 -> $01   f117    $01 -> $83   f122   [MOV 03] >A  en el 121
+
+  ------------------------------------------------------------------------------
+      disparo   estado  al  apretar   id     ruta
+      ------------------------------------------------------------------
+        1         $01                   $05    $05 -> $A6 -> $A7
+        2         $01                   $83    $83 -> $A6 -> $A7
+      ------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+
+  *** MISMO  COMANDO.  MISMO  ESTADO.  DOS  IDS  DISTINTOS.  ***
+
+  *** Y  LOS  DOS  CONVERGEN  EN  $A6.  O  SEA  QUE  SON  LA  MISMA  TECNICA  ***
+  *** CON  DISTINTA  ANIMACION  DE  ENTRADA.  ***   [ABIERTO]
+
+  *** Y  $83  ESTA  EN  LA  BANDA  $80-$8F,  QUE  ES  COMPARTIDA  POR  LOS  ONCE.  ***
+
+  *** Y  EN  EL  ROM,  EN  OTRO  PERSONAJE,  $83  ***
+
+      $83   anims=5    anim 2  dano 12  stun 12  attr $0E   $26  LANZADOR
+
+  *** EL  $26  ES  EL  ESTADO  LANZADOR.  O  SEA  QUE  $83  EN  ESE  PERSONAJE  ***
+  *** TIRA  EN  HORIZONTAL  AL  RIVAL.  ***  [ABIERTO]  Chui  todavia  no  lo  probo.
+
+  ================================================================================
+  142.6  AAAA  EN  EL  AIRE  =  $95  +  $AD
+  ================================================================================
+
+      *** (usuario)  "el AAAA aereo -mete una patada A antes-"  ***
+
+      $00 -> $05   f87      el paso
+      $05 -> $0D   f88      el dash
+      $0D -> $06   f93      (dur $5A=10)
+      $06 -> $95   f114     *** $95  =  LA  PATAADA  ***
+      $95 anim $02   HIT+CLASH   mascara $4E
+      [HP] f122   P4   7 -> -8   (-15)        P4:  $00 -> $25
+      [MOV 01] A  id=$95  mana -12   pulsada en el 151
+      $95 -> $AD   f156
+      $AD anim $01   $64=15   $65=07   $68=05   +2 MP    -7 HP
+      $AD anim $03   $64=15   $65=08   $68=00   +4 MP    -8 HP
+      $AD anim $05   $64=15   $65=04   $68=01   +6 MP    -4 HP
+      $AD anim $07   $64=16   $65=05   $68=00   +8 MP    -5 HP
+      $AD anim $09   $64=15   $65=05   $68=01   (no hay HP)
+      $AD -> $0E   f331     *** 175  FRAMES  ***
+      $0E -> $01   f345
+      $01 -> $00   f358
+
+  *** $95  =  LA  PATAADA  AEREA  ***
+
+      12 de man    1 golpe    15 de dano    15 de stun    reaccion $25
+
+  *** $AD  =  LA  CADENA  DE  A  EN  EL  AIRE  ***
+
+      *** EL  ROM  DICE  $AD  =  8  ANIMS  CON  CAJA.  ***
+      *** VISTOS  HASTA  EL  $09.  FALTAN  TRES.  ***
+
+      $64   de  los  golpes   $15  $15  $15  $16  $15
+
+      *** $15  Y $16  SON  VALORES  NUEVOS  DE  $64.  ***
+
+  ------------------------------------------------------------------------------
+                         $95          $AD  (4  golpes)      total
+      dano                   -15          -7 -8 -4 -5        -39
+      man  (paga)            -12          +2 +4 +6 +8 = +20
+      ------------------------------------------------------------------
+      neto                   *** +8  ***
+  ------------------------------------------------------------------------------
+
+  *** Y  EL  RIVAL  NO  SE  MUEVE  DE  $25  EN  175  FRAMES.  ***
+  *** 6  VECES  PEGADO  Y  UN  SOLO  ESTADO.  ***
+
+  *** ESTO  CONFIRMA  UNA  TERCERA  VEZ  QUE  EL  DERRIBO  ($25)  NO  LOOPEA:  ***
+  *** NO  ES  UN  ESTADO  QUE  ALTERNES,  ES  UN  ESTADO  FIJO.  ***
+
+  ================================================================================
+  142.7  Y  DOS  COSAS  MAS  DEL  LOG
+  ================================================================================
+
+  *** EL  HP  DEL  RIVAL  LLEGO  A  -32.  ***
+
+      7 -> -8 -> -15 -> -23 -> -27 -> -32
+
+  *** EL  JUEGO  NO  CORTA  EN  CERO.  LA  BARRA  SE  VA  NEGATIVA.  ***
+  *** Y  EL  RIVAL  EN  $25  NO  SE  LEVANTA  NI  CON  HP  NEGATIVO.  ***
+
+  *** Y $0E  ES  UN  ESTADO  NUEVO  ***
+
+      $AD -> $0E   f331     -> $01   f345     -> $00   f358
+
+  *** LA  CAIDA  DESPUES  DEL  AEREO.  $0E  -> $01  -> $00.  ***
+  *** $01  ES  EL  ESTADO  EN  EL  QUE  CHUI  PUEDE  VOLVER  A  CARGAR  EL  REIGAN.  ***
+
+  ================================================================================
+  142.8  Y $95  ESTA  EN  OTRA  BANDA,  Y  ES  COMPARTIDA
+  ================================================================================
+
+  *** $95  NO  ESTA  EN  LA  BANDA  $80-$8F.  ESTA  EN  $90-$9F.  ***
+  *** Y  LA  BANDA  $90-$9F  EXISTE:  HAY  $90, $94, $95  EN  LAS  TABLAS  ***
+  *** DE  OTROS  PERSONAJES.  NO  LA  HEMOS  ESTUDIADO.  ***
+
+  *** Y  EN  EL  ROM  DE  OTRO  PERSONAJE,  $95  ***
+
+      $95   anims=4   con 1  anim  con  caja
+           anim 1   dano 14   stun 14   attr $06   $21
+           HIT X-121 Y-18        *** CAJA  ALTA  Y  CHIQUITA  ***
+
+  *** NUESTRA  MEDIDA  DE  $95  EN  CHUI:  $66  stun = $0E  =  14.  ***
+  *** *** COINCIDE  CON  EL  STUN  DEL  ROM  DE  OTRO  PERSONAJE.  ***
+
+  *** Y  LA  REACCION  DEL  ROM  ES  $21  Y  LA  NUESTRA  DIO  $25.  ***
+  *** $64  =  $00  EN  NUESTRO  ANIM  $02,  O  SEA  RUIDO.  ***
+  *** LA  DE  CHUI  SE  MIDIO  POR  EL  $5F  DEL  RIVAL:  $25.  ***
+
+  *** Y  LA  CAJA  ALTA  Y  CHIQUITA  DICE  QUE  ES  UNA  PATAADA  EN  EL  AIRE.  ***
+  *** CUADRA  CON  LO  QUE  DIJO  EL  USUARIO.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+143.  LA  MUERTE.  CHIP  NO  MATA.  Y  EL  VALOR  MUERTO  ESTA  EN  EL  CODIGO
+===============================================================================
+
+  *** (usuario)  ***
+
+      "en este juego no mueres por chip damage, puedes quedar en 0 de vida y
+       aun asi bloquear exitosamente ataques que bajan vida al bloquear,
+       se necesita un golpe directo para morir, y el juego establece el valor
+       muerto por debajo de 0"
+
+  *** Y  EL  ROM  CONFIRMA  LAS  DOS  ULTIMAS  FRASES  AL  BYTE.  ***
+
+  ================================================================================
+  143.1  $013B42:  tst.w $78(a0)  +  bmi.s
+
+      013B40   00 04 67 42 4A 68 00 78 6B 3C 30 28 00 40 90 6D
+      013B50   00 40 6A 02 44 40 0C 40 00 18 6E 2A 30 28 00 44
+
+      $013B42   4A 68 00 78      tst.w $78(a0)      *** PRUEBA  EL  HP  ***
+      $013B46   6B 3C            bmi.s $013B84       *** SI  ES  NEGATIVO:  SALTA  ***
+
+  *** SI  EL  HP  ES  NEGATIVO  NO  CURA.  PUNTO.  ***   [VERIFICADO]
+
+  *** Y  LA  PAGINA  17  DEL  PDF  DE  ITSUKI  LO  TIENE  ESCRITO  COMO  ***
+  *** PENDIENTE  #6:  "Resuelto en el codigo:  $013B44  hace  tst.w $78(a0)  y  ***
+  *** bmi  saltea.  Si el HP es negativo no cura".  ***
+
+  *** LO  UNICO  QUE  LE  FALTA  A  LA  CITA  ES  EL  PAR  EXACTO:  ***
+
+      *** LA  INSTRUCCION  ESTA  EN  $013B42.  EL  BMI  EN  $013B46.  ***
+      *** EL  PDF  DICE  $013B44,  QUE  ES  EL  BYTE  DE  LA  EXTENSION  (.W).  ***
+
+  ================================================================================
+  143.2  Y  HAY  CUATRO  SITIOS  DEL  ROM  QUE  PONEN  -1024  EN  EL  HP
+
+      *** ESTO  ES  EL  "VALOR  MUERTO  POR  DEBAJO  DE  0"  DEL  USUARIO.  ***
+      *** Y  ESTA  EN  CUATRO  LUGARES  DISTINTOS.  ***   [VERIFICADO]
+
+  ---- $00F8A2 -----------------------------------------------------------
+
+      00F8A0   66 18 0C 68 FC 00 00 78 67 10 4A 01 6A 06 12 28
+      00F8B0   00 6F 60 06 B2 28 00 6F 66 0A 41 E8 04 00 51 C8
+
+      $00F8A2   0C 68 FC 00 00 78   move.w #$FC00, $78(a0)
+
+      *** PRECEDIDO  POR  UN  CONTADOR  EN  $0126(a0)  Y  POR  move.w #$0080  ***
+      *** PARECE  CONTABILIDAD  DE  RONDA.  ***
+
+  ---- $00F908 -----------------------------------------------------------
+
+      $00F908   0C 68 FC 00 00 78   move.w #$FC00, $78(a0)
+      *** EL  MISMO  BLOQUE,  COPIADO.  ***
+
+  ---- $0126A8 -----------------------------------------------------------
+
+      0126A0   4E B9 00 01 56 F0 0C 6D FC 00 00 78 67 06 4E B9
+      0126B0   00 02 08 D8 4E B9 00 01 57 72 4E B9 00 00 15 80
+
+      $0126A8   0C 6D FC 00 00 78   move.w #$FC00, $78(a5)
+
+      *** ESTA  JUSTO  ANTES  DE  UN  DESPACHO:  ***   jmp $0156F0 / jmp $0208D8
+      *** *** ES  EL  DESPACHADOR  DEL  KO.  ***
+
+  ---- $01A1A2 -----------------------------------------------------------
+
+      01A19E   67 00 B9 5A 3B 7C FC 00 00 78 60 00 B9 50 22 2D
+
+      $01A1A2   3B 7C FC 00 00 78   move.w #$FC00, $78(a5)
+
+  ================================================================================
+  143.3  Y  LA  MISMA  RUTINA  REGALA  DOS  DATOS  MAS
+  ================================================================================
+
+      $013B6E   06 68 00 10 00 78   addi.w #$0010, $78(a0)
+      *** +16.  LA  CURACION  DE  ITSUKI  SON  16.  CONFIRMADO.  ***
+
+      $013B74   0C 68 00 DF 00 78   move.w #$00DF, $78(a0)
+      $013B7C   31 7C 00 DF 00 78   move.w #$00DF, $78(a0)
+      *** $00DF = 223.  EL  TOPE  ESTA  EN  EL  CODIGO,  EN  DOS  FORMAS.  ***
+
+      *** EL  TOPE  DE 223  ESTABA  DERIVADO  DEL  IDEARIO  ($01FA1E).  ***
+      *** AHORA  TAMBIEN  ESTA  VERIFICADO  EN  LA  RUTINA  DE  CURACION.  ***
+
+  *** Y  $78  ES  UN  SOLO  REGISTRO  PARA  LA  BARRA.  ***
+  *** 223  ES  EL  TOPE  DE  LA  VIDA  Y  TAMBIEN  EL  DE  LA  MANA.  ***
+
+  ================================================================================
+  143.4  LA  REGLA  DEL  JUEGO
+  ================================================================================
+
+      *** (usuario)  [COMPROBADO]  ***
+
+          1.  el  chip  damage  NO  MATA
+          2.  se  puede  estar  en  0  y  seguir  BLOQUEANDO  el  chip
+          3.  hace  falta  un  GOLPE  DIRECTO  para  morir
+          4.  el  juego  escribe  un  VALOR  MUERTO  por  debajo  de  0
+
+      *** LO  QUE  EL  ROM  APORTA  ***
+
+          el  HP  es  CON  SIGNO  ($78, word)
+          y  el  juego  LEE  EL  SIGNO:  si  es  negativo  no  cura
+          y  hay  CUATRO  RUTINAS  que  PONEN  -1024
+
+      *** LO  QUE  EL  ROM  NO  DICE  ***
+
+          *** NO  DICE  NADA  DEL  CHIP.  ***  [ABIERTO]
+          Si  el  chip  tiene  un  CLAMP  PROPIO  o  un  SUELO,  no  lo  sabemos.
+          Solo  sabemos  que  el  chip  bloqueado  no  mata.  (usuario)
+
+  ================================================================================
+  143.5  Y  EL  LOG  DE  CHUI  MUESTRA  EL  -1024
+  ================================================================================
+
+      [HP] frame 472   P4  $78:  -24 -> -1024   (-1000)
+      $5F  frame 472 -- P4:  $28 -> $29   (anim $59=0,  dur $5A=18)
+
+  *** -1024  EXACTO.  ES  EL  VALOR  MUERTO  DEL  ROM.  ***   [VERIFICADO]
+
+  *** EL  DELTA  ES  -1000  PORQUE  VENIA  DE  -24.  EL  CODIGO  NO  RESTA  ***
+  *** 1000:  PONE  EL  VALOR.  ***
+
+  ------------------------------------------------------------------------------
+      $25   f96    derribo con ventana
+      $25   f446 -> $28   dur $5A=08        el rival se levanta
+      $28   f472 -> $29   dur $5A=18   con  HP = -1024
+  ------------------------------------------------------------------------------
+
+      *** $28  Y $29  SON  LOS  ESTADOS  FINALES.  ***   [DERIVADO]
+
+  *** Y  HAY  UNA  COSA  QUE  NO  ENCAJA  Y  NO  VOY  A  RESOLVER  SOLO  ***
+
+      *** P1  ESTABA  EN  $00  (PARADO),  LEJOS,  Y  NO  HABIA  NINGUN  GOLPE  ***
+      *** SUYO  EN  ESE  MOMENTO.  EL  -1024  APARECIO  200  FRAMES  DESPUES  ***
+      *** DEL  ULTIMO  GOLPE  NUESTRO.  ***   [ABIERTO]
+
+      *** RESUELTO POR EL USUARIO:  MURIO  POR  EL  COMBO  DE  CHUI.  ***
+      *** Y  MAS:  LA  MUERTE  SE  APLAZA  HASTA  EL  PRIMER  REBOTE  ***
+      *** EN  EL  SUELO.  Entre el cruce de 0 y el -1024  el rival  ***
+      *** SIGUE  VIVO  Y  SE  LE  PUEDE  SEGUIR  PEGANDO.  Ver  seccion  144.  ***
+
+  ================================================================================
+  143.6  Y  $AC  =  LA  CADENA  DE  B  EN  EL  AIRE.  CHUI  18 DE 18
+  ================================================================================
+
+      *** (usuario)  "masheo BBBB aire"  ***
+
+      $00 -> $05   f82      el paso
+      $05 -> $0D   f84      el dash
+      $0D -> $06   f89
+      $06 -> $90   f90      *** $90  =  EL  B  AEREO  ***
+      $90 anim $02   HIT+CLASH
+      [HP] f96   P4   7 -> -2   (-9)      P4:  $00 -> $25
+      [MOV 01] B  id=$90  mana -8         pulsada en el 129
+      $90 -> $AC   f130     *** $AC  =  LA  CADENA  ***
+      $AC anim $01   $64=15   $68=05    +2 MP    -6 HP
+      $AC anim $03   $64=15   $68=00    +4 MP    -5 HP
+      $AC anim $05   $64=15   $68=01    +6 MP    -3 HP
+      $AC anim $07   $64=16   $68=00    +8 MP    -8 HP
+      $AC anim $09   $64=15   $68=01    (no hay HP)
+      $AC -> $0E   f349     *** 219  FRAMES  ***
+      $0E -> $01   f363
+      $01 -> $00   f376
+
+  *** $90  =  EL  B  AEREO.  EL  ESPEJO  DE  $95.  ***
+
+      8 de man    1 golpe    9 de dano    $25
+
+  *** $AC  =  LA  CADENA  DE  B  EN  EL  AIRE.  8  ANIMS  CON  CAJA.  ***
+  *** EL  ROM  DECIA  8/8.  CONFIRMADO.  ***   septimo acierto del contador
+
+  ------------------------------------------------------------------------------
+                      A  EN  EL  AIRE        B  EN  EL  AIRE
+                      $95 + $AD              $90 + $AC
+                      --------------------   --------------------
+    patada, man              12                     8
+    patada, dao             15                     9
+    cadena                   $AD                    $AC
+    duracion de la cadena    175 f                 219 f
+    golpes de la cadena      4  (-24)              4  (-22)
+    man que devuelve         +20                   +20
+    --------------------   --------------------
+    neto                     +8                   +12
+    dao total               39                    31
+  ------------------------------------------------------------------------------
+
+  *** LA  DE  B  DOMINA:  MAS  LARGA,  MAS  BARATA,  MISMO  PRECIO  DE  MANA  ***
+
+  ------------------------------------------------------------------------------
+                      $AD  (cadena de A)      $AC  (cadena de B)
+    $64 de los golpes    $15 $15 $15 $16 $15  $15 $15 $15 $16 $15   IGUAL
+    $68 de los golpes    05  00  01  00  01  05  00  01  00  01   IGUAL
+    anims con caja       8                      8                      IGUAL
+  ------------------------------------------------------------------------------
+
+  *** SON  LA  MISMA  PLANTILLA  CON  OTROS  NUMEROS.  ***
+
+  *** Y  EL  RIVAL  NO  SE  MUEVE  DE  $25  EN 219  FRAMES.  ***
+
+  *** $0E  DE  NUEVO:  LA  CAIDA  DESPUES  DEL  AEREO.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+144.  LA  MUERTE  SE  APLAZA  HASTA  EL  PRIMER  REBOTE
+===============================================================================
+
+  *** (usuario)  ***
+
+      "murio por el combo de chu, lo que pasa es que en vez de caerle encima
+       como con el masheo AAAA, al usar B lo que sucede es que en aire chu hace
+       un pequeno codazo que pega arriba, entonces tuve que acercarme a p4,
+       saltar y apenas salte apretar BBBB, el resultado es que termina empujado
+       mas lejos, por que en el caso AAAA lo mate estando p4 pegado a la pared
+       y esto lo hice a medio campo, entonces se alejo mas, ademas el codigo
+       definitivo de muerte aparece despues del primer rebote en el suelo,
+       es decir en el punto de alejado maximo entre el y yo, debes tomar el
+       valor cuando recien baja de 0 para saber la distancia que teniamos."
+
+  ================================================================================
+  144.1  LO  QUE  CONTESTA  LA  PRIMERA  FRASE
+
+  *** P4  MURIO  POR  EL  COMBO  DE  CHUI.  NO  POR  OTRA  COSA.  ***
+
+  *** ASI  QUE  EL  [ABIERTO]  DE  143.5  ESTA  RESUELTO.  ***   [COMPROBADO]
+
+  *** Y  QUEDA  UNA  CONSECUENCIA  MAS  FUERTE  ***
+
+  *** SI  UN  GOLPE  DIRECTO  MATA,  Y  P4  LLEGO  A  -24,  P4  ESTABA  ***
+  *** YA  MUERTO  DESDE  EL  GOLPE  QUE  LO  CRUZO.  Y  SE  LEVANTO  IGUAL.  ***
+
+  ================================================================================
+  144.2  EL  GAME  OVER  NO  ES  EN  EL  GOLPE.  ES  EN  EL  PRIMER  REBOTE
+  ================================================================================
+
+      *** ESTA  ES  LA  MECANICA  NUEVA  Y  ES  GRANDE.  ***
+
+      *** EL  HP  BAJA  DE  0.  EL  PERSONAJE  SIGUE  VIVO.  ***
+      *** SIGUE  VOLANDO,  SIGUE  DANDO  VUELTAS,  SIGUE  SIENDO  EMPUJADO.  ***
+      *** SOLO  EN  EL  PRIMER  REBOTE  EN  EL  SUELO  SALTA  EL  $28 -> $29  ***
+
+  ------------------------------------------------------------------------------
+      $25   f96        derribo con ventana
+              ...      sigue en el aire, HP ya en negativo
+      $25   f446 -> $28  dur $5A=08     *** PRIMER  REBOTE  ***
+      $28   f472 -> $29  dur $5A=18     *** 26  FRAMES  DESPUES  ***
+                    y aqui se pone el HP en -1024
+  ------------------------------------------------------------------------------
+
+      *** ENTRE  EL  CRUCE  DE  0  Y  EL  -1024  HAY  UN  HUECO  DE  VARIOS  ***
+      *** FRAMES.  EN  ESE  HUECO  EL  RIVAL  ESTA  A  CERO  O  NEGATIVO  Y  ***
+      *** AUN  ASI  SE  PUEDE  SEGUIR  PEGANDO  LE.  ***
+
+  *** LO  QUE  ESTO  ABRE  ***
+
+      *** SE  PUEDE  SEGUIR  GOLPEANDO  A  UN  RIVAL  YA  "MUERTO".  ***
+      *** Y  CADA  GOLPE  LE  RESTA  HP  Y  LO  ALEJA  MAS.  ***
+
+      *** O  SEA  QUE  LA  DISTANCIA  FINAL  LA  DECIDE  CUANTOS  GOLPES  ***
+      *** LE  METES  DESPUES  DEL  CRUCE.  ***
+
+  ================================================================================
+  144.3  Y  POR  ESO  AAAA  MATO  Y  BBBB  NO,  EN  EL  MISMO  COMBO
+  ================================================================================
+
+  *** (usuario)  ***
+
+      "en vez de caerle encima como con el masheo AAAA, al usar B lo que sucede
+       es que en aire chu hace un pequeno codazo que pega arriba"
+
+  *** O  SEA  QUE  LAS  DOS  CADENAS  AEREAS  EMPUJAN  DISTINTO  ***
+
+      *** $AD  (cadena de A)   CHUI  CAE  ENCIMA.  NO  SEPARA.  ***
+      *** $AC  (cadena de B)   CHUI  DA  UN  CODAZO  QUE  PEGA  ARRIBA.  ***
+      ***                      EL  RIVAL  SALE  DESPEDIDO  Y  SE  ALEJA.  ***
+
+  ------------------------------------------------------------------------------
+      $AC  (cadena de B)   mundo de P1  en  cada  impacto:
+          f96    1244
+          f140   1233      -11
+          f187   1223      -10
+          f234   1211      -12
+          f281   1199      -12
+
+      *** CHUI  RECUA  UNOS  11  px  POR  GOLPE.  CUATRO  VECES.  ***
+
+      *** O  SEA  QUE  $AC  TIENE  RECOIL  Y  $AD  NO.  O  AL  REVES:  ***
+      *** $AD  MANTIENE  LA  DISTANCIA  Y  $AC  LA  ABRE.  ***
+  ------------------------------------------------------------------------------
+
+  *** Y  ESO  ES  LO  QUE  PIDE  EL  USUARIO  MAS  ARRIBA  ***
+
+      *** "por que en el caso AAAA lo mate estando p4 pegado a la pared"
+      *** "esto lo hice a medio campo, entonces se alejo mas"  ***
+
+      *** CONTRAR  LA  PARED  EL  RIVAL  NO  TIENE  A  DONDE  IR.  ***
+      *** A  MEDIO  CAMPO  TIENE  300  px  Y  LOS  USA.  ***
+
+  *** ESTO  ES  UNA  VENTAJA  REAL  DE  $AD  SOBRE  $AC:  MANTIENE  LA  DISTANCIA.  ***
+
+  ================================================================================
+  144.4  EL  TRACKER  YA  MIDE  LA  DISTANCIA  EN  EL  CRUCE  DE  0
+  ================================================================================
+
+  *** PARCHEADO  HOY  EN  CHARACTER MOVE LUAS.LUA  (solo  lectura,  rule 5)  ***
+
+      *** 1.  LA  ETIQUETA  ESTABA  MAL  Y  ADEMAS  FALTABA  UNA  COSA  ***
+
+      La linea [HP]  imprimia  UN  numero  de  mundo  al  final  de  la  parte
+      de  P1.  Ese  numero  era  e.wx_lo,  o  sea  EL  DEL  OBJETIVO.
+
+      *** "mundo 1281"  ERA  P4,  NO  P1.  ***
+
+      *** ASI  QUE  CUALQUIER  LECTURA  HECHA  DE  ESA  COLUMNA  COMO  SI  ***
+      *** FUERA  LA  POSICION  DE  P1  ESTABA  MAL.  ***   correccion aplicada
+
+      *** 2.  AHORA  LA  LINEA  [HP]  IMPRIME  ***
+
+          ... |  P1: mov $XX ...   mundo P1=NNNN  P4=NNNN  dist=NNN
+
+      *** 3.  Y  SE  AGREG  UNA  LNEA  NUEVA  ***
+
+          >>> [CRUCE 0] fNNN  P4  HP  24 -> 3   *** RECIEN BAJO DE 0 ***
+              mundo P1=NNNN  P4=NNNN  dist=NNN  mov $XX
+
+      *** sale  SOLO  en  el  frame  exacto  en  que  el  HP  pasa  de  >0  a  <=0  ***
+
+      *** ASI  QUE  LA  DISTANCIA  QUE  SE  NECESITA  YA  ESTA  MEDIDA  ***
+      *** SIN  HACER  NADA  MAS  QUE  PEGAR  UN  COMBO  COMPLETO.  ***
+
+  ================================================================================
+  144.5  LO  QUE  FALTA  MEDIR
+  ================================================================================
+
+      *** [ ]  LA  DISTANCIA  REAL  EN  EL  CRUCE  DE  0  DE  $AD  vs  $AC  ***
+      *** ESTO  DICE  EL  ALCANCE  REAL  DE  LAS  DOS  CADENAS  AEREAS.  ***
+
+      *** Un  solo  combo  con  el  tracker  nuevo  lo  da.  ***
+================================================================================
+================================================================================
+================================================================================

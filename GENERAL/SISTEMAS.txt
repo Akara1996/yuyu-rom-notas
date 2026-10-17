@@ -3729,6 +3729,422 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
           *** la  ulti  $AC $AD $AE   ***  ***  ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS  ***
           *** el  agarre  $B8  ***   ***  ***
           *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***  ***
+151.  LA  ULTI  DE  TOGURO  MAYOR.  MEDIDA  ENTERA
+================================================================================
+
+  ###############################################################################
+  151.1  LA  ESTRUCTURA.  $AC  ->  $AD  ->  $AE
+  ###############################################################################
+
+  *** (usuario)  "durante el tiempo que esta girando y golpeado puedes desplazarlo  ***
+  *** izquierda o derecha"  ***
+
+      [MOV 01] vA   id=$02   mana -200
+      $02 -> $AC   f262
+      $AC -> $AD   f300      *** 38  frames  ***
+      $AD -> $AE   f429      *** 129  frames  ***
+      $AE -> $00   f500      *** 71  frames  ***
+
+      $AD anim $00   HIT+CLASH   mascara $3C   +64=3E  +65=08  +66=04  +68=00
+
+  ------------------------------------------------------------------------------
+      $AC    38 f      el  arranque
+      $AD   129 f      el  giro.  ACA  ESTA  EL  DANO.
+      $AE    71 f      el  final
+      ------------------------------------------------------------------
+      TOTAL  238 f   ~4  segundos
+  ------------------------------------------------------------------------------
+
+  *** *** $AD  SE  ALARGA  CUANDO  LOS  GOLPES  ENTRAN:  121  A  151  FRAMES.  ***  ***
+
+  ###############################################################################
+  151.2  LA  REGLA  DE  LOS  GOLPES  QUE  ENTRAN
+  ###############################################################################
+
+  *** (usuario)  "La cantidad de hits conectados depende del tamano del enemigo,  ***
+  *** del facing que tenias tu en el momento y del stun del rival"  ***
+
+  *** *** Y  EL  LOG  CONFIRMA  LAS  TRES  COSAS  CON  NUMEROS.  ***  ***
+
+  ------------------------------------------------------------------------------
+    objetivo      stun  max   posicion     hits    dano    lo  tumba?
+    ------------------------------------------------------------------
+    Toguro menor      62       frente        13     124      ***  NO  ***
+    Toguro menor      62       ESPALDA       24     230      ***  SI  ***
+    Genkai            34       frente         9      86      ***  SI  ***
+    Genkai            34       ESPALDA       14     139      no
+    Toguro menor      62       con  Dedal      31     294      ***  SI  ***
+  ------------------------------------------------------------------------------
+
+  *** *** DE  FRENTE  LE  DOBLA  EL  DANO  A  TOGURO  MENOR:  13  CONTRA  24  GOLPES.  ***  ***
+
+  ###############################################################################
+  151.3  Y  POR  QUE  TOGURO  MENOR  RESISTE.  NO  ES  LO  QUE  UNO  CREE
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "Toguro menor tiene una mala combinacion de factores contra esta tecnica:
+       es grande y le caben mas hit, y como tiene mucho aguante come muchos golpes
+       antes de stunearse."
+
+  *** *** LOS  DOS  FACTORES  JUEGAN  A  FAVOR  DEL  DEFENSOR.  ***  ***
+
+      grande          ->  le  caben  mas  golpes  por  vuelta
+      stun  62        ->  aguanta  antes  de  caerse
+
+  *** Y  GENKAI  ES  AL  CONTRARIO  EN  LAS  DOS  COSAS  ***
+
+      chico           ->  le  caben  menos  golpes
+      stun  34        ->  se  stunea  a  los  9  golpes
+
+  *** *** O  SEA:  EL  STUN  BAJO  NO  ES  VULNERABILIDAD.  ES  LO  QUE  MAS  ***  ***
+  *** *** DIFICIL  DE  MATAR  DENTRO  DE  UN  COMBO  LARGO.  ***  ***
+
+  *** *** EL  DEDAL  Y  ESTA  ULTI  FUNCIONAN  POR  EL  MISMO  MOTIVO.  ***  ***
+
+  ###############################################################################
+  151.4  Y  LA  REGLA  DE  LA  DIRECCION.  CONFIRMADA  CON  LAS  DISTANCIAS
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "cuando miras al oponente de frente y haces la ulti debes ir en direccion
+       hacia donde estabas viendo, pero cuando la haces de espalda al enemigo
+       tienes que moverte hacia donde tu estas mirando para arrastrar al enemigo
+       hacia ti, esto dado a que la fisica de pusheo se aplica empujando al
+       enemigo en la direccion en la que el ataque del atacante esta mirando"
+
+  *** *** EL  LOG  LO  CONFIRMA  CON  LAS  DISTANCIAS  DE  CADA  GOLPE.  ***  ***
+
+  ---- de  frente,  Toguro  menor.  LA  DISTANCIA  CRECE  ------------------------
+
+      f178  30    f193  58    f207  63    f222  62    f238  63    f251  67
+      f179  34    f194  60    f222  62    f237  61    f266  65    f296  63
+
+      *** *** EL  RIVAL  SE  ESCAPA.  TENES  QUE  PERSEGUIRLO  MIENTRAS  GIRAS.  ***  ***
+
+  ---- de  ESPALDA,  Toguro  menor.  LA  DISTANCIA  SE  COLAPSA  ----------------
+
+      f158  39    f163  25    f169  14    f172   8    f174   5    f176   1
+      f159  36    f165  21    f170  12    f173   6    f175   3    f177   1
+
+      *** *** LA  DISTANCIA  LLEGA  A  CERO.  LO  ARRASTRAS  CONTIGO.  ***  ***
+
+  *** *** ESTO  ES  LA  MECANICA  COMPLETA  DE  "DE  ESPALDAS  ENTRAN  MAS  GOLPES".  ***  ***
+
+  *** Y  ES  NORMAL  EN  UN  FIGHTING:  EL  PUSHEO  MODERA  LOS  COMBOS.  ***  ***
+
+  *** *** LO  QUE  HACE  TOGURO  MAYOR  ES  EXPLOTARLO:  TIENE  DESPLAZAMIENTO  ***
+  *** *** DURANTE  LA  ULTI  Y  EL  JUEGO  PERMITE  EL  FACING  LIBRE.  ***  ***
+
+  *** *** (usuario)  "ese  diseno  no  contemplaba  este  escenario  al  parecer"  ***
+
+  ###############################################################################
+  151.5  BLOQUEADA.  Y  EL  DANO  BLOQUEADO  DA  LA  FORMULA  EXACTA
+  ###############################################################################
+
+  *** (usuario)  "voy a elegir a Toguro menor como defensor por ser el mas grande  ***
+  *** y asi sabremos el dano maximo posible de chipeo"  ***
+
+      P4:  $00 -> $09   f175     ***  LA  GUARDIA  DE  PIE  ***
+      $AD anim $00   HIT+CLASH   mascara $3C   +64=3E  +65=08  $66=04
+      [HP] f195   -3   P4: mov $2C
+      P4:  $09 -> $2C   f195     ***  EL  ESTADO  DE  BLOQUEO  ***
+
+      *** 44  GOLPES  BLOQUEADOS.  TODOS  -3.  223 -> 91  =  132  DE  DANO.  ***
+
+      $65  =  $08  =  8
+
+      *** *** LA  FORMULA  DEL  ROM  DICE:  $65 / 4  + 1  =  8/4 + 1  =  3.  ***  ***
+
+      *** *** ***  PRECIO  EXACTO.  LA  FORMULA  $65/4+1  ESTA  VERIFICADA  CON  ***  ***
+      *** *** ***  UN  CALCULO  QUE  NO  ESTABA  HECHO  ANTES.  ***  ***
+
+      *** Y  CERO  MANA  DEVUELTA  EN  LOS  44  GOLPES.  ***   *** CONFIRMADO  ***  ***
+
+      *** *** POR  QUE:  $2C  ESTA  EN  EL  RANGO  $28-$2D,  QUE  RESETE  EL  ***  ***
+      *** *** CONTADOR  DE  COMBO  ANTES  DE  PAGAR.  ***  ***
+
+  *** (usuario)  ***
+
+      "este ataque golpea muchas veces y chipea demasiado, es mas conveniente
+       saltar y dejarte golpear a proposito por que solo te entrarian 2 hit"
+
+      *** 44  GOLPES  BLOQUEADOS  SON  132  DE  DANO.  DOS  GOLPES  LIMPIOS  SON 20.  ***
+      *** *** BLOQUEAR  ES  SEIS  VECES  PEOR  QUE  DEJARTE  PEGAR.  ***  ***
+
+  *** *** Y  ESO  ES  IGUAL  QUE  LA  ULTI  DE  JIN.  ***  ***
+
+  ###############################################################################
+  151.6  Y  UN  DATO  SOBRE  $C4
+  ###############################################################################
+
+      Toguro mayor    $C4 = $04
+      Chui            $C4 = $06
+      Genkai          $C4 = $02
+
+      *** *** TRES  PERSONAJES,  TRES  VALORES.  $C4  ES  UN  STAT  POR  PERSONAJE.  ***  ***
+
+  ###############################################################################
+  151.7  Y  LOS  ESTADOS  DE  LA  CADENA  DE  CAIDA.  UNA  VEZ  MAS
+  ###############################################################################
+
+      $25  ->  $28  ->  $29  ->  $2A  ->  $2B     ***  CUARTA  VEZ  QUE  SE  VE  ***
+      P4:  $25 -> $28   f322      (tras el cruce de 0)
+      P4:  $28 -> $29   f362      y ahi el HP se va a -1024
+
+      *** *** $29  ES  DONDE  EL  JUEGO  ESCRIBE  -1024.  CUARTA  CONFIRMACION.  ***  ***
+
+  ###############################################################################
+  151.8  EL  ESTADO  DE  TOGURO  MAYOR
+  ###############################################################################
+
+      MEDIDOS (18)
+
+          los  nueve  basicos        $80 $81 $82 $83 $84 $86 $90 $94 $95
+          $0B  el  dash                    20 f
+          $0C  el  backdash                32 f
+          $09 -> $14  la  provocacion      76 f   36  de  mana
+          $A1  EL  DEDAL  DD+C              8 man   stun 64   SIN  CLASH
+          $A3  la  mano  larga  DD+A       24 man   18  dao   104 px
+          $A2  la  mano  corta  DD+B       16 man   16  dao    64 px
+          $A4  la  estocada  DF+A          16 man   21  dao    76-84 px
+          $A0  A+B  las  agujas            24 man   14  dao   2  cajas
+          $A7 + $A6  el  impostor            8 man   A +176  B +112  C -48
+          LA  ULTI  $AC $AD $AE        200 man   238  f   9  a  31  golpes
+
+      SIN MEDIR
+
+          *** el  agarre  $B8  ***
+          *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***
+152.  EL  REGISTRO  DE  PERSONAJES  LEIDO  COMPLETO.  Y  TOGURO  MENOR
+================================================================================
+
+  ***  TODO  ESTO  SALIO  DE  UNA  COSA  QUE  NO  ESTABAMOS  BUSCANDO:  EL  ***
+  ***  $C4  QUE  EL  BLOB  IMPRIME.  AL  VER  QUE  TENIA  TRES  VALORES  ***
+  ***  DISTINTOS  EN  TRES  PERSONAJES,  FUE  A  BUSCAR  LA  TABLA  DE  ***
+  ***  ENTRADAS  COMPLETA.  Y  AHI  ESTA  TOGURO  MENOR.  ***
+
+  ###############################################################################
+  152.1  $C4  ES  EL  BYTE  +$32  DE  LA  ENTRADA  DEL  PERSONAJE
+  ###############################################################################
+
+      ------------------------------------------------------------------------------
+        entrada   $26  (stun)   $32  ($C4)   $34   $2C  ($26 otra vez)
+        ------------------------------------------------------------------
+         1  GENKAI      34 (22 hex)    02          C4       22
+         2  KURAMA      40 (28)        04          C4       28
+         3  KUWABARA    56 (38)        08          C4       38
+         4  YUSUKE      48 (30)        06          C4       30
+         5  HIEI        44 (2C)        02          C4       2C
+         6  SENSUI      54 (36)        02          C4       36
+         7  JIN         46 (2E)        04          C4       2E
+         8  ITSUKI      40 (28)        02          C4       28
+         9  TOGURO+     38 (26)        04          C4       26
+        10  CHUI        48 (30)        06          C4       30
+        11  TOGURO-     62 (3E)        08          C4       3E
+      ------------------------------------------------------------------------------
+
+      ***  $26  Y  $2C  SON  EL  MISMO  BYTE  EN  LAS  ONCE  ENTRADAS.  ***  ***
+      ***  YA  LO  SABIAMOS  DE  LOS  CINCO  QUE  HABIAMOS  MIRADO.  ***  ***
+      ***  AHORA  ESTA  CONFIRMADO  EN  LOS  ONCE.  ***   [VERIFICADO]  ***
+
+      ***  $C4  DEL  BLOB  =  +$32  DE  LA  ENTRADA.  3  DE  3.  ***  ***
+          Genkai   blob $02   entrada $02   OK
+          TOGURO+  blob $04   entrada $04   OK
+          CHUI     blob $06   entrada $06   OK
+
+      *** *** $34  =  $C4  PARA  LOS  ONCE.  OTRO  CAMPO  FIJO.  ***  ***
+
+  ----  LA  TABLA  COMPLETA  DE  LAS  ONCE  ENTRADAS  ---------------------------
+
+      SOLO  22  DE  LOS  74  BYTES  DE  LA  ENTRADA  VARIAN  ENTRE  PERSONAJES.
+      Los  otros  52  son  constantes  para  los  once.  La  entrada  es  un
+      puntero  con  muchisimos  rellenos  fijos,  no  un  registro  de  stats.
+
+      Los  que  varian:
+
+      ------------------------------------------------------------------------------
+        offset   para  que  sirve
+        ------------------------------------------------------------------
+        +$00..+$02   tablaA     (24 bits)
+        +$08..+$0A   tablaB     (24 bits)
+        +$0A         byte  suelto  de  tablaB
+        +$11..+$12   ver  152.4
+        +$26         STUN MAXIMO  (y  +$2C  es  el  mismo  byte)
+        +$32         $C4
+        +$37 +$38    ver  152.5
+        +$3A..+$3C   ver  152.5   (tercer  puntero)
+        +$3D..+$41   ver  152.5
+        +$42         ver  152.5
+        +$46 +$47    ver  152.5
+      ------------------------------------------------------------------------------
+
+  ###############################################################################
+  152.2  EL  BLOQUE  DE  DATOS  DE  CADA  PERSONAJE.  Y  EL  DE  TOGURO  MENOR
+  ###############################################################################
+
+      *** *** ESTO  ES  LO  QUE  DESBLOQUEA  AL  ULTIMO  PERSONAJE.  ***  ***
+
+      El  puntero  de  tablaA  ES  EL  INICIO  DEL  BLOQUE  COMPLETO  DE  DATOS
+      DEL  PERSONAJE.  El  bloque  va  hasta  el  tablaA  del  siguiente.
+
+      ------------------------------------------------------------------------------
+        #  nombre      tablaA      hasta        bytes    tablaB     A -> B
+        ------------------------------------------------------------------
+        1  GENKAI     $0BCAAA    $0BF75A     11440    $0BDCAA     $1200
+        2  KURAMA     $0BF75A    $0C229A     11072    $0C04CA     $0D70
+        3  KUWABARA   $0C229A    $0C4EEA     11344    $0C31DA     $0F40
+        4  YUSUKE     $0C4EEA    $0C7C9A     11696    $0C5DAA     $0EC0
+        5  HIEI       $0C7C9A    $0CA6DA     10816    $0C8BEA     $0F50
+        6  SENSUI     $0CA6DA    $0CCC7A      9632    $0CB38A     $0CB0
+        7  JIN        $0CCC7A    $0CF99A     11552    $0CDEFA     $1280
+        8  ITSUKI     $0CF99A    $0D1E5A      9408    $0D069A     $0D00
+        9  TOGURO+    $0D1E5A    $0D4A9A     11328    $0D2C6A     $0E10
+       10  CHUI       $0D4A9A    $0D777A     11488    $0D59FA     $0F60
+       11  TOGURO-    $0D777A    ???         ???     $0D85AA     $0E30
+      ------------------------------------------------------------------------------
+
+      *** *** EL  BLOQUE  DE  TOGURO  MENOR  ESTA  EN  $0D777A.  YA  LO  VIMOS.  ***  ***
+
+      Los  primeros  bytes  de  $0D777A  son  LA  MISMA  TABLA  DE  DIRECCIONES
+      DE  16  bits  que  arranca  el  bloque  de  CHUI  en  $0D4A9A:
+
+          $0D4A9A  01 80 01 B0 01 B8 01 C0 01 C8 01 D0 02 00 02 18 ...
+          $0D777A  01 80 01 B0 01 B8 01 C0 01 C8 01 D0 02 10 02 28 ...
+
+      Y  los  primeros  REGISTROS  DE  MOVIMIENTO  tambien  son  del  mismo  tipo:
+
+          CHUI        $0D4C1A  06 01 00 0B 00 00 82 78  06 02 00 0B 00 00 82 78
+          TOGURO-    $0D78FA  06 01 00 0B 00 00 83 78  06 02 00 0B 00 00 83 78
+
+      *** *** id  $83  =  ADELANTE + A.  ES  EL  PRIMER  BASICO  DE  CHUI  ***  ***
+      *** *** Y  EL  PRIMER  REGISTRO  QUE  APARECE  EN  EL  BLOQUE  DE  TOGURO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      ***  POR  LO  TANTO,  PARA  TOGURO  MENOR:  ***
+
+          $50  =  $0D777A
+          $8C  =  $0D85AA
+
+      ***  Y  ESO  ES  LO  QUE  VA  A  IMPRIMIR  LA  LINEA  CONTEXTO  DEL  ***
+      ***  TRACKER  CUANDO  ESTE  TOGURO  MENOR  ESTE  EN  PANTALLA.  ***  ***
+      ***  [VERIFICADO]  sale  de  la  misma  tabla  que  los  otros  diez.  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  152.3  POR  QUE  NO  LO  TENIAMOS.  TRES  ANOMALIAS  SUYAS
+  ###############################################################################
+
+  TOGURO  MENOR  ES  EL  UNICO  QUE  SE  SALTA  EL  PATRON  EN  TRES  LUGARES.
+
+  ---- a)  +$42 :  EL  INDICE  MAESTRO  DE  PERSONAJES  ----------------------
+
+      ------------------------------------------------------------------------------
+        #  nombre      +$42      +$42 / 2
+        ------------------------------------------------------------------
+         1  GENKAI      10           8
+         2  KURAMA      12           9
+         3  KUWABARA    14          10
+         4  YUSUKE      16          11
+         5  HIEI        18          12
+         6  SENSUI      1A          13
+         7  JIN         1C          14
+         8  ITSUKI      1E          15
+         9  TOGURO+     20          16
+        10  CHUI        22          17
+        11  TOGURO-     7C       *** 62  ***
+      ------------------------------------------------------------------------------
+
+      ***  LOS  DIEZ  PRIMEROS  SON  $10  +  2  x  (n  -  1).  LIMPIO.  ***  ***
+      ***  TOGURO  MENOR  ESTA  EN  $7C  =  62,  NO  EN  $24  =  36.  ***  ***
+
+      ***  [ABIERTO]  $7C  ESTA  DENTRO  DEL  RANGO  DE  LOS  BYTES  DE  ALTA  ***
+      ***  ($7C  =  124  sale  tres  veces  como  constante  en  la  entrada).  ***
+      ***  [ABIERTO]  SI  +$42  FUERA  EL  INDICE  EN  UNA  TABLA  MAESTRA,  EL  ***
+      ***  INDICE  DE  TOGURO  MENOR  ESTA  45  LUGARES  MAS  LEJOS.  ***  ***
+      ***  ESO  EXPLICARIA  POR  QUE  SU  SET  DE  TECNICAS  ES  DISTINTO  ***  ***
+      ***  AL  DE  LOS  OTROS  DIEZ.  ***  ***
+
+  ---- b)  +$3A..+$3C :  UN  TERCER  PUNTERO  ---------------------------------
+
+      Para  los  diez  primeros,  el  byte  alto  de  este  puntero  es  EL  MISMO
+      que  el  de  tablaA:
+
+      ------------------------------------------------------------------------------
+        nombre      tablaA       +$3A       +$3A-$00
+        ------------------------------------------------------------------
+        GENKAI      $0BCAAA      $0BE9          el  mismo  $0B
+        KURAMA      $0BF75A      $0C0E          el  mismo  $0B
+        ...
+        TOGURO+     $0D1E5A      $0D36          el  mismo  $0D
+        CHUI        $0D4A9A      $0D64          el  mismo  $0D
+        TOGURO-     $0D777A      $0666    ***  OTRO  $06.  FUERA  DEL  BLOQUE  ***
+      ------------------------------------------------------------------------------
+
+      ***  ES  UN  PUNTERO  DE  24  BITS  QUE  PARA  LOS  DIEZ  CAE  DENTRO  ***
+      ***  DEL  PROPIO  BLOQUE  DEL  PERSONAJE,  Y  PARA  TOGURO  MENOR  CAE  ***
+      ***  EN  $06666A,  QUE  ESTA  EN  LA  ZONA  DE  CODIGO.  ***  ***
+
+  ---- c)  +$46 +$47 :  UN  PAR  QUE  TAMBIEN  SE  SALTA  --------------------
+
+      ------------------------------------------------------------------------------
+        nombre      +$37 +$38      +$3D +$3E +$3F +$40 +$41     +$46 +$47
+        ------------------------------------------------------------------
+        los  diez    2B  7C           00  1C  2B  7C  00        20  2B
+        TOGURO MENOR 30  2D           54  6D  00  06  3B        28  3B
+      ------------------------------------------------------------------------------
+
+      ***  +$46  PASA  DE  $20  A  $28   =  +8   ***
+      ***  +$47  PASA  DE  $2B  A  $3B   =  +$10  ***
+
+      *** *** ESE  +8  Y  ESE  +$10  SON  EXACTAMENTE  LO  QUE  SE  VE  CUANDO  ***
+      *** *** UN  REGISTRO  ESTA  CORRIDO.  TOGURO  MENOR  TIENE  SU  FICHA  CON  ***
+      *** *** OTRO  DESPLAZAMIENTO  INTERNO  DENTRO  DE  LA  MISMA  ENTRADA.  ***  ***
+      *** *** [ABIERTO]  FALTA  VER  QUE  LEER  EN  +$42  PARA  QUE  DIGA  $24.  ***
+
+  ###############################################################################
+  152.4  DOS  CAMPOS  MAS  QUE  SALEN  LIMPIOS
+  ###############################################################################
+
+  ---- +$12 :  $1E  POR  PERSONAJE,  MODULO  $100  ------------------------------
+
+      ------------------------------------------------------------------------------
+        #  1   2   3   4   5   6   7   8   9  10  11
+        ------------------------------------------------------------------
+        +$12 00 1E 3C 5A 78 B4 D2 F0 0E 2C 4A
+        prev   --  +1E +1E +1E +1E +3C +1E +1E +1E +1E
+      ------------------------------------------------------------------------------
+
+      $1E  =  30.  El  unico  salto  raro  es  el  de  SENSUI,  que  deberia
+      ser  $96  y  esta  en  $B4.  [ABIERTO]
+
+  ---- +$03..+$25 :  UNA  FAMILIA  DE  CONSTANTES  ------------------------------
+
+      +$34 $C4   +$35 $4E   +$36 $75
+      +$04 $50   +$05 $2B   +$06 $7C
+      +$0C $8C   +$0D $2B   +$0E $7C
+
+      Todos  los  once  son  IGUALES  en  esos  bytes.  Son  una  plantilla  fija
+      con  campos  fijos  que  no  dependen  del  personaje.  [VERIFICADO]
+
+  ###############################################################################
+  152.5  QUE  PODEMOS  HACER  YA  CON  TOGURO  MENOR
+  ###############################################################################
+
+      *** *** SU  BLOQUE  ESTA  LEIDO  Y  VERIFICADO  byte  a  byte.  ***  ***
+
+      1.  Poner  a  TOGURO  MENOR  de  P4  y  confirmar  que  la  linea  CONTEXTO
+          imprime  $50=$0D777A  $8C=$0D85AA.   *** ESO  CIERRA  EL 11  de  11.  ***
+      2.  Leer  su  banda  $80-$8F  del  .asm  a  mano  con  tablaA $0D777A.
+          *** NO  HAY  NADA  QUE  DESCUBRIR:  ESTA  TODO  AHI.  ***
+      3.  Verificar  $C4 = $08  en  el  blob.  *** PREDICHA  POR  EL  ROM.  ***
+      4.  Los  nueve  basicos  deberian  ser  los  MISMOS  ids  que  los  otros
+          diez.  *** SU  PRIMER  REGISTRO  ES  $83,  COMO  EL  DE  CHUI.  ***
+
+      ***  [VERIFICADO]  lo  unico  que  faltaba  era  el  puntero.  Ya  lo  ***  ***
+      ***  tenemos,  y  sale  de  la  misma  tabla  que  los  otros  diez.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

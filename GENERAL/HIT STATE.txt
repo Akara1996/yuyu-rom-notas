@@ -2708,6 +2708,169 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
           *** la  ulti  $AC $AD $AE   ***  ***  ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS  ***
           *** el  agarre  $B8  ***   ***  ***
           *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***  ***
+151.  LA  ULTI  DE  TOGURO  MAYOR  CONTRA  CADA  OBJETIVO.  LA  TABLA  DE  GOLPES
+================================================================================
+
+  ###############################################################################
+  151.1  LOS  CINCO  EXPERIMENTOS.  TODOS  CON  LA  MISMA  ULTI.  200  DE  MANA
+  ###############################################################################
+
+      $AD anim $00   HIT+CLASH   mascara $3C   +64=3E  +65=08  +66=04  +67=02
+
+  ------------------------------------------------------------------------------
+    objetivo     stun  caja    posicion      hits    dano    knockdown
+    ------------------------------------------------------------------
+    Toguro menor    62   grande  frente        13     124      NO
+    Toguro menor    62   grande  ESPALDA       24     230      SI
+    Genkai          34   chico   frente         9      86      SI  (a los 9)
+    Genkai          34   chico   ESPALDA       14     139      NO
+    Genkai          34   chico   ESPALDA
+                        con Dedal antes        25    ~220      SI
+    Toguro menor    62   grande  ESPALDA
+                        con Dedal antes        31     294      SI
+  ------------------------------------------------------------------------------
+
+  *** *** EL  DANO  POR  GOLPE  NO  ES  EL  MISMO  PARA  CADA  OBJETIVO.  ***  ***
+  *** *** Varia  entre  8  y  11  con  LA  MISMA  $65 = $08.  Es  EL  PERFIL  ***  ***
+  *** *** DEL  RIVAL  LO  QUE  LO  CAMBIA.  (ver  146:  el  dano  escala  con  ***  ***
+  *** *** el  peso  del  objetivo,  no  solo  con  la  tabla  del  move)  ***  ***
+
+  ###############################################################################
+  151.2  EL  DANO  OBSERVADO  FRENTE  VS  ESPALDA.  NO  ES  EL  MISMO  MULTIPLICADOR
+  ###############################################################################
+
+  ---- Toguro menor,  de  frente.  Golpes  de  8  a  11  ----------------------
+
+      -10 -10 -10  -8  -8 -11  -8 -11  -9  -9 -11  -8 -11      media  9.5
+
+  ---- Toguro menor,  de  ESPALDA.  Golpes  de  8  a  11  -------------------
+
+      -9  -8  -8 -10 -10  -8 -11  -9 -10 -11  -8 -11  -8 -10  -9 -11 -11
+      -11  -8 -10 -11 -10 -10  -8                                media  9.6
+
+  *** *** LA  DISTRIBUCION  ES  LA  MISMA.  LO  QUE  CAMBIA  ES  CUANTOS  ENTRAN.  ***  ***
+
+  *** *** EL  "DANO  x2  DE  ESPALDAS"  QUE  SE  PROPAGABA  NO  ES  UN  x2  REAL.  ***  ***
+  *** *** ES  EL  MISMO  $65  APLICADO  13  VECES  O  24  VECES.  ***  ***
+
+  ###############################################################################
+  151.3  EL  STUN  BAJO  ES  LO  QUE  MAS  CUSTA  MATAR  DENTRO  DE  UN  COMBO
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "Toguro menor tiene una mala combinacion de factores contra esta tecnica:
+       es grande y le caben mas hit, y como tiene mucho aguante come muchos
+       golpes antes de stunearse, o sea esta ulti es mucho menos efectiva contra
+       Genkai.  Le entran menos golpes por sus cajas (igual siguen conectando
+       en combo) y su umbral es tan bajo que se stunea rapido y de ahi solo
+       entran un par de golpes mas por la ventana de 8 frames generada en cada
+       golpe que la pushea."
+
+  *** *** LAS  DOS  CARACTERISTICAS  DEL  DEFENSOR  JUEGAN  EN  LA  MISMA  ***  ***
+  *** *** DIRECCION:  A  MAYOR  CAJA  Y  MAYOR  STUN,  MAS  GOLPES  ENTRAN.  ***  ***
+
+  ---- por  que  el  umbral  bajo  corta  el  combo  ---------------------------
+
+      $7E es  el  presupuesto  de  stun  (145)
+      $66 = $04  es  el  stun  POR  GOLPE  de  la  ulti
+
+      golpes  para  derribar  =  ceil( $7E / $66 )
+
+      Genkai        $7E = 34      ->  34/4 =  8.5   ->  9 golpes
+      Toguro menor  $7E = 62      ->  62/4 = 15.5   ->  16 golpes
+
+  *** *** Y  ESO  ES  EXACTAMENTE  LO  QUE  SE  MIDIO.  ***  ***
+  *** *** Genkai  cayo  al  golpe  9  de  frente.  Toguro menor  NO  cayo  ***  ***
+  *** *** ni  al  13.  El  numero  de  golpes  NO  esta  limitado  por  la  ***  ***
+  *** *** ulti:  esta  limitado  por  cuando  el  RIVAL  se  levanta.        ***  ***
+
+  ###############################################################################
+  151.4  LA  VENTANA  DE  8  FRAMES  QUE  MENCIONA  EL  USUARIO
+  ###############################################################################
+
+      Cada  golpe  que  entra  genera  una  ventana  de  recuperacion  corta  en
+      el  atacante,  que  es  el  "hitstun"  del  que  el  usuario  habla.
+
+  *** (usuario)  "solo  entran  un  par  de  golpes  mas  por  la  ventana  de  8  ***  ***
+  *** *** frames  generada  en  cada  golpe  que  la  pushea"  ***  ***
+
+  *** *** [OBSERVADO]  LA  VENTANA  EXISTE  Y  SE  MIDE  COMO  8  FRAMES.       ***  ***
+  *** *** [ABIERTO]   NO  LA  HEMOS  LOCALIZADO  EN  EL  ROM  COMO  RELOJ  PROPIO.  ***  ***
+  *** ***            El  candidato  es  $69 / $75  (145.5),  pero  $69  esta    ***  ***
+  *** ***            ocupado  por  el  hitstun  del  PROPIO  atacante.            ***  ***
+
+  ###############################################################################
+  151.5  BLOQUEADA.  $2C  VISTO  EN  PANTALLA.  EL  DAO  CUADRA  CON  LA  FORMULA
+  ###############################################################################
+
+      *** *** $2C  ESTADO  DE  BLOQUEO  CONFIRMADO  POR  LOG.  PRIMERA  VEZ  QUE  ***  ***
+      *** *** LO  VEMOS  EN  UNA  TRAZA  DE  UN  RIVAL  QUE  NO  ESTA  EN  $5F  ***  ***
+      *** *** COMO  ATACANTE.  Cierra  el  $01F3FE  que  estosamos  pendientes.  ***  ***
+
+      P4:  $00 -> $09   f175      *** guardia  de  pie  ***
+      $AD anim $00   HIT+CLASH   mascara $3C   +64=3E  +65=08  +66=04
+
+      [HP] f195   -3     P4: mov $2C  PLANO $40(64)
+      P4:  $09 -> $2C   f195      ***  EL  ESTADO  DE  BLOQUEO  ***
+
+      *** 44  GOLPES  BLOQUEADOS.  TODOS  -3.  223 -> 91  =  132.  ***
+
+      $65 = $08 = 8      8 / 4 + 1  =  3       ***  PRECIO  EXACTO  ***
+
+      *** *** LA  FORMULA  DEL  DANO  BLOQUEADO  QUEDA  VERIFICADA  CON  UN  CALCULO  ***  ***
+      *** *** QUE  NO  SE  HABIA  PODIDO  HACER  ANTES  (hacia  falta  un  $65  CON  ***  ***
+      *** *** 44  GOLPES  SEGUIDOS  Y  TODOS  IGUALES).                         ***  ***
+
+  ---- por  que  el  chipeo  de  esta  ulti  es  PEOR  que  la  de  jin  --------
+
+      44  golpes  bloqueados  =  132  de  dano
+      2   golpes  limpios       =  20  de  dano
+
+      *** *** BLOQUEAR  ES  6.6  VECES  PEOR  QUE  DEJARSE  PEGAR.  ***  ***
+      *** *** Y  EL  $65  ES  EL  MISMO  QUE  EN  LA  ULTI  DE  JIN  ->  el  ***  ***
+      *** *** problema  NO  es  de  $65  sino  de  CUANTOS  GOLPES  da  la  ulti.  ***  ***
+
+  ---- por  que  NO  devuelve  mana  ------------------------------------------------
+
+      *** *** CERO  [MP GANA  en  los  44  golpes  bloqueados.  ***
+
+      $2C  esta  en  el  rango  $28-$2D,  que  RESETE  el  contador  de  combo  (147)
+      La  ventana  de  suma  es  $20-$27.  Bloquear  la  cierra  antes  de  pagar.
+
+  ###############################################################################
+  151.6  EL  EFECTO  DE  LA  DIRECCION  SOBRE  LA  DISTANCIA
+  ###############################################################################
+
+  *** *** ESTO  ES  LA  MECANICA  COMPLETA  DE  "DE  ESPALDAS  ENTRAN  MAS".  ***  ***
+
+  ---- de  FRENTE:  la  distancia  CRECE.  El  rival  se  escapa.  --------------
+
+      f178  30    f179  34    f193  58    f194  60    f207  63    f222  62
+      f237  61    f238  63    f251  67    f266  65    f281  64    f296  63
+
+      *** el  golpe  empuja  en  la  direccion  que  mira  el  atacante,  que  es  ***
+      *** la  MISMA  que  el  enemigo.  El  enemigo  huye  y  hay  que  perseguir. ***
+
+  ---- de  ESPALDA:  la  distancia  SE  COLAPSA  a  0.  --------------------------
+
+      f158  39    f159  36    f163  25    f165  21    f169  14    f172   8
+      f173   6    f174   5    f175   3    f176   1    f177   1
+
+      *** el  golpe  empuja  en  la  direccion  que  mira  el  atacante,  que  es  ***
+      *** la  CONTRARIA  a  la  del  enemigo.  Lo  arrastras  hacia  vos.          ***
+
+  ###############################################################################
+  151.7  $C4  POR  PERSONAJE.  TERCER  VALOR  DIFERENTE
+  ###############################################################################
+
+      Toguro mayor    $C4 = $04
+      Chui            $C4 = $06
+      Genkai          $C4 = $02
+
+      *** *** TRES  PERSONAJES,  TRES  VALORES  DISTINTOS.  $C4  ES  UN  STAT  POR  ***  ***
+      *** *** PERSONAJE  Y  NO  UN  FLAG  DE  ESTADO.  Aparece  en  el  blob  aun  ***  ***
+      *** *** con  $64 = $00  (sin  golpe),  lo  que  confirma  que  es  un  stat.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

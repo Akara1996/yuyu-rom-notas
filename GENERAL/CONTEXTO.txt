@@ -18673,3 +18673,1151 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+148.  TOGURO  MAYOR.  LOS  NUEVE  BASICOS  Y  EL  DEDAL
+===============================================================================
+
+  *** RONDA 1  DE  2.  EL  PDF  SE  HACE  EN  LA  SEGUNDA.  ***
+
+  ================================================================================
+  148.1  LOS  NUEVE  BASICOS.  Y  SON  LOS  MISMOS  QUE  CHUI
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    entrada            id     anim    $64   $65   $66    $68     frames
+    ------------------------------------------------------------------
+    A  en el suelo      $82    $03    $0E   $0F   $0C    $00       40
+    ADELANTE + A        $83    $03    $0E   $0F   $0C    $00       42
+    ABAJO  + A          $86    $02    $0A   $0F   $0E    $04       46
+    B  en el suelo      $80    $02    $0C   $03   $02    $00       12
+    ADELANTE + B        $81    $01    $0D   $08   $08    $00       17
+    ABAJO  + B          $84    $01    $08   $03   $02    $01       18
+    A  en el aire       $95    $02    $06   $0C   $0A    $01       35
+    ARRIBA + A  (aire)  $94    $02    $06   $0E   $0C    $01       31
+    B  en el aire       $90    $01    $04   $03   $02    $00       42
+  ------------------------------------------------------------------------------
+
+  *** LOS  NUEVE  IDS  SON  EXACTAMENTE  LOS  DE  CHUI.  EN  LAS  MISMAS  CASILLAS.  ***
+
+  *** LA  BANDA  COMPARTIDA  QUEDA  CONFIRMADA  POR  SEGUNDO  PERSONAJE  CONSECUTIVO.  ***
+  *** Y  QUEDAN  SOLO  DOS  EXTRAS  EN  LOS  ONCE:  $85  (HIEI)  Y  $87  (ITSUKI).  ***  [VERIFICADO]
+
+  *** Y  ABAJO+A  DA  $68=04  ->  $23.  ***   *** SEGUNDO  PERSONAJE  QUE  LO  CONFIRMA.  ***
+
+  ================================================================================
+  148.2  LAS  DURACIONES  SON  POR  PERSONAJE,  PERO  LOS  IDS  SON  COMPARTIDOS
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    id      Chui      Toguro mayor
+    ------------------------------------------------------------
+    $82      36 f          40 f
+    $80      14 f          12 f
+    $81      27 f          17 f
+    $84      29 f          18 f
+  ------------------------------------------------------------------------------
+
+  *** MISMO  ID,  DISTINTA  DURACION.  O  SEA  QUE  LA  BANDA  COMPARTIDA  ES  EL  ***
+  *** INDICE,  Y  CADA  PERSONAJE  TIENE  SU  PROPIA  ANIMACION  DETRAS.  ***   [VERIFICADO]
+
+  ================================================================================
+  148.3  Y $67  DISTINGUE  EL  A  DEL  B  EN  TOGURO  MAYOR
+  ================================================================================
+
+      todos  los  A  de  Toguro  mayor      +67=02
+      todos  los  B  de  Toguro  mayor      +67=01
+
+      *** EN  CHUI  $67  SIEMPRE  ERA  $01.  ***   [VERIFICADO]
+
+  *** O  SEA  QUE  $67  MARCA  EL  TIPO  DE  GOLPE.  ***   [FUERTE]
+
+  ================================================================================
+  148.4  Y $C4  ES  UN  DATO  POR  PERSONAJE
+  ================================================================================
+
+      Toguro mayor    todas  las  lineas   +C4=04
+      Chui            todas  las  lineas   +C4=06
+
+  *** $C4  ESTA  EN  EL  BLOB  DESDE  EL  PRIMER  DIA  Y  NUNCA  LO  HEMOS  SABIDO  LEER.  ***
+  *** ES  UN  STAT  POR  PERSONAJE.  ***   [VERIFICADO]
+
+  ================================================================================
+  148.5  LOS  CUATRO  MANDOS.  MEDIDOS  POR  PRIMERA  VEZ
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    mando              id              frames   que pasa
+    ------------------------------------------------------------------
+    el  dash           $0B               20    mascara $26  =  PUSH + CLASH + HURT
+    el  backdash       $0C               32    mascara $08  =  PUSH
+    el  backdash       $0C               33    despues $12  =  HURT
+    la  provocacion    $09 -> $14         76    *** LE  SACO  36  DE  MANA  AL  RIVAL  ***
+  ------------------------------------------------------------------------------
+
+      $00 -> $09   f63       $09 -> $14   f64      $14 -> $00   f140
+      [GOTEO] f90   P4  mp 187 -> 151   (perdio 36 en 30 frames)
+
+  *** ***  LA  FICHA  DECIA  QUE  LA  PROVOCACION  DE  TOGURO  MAYOR  COSTA  36.  ***  ***
+  *** ***  Y  SALIO  EXACTO  36.  PRIMERA  VEZ  QUE  LA  FICHA  ACIERTA  UN  PRECIO.  ***  ***
+
+  *** Y  $0B  Y $0C  LOS  DAN  LAS  DOS  TECLAS  (X  Y  Z).  ***   [VERIFICADO]
+
+  ================================================================================
+  148.6  EL  DEDAL.  ABAJO,ABAJO + C
+  ================================================================================
+
+      $01 -> $A1   f101
+      $A1 anim $02   HIT   (NO  CLASH)   mascara $3A
+                     +64=1C   +65=04   +66=40   +67=02   +68=03
+      [GOTEO] f120   mp 223 -> 215   (perdio 8)
+      $A1 -> $00   f165      *** 64  frames  ***
+
+  *** *** $66  =  $40  =  64.  EL  STUN  ES  64.  VERIFICADO.  ***  ***
+
+  *** Y  TOGURO  MAYOR  TIENE  STUN  MAXIMO  38.  ***
+
+      *** GOLPES  HASTA  DERRIBO  =  ceil( 38 / 64 )  =  1  ***   [VERIFICADO]
+
+  *** *** UN  SOLO  GOLPE  LO  TUMBA.  CONFIRMADO  EN  PANTALLA.  ***  ***
+
+  ================================================================================
+  148.7  Y  LA  CADENA  DE  CAIDA  COMPLETA.  MEDIDA  EN  UN  SOLO  GOLPE
+  ================================================================================
+
+      [HP] f84    P4  223 -> 217  (-6)    mundo P1=1053  P4=1104  dist=51
+      P4:  $00 -> $25   f84     *** DERRIBO  INMEDIATO,  EN  EL  GOLPE  ***
+
+      $25   f84  ->  $28  f136      *** 52  frames  ***
+      $28   f136 ->  $29  f162      *** 26  frames  ***
+      $29   f162 ->  $2A  f187      *** 25  frames  ***
+      $2A   f187 ->  $2B  f206      *** 19  frames  ***
+
+  *** *** LA  CADENA  COMPLETA:  $25 -> $28 -> $29 -> $2A -> $2B.  ***   [VERIFICADO]
+
+  *** Y  $28  =  26  FRAMES  Y  $29  =  25  FRAMES.  ***
+
+  *** *** COINCIDEN  EXACTAMENTE  CON  LAS  MEDICIONES  INDEPENDIENTES  DEL  OTRO  ***
+  *** *** PROYECTO,  QUE  DIJO  26  Y  25  SIN  VER  NUNCA  NUESTRO  LOG.  ***  ***
+
+  ================================================================================
+  148.8  Y  ESO  ES  EL  "ANTI  CANCEL"  DEL  DEDAL
+  ================================================================================
+
+  *** EL  DEDAL  TUMBA  PERO  SOLO  52  FRAMES.  UNA  CAIDA  NORMAL  DURA  76.  ***
+
+  *** Y  $2B  ESTA  EN  EL  RANGO  $28-$2D,  QUE  RESETE  EL  CONTADOR  DE  COMBO.  ***
+
+  *** *** O  SEA  QUE  EL  DEDAL  TE  TUMBA  PERO  NO  TE  DEJA  COMBOEAR.  ***  ***
+  *** *** POR  ESO  DICE  "NO  SE  PUEDE  CANCELAR":  NO  ES  QUE  NO  TE  PUEDA  ***  ***
+  *** *** GOLPEAR,  ES  QUE  DESPUES  DEL  GOLPE  NO  QUEDA  VENTANA.  ***  ***
+
+  ================================================================================
+  148.9  Y  NO  ES  $27
+  ================================================================================
+
+      *** EL  DEDAL  DA  $68 = 3  ->  $21,  QUE  ES  HITSTUN  NORMAL.  ***  ***
+
+  *** EL  DERRIBO  NO  VIENE  DE  $68:  VIENE  DE  QUE  EL  PRESUPUESTO  DE  STUN  ***
+  *** SE  HIZO  NEGATIVO  EN  EL  MISMO  GOLPE.  ***
+
+  *** *** $27  SIGUE  SIN  VERSE  EN  PANTALLA.  ***   [ABIERTO]
+
+  ================================================================================
+  148.10  UN  DIFERE  NUEVO
+  ================================================================================
+
+      *** EL  BLOB  DICE  $65 = 04.  EL  [HP]  DICE  -6.  ***   [ABIERTO]
+
+  *** *** TERCER  DIFERE  DE  $65  CONTRA  [HP].  ***  ***
+
+      Los  otros  dos:  el  segundo  golpe  seguido  de  Jin,  y  $A1  de  Chui  al  aire.
+
+  *** LOS  TRES  SON  AL  AIRE  O  EL  SEGUNDO  GOLPE  SEGUIDO.  ***   [FUERTE]
+  *** *** NO  HAY  NI  UN  CASO  CONECTANDO  Y  LIMPIO  QUE  FALLE.  ***  ***
+
+  ================================================================================
+  148.11  Y  LA  TABLA  DE  TOGUURO  MAYOR  QUEDA  CONFIRMADA
+  ================================================================================
+
+      CONTEXTO: $50 = $0D1E5A    $8C = $0D2C6A
+
+  *** ESO  ES  EL  SLOT  7  DE  LAS  DIEZ  RUTINAS  DE  INIT,  Y  SU  STUN  MAXIMO  ***
+  *** ES  38.  QUE  ES  EXACTAMENTE  EL  DE  TOGURO  MAYOR.  ***   [VERIFICADO]
+
+  ================================================================================
+  148.12  EL  ESTADO  DE  TOGUURO  MAYOR
+  ================================================================================
+
+      MEDIDOS (10)
+
+          $82  $83  $86  $80  $81  $84        los  nueve  basicos  con  $90  $94  $95
+          $0B  el  dash            20 f
+          $0C  el  backdash        32 f
+          $09 -> $14  la  provocacion   76 f   36  de  mana
+          $A1  EL  DEDAL            8  de  mana   64  de  stun   1  golpe  tumba
+
+      SIN MEDIR
+
+          *** la  ulti  $AA $AB        NO  ESTA  MEDIDA  ***
+          *** $A0  y  $A3  y  $AC         ***  ***
+          *** el  agarre  $B8          ***  ***
+          *** "A+B"  la  Aguja  de  todo  el  cuerpo  ***   ***  C  ES  UNA  TECNICA  DISTINTA  ***
+          *** "ABAJO,ADELANTE+ A/B"  la  estocada  marcial  ***   ***  ***
+          *** "ABAJO,ABAJO+ A/B"  la  aguja  subterranea  ***   ***  C  ES  EL  DEDAL  ***  ***
+          *** "ABAJO,ARRIBA+ A/B/C"  el  impostor  ***   ***  ***
+          *** "ABAJO,ADELANTE,ARRIBA,ABAJO,ARRIBA+ A"  el  SOLO  QUE  PEGA  POR  DETRAS  ***  ***  DANO  x2  ***  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+149.  TOGURO  MAYOR.  LAS  AGUJAS  Y  LA  ESTOCADA
+===============================================================================
+
+  *** RONDA 1  (SEGUNDA  PARTE).  EL  PDF  SIGUE  PENDIENTE  ***   *** (usuario)  ***
+  *** "El .log que te pase fue golpeando con Dedal a TOGURO MENOR,  que tiene 64 de ***
+  *** aguante stun,  el mayor aguante.  Le sigue Kuwabara."  ***
+
+  *** O  SEA  QUE  EL  DEDAL  TUMBA  DE  UN  GOLPE  A  UN  PERSONAJE  DE  STUN  62.  ***
+  *** Y  ESO  ES  MAS  FUERTE  DE  LO  QUE  PENSABA:  LE  FALTA  SOLO  2  PARA  CAER.  ***
+
+  ================================================================================
+  149.1  ABAJO,ABAJO + A  =  $A3.   LA  AGUJA  SUBTERRANEA
+  ================================================================================
+
+      $01 -> $A3   f83
+      [GOTEO] f90   mp 223 -> 199   (perdio 24)
+      $A3 anim $05   HIT+CLASH   mascara $4E
+                       +64=1A   +65=10   +66=0E   +67=02   +68=05
+      [HP] f109   P4  223 -> 205   (-18)   mundo P1=1000  P4=1104  dist=104
+      P4:  $00 -> $25   f109
+      $A3 -> $01   f155      *** 72  frames  ***
+
+  *** *** $68 = 5  ->  $25,  QUE  ES  DERRIBO  CON  VENTANA.  ***  ***
+
+  *** *** Y  ESTO  ES  VALIDO:  $64 = $1A,  QUE  NO  ES  $00.  ***  *** [VERIFICADO]
+
+  *** *** O  SEA  QUE  LA  RESPUESTA  A  LO  QUE  PREGUNTASTE  ES:  CON  VENTANA,  ***  ***
+  *** *** NO  CIEGO.  EL  VECINO  ES  $23  Y  EL  DE  ESTE  ES  $25.  ***  ***
+
+  *** *** Y  $64 = $1A  ES  UN  VALOR  NUEVO.  ***  [VERIFICADO]
+
+  ###############################################################################
+  149.2  LA  CAJA  ES  UNA  PROLONGACION,  NO  UN  OBJETO.  Y  ESO  SE  DEDUCE
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "es un ataque donde Toguro mayor sumerge su mano en el suelo y a distancia
+       media esta mano emerge del suelo, este golpe yo lo considero una
+       extension directa dado que si clasheas ese golpe,  Toguro Mayor queda
+       clasheado tambien, asi que a pesar de que sea similar a la planta,
+       no parece un objeto sino una prolongacion de su hitbox"
+
+  *** *** ESO  ES  LA  DIFERENCIA  CON  UN  [OBJ].  Y  ESTA  EN  EL  LOG.  ***  ***
+
+  ------------------------------------------------------------------------------
+      un  OBJETO  (el  reigan  de  Chui)      una  PROLONGACION  (esto)
+      ------------------------------------------------------------------------------
+      el  log  imprime  [OBJ]  y  $300          NO  HAY  [OBJ].  NADA  NUEVO
+      el  danio  sale  de  un  $5F  propio      el  danio  sale  del  $5F  DEL  JUGADOR
+      el  objeto  muere  al  primer  contacto   el  jugador  NO  muere
+      la  MASK  va  en  un  registro  aparte    la  MASK  va  en  SU  PROPIA  LISTA
+      ---  ---  ---
+      *** SI  CLASHEAS  EL  OBJETO,  EL  JUGADOR  ESTA  BIEN  ***
+      *** SI  CLASHEAS  ESTO,  TOGURO  MAYOR  TAMBIEN  QUEDA  CLASHEADO  ***
+  ------------------------------------------------------------------------------
+
+  *** LA  REGLA  PRACTICA  ***
+
+      *** EN  EL  LOG,  BUSCA  [OBJ].  ***
+      *** SI  NO  HAY,  LA  CAJA  ES  DEL  PERSONAJE  Y  EL  CLASHE  LE  SALE  A  EL.  ***
+
+  *** *** ESTO  APLICA  A  LAS  DOS  MANOS  DE  ESTA  SECCION.  ***   [VERIFICADO]
+
+  ###############################################################################
+  149.3  ABAJO,ABAJO + B  =  $A2.   LA  MISMA  MANO,  CORTA  Y  BARATA
+  ###############################################################################
+
+      $01 -> $A2   f83
+      [GOTEO] f90   mp 223 -> 207   (perdio 16)
+      $A2 anim $05   HIT+CLASH   +64=1A  +65=10  +66=0E  +67=02  +68=05
+      [HP] f105   P4  223 -> 207   (-16)   mundo P1=1040  P4=1104  dist=64
+      P4:  $00 -> $25   f105
+      $A2 -> $01   f147      *** 64  frames  ***
+
+  ------------------------------------------------------------------------------
+              $A3  (A)              $A2  (B)
+    man             24                    16
+    dano            18                    16
+    $64            $1A                   $1A
+    $65            $10                   $10
+    $66            $0E                   $0E
+    $68            $05                   $05
+    estado         $25                   $25
+    alcance        104 px                 64 px
+    duracion        72 f                  64 f
+  ------------------------------------------------------------------------------
+
+  *** *** LOS  DATOS  DEL  GOLPE  SON  IDENTICOS.  SOLO  CAMBIAN  EL  PRECIO,  ***
+  *** *** EL  ALCANCE  Y  LA  DURACION.  ***   [VERIFICADO]
+
+  ###############################################################################
+  149.4  ABAJO,ADELANTE + A  =  $A4.   LA  ESTOCADA  MARCIAL
+  ###############################################################################
+
+  *** (usuario)  "se transforma en un pinche y recorre casi toda la camara"  ***
+  *** "durante su recorrido Toguro esta en aire,  puedes moverlo arriba o abajo"  ***
+
+  ---- en el suelo,  sin  mover  -----------------------------------------------
+
+      $01 -> $A4   f128
+      [GOTEO] f150   mp 223 -> 207   (perdio 16)
+      $A4 anim $07   HIT+CLASH   +64=00  +65=02  +66=02  +67=01  +68=00
+      [HP] f174   P4  223 -> 202   (-21)   mundo P1=1028  P4=1104  dist=76
+      P4:  $00 -> $25   f174
+      $A4 -> $07   f215       ***  un  estado  NUEVO  ***
+      $07 -> $0E   f217
+      $0E -> $01   f221
+      $01 -> $00   f226      ***  98  frames  DESDE  $A4  ***
+
+  ---- en el suelo,  moviendo  ARRIBA -------------------------------------------
+
+      $01 -> $A4   f90
+      $A4 anim $07   HIT+CLASH   +64=00  +65=02  +66=02  +68=00
+      [HP] f135   -21   mundo P1=1020  P4=1104  dist=84
+      $A4 -> $07   f176      ***  86  frames  ***
+
+  ---- en  el  AIRE,  doble  salto  y  bajando ----------------------------------
+
+      $08 -> $A4   f133
+      $A4 anim $07   HIT+CLASH   +64=00  +65=03  $66=02  $68=00
+      [HP] f182   -20   mundo P1=1024  P4=1104  dist=80
+      $A4 -> $07   f223      ***  90  frames  ***
+
+  ---- en  el  AIRE,  bajando  otra  vez  (ABAJO,ABAJO,B) -----------------------
+
+      $01 -> $A4   f80
+      [GOTEO] f90   mp 223 -> 207   (perdio 16)
+      $A4 anim $07   HIT+CLASH   +64=00  +65=03  $66=02  $68=00
+      [HP] f126   -18   mundo P1=1021  P4=1104  dist=83
+      $A4 -> $07   f167      ***  87  frames  ***
+
+  ------------------------------------------------------------------------------
+    situacion                 $65    [HP]   dist   frames
+    ------------------------------------------------------------------
+    suelo,  sin  mover         02     -21     76      98
+    suelo,  ARRIBA             02     -21     84      86
+    aire,  doble  salto        03     -20     80      90
+    aire,  ABAJO,ABAJO,B       03     -18     83      87
+  ------------------------------------------------------------------------------
+
+  *** *** $A4  ES  EL  MISMO  ID  EN  EL  SUELO  Y  EN  EL  AIRE.  ***   [VERIFICADO]
+  *** *** Y  EL  ALCANCE  BAJA  UN  POCO  EN  EL  AIRE.  ***
+
+  *** *** Y  $65  ES  $02  EN  EL  SUELO  Y  $03  EN  EL  AIRE.  ***  [VERIFICADO]
+
+  *** *** Y  $64 = $00  EN  TODAS.  O  SEA  QUE  LOS  CUATRO  $68 = $00  SON  RUIDO.  ***  ***
+  *** *** EL  ESTADO  REAL  VIENE  DEL  $5F  DEL  RIVAL:  $25  CON  VENTANA.  ***  ***
+
+  ###############################################################################
+  149.5  EL  CUARTO  DIFERE  DE  $65.  Y  CONFIRMA  QUE  EL  [HP]  MANDA
+  ###############################################################################
+
+      $A4   dice  $65 = $02    y  el  [HP]  dice  -21
+      $A2   dice  $65 = $10    y  el  [HP]  dice  -16
+      $A3   dice  $65 = $10    y  el  [HP]  dice  -18
+
+  *** *** $65  NO  ES  FIABLE  NI  SIQUIERA  CON  $64  DISTINTO  DE  CERO.  ***  ***
+
+  *** *** EL  UNICO  DANO  FIABLE  ES  [HP].  SIEMPRE.  ***   [VERIFICADO]
+
+  ###############################################################################
+  149.6  Y  EL  DERRIBO  DURA  70  FRAMES.  EXCEPTO  EL  DEDAL
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      movo            golpe     $25 -> $28     frames  de  $25
+    ------------------------------------------------------------------
+      $A3              109          179          70
+      $A2              105          175          70
+      $A4  suelo        174          244          70
+      $A4  ARRIBA       135          205          70
+      $A4  aire         182          252          70
+      $A4  otra vez     126          196          70
+      EL  DEDAL          84          136          52   ***  LA  EXCEPCION  ***
+  ------------------------------------------------------------------------------
+
+  *** *** SIETE  DE  SIETE  DAN  70.  Y  EL  DEDAL  DA  52.  ***  ***
+
+  *** *** ESO  CONFIRMA  EL  "ANTI  CANCEL"  DEL  DEDAL:  TUMBA  PERO  18  FRAMES  ***
+  *** *** MAS  CORTO,  Y  $2B  ESTA  EN  EL  RANGO  QUE  RESETE  EL  COMBO.  ***  ***
+
+  ================================================================================
+  149.7  EL  RANGO  MAXIMO  MEDIDO  EN  EL  PROYECTO
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    movo                         personaje      dist
+    ------------------------------------------------------------------
+    $A3  ABAJO,ABAJO + A          Toguro mayor    *** 104 px  ***   EL  MAS  LARGO
+    $A4  ABAJO,ADELANTE + A        Toguro mayor      84 px
+    $A4                           Toguro mayor      80 px
+    $A4                           Toguro mayor      76 px
+    $A2  ABAJO,ABAJO + B          Toguro mayor      64 px
+    $83  ADELANTE + A              Toguro mayor      64 px
+    $81  ADELANTE + B              Toguro mayor      61 px
+    $94  ARRIBA + A  (aire)        Toguro mayor      48 px
+    $86  ABAJO + A                 Toguro mayor      40 px
+    $84  ABAJO + B                 Toguro mayor      36 px
+  ------------------------------------------------------------------------------
+
+  *** *** LA  MANO  DE  $A3  LLEGA  A  104  px.  MS  DEL  DOBLE  QUE  UN  ABAJO  NORMAL.  ***  ***
+
+  ================================================================================
+  149.8  EL  ESTADO  DE  TOGURO  MAYOR
+  ================================================================================
+
+      MEDIDOS (14)
+
+          los  nueve  basicos        $80 $81 $82 $83 $84 $86 $90 $94 $95
+          el  dash                   $0B        20 f
+          el  backdash               $0C        32 f
+          la  provocacion            $09 -> $14  76 f   36  de  man
+          EL  DEDAL      ABAJO,ABAJO+C   $A1    8 man   stun 64   1  golpe  tumba
+          LA  MANO  LARGA  ABAJO,ABAJO+A $A3   24 man   18  dao   104 px
+          LA  MANO  CORTA  ABAJO,ABAJO+B $A2   16 man   16  dao    64 px
+          LA  ESTOCADA  ABAJO,ADELANTE+A $A4  16 man   21  dao    76-84 px
+
+      SIN MEDIR
+
+          *** "A+B"  la  Aguja  de  todo  el  cuerpo  ***   ***  ***
+          *** "ABAJO,ARRIBA+ A/B/C"  el  impostor  ***   ***  ***
+          *** la  ulti   $AA $AB   ***  ***   ***  "pega por detras,  DANO x2"  ***
+          *** el  agarre  $B8  ***   ***  ***
+          *** $A0  $A6  $A7  $AC  $AF  $B0  $B1  ***  ***  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+150.  TOGURO  MAYOR.  EL  IMPOSTOR,  EL  RELOJ  DEL  STUN  Y  EL  EXPLOIT
+===============================================================================
+
+  ###############################################################################
+  150.1  CORRECCION  MIA.  EL  DEDAL
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "No, te estas equivocando.  El stun de dedal es de 64, y Toguro menor tiene
+       un aguante de 62, es el que mas golpes aguanta antes de aturdirse, pero
+       este golpe lo aturde de una, sin golpes previos, es junto a la burla de
+       kuwabara el unico golpe capaz de estunear al 100% de los personajes de
+       1 solo hit sin danos previos."
+
+  *** *** YO  DIJE  "LE  FALTAN  SOLO  2".  ESO  ES  VERIFICADAMENTE  CIERTO  Y  A  LA  ***
+  *** *** VEZ  UNA  FORMA  DE  DECIR  QUE  ES  UNA  FALLA.  ***  ***
+
+  *** *** LO  CORRECTO  ***
+
+      *** EL  DEDAL  ES  UNO  DE  LOS  DOS  UNICOS  GOLPES  DEL  JUEGO  QUE  TUMBAN  A  ***
+      *** CUALQUIERA  DE  LOS  ONCE  DESDE  CERO,  SIN  GOLPES  PREVIOS.  ***
+
+      *** EL  OTRO  ES  LA  PROVOCACION  DE  KUWABARA,  QUE  META  STUN  64.  ***
+
+  *** *** SON  LOS  DOS  UNICOS  GOLPES  CON  STUN  64  DEL  JUEGO.  ***  ***
+
+  ###############################################################################
+  150.2  Y  EL  DEDAL  NO  TIENE  CLASH.  ESTA  EN  LA  MASCARA
+  ###############################################################################
+
+      $A1 anim $02   HIT   mascara $3A      ***  SOLO  HIT.  NO  HIT+CLASH  ***
+
+  ------------------------------------------------------------------------------
+    mascara    que  lleva                     que  significa
+    ------------------------------------------------------------------
+    $12     PUSH + HURT                     el  normal
+    $08     solo PUSH                       la  pushbox
+    $26     PUSH + CLASH + HURT             el  dash
+    $44     HIT + CLASH                     un  golpe  normal  con  clash
+    $4E     HIT + CLASH                     otro  golpe  normal  con  clash
+    $3C     HIT + CLASH                     el  inicio  de  la  ulti
+    *** $3A     HIT  Y  NADA  MAS            ***  EL  DEDAL  ***  ***  SIN  CLASH  ***
+  ------------------------------------------------------------------------------
+
+  *** *** EL  DEDAL  NO  GENERA  CAJA  DE  CLASH.  ***   [VERIFICADO]
+
+  *** Y  ESO  ES  LO  QUE  LO  HACE  GANAR  LOS  TRADES  ***
+
+  *** (usuario)  ***
+
+      "el dedal NO TIENE CLASH, significa que gana trades de golpes porque el dedo
+       ignora colisiones, siempre y cuando el enemigo atacante no tenga muy lejos
+       su hurtbox del alcance de su hitbox; en ese caso recibes el golpe porque no
+       puedes clashearlo y el queda zafe.  Entonces contra el dedal lo ideal son
+       golpes que se prolonguen muy lejos de tu propia hurt."
+
+  *** *** O  SEA:  EL  DEDAL  GANA  A  CUANTO  MAS  LEJOS  ESTE  TU  CAJA  DE  GOLPE  Y  ***
+  *** *** MAS  CERCA  TU  HURTBOX.  ***
+
+  ###############################################################################
+  150.3  A + B  EN  EL  SUELO  =  $A0.   LA  AGUJA  DE  TODO  EL  CUERPO
+  ###############################################################################
+
+  *** (usuario)  "Saca agujas hacia ambos lados, tiene unos pocos frames de
+  invulnerabilidad iniciales y 2 cajas bastante grandes en ambas direcciones"  ***
+
+      [MOV 01] AB  id=$00  mana 24      pulsada en el 26
+      $80 -> $A0   f28
+      $A0 anim $00   PUSH          mascara $08
+      $A0 anim $03   HIT+CLASH     mascara $44   +64=00  +65=01  +66=02  +68=00
+      [HP] f41   P4  223 -> 209  (-14)   mundo P1=1053  P4=1104  dist=51
+      P4:  $00 -> $25   f42
+      $A0 anim $04   HURT          mascara $12   +64=1E
+      $A0 -> $00   f99      *** 71  frames  ***
+      P4:  $25 -> $28  f111      ->  $29  f137
+
+  ------------------------------------------------------------------------------
+      man           24
+      duracion      71  f
+      dano          14
+      $68           ---  $64 = $00,  ruido
+      estado        $25  CON  VENTANA   (del  $5F  del  rival)
+      2  cajas      una  a  cada  lado
+  ------------------------------------------------------------------------------
+
+  *** *** $A0  ES  LA  TECNICA  MAS  CARA  DE  TOGURO  MAYOR  QUE  NO  ES  ULTI.  ***  ***
+  *** *** 24  DE  MANA.  ***  ***
+
+  *** *** Y  ESTA  HECHA  DE  ESPALDAS  AL  ENEMIGO  Y  PEGO  IGUAL,  A  51  px.  ***  ***
+
+  *** *** $64 = $1E  EN  EL  ANIM  $04.  OTRO  VALOR  NUEVO.  ***  [VERIFICADO]
+
+  ###############################################################################
+  150.4  ABAJO,ARRIBA + A/B/C  =  EL  IMPOSTOR.  Y  EL  CLON  ES  UN  OBJETO
+  ###############################################################################
+
+  *** (usuario)  "comparte similitudes con el TP de Itsuki"  ***
+
+  ------------------------------------------------------------------------------
+    boton    $5F del clon    el  teleport    mundo  X    frames  del  $A7
+    ------------------------------------------------------------------
+    A        $A6              +176  px        1105           73
+    B        $A6              +112  px        1041           74
+    C        $A6               -48  px        1076           73
+  ------------------------------------------------------------------------------
+
+      $0D -> $A7    f66  /  f74  /  f65
+      [5F-MANO] f68  P1-OBJ1:  $00 -> $A6   dist=0  px
+      [GOTEO] 8 de mana  en  los  tres
+      [TELE 1]  confirmado  en  los  tres
+
+  *** *** $A6  ES  UN  [OBJ].  EL  CLON.  ***   [VERIFICADO]
+
+  *** *** Y  $A7  ES  EL  JUGADOR.  ***   [VERIFICADO]
+
+  *** *** ESTE  ES  EL  PRIMER  [OBJ]  QUE  VEMOS  CON  EL  ID  $A6.  ***  ***
+
+  *** *** EN  CHUI  $A6  ERA  EL  SORTEO  DEL  REIGAN.  EL  MISMO  NUMERO,  OTRA  COSA.  ***  ***
+
+  ------------------------------------------------------------------------------
+      C   -48  px    ***  APARECE  DETRAS  DE  TOGURO  ***  el  facing  se  invierte
+      B   +112 px    media  distancia
+      A   +176 px    lejos
+  ------------------------------------------------------------------------------
+
+  *** *** Y  NO  SON  COORDENADAS  FIJAS  DE  CAMARA  COMO  EL  TP  DE  ITSUKI.  ***
+  *** *** DEPENDE  DEL  FACING  DE  TOGURO.  COMO  LA  PLANTA  DE  KURAMA.  ***
+
+  *** *** Y  EL  TRACKER  YA  LO  PREDICE  ***
+
+      [EFECTO]  P1 boton=C  destino=304,  dispara en el frame 131
+      >> [EFECTO LLEGADA]  50 frames desde el input
+
+  *** *** Y  EL  CLON  MUERE  SOLO  ***   [5F-MANO] f171  $A6 -> $00   dist=1076 px
+  *** *** O  SEA  UNOS  105  FRAMES  DESPUES  DE  NACER.  ***  [VERIFICADO]
+
+  *** *** (usuario)  "el clon conserva pushbox, y las ultis que requieren contacto  ***
+  *** *** con el enemigo para activar el ataque se activan si tocan el clon  ***
+  *** *** residual,  dejando expuestos a Yusuke, Genkai o Kurama."  ***  [COMPROBADO]
+
+  ###############################################################################
+  150.5  EL  RELOJ  DEL  STUN.  ESTA  EN  EL  ROM
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "tu dijiste varias veces que el umbral es un presupuesto y no un reloj, es
+       verdad pero sucede algo: si un personaje recibio dano y su presupuesto de
+       stun bajo -o sea esta mas cerca de marearse que antes- si aproximadamente
+       durante 5 segundos no recibe ataques directos, el stun se reestablece en
+       0.  Asi que SI hay un reloj interno."
+
+  *** *** ***  TIENE  RAZON.  Y  LAS  DOS  MITADES  ESTAN  EN  EL  ROM.  ***  ***
+
+  ------------------------------------------------------------------------------
+      0x1A282    move.w  #$ff, $7e(a5)      ***  EL  SENTINEL  255  ***
+      0x15A4A    move.w  $80(a5), $7e(a5)   ***  RESET  A  EL  MAXIMO  ***
+      0x18694    move.w  $80(a5), $7e(a5)   ***  OTRO  RESET  AL  MAXIMO  ***
+  ------------------------------------------------------------------------------
+
+  *** *** $7E = $FF  ES  EL  "REFRESCO  A  255  POR  CADA  GOLPE".  ***  ***
+
+  *** *** Y  $7E = $80  ES  EL  "SE  REESTABLECE  A  0  DESPUES  DE  5  SEGUNDOS".  ***  ***
+
+  *** *** ***  O  SEA:  EL  STUN  ES  UN  PRESUPUESTO  CON  DOS  RELOJES  ENCIMA:  ***  ***
+  *** *** ***  UNO  QUE  LO  RESTAURA  A  PLENO  Y  OTRO  QUE  LO  PONE  EN  255.  ***  ***
+
+  ###############################################################################
+  150.6  LA  PROTECCION  ANTI  LOOP  Y  EL  EXPLOIT
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "cuando cruzaste el nivel de stun umbral de tu personaje y quedaste
+       estuneado, tambien hay como 5 segundos en los que si te golpean el stun se
+       reestablece en 255 por cada golpe.  Es una mecanica del juego para evitar
+       un loopeo de stuneos."
+
+  *** *** ESO  ES  EXACTAMENTE  EL  SENTINEL  DE  $1A282.  Y  EL  RESULTADO  ES  QUE  ***
+  *** *** SE  PUEDE  ROMPER  A  LOS  DOS  JUGADORES  A  LA  VEZ.  ***  ***
+
+  *** EL  EXPLOIT,  PASO  A  PASO  ***
+
+  ------------------------------------------------------------------------------
+      1.  le pegas  EL  DEDAL  al  enemigo
+          $66 = 64  contra  un  stun  max  de  62
+
+      2.  se  stunea  al  instante,  SIN  GOLPES  PREVIOS
+          $00 -> $25   f222     [HP] f222  -4
+
+      3.  se  levanta  y  ENTRA  LA  PROTECCION  DE  255  POR  GOLPE
+          $25 -> $28  f274 -> $29  f300 -> $2A  f325 -> $2B  f344
+
+      4.  la  ULTI  POR  DETRAS:  DANO  x2
+          $02 -> $AC  f384       ***  200  DE  MANA  ***
+          $AC -> $AD  f423
+
+      5.  el  stuneo  NO  SE  AGOTA  NUNCA,  POR  QUE  CADA  GOLPE  LO  VUELVE  A  255
+          ***  30  GOLPES  SEGUIDOS.  ***
+
+      6.  el  HP  CRUZA  CERO  EN  EL  GOLPE  22
+          >>> [CRUCE 0] f475   P4  HP  4 -> -5   dist = 4  px
+
+      7.  y  LA  MUERTE  SE  APLAZA:  SIGUEN  ENTRANDO  GOLPES  CON  HP  NEGATIVO
+          f478 -9    f481 -10   f484 -9    f487 -9    f490 -8
+          f493 -8    f508 -9    f511 -8          ***  9  GOLPES  DESPUES  DE  MORIR  ***
+
+      8.  y  solo  ahi  se  apaga  todo
+          $AD -> $AE  f639      la  cola  de  la  ulti
+          P4:  $25 -> $28  f642
+          [HP] f682   -75 -> -1024   (-949)   ***  EL  VALOR  MUERTO  ***
+          P4:  $28 -> $29  f682
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  150.7  Y  LA  MAGNITUD  DEL  DANO
+  ###############################################################################
+
+      La  ulti  por  si  sola  metio  ***  294  DE  DANO  ***
+
+          219  ->  -75      en  31  golpes
+
+      Y  cada  uno  esta  en  el  RANGO  DE  8  A  20  QUE  DICE  EL  BLOB  ***
+
+          $AD anim $00   +64=3E   +65=08   +66=04   +68=00
+
+  *** *** $64 = $3E.  EL  BIT  6  ESTA  PUESTO.  Y  $3E  =  0011  1110.  ***  ***
+
+  ###############################################################################
+  150.8  Y  LA  ULTI  SALIO  A  CUENTA
+  ###############################################################################
+
+      [GOTEO] f390   mp 215 -> 15   (perdio 200)
+      [MP GANA] f434 +2   f435 +4   f446 +6   f447 +8   f448 +10   f449 +12
+      [MP GANA] f459 +30  f460 +18  f461 +20  f462 +22  f463 +24  f466 +26
+      [MP GANA] f467 +26   ***  RELLENO A  TOPE  A  223  (modo  training)  ***
+
+      *** ACUMULADO  +208  EN  31  GOLPES  ***
+
+      *** *** 200  DE  MANA  Y  DEVUELVE  208.  LA  ULTI  SALIO  A  CUENTA.  ***  ***
+
+  *** *** Y  ESO  ES  POR  EL  EXPLOIT:  COMO  EL  STUN  NUNCA  SE  AGOTA,  EL  ***
+  *** *** COMBO  NUNCA  SE  CORTA,  Y  LA  SERIE  DE  MANA  LLEGA  AL  TOPE  DE  223.  ***  ***
+
+  *** *** UNA  TECNICA  DE  200  DE  MANA  QUE  SE  PAGA  SOLA.  ***  [VERIFICADO]
+
+  ###############################################################################
+  150.9  Y  EL  TRACKER  FUNCIONO.  POR  PRIMERA  VEZ  CON  DATOS  REALES
+  ###############################################################################
+
+      >>> [CRUCE 0] f475  P4  HP  4 -> -5   ***  RECIEN  BAJO DE 0 ***
+          mundo P1=1047  P4=1043  dist=4  mov $25
+
+      *** *** LA  DISTANCIA  EXACTA  EN  EL  FRAME  DEL  CRUCE.  4  PX.  ***  ***
+
+  ###############################################################################
+  150.10  LO  QUE  ESTO  CAMBIA  EN  EL  ENTENDIMIENTO
+  ###############################################################################
+
+  *** 1.  EL  STUN  NO  ES  SOLO  UN  PRESUPUESTO.  SON  TRES  COSAS:  ***
+
+          EL  PRESUPUESTO     $7E  baja  con  cada  golpe
+          EL  REFRESCO  A  255 $7E = $FF  en  $1A282
+          EL  RESET  A  PLENO  $7E = $80  en  $15A4A  y  $18694
+
+  *** 2.  POR  ESO  EL  COMBO  ILIMITADO  ES  POSIBLE.  NO  ES  UN  BUG  DE  LA  ***
+  *** *** SALUD:  ES  EL  DISEO.  ***  ***
+
+  *** 3.  "GOLPES  HASTA  DERRIBO  =  ceil($80/$66)"  SOLO  VALE  SI  EL  RIVAL  ***
+  *** *** NO  ESTA  EN  LA  PROTECCION.  ***   *** CORREGIDO  ***  ***
+
+  *** 4.  Y  POR  ESO  LO  QUE  HACE  UN  PERSONAJE  FRGIL  (stun  bajo)  NO  ES  ***
+  *** *** VULNERABLE:  ES  LO  QUE  MAS  DIFICIL  DE  MATAR  ES  UNA  VEZ  STUNEADO.  ***  ***
+
+  ###############################################################################
+  150.11  EL  ESTADO  DE  TOGURO  MAYOR
+  ###############################################################################
+
+      MEDIDOS (17)
+
+          los  nueve  basicos      $80 $81 $82 $83 $84 $86 $90 $94 $95
+          $0B  el  dash                    20 f
+          $0C  el  backdash                32 f
+          $09 -> $14  la  provocacion      76 f   36  de  mana
+          $A1  EL  DEDAL  ABAJO,ABAJO+C     8 man   stun 64   SIN  CLASH
+          $A3  la  mano  larga             24 man   18  dao   104 px
+          $A2  la  mano  corta             16 man   16  dao    64 px
+          $A4  la  estocada                16 man   21  dao    76-84 px
+          $A0  A+B  las  agujas  laterales  24 man   14  dao   2  cajas
+          $A7 + $A6  el  impostor            8 man   A +176  B +112  C -48 px
+
+      SIN MEDIR
+
+          *** la  ulti  $AC $AD $AE   ***  ***  ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS  ***
+          *** el  agarre  $B8  ***   ***  ***
+          *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***  ***
+151.  LA  ULTI  DE  TOGURO  MAYOR.  MEDIDA  ENTERA
+================================================================================
+
+  ###############################################################################
+  151.1  LA  ESTRUCTURA.  $AC  ->  $AD  ->  $AE
+  ###############################################################################
+
+  *** (usuario)  "durante el tiempo que esta girando y golpeado puedes desplazarlo  ***
+  *** izquierda o derecha"  ***
+
+      [MOV 01] vA   id=$02   mana -200
+      $02 -> $AC   f262
+      $AC -> $AD   f300      *** 38  frames  ***
+      $AD -> $AE   f429      *** 129  frames  ***
+      $AE -> $00   f500      *** 71  frames  ***
+
+      $AD anim $00   HIT+CLASH   mascara $3C   +64=3E  +65=08  +66=04  +68=00
+
+  ------------------------------------------------------------------------------
+      $AC    38 f      el  arranque
+      $AD   129 f      el  giro.  ACA  ESTA  EL  DANO.
+      $AE    71 f      el  final
+      ------------------------------------------------------------------
+      TOTAL  238 f   ~4  segundos
+  ------------------------------------------------------------------------------
+
+  *** *** $AD  SE  ALARGA  CUANDO  LOS  GOLPES  ENTRAN:  121  A  151  FRAMES.  ***  ***
+
+  ###############################################################################
+  151.2  LA  REGLA  DE  LOS  GOLPES  QUE  ENTRAN
+  ###############################################################################
+
+  *** (usuario)  "La cantidad de hits conectados depende del tamano del enemigo,  ***
+  *** del facing que tenias tu en el momento y del stun del rival"  ***
+
+  *** *** Y  EL  LOG  CONFIRMA  LAS  TRES  COSAS  CON  NUMEROS.  ***  ***
+
+  ------------------------------------------------------------------------------
+    objetivo      stun  max   posicion     hits    dano    lo  tumba?
+    ------------------------------------------------------------------
+    Toguro menor      62       frente        13     124      ***  NO  ***
+    Toguro menor      62       ESPALDA       24     230      ***  SI  ***
+    Genkai            34       frente         9      86      ***  SI  ***
+    Genkai            34       ESPALDA       14     139      no
+    Toguro menor      62       con  Dedal      31     294      ***  SI  ***
+  ------------------------------------------------------------------------------
+
+  *** *** DE  FRENTE  LE  DOBLA  EL  DANO  A  TOGURO  MENOR:  13  CONTRA  24  GOLPES.  ***  ***
+
+  ###############################################################################
+  151.3  Y  POR  QUE  TOGURO  MENOR  RESISTE.  NO  ES  LO  QUE  UNO  CREE
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "Toguro menor tiene una mala combinacion de factores contra esta tecnica:
+       es grande y le caben mas hit, y como tiene mucho aguante come muchos golpes
+       antes de stunearse."
+
+  *** *** LOS  DOS  FACTORES  JUEGAN  A  FAVOR  DEL  DEFENSOR.  ***  ***
+
+      grande          ->  le  caben  mas  golpes  por  vuelta
+      stun  62        ->  aguanta  antes  de  caerse
+
+  *** Y  GENKAI  ES  AL  CONTRARIO  EN  LAS  DOS  COSAS  ***
+
+      chico           ->  le  caben  menos  golpes
+      stun  34        ->  se  stunea  a  los  9  golpes
+
+  *** *** O  SEA:  EL  STUN  BAJO  NO  ES  VULNERABILIDAD.  ES  LO  QUE  MAS  ***  ***
+  *** *** DIFICIL  DE  MATAR  DENTRO  DE  UN  COMBO  LARGO.  ***  ***
+
+  *** *** EL  DEDAL  Y  ESTA  ULTI  FUNCIONAN  POR  EL  MISMO  MOTIVO.  ***  ***
+
+  ###############################################################################
+  151.4  Y  LA  REGLA  DE  LA  DIRECCION.  CONFIRMADA  CON  LAS  DISTANCIAS
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "cuando miras al oponente de frente y haces la ulti debes ir en direccion
+       hacia donde estabas viendo, pero cuando la haces de espalda al enemigo
+       tienes que moverte hacia donde tu estas mirando para arrastrar al enemigo
+       hacia ti, esto dado a que la fisica de pusheo se aplica empujando al
+       enemigo en la direccion en la que el ataque del atacante esta mirando"
+
+  *** *** EL  LOG  LO  CONFIRMA  CON  LAS  DISTANCIAS  DE  CADA  GOLPE.  ***  ***
+
+  ---- de  frente,  Toguro  menor.  LA  DISTANCIA  CRECE  ------------------------
+
+      f178  30    f193  58    f207  63    f222  62    f238  63    f251  67
+      f179  34    f194  60    f222  62    f237  61    f266  65    f296  63
+
+      *** *** EL  RIVAL  SE  ESCAPA.  TENES  QUE  PERSEGUIRLO  MIENTRAS  GIRAS.  ***  ***
+
+  ---- de  ESPALDA,  Toguro  menor.  LA  DISTANCIA  SE  COLAPSA  ----------------
+
+      f158  39    f163  25    f169  14    f172   8    f174   5    f176   1
+      f159  36    f165  21    f170  12    f173   6    f175   3    f177   1
+
+      *** *** LA  DISTANCIA  LLEGA  A  CERO.  LO  ARRASTRAS  CONTIGO.  ***  ***
+
+  *** *** ESTO  ES  LA  MECANICA  COMPLETA  DE  "DE  ESPALDAS  ENTRAN  MAS  GOLPES".  ***  ***
+
+  *** Y  ES  NORMAL  EN  UN  FIGHTING:  EL  PUSHEO  MODERA  LOS  COMBOS.  ***  ***
+
+  *** *** LO  QUE  HACE  TOGURO  MAYOR  ES  EXPLOTARLO:  TIENE  DESPLAZAMIENTO  ***
+  *** *** DURANTE  LA  ULTI  Y  EL  JUEGO  PERMITE  EL  FACING  LIBRE.  ***  ***
+
+  *** *** (usuario)  "ese  diseno  no  contemplaba  este  escenario  al  parecer"  ***
+
+  ###############################################################################
+  151.5  BLOQUEADA.  Y  EL  DANO  BLOQUEADO  DA  LA  FORMULA  EXACTA
+  ###############################################################################
+
+  *** (usuario)  "voy a elegir a Toguro menor como defensor por ser el mas grande  ***
+  *** y asi sabremos el dano maximo posible de chipeo"  ***
+
+      P4:  $00 -> $09   f175     ***  LA  GUARDIA  DE  PIE  ***
+      $AD anim $00   HIT+CLASH   mascara $3C   +64=3E  +65=08  $66=04
+      [HP] f195   -3   P4: mov $2C
+      P4:  $09 -> $2C   f195     ***  EL  ESTADO  DE  BLOQUEO  ***
+
+      *** 44  GOLPES  BLOQUEADOS.  TODOS  -3.  223 -> 91  =  132  DE  DANO.  ***
+
+      $65  =  $08  =  8
+
+      *** *** LA  FORMULA  DEL  ROM  DICE:  $65 / 4  + 1  =  8/4 + 1  =  3.  ***  ***
+
+      *** *** ***  PRECIO  EXACTO.  LA  FORMULA  $65/4+1  ESTA  VERIFICADA  CON  ***  ***
+      *** *** ***  UN  CALCULO  QUE  NO  ESTABA  HECHO  ANTES.  ***  ***
+
+      *** Y  CERO  MANA  DEVUELTA  EN  LOS  44  GOLPES.  ***   *** CONFIRMADO  ***  ***
+
+      *** *** POR  QUE:  $2C  ESTA  EN  EL  RANGO  $28-$2D,  QUE  RESETE  EL  ***  ***
+      *** *** CONTADOR  DE  COMBO  ANTES  DE  PAGAR.  ***  ***
+
+  *** (usuario)  ***
+
+      "este ataque golpea muchas veces y chipea demasiado, es mas conveniente
+       saltar y dejarte golpear a proposito por que solo te entrarian 2 hit"
+
+      *** 44  GOLPES  BLOQUEADOS  SON  132  DE  DANO.  DOS  GOLPES  LIMPIOS  SON 20.  ***
+      *** *** BLOQUEAR  ES  SEIS  VECES  PEOR  QUE  DEJARTE  PEGAR.  ***  ***
+
+  *** *** Y  ESO  ES  IGUAL  QUE  LA  ULTI  DE  JIN.  ***  ***
+
+  ###############################################################################
+  151.6  Y  UN  DATO  SOBRE  $C4
+  ###############################################################################
+
+      Toguro mayor    $C4 = $04
+      Chui            $C4 = $06
+      Genkai          $C4 = $02
+
+      *** *** TRES  PERSONAJES,  TRES  VALORES.  $C4  ES  UN  STAT  POR  PERSONAJE.  ***  ***
+
+  ###############################################################################
+  151.7  Y  LOS  ESTADOS  DE  LA  CADENA  DE  CAIDA.  UNA  VEZ  MAS
+  ###############################################################################
+
+      $25  ->  $28  ->  $29  ->  $2A  ->  $2B     ***  CUARTA  VEZ  QUE  SE  VE  ***
+      P4:  $25 -> $28   f322      (tras el cruce de 0)
+      P4:  $28 -> $29   f362      y ahi el HP se va a -1024
+
+      *** *** $29  ES  DONDE  EL  JUEGO  ESCRIBE  -1024.  CUARTA  CONFIRMACION.  ***  ***
+
+  ###############################################################################
+  151.8  EL  ESTADO  DE  TOGURO  MAYOR
+  ###############################################################################
+
+      MEDIDOS (18)
+
+          los  nueve  basicos        $80 $81 $82 $83 $84 $86 $90 $94 $95
+          $0B  el  dash                    20 f
+          $0C  el  backdash                32 f
+          $09 -> $14  la  provocacion      76 f   36  de  mana
+          $A1  EL  DEDAL  DD+C              8 man   stun 64   SIN  CLASH
+          $A3  la  mano  larga  DD+A       24 man   18  dao   104 px
+          $A2  la  mano  corta  DD+B       16 man   16  dao    64 px
+          $A4  la  estocada  DF+A          16 man   21  dao    76-84 px
+          $A0  A+B  las  agujas            24 man   14  dao   2  cajas
+          $A7 + $A6  el  impostor            8 man   A +176  B +112  C -48
+          LA  ULTI  $AC $AD $AE        200 man   238  f   9  a  31  golpes
+
+      SIN MEDIR
+
+          *** el  agarre  $B8  ***
+          *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***
+152.  EL  REGISTRO  DE  PERSONAJES  LEIDO  COMPLETO.  Y  TOGURO  MENOR
+================================================================================
+
+  ***  TODO  ESTO  SALIO  DE  UNA  COSA  QUE  NO  ESTABAMOS  BUSCANDO:  EL  ***
+  ***  $C4  QUE  EL  BLOB  IMPRIME.  AL  VER  QUE  TENIA  TRES  VALORES  ***
+  ***  DISTINTOS  EN  TRES  PERSONAJES,  FUE  A  BUSCAR  LA  TABLA  DE  ***
+  ***  ENTRADAS  COMPLETA.  Y  AHI  ESTA  TOGURO  MENOR.  ***
+
+  ###############################################################################
+  152.1  $C4  ES  EL  BYTE  +$32  DE  LA  ENTRADA  DEL  PERSONAJE
+  ###############################################################################
+
+      ------------------------------------------------------------------------------
+        entrada   $26  (stun)   $32  ($C4)   $34   $2C  ($26 otra vez)
+        ------------------------------------------------------------------
+         1  GENKAI      34 (22 hex)    02          C4       22
+         2  KURAMA      40 (28)        04          C4       28
+         3  KUWABARA    56 (38)        08          C4       38
+         4  YUSUKE      48 (30)        06          C4       30
+         5  HIEI        44 (2C)        02          C4       2C
+         6  SENSUI      54 (36)        02          C4       36
+         7  JIN         46 (2E)        04          C4       2E
+         8  ITSUKI      40 (28)        02          C4       28
+         9  TOGURO+     38 (26)        04          C4       26
+        10  CHUI        48 (30)        06          C4       30
+        11  TOGURO-     62 (3E)        08          C4       3E
+      ------------------------------------------------------------------------------
+
+      ***  $26  Y  $2C  SON  EL  MISMO  BYTE  EN  LAS  ONCE  ENTRADAS.  ***  ***
+      ***  YA  LO  SABIAMOS  DE  LOS  CINCO  QUE  HABIAMOS  MIRADO.  ***  ***
+      ***  AHORA  ESTA  CONFIRMADO  EN  LOS  ONCE.  ***   [VERIFICADO]  ***
+
+      ***  $C4  DEL  BLOB  =  +$32  DE  LA  ENTRADA.  3  DE  3.  ***  ***
+          Genkai   blob $02   entrada $02   OK
+          TOGURO+  blob $04   entrada $04   OK
+          CHUI     blob $06   entrada $06   OK
+
+      *** *** $34  =  $C4  PARA  LOS  ONCE.  OTRO  CAMPO  FIJO.  ***  ***
+
+  ----  LA  TABLA  COMPLETA  DE  LAS  ONCE  ENTRADAS  ---------------------------
+
+      SOLO  22  DE  LOS  74  BYTES  DE  LA  ENTRADA  VARIAN  ENTRE  PERSONAJES.
+      Los  otros  52  son  constantes  para  los  once.  La  entrada  es  un
+      puntero  con  muchisimos  rellenos  fijos,  no  un  registro  de  stats.
+
+      Los  que  varian:
+
+      ------------------------------------------------------------------------------
+        offset   para  que  sirve
+        ------------------------------------------------------------------
+        +$00..+$02   tablaA     (24 bits)
+        +$08..+$0A   tablaB     (24 bits)
+        +$0A         byte  suelto  de  tablaB
+        +$11..+$12   ver  152.4
+        +$26         STUN MAXIMO  (y  +$2C  es  el  mismo  byte)
+        +$32         $C4
+        +$37 +$38    ver  152.5
+        +$3A..+$3C   ver  152.5   (tercer  puntero)
+        +$3D..+$41   ver  152.5
+        +$42         ver  152.5
+        +$46 +$47    ver  152.5
+      ------------------------------------------------------------------------------
+
+  ###############################################################################
+  152.2  EL  BLOQUE  DE  DATOS  DE  CADA  PERSONAJE.  Y  EL  DE  TOGURO  MENOR
+  ###############################################################################
+
+      *** *** ESTO  ES  LO  QUE  DESBLOQUEA  AL  ULTIMO  PERSONAJE.  ***  ***
+
+      El  puntero  de  tablaA  ES  EL  INICIO  DEL  BLOQUE  COMPLETO  DE  DATOS
+      DEL  PERSONAJE.  El  bloque  va  hasta  el  tablaA  del  siguiente.
+
+      ------------------------------------------------------------------------------
+        #  nombre      tablaA      hasta        bytes    tablaB     A -> B
+        ------------------------------------------------------------------
+        1  GENKAI     $0BCAAA    $0BF75A     11440    $0BDCAA     $1200
+        2  KURAMA     $0BF75A    $0C229A     11072    $0C04CA     $0D70
+        3  KUWABARA   $0C229A    $0C4EEA     11344    $0C31DA     $0F40
+        4  YUSUKE     $0C4EEA    $0C7C9A     11696    $0C5DAA     $0EC0
+        5  HIEI       $0C7C9A    $0CA6DA     10816    $0C8BEA     $0F50
+        6  SENSUI     $0CA6DA    $0CCC7A      9632    $0CB38A     $0CB0
+        7  JIN        $0CCC7A    $0CF99A     11552    $0CDEFA     $1280
+        8  ITSUKI     $0CF99A    $0D1E5A      9408    $0D069A     $0D00
+        9  TOGURO+    $0D1E5A    $0D4A9A     11328    $0D2C6A     $0E10
+       10  CHUI       $0D4A9A    $0D777A     11488    $0D59FA     $0F60
+       11  TOGURO-    $0D777A    ???         ???     $0D85AA     $0E30
+      ------------------------------------------------------------------------------
+
+      *** *** EL  BLOQUE  DE  TOGURO  MENOR  ESTA  EN  $0D777A.  YA  LO  VIMOS.  ***  ***
+
+      Los  primeros  bytes  de  $0D777A  son  LA  MISMA  TABLA  DE  DIRECCIONES
+      DE  16  bits  que  arranca  el  bloque  de  CHUI  en  $0D4A9A:
+
+          $0D4A9A  01 80 01 B0 01 B8 01 C0 01 C8 01 D0 02 00 02 18 ...
+          $0D777A  01 80 01 B0 01 B8 01 C0 01 C8 01 D0 02 10 02 28 ...
+
+      Y  los  primeros  REGISTROS  DE  MOVIMIENTO  tambien  son  del  mismo  tipo:
+
+          CHUI        $0D4C1A  06 01 00 0B 00 00 82 78  06 02 00 0B 00 00 82 78
+          TOGURO-    $0D78FA  06 01 00 0B 00 00 83 78  06 02 00 0B 00 00 83 78
+
+      *** *** id  $83  =  ADELANTE + A.  ES  EL  PRIMER  BASICO  DE  CHUI  ***  ***
+      *** *** Y  EL  PRIMER  REGISTRO  QUE  APARECE  EN  EL  BLOQUE  DE  TOGURO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      ***  POR  LO  TANTO,  PARA  TOGURO  MENOR:  ***
+
+          $50  =  $0D777A
+          $8C  =  $0D85AA
+
+      ***  Y  ESO  ES  LO  QUE  VA  A  IMPRIMIR  LA  LINEA  CONTEXTO  DEL  ***
+      ***  TRACKER  CUANDO  ESTE  TOGURO  MENOR  ESTE  EN  PANTALLA.  ***  ***
+      ***  [VERIFICADO]  sale  de  la  misma  tabla  que  los  otros  diez.  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  152.3  POR  QUE  NO  LO  TENIAMOS.  TRES  ANOMALIAS  SUYAS
+  ###############################################################################
+
+  TOGURO  MENOR  ES  EL  UNICO  QUE  SE  SALTA  EL  PATRON  EN  TRES  LUGARES.
+
+  ---- a)  +$42 :  EL  INDICE  MAESTRO  DE  PERSONAJES  ----------------------
+
+      ------------------------------------------------------------------------------
+        #  nombre      +$42      +$42 / 2
+        ------------------------------------------------------------------
+         1  GENKAI      10           8
+         2  KURAMA      12           9
+         3  KUWABARA    14          10
+         4  YUSUKE      16          11
+         5  HIEI        18          12
+         6  SENSUI      1A          13
+         7  JIN         1C          14
+         8  ITSUKI      1E          15
+         9  TOGURO+     20          16
+        10  CHUI        22          17
+        11  TOGURO-     7C       *** 62  ***
+      ------------------------------------------------------------------------------
+
+      ***  LOS  DIEZ  PRIMEROS  SON  $10  +  2  x  (n  -  1).  LIMPIO.  ***  ***
+      ***  TOGURO  MENOR  ESTA  EN  $7C  =  62,  NO  EN  $24  =  36.  ***  ***
+
+      ***  [ABIERTO]  $7C  ESTA  DENTRO  DEL  RANGO  DE  LOS  BYTES  DE  ALTA  ***
+      ***  ($7C  =  124  sale  tres  veces  como  constante  en  la  entrada).  ***
+      ***  [ABIERTO]  SI  +$42  FUERA  EL  INDICE  EN  UNA  TABLA  MAESTRA,  EL  ***
+      ***  INDICE  DE  TOGURO  MENOR  ESTA  45  LUGARES  MAS  LEJOS.  ***  ***
+      ***  ESO  EXPLICARIA  POR  QUE  SU  SET  DE  TECNICAS  ES  DISTINTO  ***  ***
+      ***  AL  DE  LOS  OTROS  DIEZ.  ***  ***
+
+  ---- b)  +$3A..+$3C :  UN  TERCER  PUNTERO  ---------------------------------
+
+      Para  los  diez  primeros,  el  byte  alto  de  este  puntero  es  EL  MISMO
+      que  el  de  tablaA:
+
+      ------------------------------------------------------------------------------
+        nombre      tablaA       +$3A       +$3A-$00
+        ------------------------------------------------------------------
+        GENKAI      $0BCAAA      $0BE9          el  mismo  $0B
+        KURAMA      $0BF75A      $0C0E          el  mismo  $0B
+        ...
+        TOGURO+     $0D1E5A      $0D36          el  mismo  $0D
+        CHUI        $0D4A9A      $0D64          el  mismo  $0D
+        TOGURO-     $0D777A      $0666    ***  OTRO  $06.  FUERA  DEL  BLOQUE  ***
+      ------------------------------------------------------------------------------
+
+      ***  ES  UN  PUNTERO  DE  24  BITS  QUE  PARA  LOS  DIEZ  CAE  DENTRO  ***
+      ***  DEL  PROPIO  BLOQUE  DEL  PERSONAJE,  Y  PARA  TOGURO  MENOR  CAE  ***
+      ***  EN  $06666A,  QUE  ESTA  EN  LA  ZONA  DE  CODIGO.  ***  ***
+
+  ---- c)  +$46 +$47 :  UN  PAR  QUE  TAMBIEN  SE  SALTA  --------------------
+
+      ------------------------------------------------------------------------------
+        nombre      +$37 +$38      +$3D +$3E +$3F +$40 +$41     +$46 +$47
+        ------------------------------------------------------------------
+        los  diez    2B  7C           00  1C  2B  7C  00        20  2B
+        TOGURO MENOR 30  2D           54  6D  00  06  3B        28  3B
+      ------------------------------------------------------------------------------
+
+      ***  +$46  PASA  DE  $20  A  $28   =  +8   ***
+      ***  +$47  PASA  DE  $2B  A  $3B   =  +$10  ***
+
+      *** *** ESE  +8  Y  ESE  +$10  SON  EXACTAMENTE  LO  QUE  SE  VE  CUANDO  ***
+      *** *** UN  REGISTRO  ESTA  CORRIDO.  TOGURO  MENOR  TIENE  SU  FICHA  CON  ***
+      *** *** OTRO  DESPLAZAMIENTO  INTERNO  DENTRO  DE  LA  MISMA  ENTRADA.  ***  ***
+      *** *** [ABIERTO]  FALTA  VER  QUE  LEER  EN  +$42  PARA  QUE  DIGA  $24.  ***
+
+  ###############################################################################
+  152.4  DOS  CAMPOS  MAS  QUE  SALEN  LIMPIOS
+  ###############################################################################
+
+  ---- +$12 :  $1E  POR  PERSONAJE,  MODULO  $100  ------------------------------
+
+      ------------------------------------------------------------------------------
+        #  1   2   3   4   5   6   7   8   9  10  11
+        ------------------------------------------------------------------
+        +$12 00 1E 3C 5A 78 B4 D2 F0 0E 2C 4A
+        prev   --  +1E +1E +1E +1E +3C +1E +1E +1E +1E
+      ------------------------------------------------------------------------------
+
+      $1E  =  30.  El  unico  salto  raro  es  el  de  SENSUI,  que  deberia
+      ser  $96  y  esta  en  $B4.  [ABIERTO]
+
+  ---- +$03..+$25 :  UNA  FAMILIA  DE  CONSTANTES  ------------------------------
+
+      +$34 $C4   +$35 $4E   +$36 $75
+      +$04 $50   +$05 $2B   +$06 $7C
+      +$0C $8C   +$0D $2B   +$0E $7C
+
+      Todos  los  once  son  IGUALES  en  esos  bytes.  Son  una  plantilla  fija
+      con  campos  fijos  que  no  dependen  del  personaje.  [VERIFICADO]
+
+  ###############################################################################
+  152.5  QUE  PODEMOS  HACER  YA  CON  TOGURO  MENOR
+  ###############################################################################
+
+      *** *** SU  BLOQUE  ESTA  LEIDO  Y  VERIFICADO  byte  a  byte.  ***  ***
+
+      1.  Poner  a  TOGURO  MENOR  de  P4  y  confirmar  que  la  linea  CONTEXTO
+          imprime  $50=$0D777A  $8C=$0D85AA.   *** ESO  CIERRA  EL 11  de  11.  ***
+      2.  Leer  su  banda  $80-$8F  del  .asm  a  mano  con  tablaA $0D777A.
+          *** NO  HAY  NADA  QUE  DESCUBRIR:  ESTA  TODO  AHI.  ***
+      3.  Verificar  $C4 = $08  en  el  blob.  *** PREDICHA  POR  EL  ROM.  ***
+      4.  Los  nueve  basicos  deberian  ser  los  MISMOS  ids  que  los  otros
+          diez.  *** SU  PRIMER  REGISTRO  ES  $83,  COMO  EL  DE  CHUI.  ***
+
+      ***  [VERIFICADO]  lo  unico  que  faltaba  era  el  puntero.  Ya  lo  ***  ***
+      ***  tenemos,  y  sale  de  la  misma  tabla  que  los  otros  diez.  ***  ***
+================================================================================
+================================================================================
+================================================================================

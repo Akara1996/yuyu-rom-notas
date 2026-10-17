@@ -578,5 +578,124 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
   [ ]  Los 16 gates de congelacion de 0x1EB40.  El hit-time de una especial
        tiene que estar en uno de ellos.
 ================================================================================
+  LO QUE  EL  LOG  CERRO  EL  17-10-2026  (RONDA  DE  LA  ULTI  DE  TOGURO  MAYOR)
+  ================================================================================
+
+  [x]  La  ulti  de  Toguro  mayor  ($AC  $AD  $AE)  estaba  sin  medir.   *** YA  ***
+       $AC   38 f   arranque
+       $AD  129 f   el  giro   <--  ACA  ESTA  EL  DANO   (121-151  f  con  golpes)
+       $AE   71 f   final
+       total 238 f   ~4  segundos   200  de  mana   $65 = $08   $66 = $04
+
+  [x]  El  dao  bloqueado  de  $65 / 4  +  1.   *** VERIFICADO  POR  CALCULO.  ***
+       44  golpes  bloqueados  seguidos  de  la  ulti,  TODOS  -3.
+       $65 = $08  ->  8/4 + 1  =  3.   *** PRECIO  EXACTO.  ***
+
+  [x]  $2C  visto  en  pantalla  en  un  RIVAL  (no  en  el  atacante).
+       P4:  $00 -> $09  f175  (guardia)   $09 -> $2C  f195  (bloqueado)
+       *** CIERRA  EL  0x1F3F6  QUE  ESTABAMOS  PENDIENTES.  ***
+
+  [x]  Que  bloqueando  esta  ulti  no  se  devuelve  mana.
+       CERO  [MP GANA]  en  44  golpes  bloqueados.
+       *** CONSISTENTE:  $2C  esta  en  $28-$2D,  el  rango  que  resetea.  ***
+
+  [x]  $C4  es  un  stat  POR  PERSONAJE,  no  un  flag  de  estado.
+       Toguro mayor $04   Chui $06   Genkai $02
+
+  [x]  Por  que  "de  espaldas  entran  mas  golpes".
+       NO  es  un  multiplicador  de  dao:  es  la  DIRECCION  DEL  PUSHEO.
+       de  frente  ->  la  distancia  CRECE  (30 -> 63).   Hay  que  perseguir.
+       de  espalda ->  la  distancia  SE  COLAPSA  (39 -> 1).  Lo  arrastras.
+       *** MEDIDO  CON  LAS  DISTANCIAS  DE  CADA  GOLPE,  NO  SUPINo.  ***
+
+  [x]  Que  el  stun  bajo  DIFICULTA  los  combos  largos.
+       Genkai  $7E = 34  ->  ceil(34/4)  =  9  golpes.    *** Cayo  al  golpe  9.  ***
+       Toguro menor $7E = 62 -> ceil(62/4) = 16  golpes.  *** No  cayo  ni  al  13.  ***
+       Caja  grande  =  mas  golpes  por  vuelta.  Caja  grande  =  mas  aguante.
+       *** LOS  DOS  FACTORES  JUEGAN  A  FAVOR  DEL  DEFENSOR.  ***
+
+  ================================================================================
+  LO QUE  SIGUE  ABIERTO  (actualizado)
+  ================================================================================
+
+  [ ]  El  resto  de  la  matriz  ulti-contra-personaje.  Ya  tenemos  el  minimo
+       (Genkai  de  frente  =  9  golpes)  y  el  maximo  (Toguro  menor  con
+       Dedal  y  de  espalda  =  31  golpes).  Los  otros  nueve  personajes  son
+       puntos  intermedios.  *** EL  USUARIO  PIDIO  DEJARLO  ASI.  ***
+
+  [ ]  La  ventana  de  8  frames  de  recuperacion  por  golpe  de  la  ulti.
+       [OBSERVADO]  el  usuario  la  ve  y  la  mide  a  ojo.  El  candidato  en
+       el  ROM  seria  $69/$75,  pero  $69  ya  esta  ocupado  por  el  hitpause.
+
+  [ ]  La  duracion  exacta  del  blockstun  ($2C).  Mecanismo  cerrado;  numero
+       no.  En  esta  traza  $2C  duro  de  f195  a  f325  =  130  frames,
+       *** PERO  ESO  NO  ES  EL  RELOJ:  es  la  ulti  entera  golpeando.  ***
+
+  [ ]  $27   el  estado "alto fijo".  NUNCA SE HA VISTO EN PANTALLA.
+       El ROM dice: velY = +6.0 y $4C = $0 (sin velocidad de caida).
+       *** UN GOLPE QUE DE $68=7 DEBERIA DEJAR AL RIVAL COLGANDO.  ***
+
+  [ ]  Que personaje produce $68 = 7.  Kuwabara sigue siendo el candidato.
+
+  [ ]  El  valor  28  del  clash  ($69).  El  otro  proyecto  lo  tiene;  nosotros  no.
+
+  [ ]  El  limite  de  la  lista  de  frames  de  un  move.  Sin  localizar.
+
+  [ ]  Los  16  gates  de  congelacion  de  0x1EB40.  El  hit-time  de  una
+       especial  tiene  que  estar  en  uno  de  ellos.
+
+  [ ]  El  agarre  $B8  de  Toguro  mayor.  El  unico  basico  que  falta.
+
+  [ ]  $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  de  Toguro  mayor.
+
+  [ ]  TOGURO  MENOR.  El  unico  personaje  sin  documento.
+       *** AHORA  TENEMOS  SUS  TRES  DATOS  CLAVE:  $C4 = $08,  $7E = 62  ***
+       *** (el  stun  maximo  del  juego),  y  su  caja  es  la  mas  grande.  ***
+       *** ES  EL  RIVAL  MAS  RESISTENTE  CONTRA  EL  DEDAL  Y  CONTRA  ESTA  ***
+       *** ULTI.  PERO  TAMBIEN  EL  QUE  MAS  GOLPES  DEJA  ENTRAR.  ***
+================================================================================
+  LO QUE  EL  ROM  CERRO  DESPUES  (17-10-2026,  TRAS  EL  $C4)
+  ================================================================================
+
+  ***  TODO  ESTO  SALIO  DE  QUE  $C4  TUVIERA  TRES  VALORES  DISTINTOS.  ***  ***
+
+  [x]  $C4  del  blob  =  el  byte  +$32  de  la  entrada  del  personaje.   3 DE 3
+             Genkai $02,  Toguro mayor $04,  Chui $06.
+       *** Solo hay  CUATRO  valores  en  todo  el  juego:  $02  $04  $06  $08.  ***
+       [ABIERTO]  Que  clase  de  stat  es.  Correlaciona  con  el  stun  pero
+       no  monotonicamente:  $02 agrupa a Genkai(34), Itsuki(40), Hiei(44),
+       Sensui(54).  Los  ocho  que  faltan  estan  PREDICHOS  por  el  ROM.
+
+  [x]  $26  y  $2C  de  la  entrada  son  EL  MISMO  BYTE  en  los  ONCE.
+
+  [x]  Solo  22  de  los  74  bytes  de  la  entrada  varian  entre  personajes.
+
+  [x]  *** EL  BLOQUE  DE  DATOS  DE  TOGURO  MENOR  ESTA  LOCALIZADO.  ***
+             $50  =  $0D777A
+             $8C  =  $0D85AA
+       El  bloque  corre  de  tablaA  a  tablaA  del  siguiente:  9400 a 11700 bytes.
+       Chui  $0D4A9A .. $0D777A = 11488 bytes,  y  el  de  Toguro  menor  arranca
+       exactamente  ahi  con  la  misma  estructura  (tabla  de  direcciones  de
+       16  bits  y  luego  los  registros  de  $80-$8F).  Su  primer  registro
+       es  $83,  como  el  de  Chui.   *** VERIFICADO  LEYENDO  EL  ROM.  ***
+
+  [ ]  La  linea  CONTEXTO  del  tracker:  confirmar  que  con  Toguro  menor
+       en  pantalla  imprime  $50=$0D777A  $8C=$0D85AA.   *** UNA  PRUEBA  Y  ***
+       *** CIERRA  EL  11  DE  11.  ***
+
+  [ ]  Leer  la  banda  $80-$8F  de  Toguro  menor  del  .asm  a  mano  con
+       tablaA $0D777A.  *** NO  HAY  NADA  QUE  DESCUBRIR:  ESTA  TODO  AHI.  ***
+
+  [ ]  Las  TRES  ANOMALIAS  de  Toguro  menor  en  la  entrada:
+           +$42  = $7C   (los  otros  diez:  $10 + 2*(n-1))
+           +$3A  = $06666A  (los  otros  diez:  puntero  DENTRO  de  su  bloque)
+           +$46/$47 = $28/$3B  (los  otros  diez:  $20/$2B)
+       *** $46  +8  y  $47  +$10  es  la  firma  de  un  registro  corrido.  ***
+       *** Si  se  lee  +$42  en  +$42-8  =  $74  sale  $24  =  36 =  $10+$22.  ***
+       *** PROBABLEMENTE  LA  FICHA  ESTA  8  BYTES  CORRIDA.  [ABIERTO]  ***
+
+  [ ]  +$12  deberia  ser  $1E x n  (mod 256)  en  los  once.  SENSUI  deberia
+       tener  $96  y  tiene  $B4.  Un  solo  salto  raro,  y  no  es  Toguro  menor.
+================================================================================
 ================================================================================
 ================================================================================

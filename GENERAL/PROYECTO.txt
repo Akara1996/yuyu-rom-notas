@@ -80,7 +80,7 @@ Donde estamos, que falta y en que orden
       SENSUI     6        8        9         8        SENSU TECNICAS,  9 pag
         JIN        7        9        7 de 12   13        JIN TECNICAS,  9 pag    AL 90 %.  4 GOLPES + VUELO
       ITSUKI     8        10       5         -        ITSUKI TECNICAS,  4 pag
-        TOGURO +   9       17         -        -        TOGURO+ TECNICAS, 10 pag   17 TEC.  + EL  EXPLOIT
+        TOGURO +   9       9       18        -        TOGURO+ TECNICAS, 7 pag   18 TEC.  + EL  EXPLOIT  + LA  ULTI
         CHUI       10      10      18 de 18   -        CHUI TECNICAS, 15 pag    COMPLETO.  9/9 BASICOS
       TOGURO -   11       -        -         -        sin empezar
 
@@ -413,7 +413,7 @@ A("")
   11.1  EL MAPA COMPLETO DE LOS 11
   ==========================================================================
 
-      entrada  tablaA     $26  peso  $32  personaje
+      entrada  tablaA     $26  peso  $32=$C4  personaje
       -------  ---------  ---  ----  ---  ------------------------
           1    $0BCAAA     34   10    02  GENKAI
           2    $0BF75A     40   12    04  KURAMA
@@ -431,6 +431,14 @@ A("")
       Y $2C vale lo mismo que $26, byte por byte, en las once entradas.
       Es el unico campo de la entrada que se sabia que era "por personaje"
       y que no se sabia que era.  Ver HIT STATE.txt.
+
+      *** $32 ES EL $C4 DEL BLOB.  3 de 3:  Genkai $02,  Toguro $04,  Chui $06.  ***
+      Solo hay CUATRO valores en todo el juego:  $02  $04  $06  $08.  Ver 152.1.
+
+      *** Y EL BLOQUE DE DATOS DE CADA UNO VA DE tablaA A tablaA.  ***
+      Tamanos de 9400 a 11700 bytes.  **TOGURO MENOR:  $0D777A, $0D85AA.**
+      Ver 152.2.  Es el unico personaje al que no le pudimos ubicar el dato.
+      Ya esta localizado.  Falta medirlo en pantalla.
 
   ==========================================================================
   11.1.1  QUIENES TIENEN DOCUMENTO, Y CUALES NO
@@ -451,16 +459,16 @@ A("")
                                                         cerraron el 15-10
       ITSUKI     8        ITSUKI TECNICAS      4 pag    completo, 5.
                                                         + 7 PDF viejos
-      JIN        7        9        0 de 12   -        JIN TECNICAS,  3 pag    RONDA 1.  Solo la tabla del ROM
-      TOGURO +   9        ---                  ---      sin empezar
-        CHUI       10      10      18 de 18   -        CHUI TECNICAS, 15 pag    + faltan 5 basicos con direccion
-      TOGURO -  11        ---                  ---      sin empezar
+      JIN        7        JIN TECNICAS      9 pag    7 de 12.  Faltan 4 golpes y el vuelo
+      TOGURO +   9        TOGURO+ TECNICAS   7 pag    completo, 18.  + EL  EXPLOIT  + LA  ULTI
+        CHUI       10      CHUI TECNICAS     15 pag   COMPLETO.  18 de 18 tecnicas, 9 de 9 basicos
+      TOGURO -  11        sin  documento          ---    EL  UNICO  QUE  FALTA.  $50=$0D777A  $8C=$0D85AA
 
-      *** 6 DE 11 CON DOCUMENTO.  5 SIN EMPEZAR. ***
+      *** 10 DE 11 CON DOCUMENTO.  SOLO  TOGURO MENOR  SIN  EMPEZAR.  ***
 
-      Y los cinco sin empezar son los que menos sabemos:  no hay nada
-      medido de ninguno.  JIN (entrada 7) y TOGURO menor (11) son los dos
-      con el stun mas bajo y mas alto respectivamente:  46 y 62.
+      Y el que falta es el que mas sabemos:  su bloque esta LEIDO del ROM
+      desde $0D777A.  Su banda $80-$8F se puede leer del .asm a mano YA.
+      Ver 152.2.  Su $C4 predicho es $08 y su $50 predicho es $0D777A.
 
 
 

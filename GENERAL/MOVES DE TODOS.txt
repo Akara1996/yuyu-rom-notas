@@ -2439,7 +2439,33 @@ o
   siguiente que apunte mas adelante.
 
       byte+2  bit 7 ($80)   el ULTIMO anim     134 de 134  COMPROBADO
-      byte+2  bit 4 ($10)   este anim TIENE HITBOX
+      byte+2  bit 4 ($10)   este anim TIENE CAJA  (para pegar o clashear)
+
+      *** CORREGIDO EL 16-10:  LA COLUMNA DICE CAJA,  NO PEGA  ***
+
+      La caja sirve para dos cosas:  golpear a un personaje,  o romper un
+      proyectil.  Un golpe que SOLO clashea no hace dano,  aunque tenga el
+      dato de dano guardado.
+
+      *** Y ESO SEPARA DOS CAMPOS QUE YO HABIA JUNTADO  ***
+
+          bit 4 del byte+2    este anim TIENE CAJA
+          $64 = $3E           este anim TIENE DATO DE DANO
+
+          caja   $64    que es
+          -----  -----  ------------------------------------------
+          si     si     un golpe normal
+          si     no     una maniobra que solo clashea
+          no     si     dano muerto:  el dato existe y no se aplica
+          no     no     nada
+
+      *** EL CASO DE KUWABARA  ***
+      Su dash  ($0B)  tiene la mascara $26:  CLASH + GRAB  y NINGUN bit de
+      HIT.  Y su +65 = 3.  O sea que el 3 es dato real  y no se aplica
+      nunca,  porque sin HIT no hay golpe.
+
+      *** Y POR ESO UNA TECNICA CON 0 ANIMS CON CAJA PUEDE SER UNA
+      MANIOBRA DE CLASHEO  O ESTAR MUERTA.  LA COLUMNA NO LAS SEPARA. ***
 
   *** BIT 7:  134 DE 134.  APARECE UNA VEZ,  Y EN EL ULTIMO ANIM. ***
   Eso confirma que la lectura de la lista es correcta para los once.

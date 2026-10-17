@@ -81,7 +81,7 @@ Donde estamos, que falta y en que orden
         JIN        7        9        7 de 12   13        JIN TECNICAS,  9 pag    AL 90 %.  4 GOLPES + VUELO
       ITSUKI     8        10       5         -        ITSUKI TECNICAS,  4 pag
       TOGURO +   9        -        -         -        sin empezar
-        CHUI       10      10       3 de 16   -        CHUI TECNICAS,  5 pag    ABAJO,ABAJO = $A2 $AF $B0
+        CHUI       10      10       4 de 16   -        CHUI TECNICAS,  7 pag    ABAJO,ABAJO = $A2 $AF $AE $B0
       TOGURO -   11       -        -         -        sin empezar
 
       *** 6 CON DOCUMENTO.  5 SIN EMPEZAR.  DE LOS 6,  UNO SIN CONFIRMAR
@@ -453,7 +453,7 @@ A("")
                                                         + 7 PDF viejos
       JIN        7        9        0 de 12   -        JIN TECNICAS,  3 pag    RONDA 1.  Solo la tabla del ROM
       TOGURO +   9        ---                  ---      sin empezar
-        CHUI       10      10       3 de 16   -        CHUI TECNICAS,  5 pag    ABAJO,ABAJO = $A2 $AF $B0
+        CHUI       10      10       4 de 16   -        CHUI TECNICAS,  7 pag    ABAJO,ABAJO = $A2 $AF $AE $B0
       TOGURO -  11        ---                  ---      sin empezar
 
       *** 6 DE 11 CON DOCUMENTO.  5 SIN EMPEZAR. ***

@@ -1,0 +1,313 @@
+================================================================================
+  PENDIENTE PRIORITARIO
+================================================================================
+
+  Todo lo que falta para ENTENDER la tabla de reacciones.  Esto es lo unico
+  que queda abierto de verdad:  el resto del proyecto avanza sin esto, pero
+  esto explica cosas que todavia no sabemos.
+
+  Creado el 17-10-2026.  Se actualiza cada vez que se mide algo de esta lista.
+
+
+================================================================================
+1.  LA TABLA DE $68.  16 ENTRADAS,  11 REALES,  5 BASURA
+================================================================================
+
+  COMO SE LEE
+
+    01F526  move.b  $68(a3), d0
+    01F52A  lsl.w   #$1, d0            d0 = $68 * 2
+    01F52C  lea.l   $01F534(pc,d0.w), a0
+    01F530  adda.w  (a0), a0           destino = entrada + el WORD de ahi
+    01F532  jmp     (a0)
+
+  *** NO HAY NINGUNA MASCARA ENTRE LAS DOS INSTRUCCIONES  ***
+  Raw:  10 2B 00 68   E3 48
+  Si $68 fuera >= 16  se leeria fuera de la tabla.  En la practica solo
+  hay 0 a 10.  [DERIVADO]
+
+  LA TABLA
+
+    $68    estado    que hace
+    ----   -------   ------------------------------------------------
+     0     $20      hitstun normal
+     1     $21      hitstun normal
+     2     $20      chip
+     3     $21      chip
+     4     $23      derribo ciego
+     5     $25      derribo con ventana
+     6     $26      EL LAZADOR
+     7     $27      alto fijo,  velocidad 0
+     8     $30      tiro vertical
+     9     $2F      empuje diagonal,  como 4 y 5
+    10     $25      derribo,  misma velocidad que el 5
+   11-15   ---     BASURA:  no son handlers de victima
+
+  LAS VELOCIDADES
+
+    $01F720  move.l  #$3800, $4c(a4)      vertical   (56 px/s)
+    $01F730  move.l  #$FFFE8000, $10(a4)  izquierda
+    $01F73A  move.l  #$18000, $10(a4)     derecha
+
+  *** $26 LO PRODUCE UN SOLO $68:  EL 6.  Y NINGUN OTRO HANDLER LLEGA A $26.  ***
+  *** O SEA QUE NO HAY OTRO LANZAMIENTO HORIZONTAL EN EL JUEGO.  ***
+
+  LAS SEIS FORMAS DE SACAR AL RIVAL DEL SUELO
+
+    $26   el lanzador          horizontal,  EL UNICO
+    $2F   el empuje diagonal   horizontal + vertical
+    $25   el derribo ventana   horizontal + vertical
+    $23   el derribo ciego     horizontal
+    $30   la elevacion recta  vertical,  CERO horizontal
+    $27   alto fijo            velocidad CERO
+
+
+================================================================================
+2.  $64  DECIDE SI EL $68  DEL BLOB ES REAL.  ESTE ERA EL BUG
+================================================================================
+
+  *** LAS ONCE LINEAS QUE TENEMOS,  DE ESTA SESION  ***
+
+  ataque                        $64   $68   TABLA   victimado   veredicto
+  --------------------------------------------------------------------------
+  JIN  $A0  Puo tornado        $00   $00   $20     $26      RUIDO
+  JIN  $A2  golpe 1             $00   $00   $20     $21      RUIDO
+  JIN  $A2  golpe 2             $1E   $01   $21     $26      DIFIERE
+  JIN  $A4  tornado             $3E   $08   $30     $30      EXACTO
+  JIN  $A5  tornado             $3E   $08   $30     $30      EXACTO
+  JIN  $AA  super bloqueado     $3E   $08   $30     $2C      otro camino
+  CHUI $A2  carga de hombro A   $00   $00   $20     $26      RUIDO
+  CHUI $AF  dive kick A         $00   $00   $20     $25      RUIDO
+  CHUI $AA  golpe 1             $00   $00   $20     $2F      RUIDO
+  CHUI $AA  golpes 2 a 5        $1D   $09   $2F     $2F      EXACTO
+  CHUI $AB  el final            $1E   $08   $30     $30      EXACTO
+
+  *** CON $64 = $00   ->  5 DE 5  SON RUIDO  ***
+  *** CON $64 != $00  ->  4 DE 5  SON EXACTO  ***
+
+  El quinto es el bloqueado,  y no es un fallo:  un golpe bloqueado no
+  ejecuta la tabla de $68 para la victima.
+
+  *** LA REGLA  ***
+
+      $64 = $00   ->  el +65  el +66  y el +68  son RUIDO
+      $64 != $00  ->  el +65  el +66  y el +68  son REALES
+
+      *** Y SI $64 = $00,  SE LEE EL ESTADO DE LA VICTIMA EN EL LOG  ***
+      El $5F de la victima siempre es real.  Ese es el plan B.
+
+  *** POR QUE IMPORTA  ***
+  (usuario)  "esto podria explicar algunos bugs raros que hasta ahora no
+   hemos encontrado respuesta a ojo los jugadores"
+
+  *** $64  PARECE SER EL INDICE DE LA TABLA DE GOLPES  ***
+  Un puntero.  $00 quiere decir "no tengo registro de golpe".  Y si no lo
+  tiene,  los tres campos de golpe salen de cualquier lado:  no son datos,
+  son lo que quedo.
+
+  *** Y ESO UNIFICA DOS COSAS QUE PARECIAN DISTINTAS  ***
+  El $65 y el $68 fallan juntos.  No son dos bugs:  es uno solo,  y es
+  que $64 no apunta a ningun registro.
+
+  *** Y $3E  NO ES UN BANDERA,  ES UNA DIRECCION VALIDA  ***
+  $3E, $1D, $1E  son offsets.  Cada golpe tiene la suya.  $00  es "nada".
+
+  *** [ABIERTO]  DONDE ESTA $64 Y COMO SE USA  ***
+  Si se sabe donde vive,  se puede leer del ROM y saber sin jugar si un
+  ataque tiene tabla de golpe o no.
+
+
+================================================================================
+3.  LOS PARES (0,1)  Y  (2,3):  PARADO Y AGACHADO
+================================================================================
+
+      $68 = 0  ->  $20        $68 = 2  ->  $20
+      $68 = 1  ->  $21        $68 = 3  ->  $21
+
+  *** LOS DOS PARES TERMINAN EN LOS MISMOS DOS ESTADOS  ***
+  O sea que $20 y $21 son los mismos dos estados,  alcanzados desde un
+  hitstun y desde un chip.
+
+  *** (usuario)  ***
+
+  "veo que hay 2 estados de chip, pero si es mientras bloqueas solo puedes
+   hacerlo parado o agachado, entonces si $68=2 $20 y 3 $21 son estado de
+   victima en chipeo parado o agachado, $68=0 $20 y 1 $21 son el estado de
+   hitstun parado y agachado?"
+
+  *** ES LA LECTURA NATURAL  ***  [FUERTE]
+
+  *** Y $21  YA SE VIO UNA VEZ:  en el segundo golpe del doble puo de Jin ***
+
+  *** [ABIERTO]  CUAL DE LOS DOS ES EL DE ARRIBA  ***
+
+  ================================================================================
+  3.1  LOS AGARRES SE REPARTEN ENTRE DOS $68
+
+      $68 = 8  ->  $30    Itsuki  Sensui  Hiei  Toguro menor           4
+      $68 = 9  ->  $2F    Kurama  Yusuke  Genkai  Chui  Toguro mayor
+                             Jin                                          6
+      Kuwabara   manda a volar con su agarre  y no sabemos a que estado  [ABIERTO]
+
+      *** 4 + 6 + 1 = LOS ONCE.  EL AGARRADOR DECIDE,  NO LA VICTIMA.  ***
+
+      *** $30 Y $2F  SON LOS MISMOS EFECTO EN CODIGO,  DISTINTOS EN DIRECCION ***
+      $30  vertical recto,  horizontal cero
+      $2F  en diagonal
+
+      *** Y $30  LO PRODUCEN TAMBIEN LOS TORNADOS Y LAS ULTI  ***
+      Jin $A4, Jin $A5, Jin $AA, Chui $AB  ->  todos $30
+
+
+================================================================================
+4.  $27  Y $23  NO SE HAN VISTO NUNCA
+================================================================================
+
+  *** $68 = 7  ->  $27   "alto fijo,  velocidad 0"  ***
+
+  *** NO HAY NINGUN LOG NUESTRO CON $27.  ***
+  Viene solo de leer el handler en el ROM ($01F6C8,  que pone $27 y deja
+  la velocidad en 0).  Nada mas.
+
+  *** (usuario)  ***
+
+  "de donde hemos mapeado el $68=7 $27?  no logro recordar o conectar cual
+   es...  su descripcion es como un $30 pero 'sin velocidad'?"
+
+  *** DE LA TABLA DEL ROM.  NUNCA LO VIMOS EN PANTALLA.  ***
+  *** Y SI,  LA LECTURA MAS RAZONABLE ES "UN $30 SIN VELOCIDAD".  ***  [FUERTE]
+  *** O SEA QUE LEVANTA AL RIVAL Y LO DEJA AHORA.  SIN TIRARLO.  ***
+
+  *** Y EL CANDIDATO MAS PROBABLE PARA ENCONTRARLO:  EL AGARRE DE KUWABARA  ***
+
+  *** Y TAMBIEN $68 = 4  ->  $23  "derribo ciego"  ***
+  No se ha visto nunca en pantalla.  [ABIERTO]
+  "Ciego"  en la tabla quiere decir  sin ventana:  el rival no puede
+  reactingear.  Se infiere del nombre,  no de una medida.
+
+  *** Y $68 = 10  QUE PARECE UN 5 CON REACTION 8 ADENTRO  ***
+  $01F714  move.b #$8, $5d(a4)
+  $01F71A  move.b #$25, $5f(a4)
+  $01F720  move.l #$3800, $4c(a4)
+  $01F730  move.l #$FFFE8000, $10(a4)
+  $01F73A  move.l #$18000, $10(a4)
+  Manda al mismo estado y con la misma velocidad que el $68 = 5.
+  Lo unico distinto es el reaction:  8 en vez de 5.  [DERIVADO]
+  No se ha visto nunca.  [ABIERTO]
+
+
+================================================================================
+5.  POR QUE HAY MAS ESTADOS QUE VALORES DE $68
+================================================================================
+
+  *** (usuario)  "de los estados derivados de $68 solo tenemos 2 hitstun y en
+   este juego no es lo mismo que te peguen arriba que abajo,  y otros ataques
+   producen un tambaleo por ejemplo,  es como que nos faltan estados de
+   hitstun aun"  ***
+
+  *** NO FALTAN VALORES DE $68.  FALTAN ESTADOS,  Y VIENEN DESPUES.  ***
+
+  La tabla de $68 elige el PRIMER estado.  Despues la fisica te lleva por
+  una cadena:
+
+      $26 -> $25 -> $28 -> $29 -> $2A -> $00
+      $30 -> $28 -> $29 -> $2A -> $00
+      $2F -> ...
+
+  *** ASI QUE HAY MAS DE 11 ESTADOS Y 11 VALORES,  Y NO HAY CONTRADICCION. ***
+  $28 $29 $2A $2B $2C  no son reacciones:  son la fisica despues.
+
+  *** Y EL "TAMBALEO" QUE MENCIONA EL USUARIO NO SE HA VISTO NUNCA.  ***
+  [ABIERTO]  Si existe,  es un estado que no hemos encontrado todavia.
+
+
+================================================================================
+6.  LOS TESTS
+================================================================================
+
+  *** TEST 1.  BLOQUEADO PARADO  VS  AGACHADO.  DOS EN UNO  ***
+
+      Es el mas barato del proyecto:  sirve para los once personajes.
+
+          rival bloqueando PARADO,    que le peguen   ->  $20 o $21 ?
+          rival bloqueando AGACHADO,  que le peguen   ->  el otro
+
+      Con cualquier personaje y cualquier golpe basico.
+      Cierra las dos parejas (0,1) y (2,3)  y dice cual es el de arriba.
+
+  *** TEST 2.  EL AGARRE DE KUWABARA  ***
+
+      El unico [ABIERTO] grande que queda en las reacciones.
+      Un solo agarre dice:  el $68 de Kuwabara,  y el estado.
+      Si el estado es $27,  cerramos el unico handler sin ver.
+      Si es $26,  se cierra tambien la pregunta de los empujes horizontales.
+
+  *** TEST 3.  EL $68  VA UN GOLPE ATRASADO EN UNA RACHA?  ***
+
+      El unico "DIFIERE" de la tabla de arriba es el segundo golpe seguido:
+      decia $21  y la victima fue a $26.
+
+          pegar 3 golpes basicos seguidos   y leer el $68 de cada uno
+          con el RIVAL tapando  ->  se lee el $68 de la victima
+
+      Si el $68 se retrasa un golpe,  el segundo dira lo que decia el primero.
+
+  *** TEST 4.  DONDE VIVE $64  ***
+
+      Si $64 es el indice de la tabla de golpes,  se podria leer del ROM y
+      saber sin jugar si un ataque tiene tabla de golpe.  Eso cerraria el
+      punto de los 11 a 15 de golpees,  y el de los ataques sin dano.
+
+      Pista:  $3E, $1D y $1E son offsets.  $00 es "nada".
+
+  *** TEST 5.  ROMPER LA GUARDIA ABRE COMBO?  ***
+
+      El usuario ya contesto que si,  pero falta el numero.
+          rival en $2C,  5 golpes bloqueados,  y uno que rompe la guardia
+          el que rompe  ->  +0 ?  y el siguiente  ->  +2 ?
+
+  *** TEST 6.  LA VENTANA DEL COMBO,  A BISECCION  ***
+
+      El [MP GANA] lo dice todo:  si el segundo golpe paga +0, se rompio.
+
+          dos B seguidos                     +2   control
+          un B, esperar  6, otro B          +2 ?
+          un B, esperar 10, otro B          +2 ?
+          un B, esperar 15, otro B          +2 ?
+          un B, esperar 20, otro B          +0   se rompio
+
+      y lo mismo con A.  La ventana de un B  =  8 a 10.  La de un A  =  16 a 19.
+      Descontar el startup del golpe siguiente para el margen real.
+
+  *** TEST 7.  EL POST DE LA ULTI  ***
+
+      El MP GANA acumulado hasta que se termine la escalera.
+      Chui: la ulti dio +30 en 6 golpes.  El siguiente es el 7  ->  +12.
+      Jin:  la ulti dio +56 en 8 golpes.  El siguiente es el 9  ->  +16.
+      Hay que ver hasta donde llega la escalera cuando el rival aterriza.
+
+  *** TEST 8.  DONDE ESTA EL TAMBALEO?  ***
+
+      Si existe un estado de tambaleo,  tiene que aparecer en algn golpe.
+      Los candidatos son los que el usuario describio como "no es lo mismo
+      que te peguen arriba que abajo".  Con los golpes altos y bajos del
+      rival  se busca:  pegarle al rival parado vs pegarle arriba.
+
+
+================================================================================
+7.  LO QUE YA NO HAY QUE BUSCAR
+================================================================================
+
+  [x]  Todos los lanzamientos horizontales son $26?   SI.
+       $26 solo sale de $68 = 6,  y a $26 no llega nadie mas.
+
+  [x]  $2F es un estado de Chui?   NO.  Es el destino del $68 = 9,
+       el empuje diagonal,  y lo producen seis agarres.
+
+  [x]  El $68 del blob siempre sirve?   NO.  Solo si $64 != $00.
+       Con $64 = $00  hay que leer el estado de la victima.
+
+  [x]  El $65 del blob siempre es el dao?   NO.  Misma regla:  $64 != $00.
+
+  [x]  La ventana de un B es 8 y la de un A es 16?
+       SI,  a ojo del usuario.  Falta el numero exacto.  TEST 6.

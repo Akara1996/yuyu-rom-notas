@@ -2493,13 +2493,13 @@ FIN DEL IDEARIO
       los pagos salen espaciados ~27 frames
       el total tras n pagos  =  n(n + 1)
 
-          n=1  ->   2
-          n=2  ->   6
-          n=4  ->  20
-          n=10 -> 110      la ulti de Kuwabara,  exacto
-
-      *** Y EL +2 QUE VI DOS VECES EN JIN  ***
-      Es el primer pago de la serie.  No es regeneracion,  y no tiene nada
+          n=1  ->    0     el primer golpe no paga
+          n=2  ->    2
+          n=3  ->    6     $A4 medido
+          n=4  ->   12     y es 18 - 12 = 6,  el 6 de la ficha
+          n=7  ->   42
+          n=10 ->   90
+          n=11 ->  110     la ulti de Kuwabara,  exacto
       que ver con estar en el aire.  Lo escribi al reves.
 
       *** Y ES LA TERCERA FORMA DE CONTAR GOLPES  ***

@@ -926,3 +926,70 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
             cicla en 02 04 08 06.  [ABIERTO]
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+99.  LA TABLA DE $68 COMPLETA,  UNA SOLA VEZ
+================================================================================
+
+  *** ESTA ES LA TABLA DEFINITIVA.  11 CASOS REALES,  5 BASURA.  ***
+
+      $68    estado    que hace
+      ----   -------   ---------------------------------------------
+       0     $20      hitstun normal
+       1     $21      hitstun normal
+       2     $20      chip
+       3     $21      chip
+       4     $23      derribo ciego
+       5     $25      derribo con ventana
+       6     $26      LAZADOR
+       7     $27      alto fijo,  velocidad 0
+       8     $30      tiro vertical
+       9     $2F      empuje diagonal,  como 4 y 5
+      10     $25      derribo,  misma velocidad que el 5
+      11-15   ---     BASURA
+
+  *** LAS SEIS FORMAS DE SACAR AL RIVAL DEL SUELO  ***
+
+      $26   el lanzador          horizontal,  el unico
+      $2F   el empuje diagonal   horizontal + vertical
+      $25   el derribo ventana   horizontal + vertical
+      $23   el derribo ciego     horizontal
+      $30   la elevacion recta  vertical,  CERO horizontal
+      $27   alto fijo            velocidad CERO
+
+  *** $26  LO PRODUCE UN SOLO $68:  EL 6.  Y NINGUN OTRO HANDLER ***
+  *** LLEGA A $26.  O SEA QUE NO HAY OTRO LANZAMIENTO HORIZONTAL. ***
+
+  *** Y LOS AGARRES SE REPARTEN ENTRE DOS $68  ***
+
+      $68 = 8  ->  $30    Itsuki  Sensui  Hiei  Toguro menor
+      $68 = 9  ->  $2F    Kurama  Yusuke  Genkai  Chui  Toguro+  Jin
+      Kuwabara  manda a volar  con algo que no sabemos    [ABIERTO]
+
+  *** LO DE SU'SUKI  ***
+  "en el agarre de sensui,  aunque en codigo sea distinto,  produce en el
+   juego, a efectos practicos,  el mismo resultado que Itsuki,  Hiei y
+   Toguro menor"
+  *** $68=8 MANDA A $30  Y $68=9 MANDA A $2F.  SON DOS ESTADOS,  ***
+  *** PERO LOS DOS SON "TE ALEJO DE AQUI".  Y SE DIFERENCIAN EN LA ***
+  *** DIRECCION:  $30 vertical recto,  $2F en diagonal.  ***
+
+  *** Y CORRECCION DE UNO MIO  ***
+  Escribi que $2F era "aguantando el vendaval".  Falso.  $2F es el
+  destino del $68=9,  el empuje diagonal.  Lo que hace la ulti de Chui
+  es usarlo cinco golpes seguidos para tener al rival arriba.  Y por eso
+  parece otra cosa.  Es tambien el estado de seis agarres.
+
+  *** Y LA HERRAMIENTA  ***
+  ONCE CASOS.  Con leer UN $68 por ataque se sabe el efecto entero.
+  Y el $68 ya lo imprime cada linea [BLOB-J].  No hay que medir nada mas.
+  Eso es el punto 4 de las prioridades,  con un numero.
+
+  *** LAS VELOCIDADES  ***
+      $01F720  move.l  #$3800, $4c(a4)      vertical  (56 px/s)
+      $01F730  move.l  #$FFFE8000, $10(a4)  izquierda
+      $01F73A  move.l  #$18000, $10(a4)     derecha
+================================================================================
+================================================================================
+================================================================================

@@ -1634,17 +1634,17 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
         [ABIERTO]  los numeros exactos.  Se miden con el [MP GANA] que
         ya tenemos:  si el segundo golpe paga +0,  el combo se rompio.
 
-        $2F   aguantando el vendaval  (la ulti)
+        $2F   el empuje diagonal   (destino del $68 = 9)
 
     *** $2C  Y  $2F  SON PARES:  LOS DOS ESTADOS DE AGUANTAR  ***
 
         $2C  aguantar bloqueando          el golpe se vuelve chip
         $2F  aguantar el vendaval de la ulti
 
-        *** $2F  LO PRODUCE EL PRIMER GOLPE DE LA ULTI DE CHUI  ***
-        El rival entra en $2F y se queda 189 frames.
-        Los golpes 2 a 5 lo dejan en $2F.  El 6 lo saca a $30.
-
+        *** $2F  NO ES SOLO DE LA ULTI.  ES EL ESTADO DE SEIS AGARRES ***
+        $68 = 9 lo produce.  Los agarres de Kurama, Yusuke, Genkai,
+        Chui, Toguro mayor y Jin.  La ulti de Chui lo usa cinco golpes
+        seguidos para tener al rival arriba.
         *** Y ROMPER LA GUARDIA ABRE UN COMBO  ***
         El golpe que rompe es el golpe 1.  El siguiente paga +2.
         (usuario)  No hace falta un ataque caro para abrir el combo.

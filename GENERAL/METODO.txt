@@ -2485,29 +2485,59 @@ FIN DEL IDEARIO
   su etiqueta,  y se dice de donde salio.
 
   ================================================================================
-  29.7  Y LA MAN QUE VUELVE:  UNA SERIE,  Y EL TOTAL ES n(n+1)
+  29.7  LA MAN DEL COMBO.  LO QUE MANDA ES LA POSICION
 
-      *** YA ESTABA ANOTADA EN CONTEXTO 91.1 Y 117.2.  Y LA OLVIDE.  ***
+      *** NO HAY UN SOLO SISTEMA.  HAY DOS  ***
 
-      el golpe n devuelve  +2n de man
-      los pagos salen espaciados ~27 frames
-      el total tras n pagos  =  n(n + 1)
+          1.  la REGENERACION PASIVA
+              $013C42  addq.w #$1, $b8(a5)     +1 por vez,  lenta, sola
+              Ver CONTEXTO 33.8.
 
-          n=1  ->    0     el primer golpe no paga
-          n=2  ->    2
-          n=3  ->    6     $A4 medido
-          n=4  ->   12     y es 18 - 12 = 6,  el 6 de la ficha
-          n=7  ->   42
-          n=10 ->   90
-          n=11 ->  110     la ulti de Kuwabara,  exacto
-      que ver con estar en el aire.  Lo escribi al reves.
+          2.  la GANANCIA DE COMBO
+              la serie +2, +4, +6...  que aparece en [MP GANA]
 
-      *** Y ES LA TERCERA FORMA DE CONTAR GOLPES  ***
+      *** Y EL 2 NO ES UN REEMBOLSO  ***
+      Da man aunque no se haya gastado nada.  Un agarre $30 con un combo
+      areo ya paga.  Y con la barra llena no paga nada.
+
+      *** LAS TRES REGLAS  ***
+
+          1.  solo los golpes FISICOS pagan  (basicos o especiales)
+          2.  el pago arranca en el 2do golpe.  El minimo es +2
+          3.  +2 es del golpe 2,  +4 del 3,  +6 del 4.  NO es un minimo
+
+      *** UN GOLPE FISICO EN LA POSICION h PAGA  +2(h - 1)  ***
+
+      *** Y UN GOLPE DE OBJETO O PROYECTIL AVANZA EL CONTADOR SIN PAGAR ***
+
+          Kuwabara,  Jigen to (3 de objeto) + 3 basicos:
+              +2+4+6 = 12    no alcanza para otro Jigen to
+              +6+8+10 = 24  alcanza            [COMPROBADO]
+
+      *** Y UN GOLPE BLOQUEADO NO PAGA NI AVANZA  ***
+      36 golpes bloqueados,  ni un [MP GANA].  [ABIERTO]  falta probarlo
+      si avanza el contador o no.  Ver CONTEXTO 129.5.
+
+      ================================================================================
+      *** COMO SE USA ESTO PARA CONTAR GOLPES  ***
+
+      *** LA REGLA n(n-1) SOLO VALE SI EL COMBO ENTERO ES DE GOLPES FISICOS ***
+      Los cuatro casos que medi  son de ese tipo:
+
+          $A2   2 golpes fisicos   +2      n(n-1) = 2    OK
+          $A5   2 golpes fisicos   +2      n(n-1) = 2    OK
+          $A4   3 golpes fisicos   +6      n(n-1) = 6    OK
+          $AA   8 golpes fisicos   +56     n(n-1) = 56   OK
+
+      *** Y SI HAY UN GOLPE DE OBJETO EN EL MEDIO,  EL TOTAL NO DICE
+      CUANTOS HUBO.  Dice la SUMA DE LAS POSICIONES DE LOS FISICOS.  ***
+
+      *** LAS TRES FORMAS DE CONTAR GOLPES  ***
           1.  los [HP] que bajan
-          2.  los pagos de mana:  n(n+1) -> n
+          2.  los pagos de man:  si el total es n(n-1),  son n golpes              fisicos seguidos desde el primero
           3.  el anim donde cae cada [HP]
 
-      Y el numero de anims con bit 4 no es ninguno de las tres.
+      Y el numero de anims con bit 4 no es ninguna de las tres.
 
   ================================================================================
   29.8  Y LA ARITMTICA DE LA MAN DA EL MXIMO

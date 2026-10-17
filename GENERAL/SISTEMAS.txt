@@ -1589,8 +1589,22 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
     LA VENTANA DEL COMBO.  A OJO,  SIN MEDIR
     ###############################################################################
 
+        *** DOS VENTANAS,  CON NOMBRES FIJOS  ***
+
+            ventana CORTA     8 a 10 frames    la de un B
+            ventana ABIERTA   16 a 19 frames   la de un A
+
         hit pause                16 frames,  igual para A que para B
         ventana con un B          8 a 10 frames
+        ventana con un A         16 a 19 frames
+
+        *** (usuario)  ***
+        "ventana abierta es cuando puedes golpear libremente y no sujeto
+         a solo 8 frames"
+
+        *** Y POR ESO DECIR QUE UN $30 ES "EN TODA REGLA"  ***
+        Un $30 con ventana abierta es el mejor lanceo del juego:  el rival
+        sube y quedan 16 frames para seguir,  no 8.
         ventana con un A         16 a 19 frames
 
         *** Y NO SON GENEROSAS  ***

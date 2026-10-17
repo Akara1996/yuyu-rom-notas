@@ -2177,3 +2177,234 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+149.  TOGURO  MAYOR.  LAS  AGUJAS  Y  LA  ESTOCADA
+===============================================================================
+
+  *** RONDA 1  (SEGUNDA  PARTE).  EL  PDF  SIGUE  PENDIENTE  ***   *** (usuario)  ***
+  *** "El .log que te pase fue golpeando con Dedal a TOGURO MENOR,  que tiene 64 de ***
+  *** aguante stun,  el mayor aguante.  Le sigue Kuwabara."  ***
+
+  *** O  SEA  QUE  EL  DEDAL  TUMBA  DE  UN  GOLPE  A  UN  PERSONAJE  DE  STUN  62.  ***
+  *** Y  ESO  ES  MAS  FUERTE  DE  LO  QUE  PENSABA:  LE  FALTA  SOLO  2  PARA  CAER.  ***
+
+  ================================================================================
+  149.1  ABAJO,ABAJO + A  =  $A3.   LA  AGUJA  SUBTERRANEA
+  ================================================================================
+
+      $01 -> $A3   f83
+      [GOTEO] f90   mp 223 -> 199   (perdio 24)
+      $A3 anim $05   HIT+CLASH   mascara $4E
+                       +64=1A   +65=10   +66=0E   +67=02   +68=05
+      [HP] f109   P4  223 -> 205   (-18)   mundo P1=1000  P4=1104  dist=104
+      P4:  $00 -> $25   f109
+      $A3 -> $01   f155      *** 72  frames  ***
+
+  *** *** $68 = 5  ->  $25,  QUE  ES  DERRIBO  CON  VENTANA.  ***  ***
+
+  *** *** Y  ESTO  ES  VALIDO:  $64 = $1A,  QUE  NO  ES  $00.  ***  *** [VERIFICADO]
+
+  *** *** O  SEA  QUE  LA  RESPUESTA  A  LO  QUE  PREGUNTASTE  ES:  CON  VENTANA,  ***  ***
+  *** *** NO  CIEGO.  EL  VECINO  ES  $23  Y  EL  DE  ESTE  ES  $25.  ***  ***
+
+  *** *** Y  $64 = $1A  ES  UN  VALOR  NUEVO.  ***  [VERIFICADO]
+
+  ###############################################################################
+  149.2  LA  CAJA  ES  UNA  PROLONGACION,  NO  UN  OBJETO.  Y  ESO  SE  DEDUCE
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "es un ataque donde Toguro mayor sumerge su mano en el suelo y a distancia
+       media esta mano emerge del suelo, este golpe yo lo considero una
+       extension directa dado que si clasheas ese golpe,  Toguro Mayor queda
+       clasheado tambien, asi que a pesar de que sea similar a la planta,
+       no parece un objeto sino una prolongacion de su hitbox"
+
+  *** *** ESO  ES  LA  DIFERENCIA  CON  UN  [OBJ].  Y  ESTA  EN  EL  LOG.  ***  ***
+
+  ------------------------------------------------------------------------------
+      un  OBJETO  (el  reigan  de  Chui)      una  PROLONGACION  (esto)
+      ------------------------------------------------------------------------------
+      el  log  imprime  [OBJ]  y  $300          NO  HAY  [OBJ].  NADA  NUEVO
+      el  danio  sale  de  un  $5F  propio      el  danio  sale  del  $5F  DEL  JUGADOR
+      el  objeto  muere  al  primer  contacto   el  jugador  NO  muere
+      la  MASK  va  en  un  registro  aparte    la  MASK  va  en  SU  PROPIA  LISTA
+      ---  ---  ---
+      *** SI  CLASHEAS  EL  OBJETO,  EL  JUGADOR  ESTA  BIEN  ***
+      *** SI  CLASHEAS  ESTO,  TOGURO  MAYOR  TAMBIEN  QUEDA  CLASHEADO  ***
+  ------------------------------------------------------------------------------
+
+  *** LA  REGLA  PRACTICA  ***
+
+      *** EN  EL  LOG,  BUSCA  [OBJ].  ***
+      *** SI  NO  HAY,  LA  CAJA  ES  DEL  PERSONAJE  Y  EL  CLASHE  LE  SALE  A  EL.  ***
+
+  *** *** ESTO  APLICA  A  LAS  DOS  MANOS  DE  ESTA  SECCION.  ***   [VERIFICADO]
+
+  ###############################################################################
+  149.3  ABAJO,ABAJO + B  =  $A2.   LA  MISMA  MANO,  CORTA  Y  BARATA
+  ###############################################################################
+
+      $01 -> $A2   f83
+      [GOTEO] f90   mp 223 -> 207   (perdio 16)
+      $A2 anim $05   HIT+CLASH   +64=1A  +65=10  +66=0E  +67=02  +68=05
+      [HP] f105   P4  223 -> 207   (-16)   mundo P1=1040  P4=1104  dist=64
+      P4:  $00 -> $25   f105
+      $A2 -> $01   f147      *** 64  frames  ***
+
+  ------------------------------------------------------------------------------
+              $A3  (A)              $A2  (B)
+    man             24                    16
+    dano            18                    16
+    $64            $1A                   $1A
+    $65            $10                   $10
+    $66            $0E                   $0E
+    $68            $05                   $05
+    estado         $25                   $25
+    alcance        104 px                 64 px
+    duracion        72 f                  64 f
+  ------------------------------------------------------------------------------
+
+  *** *** LOS  DATOS  DEL  GOLPE  SON  IDENTICOS.  SOLO  CAMBIAN  EL  PRECIO,  ***
+  *** *** EL  ALCANCE  Y  LA  DURACION.  ***   [VERIFICADO]
+
+  ###############################################################################
+  149.4  ABAJO,ADELANTE + A  =  $A4.   LA  ESTOCADA  MARCIAL
+  ###############################################################################
+
+  *** (usuario)  "se transforma en un pinche y recorre casi toda la camara"  ***
+  *** "durante su recorrido Toguro esta en aire,  puedes moverlo arriba o abajo"  ***
+
+  ---- en el suelo,  sin  mover  -----------------------------------------------
+
+      $01 -> $A4   f128
+      [GOTEO] f150   mp 223 -> 207   (perdio 16)
+      $A4 anim $07   HIT+CLASH   +64=00  +65=02  +66=02  +67=01  +68=00
+      [HP] f174   P4  223 -> 202   (-21)   mundo P1=1028  P4=1104  dist=76
+      P4:  $00 -> $25   f174
+      $A4 -> $07   f215       ***  un  estado  NUEVO  ***
+      $07 -> $0E   f217
+      $0E -> $01   f221
+      $01 -> $00   f226      ***  98  frames  DESDE  $A4  ***
+
+  ---- en el suelo,  moviendo  ARRIBA -------------------------------------------
+
+      $01 -> $A4   f90
+      $A4 anim $07   HIT+CLASH   +64=00  +65=02  +66=02  +68=00
+      [HP] f135   -21   mundo P1=1020  P4=1104  dist=84
+      $A4 -> $07   f176      ***  86  frames  ***
+
+  ---- en  el  AIRE,  doble  salto  y  bajando ----------------------------------
+
+      $08 -> $A4   f133
+      $A4 anim $07   HIT+CLASH   +64=00  +65=03  $66=02  $68=00
+      [HP] f182   -20   mundo P1=1024  P4=1104  dist=80
+      $A4 -> $07   f223      ***  90  frames  ***
+
+  ---- en  el  AIRE,  bajando  otra  vez  (ABAJO,ABAJO,B) -----------------------
+
+      $01 -> $A4   f80
+      [GOTEO] f90   mp 223 -> 207   (perdio 16)
+      $A4 anim $07   HIT+CLASH   +64=00  +65=03  $66=02  $68=00
+      [HP] f126   -18   mundo P1=1021  P4=1104  dist=83
+      $A4 -> $07   f167      ***  87  frames  ***
+
+  ------------------------------------------------------------------------------
+    situacion                 $65    [HP]   dist   frames
+    ------------------------------------------------------------------
+    suelo,  sin  mover         02     -21     76      98
+    suelo,  ARRIBA             02     -21     84      86
+    aire,  doble  salto        03     -20     80      90
+    aire,  ABAJO,ABAJO,B       03     -18     83      87
+  ------------------------------------------------------------------------------
+
+  *** *** $A4  ES  EL  MISMO  ID  EN  EL  SUELO  Y  EN  EL  AIRE.  ***   [VERIFICADO]
+  *** *** Y  EL  ALCANCE  BAJA  UN  POCO  EN  EL  AIRE.  ***
+
+  *** *** Y  $65  ES  $02  EN  EL  SUELO  Y  $03  EN  EL  AIRE.  ***  [VERIFICADO]
+
+  *** *** Y  $64 = $00  EN  TODAS.  O  SEA  QUE  LOS  CUATRO  $68 = $00  SON  RUIDO.  ***  ***
+  *** *** EL  ESTADO  REAL  VIENE  DEL  $5F  DEL  RIVAL:  $25  CON  VENTANA.  ***  ***
+
+  ###############################################################################
+  149.5  EL  CUARTO  DIFERE  DE  $65.  Y  CONFIRMA  QUE  EL  [HP]  MANDA
+  ###############################################################################
+
+      $A4   dice  $65 = $02    y  el  [HP]  dice  -21
+      $A2   dice  $65 = $10    y  el  [HP]  dice  -16
+      $A3   dice  $65 = $10    y  el  [HP]  dice  -18
+
+  *** *** $65  NO  ES  FIABLE  NI  SIQUIERA  CON  $64  DISTINTO  DE  CERO.  ***  ***
+
+  *** *** EL  UNICO  DANO  FIABLE  ES  [HP].  SIEMPRE.  ***   [VERIFICADO]
+
+  ###############################################################################
+  149.6  Y  EL  DERRIBO  DURA  70  FRAMES.  EXCEPTO  EL  DEDAL
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      movo            golpe     $25 -> $28     frames  de  $25
+    ------------------------------------------------------------------
+      $A3              109          179          70
+      $A2              105          175          70
+      $A4  suelo        174          244          70
+      $A4  ARRIBA       135          205          70
+      $A4  aire         182          252          70
+      $A4  otra vez     126          196          70
+      EL  DEDAL          84          136          52   ***  LA  EXCEPCION  ***
+  ------------------------------------------------------------------------------
+
+  *** *** SIETE  DE  SIETE  DAN  70.  Y  EL  DEDAL  DA  52.  ***  ***
+
+  *** *** ESO  CONFIRMA  EL  "ANTI  CANCEL"  DEL  DEDAL:  TUMBA  PERO  18  FRAMES  ***
+  *** *** MAS  CORTO,  Y  $2B  ESTA  EN  EL  RANGO  QUE  RESETE  EL  COMBO.  ***  ***
+
+  ================================================================================
+  149.7  EL  RANGO  MAXIMO  MEDIDO  EN  EL  PROYECTO
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+    movo                         personaje      dist
+    ------------------------------------------------------------------
+    $A3  ABAJO,ABAJO + A          Toguro mayor    *** 104 px  ***   EL  MAS  LARGO
+    $A4  ABAJO,ADELANTE + A        Toguro mayor      84 px
+    $A4                           Toguro mayor      80 px
+    $A4                           Toguro mayor      76 px
+    $A2  ABAJO,ABAJO + B          Toguro mayor      64 px
+    $83  ADELANTE + A              Toguro mayor      64 px
+    $81  ADELANTE + B              Toguro mayor      61 px
+    $94  ARRIBA + A  (aire)        Toguro mayor      48 px
+    $86  ABAJO + A                 Toguro mayor      40 px
+    $84  ABAJO + B                 Toguro mayor      36 px
+  ------------------------------------------------------------------------------
+
+  *** *** LA  MANO  DE  $A3  LLEGA  A  104  px.  MS  DEL  DOBLE  QUE  UN  ABAJO  NORMAL.  ***  ***
+
+  ================================================================================
+  149.8  EL  ESTADO  DE  TOGURO  MAYOR
+  ================================================================================
+
+      MEDIDOS (14)
+
+          los  nueve  basicos        $80 $81 $82 $83 $84 $86 $90 $94 $95
+          el  dash                   $0B        20 f
+          el  backdash               $0C        32 f
+          la  provocacion            $09 -> $14  76 f   36  de  man
+          EL  DEDAL      ABAJO,ABAJO+C   $A1    8 man   stun 64   1  golpe  tumba
+          LA  MANO  LARGA  ABAJO,ABAJO+A $A3   24 man   18  dao   104 px
+          LA  MANO  CORTA  ABAJO,ABAJO+B $A2   16 man   16  dao    64 px
+          LA  ESTOCADA  ABAJO,ADELANTE+A $A4  16 man   21  dao    76-84 px
+
+      SIN MEDIR
+
+          *** "A+B"  la  Aguja  de  todo  el  cuerpo  ***   ***  ***
+          *** "ABAJO,ARRIBA+ A/B/C"  el  impostor  ***   ***  ***
+          *** la  ulti   $AA $AB   ***  ***   ***  "pega por detras,  DANO x2"  ***
+          *** el  agarre  $B8  ***   ***  ***
+          *** $A0  $A6  $A7  $AC  $AF  $B0  $B1  ***  ***  ***
+================================================================================
+================================================================================
+================================================================================

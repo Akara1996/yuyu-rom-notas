@@ -34,12 +34,12 @@
      1     $21      hitstun normal
      2     $20      chip
      3     $21      chip
-     4     $23      derribo ciego
+     4     $23      derribo ciego        *** MEDIDO: ABAJO+A de Chui ($86) ***
      5     $25      derribo con ventana
      6     $26      EL LAZADOR
-     7     $27      alto fijo,  velocidad 0
+     7     $27      *** $4C = $0:  SIN  VELOCIDAD  DE  CAIDA.  ***  Ver 146.6
      8     $30      tiro vertical
-     9     $2F      empuje diagonal,  como 4 y 5
+     9     $2F      empuje diagonal  velX +-1.5  $4C=$3800  Ver 146
     10     $25      derribo,  misma velocidad que el 5
    11-15   ---     BASURA:  no son handlers de victima
 
@@ -55,11 +55,11 @@
   LAS SEIS FORMAS DE SACAR AL RIVAL DEL SUELO
 
     $26   el lanzador          horizontal,  EL UNICO
-    $2F   el empuje diagonal   horizontal + vertical
+     9     $2F      empuje diagonal  velX +-1.5  $4C=$3800  Ver 146
     $25   el derribo ventana   horizontal + vertical
-    $23   el derribo ciego     horizontal
+     4     $23      derribo ciego        *** MEDIDO: ABAJO+A de Chui ($86) ***
     $30   la elevacion recta  vertical,  CERO horizontal
-    $27   alto fijo            velocidad CERO
+     7     $27      *** $4C = $0:  SIN  VELOCIDAD  DE  CAIDA.  ***  Ver 146.6
 
 
 ================================================================================
@@ -160,10 +160,11 @@
 
 
 ================================================================================
-4.  $27  Y $23  NO SE HAN VISTO NUNCA
+      *** $23  YA  SE  VIO.  ABAJO+A  DE  CHUI  ($86)  DA  $68=4  ->  $23.  ***
+      *** VERIFICADO 17-10.  Ver CONTEXTO 145.1.  ***
 ================================================================================
 
-  *** $68 = 7  ->  $27   "alto fijo,  velocidad 0"  ***
+     7     $27      *** $4C = $0:  SIN  VELOCIDAD  DE  CAIDA.  ***  Ver 146.6
 
   *** NO HAY NINGUN LOG NUESTRO CON $27.  ***
   Viene solo de leer el handler en el ROM ($01F6C8,  que pone $27 y deja
@@ -180,7 +181,7 @@
 
   *** Y EL CANDIDATO MAS PROBABLE PARA ENCONTRARLO:  EL AGARRE DE KUWABARA  ***
 
-  *** Y TAMBIEN $68 = 4  ->  $23  "derribo ciego"  ***
+     4     $23      derribo ciego        *** MEDIDO: ABAJO+A de Chui ($86) ***
   No se ha visto nunca en pantalla.  [ABIERTO]
   "Ciego"  en la tabla quiere decir  sin ventana:  el rival no puede
   reactingear.  Se infiere del nombre,  no de una medida.

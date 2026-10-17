@@ -2362,3 +2362,371 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+145.  LOS  CINCO  BASICOS  QUE  FALTABAN.  Y  $23  POR  PRIMERA  VEZ
+===============================================================================
+
+  *** LOS  CINCO  SALEN.  Y  ADELANTE  ES  EL  QUE  MAS  ALCANZA.  ***
+
+  ================================================================================
+  145.1  ABAJO + A   =  $86.   Y  DA  $23.  EL  PRIMER  $23  QUE  SE  VE
+  ================================================================================
+
+      $00 -> $01   f47
+      $01 -> $86   f49
+      $86 anim $02   HIT+CLASH   mascara $4E
+                     $64=0A   $65=10   $66=0E   $68=04
+      [HP] f57   P4  223 -> 202   (-21)     mundo P1=1064  P4=1104  dist=40
+      P4:  $00 -> $23   f58   (dur $5A=10)
+
+  *** $68 = 4  ->  $23.  ***
+
+  *** *** ESTO  CIERRA  UN  [ABIERTO]  QUE  ESTABA  ABIERTO  DESDE  99.  ***  ***
+
+      *** $23  ("DERRIBO  CIEGO")  NUNCA  SE  HABIA  VISTO  EN  PANTALLA.  ***
+      *** SE  CONOCIA  SOLO  POR  EL  HANDLER  $01F6C8  Y  POR  LA  TABLA.  ***
+      *** AHORA  ESTA  MEDIDO  EN  UN  GOLPE  REAL  DE  CHUI.  ***   [VERIFICADO]
+
+  ================================================================================
+  145.2  ABAJO + B   =  $84.   Y  UN  DIFIERE  NUEVO
+  ================================================================================
+
+      $01 -> $84   f39      (dur $5A=02)
+      $84 anim $02   HIT+CLASH
+                     $64=08   $65=04   $66=04   $68=05
+      [HP] f44   P4  223 -> 215   (-8)      mundo P1=1068  P4=1104  dist=36
+      P4:  $00 -> $21   f45
+      $84 -> $01   f68      *** 29  frames  ***
+
+  *** *** DIFIERE  ***  ***
+
+      *** EL  $68  DICE  5.  LA  TABLA  DICE  QUE  5  ->  $25.  ***
+      *** EL  RIVAL  FUE  A  $21.  ***
+
+      *** $25  ES  "DERRIBO  CON  VENTANA"  Y  $21  ES  HITSTUN.  ***
+      *** NO  SON  EL  MISMO  ESTADO  NI  PARECIDOS.  ***
+
+  *** ES  EL  SEGUNDO  $68  QUE  NO  CUADRA.  ***   [ABIERTO]
+
+  ------------------------------------------------------------------------------
+      DIFERES  DE  LA  TABLA  $68
+
+      1.  el  segundo  golpe  seguido  de  Jin  ($A2):  $68=01  ->  dio  $26
+      2.  ABAJO+B  de  Chui  ($84):  $68=05  ->  dio  $21   ***  NUEVO  ***
+  ------------------------------------------------------------------------------
+
+  ================================================================================
+  145.3  ADELANTE + A   =  $83.   EL  QUE  MAS  ALCANZA
+  ================================================================================
+
+      $00 -> $05   f95
+      $05 -> $83   f96
+      $83 anim $02   HIT+CLASH
+                     $64=0E   $65=10   $66=0E   $68=00
+      [HP] f105  P4  223 -> 205   (-18)    mundo P1=1040  P4=1104  dist=64
+      P4:  $00 -> $20   f105
+      $83 -> $00   f157     *** 61  frames.  EL  MAS  LARGO  DE  LOS  CINCO.  ***
+
+  *** $64=0E  Y  $68=00  ->  $20.  CUADRA.  ***
+
+  *** *** CORRECCION  IMPORTANTE  ***  ***
+
+  *** $83  ESTABA  IDENTIFICADO  COMO  "EL  SEGUNDO  TIRO  DEL  REIGAN".  ***  ***
+
+      $00 -> $01   f117     $01 -> $83   f122     $83 -> $A6   f125
+
+  *** ESO  NO  ERA  EL  REIGAN:  ERA  ADELANTE + A.  ***   [CORREGIDO]
+
+  *** LO  QUE  PASO  EN  EL  REIGAN  FUE  QUE  >A  DESDE  $01  PASO  POR  ***
+  *** $83  ANTES  DE  LLEGAR  A  $A6.  O  SEA  QUE  LA  RUTA  DEL  REIGAN  ***
+  *** PASA  POR  EL  MISMO  ESTADO  QUE  EL  GOLPE  HACIA  ADELANTE.  ***  [ABIERTO]
+
+  ================================================================================
+  145.4  ADELANTE + B   =  $81
+  ================================================================================
+
+      $00 -> $05   f56
+      $05 -> $81   f59      (dur $5A=02)
+      $81 anim $02   HIT+CLASH
+                     $64=00   $65=04   $66=0E   $68=05   *** $64=00:  RUIDO  ***
+      [HP] f64   P4  223 -> 212   (-11)     mundo P1=1043  P4=1104  dist=61
+      P4:  $00 -> $21   f64
+      $81 -> $00   f86      *** 27  frames  ***
+
+  ================================================================================
+  145.5  ARRIBA + A  EN  EL  AIRE   =  $94
+  ================================================================================
+
+      $00 -> $0D   f170
+      $0D -> $08   f176      (dur $5A=10)
+      $08 -> $94   f211      (dur $5A=06)
+      $94 anim $01   HIT+CLASH
+                     $64=00   $65=0E   $66=0C   $68=05   *** $64=00:  RUIDO  ***
+      [HP] f219  P4  223 -> 209   (-14)     mundo P1=1056  P4=1104  dist=48
+      P4:  $00 -> $20   f219
+      $94 -> $0E   f243      *** 32  frames  ***
+
+  *** $94  CONFIRMA  QUE  LA  BANDA  $90-$9F  EXISTE  TAMBIEN  EN  CHUI.  ***
+
+  *** Y  OTRO  PERSONAJE  TIENE  $94  EN  SU  TABLA.  ***   [DERIVADO]
+
+  ================================================================================
+  145.6  LOS  CINCO  JUNTOS.  Y  LA  DISTANCIA  MEDIDA
+  ================================================================================
+
+  *** P4  ESTABA  EN  X=1104  EN  LAS  CINCO  PRUEBAS.  ***
+  *** O  SEA  QUE  LAS  DISTANCIAS  SON  DIRECTAMENTE  COMPARABLES.  ***
+
+  ------------------------------------------------------------------------------
+    entrada              id     dano   $68    estado   dist    frames
+    ------------------------------------------------------------------
+    ABAJO     + A        $86     21     04    $23       40     ---
+    ABAJO     + B        $84      8     05    $21       36      29
+    ADELANTE  + A        $83     18     00    $20       64      61
+    ADELANTE  + B        $81     11     ---   $21       61      27
+    ARRIBA + A  (aire)   $94     14     ---   $20       48      32
+    ------------------------------------------------------------------
+    A  en el suelo       $82     16     05    $25       ---      36
+    B  en el suelo       $80      4     00    $20       ---      14
+    A  en el aire        $95     15     ---   $25       ---      ---
+    B  en el aire        $90      9     ---   $25       ---      ---
+  ------------------------------------------------------------------------------
+
+  *** ADELANTE  ALCANZA  MAS  QUE  NADA:  64  Y  61  px.  ***
+  *** ABAJO  ES  EL  QUE  MENOS  ALCANZA:  40  Y  36  px.  ***
+  *** Y  ARRIBA  ESTA  EN  EL  MEDIO:  48  px.  ***
+
+  *** LA  DISTANCIA  ESTA  MEDIDA  EN  EL  INSTANTE  DEL  GOLPE.  ***  [VERIFICADO]
+
+  ================================================================================
+  145.7  Y  LA  BANDA  $80-$8F  QUEDA  COMPLETA  PARA  CHUI
+  ================================================================================
+
+      $80   B  en el suelo                 MEDIDO
+      $81   ADELANTE + B                    MEDIDO  ***  NUEVO  ***
+      $82   A  en el suelo                 MEDIDO
+      $83   ADELANTE + A                    MEDIDO  ***  NUEVO  ***
+      $84   ABAJO + B                      MEDIDO  ***  NUEVO  ***
+      $86   ABAJO + A                      MEDIDO  ***  NUEVO  ***
+
+      *** LOS  SEIS  HUECOS  DE  LA  BANDA  COMPARTIDA  ESTAN  CERRADOS  ***
+      *** PARA  CHUI.  Y  CUBREN  LOS  SEIS  BASICOS  DE  MANUEL.  ***
+
+  ================================================================================
+  145.8  Y  CHUI  TIENE  LOS  NUEVE  BASICOS  COMPLETOS
+  ================================================================================
+
+      *** 9  DE  9.  ESTOS  SON  LOS  NUEVE  BASICOS  DE  CHUI.  ***
+
+  ------------------------------------------------------------------------------
+    suelo   1  $80   B
+            2  $82   A
+            3  $81   ADELANTE + B
+            4  $83   ADELANTE + A
+            5  $84   ABAJO + B
+            6  $86   ABAJO + A
+
+    aire    7  $90   B
+            8  $95   A
+            9  $94   ARRIBA + A
+  ------------------------------------------------------------------------------
+
+      *** Y  DE  LOS  9:  $68  VALIDO  EN  5.  RUIDO  EN  4.  ***
+      *** LO  QUE  NO  SE  SABE  AUN  ES  EL  $68  DE  $81  Y $94.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+146.  LA  TABLA  DE  $68  DESCIFRADA  COMPLETA.  CORRIGE  DOS  COSAS  NUESTRAS
+===============================================================================
+
+  *** DESCIFRADA  ENTERA  CONTRA  EL  CODIGO.  NO  HAY  NINGUN  [DERIVADO].  ***
+  *** VERIFICADO  17-10-2026  ***   [VERIFICADO]
+
+  ================================================================================
+  146.1  LA  ESTRUCTURA
+
+      $01F526   move.b  $68(a3), d0
+      $01F52A   lsl.w   #$1, d0                   *** d0 = $68 x 2  ***
+      $01F52C   lea.l   $01F534(pc,d0.w), a0      *** base = $01F534  ***
+      $01F530   adda.w  (a0), a0                  *** suma  el  OFFSET  ***
+      $01F532   jmp     (a0)
+
+      *** LA  TABLA  ESTA  EN  $01F534.  ONCE  PALABRAS  DE  2  BYTES.  ***
+      *** EL  DIRECCION  REAL  ES  $01F534  +  2*$68  +  OFFSET.  ***
+
+      *** O  SEA  QUE  LA  PALABRA  SE  LEE  EN  LA  DIRECCION  DE  LA  ENTRADA,  ***
+      *** NO  SIEMPRE  EN  $01F534.  ***   (error mio al principio)
+
+  ================================================================================
+  146.2  LA  TABLA  ENTERA
+
+  ------------------------------------------------------------------------------
+    $68   palabra   offset   handler    $5D     $5F     velX $10      velY $14
+    ------------------------------------------------------------------
+      0   $01F534      +22   $01F54A     4      $20        -             -
+      1   $01F536     +102   $01F59C     4      $21        -             -
+      2   $01F538      +18   $01F54A     3      $20        -             -
+      3   $01F53A      +98   $01F59C     3      $21        -             -
+      4   $01F53C     +164   $01F5E0     5      $23   +-1.5         -4.0
+      5   $01F53E     +290   $01F660     5      $25   +-1.5             -
+      6   $01F540     +516   $01F744     7      $26   +-6.0             -
+      7   $01F542     +390   $01F6C8     5      $27      0           +6.0
+      8   $01F544     +430   $01F6F2     5      $30      0           -7.0
+      9   $01F546     +334   $01F694     5      $2F   +-1.5             -
+     10   $01F548     +460   $01F714     8      $25   +-1.5             -
+    ------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+
+  *** $68=0  Y  $68=2  COMPARTEN  HANDLER  ($01F54A).  ***
+  *** $68=1  Y  $68=3  COMPARTEN  HANDLER  ($01F59C).  ***
+
+  *** POR  QUE  FUNCIONA:  EL  HANDLER  VUELVE  A  LEER  $68  Y  SE  PARTE  ***
+
+      $01F55A   cmpi.b  #$2, $68(a3)      en el handler de $68=0
+      $01F560   beq.b   $01F56A
+      $01F562   move.b  #$4, $5d(a4)      *** $68=0  NORMAL:  $5D = 4  ***
+      $01F56A   move.b  #$3, $5d(a4)      *** $68=2  CHIP:    $5D = 3  ***
+
+      *** Y  ADEMAS  EL  CHIP  LIMPIA  $98  ***
+      $01F570   move.l  #$0, $98(a3)
+
+  *** O  SEA  QUE  LA  DIFERENCIA  ENTRE  $68=0  Y  $68=2  NO  ES  EL  ESTADO:  ***
+  *** ES  QUE  EL  CHIP  DURA  UN  MENOS  Y  LIMPIA  OTRA  COSA.  ***
+
+  ================================================================================
+  146.3  CORRECCION  1:  $5D  ES  EL  CONTADOR  DE  DURACION
+  ================================================================================
+
+  *** ESTA  ES  LA  SEGUNDA  DIMENSION  DE  LA  TABLA.  NO  LA  TENIAMOS.  ***
+
+  ------------------------------------------------------------------------------
+      $5D = 3   HITSTUN  CORTO   (los  dos  chip)
+      $5D = 4   HITSTUN  NORMAL
+      $5D = 5   DERRIBO
+      $5D = 7   EL  LANZADOR
+      $5D = 8   DERRIBO  LARGO
+  ------------------------------------------------------------------------------
+
+  *** Y  $68=10  NO  ES  UN  ESTADO  NUEVO:  ES  $25  CON  $5D = 8  EN  VEZ  DE 5.  ***
+  *** *** UN  DERRIBO  EL  DOBLE  DE  LARGO.  ***   [VERIFICADO]
+
+  ================================================================================
+  146.4  CORRECCION  2:  $61  NO  ES  UN  FLAG.  ES  LA  DIRECCION
+  ================================================================================
+
+  *** TENIAMOS  $61  COMO  "EL  FLAG  DE  YA  PEGO".  ESTA  MAL.  ***
+
+  *** $61  DECIDE  EL  SIGNO  DE  LA  VELOCIDAD  HORIZONTAL  ***
+
+      $01F75C   cmpi.b  #$0, $61(a4)
+      $01F762   bne.b   $01F76E
+      $01F764   move.l  #$60000,     $10(a4)     *** +6.0  HACIA  ADELANTE  ***
+      $01F76E   move.l  #$FFFA0000,  $10(a4)     *** -6.0  HACIA  ATRAS  ***
+
+  *** Y  $68=6  LA  DA  LA  VUELTA:  ***
+
+      $01F756   bchg.b  #$0, $61(a4)      *** FLIP  DEL  BIT  0  ***
+
+  *** O  SEA  QUE  EL  LANZADOR  MIRA  A  DONDE  MIRA  EL  GOLPE.  ***
+
+  ================================================================================
+  146.5  CORRECCION  3:  LA  VELOCIDAD  DE  $26  NO  ES  1.5.  ES  6.0
+  ================================================================================
+
+  *** TENIAMOS  ESTO  ESCRITO  EN  HIT  STATE:  ***
+
+      "$26 = el lanzador.  velocidad $3800 vertical (56 px/s),
+       $FFFE8000 / $18000 horizontal"
+
+  *** ESTA  MAL  LA  PARTE  HORIZONTAL.  ***
+
+  ------------------------------------------------------------------------------
+      estado      velX real              de donde sale
+      ------------------------------------------------------------------
+      $23        $FFFE8000 / $18000  =  +-1.5    $68 = 4
+      $25        $FFFE8000 / $18000  =  +-1.5    $68 = 5  y  $68 = 10
+      $2F        $FFFE8000 / $18000  =  +-1.5    $68 = 9
+      $26        $60000  / $FFFA0000  =  +-6.0    $68 = 6   *** CORREGIDO  ***
+  ------------------------------------------------------------------------------
+
+  *** O  SEA  QUE  $26  SALE  *** 4  VECES  MAS  RAPIDO  ***  QUE  LOS  DEMAS.  ***
+
+  *** Y  ESO  EXPLICA  POR  QUE  $26  ES  EL  UNICO  QUE  ATRAE  A  PERSONAJES  LEJOS.  ***
+
+  ================================================================================
+  146.6  Y  $4C  ES  LA  VELOCIDAD  DE  CAIDA
+  ================================================================================
+
+  *** $4C  SE  ESCRIBE  $3800  EN  $23, $25, $30, $2F.  Y  $0  EN  $27.  ***
+
+      $3800  en  8.8  =  $3800 / $100  =  56  px/s
+
+  *** *** $3800 = 56 px/s.  CONFIRMADO  UNA  VEZ  MAS.  ***   [VERIFICADO]
+
+  *** Y  LO  UNICO  QUE  PONE  $4C = $0  ES  $27.  ***
+
+  *** *** ESO  ES  "ALTO  FIJO,  VELOCIDAD  0":  SIN  VELOCIDAD  DE  CAIDA.  ***  ***
+
+  ================================================================================
+  146.7  LAS  VELOCIDADES  EN  HEX
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+      $FFFE8000   =  -1.5      $18000     =  +1.5
+      $FFFA0000   =  -6.0      $60000     =  +6.0
+      $FFFC0000   =  -4.0      $FFF90000  =  -7.0
+      $3800       =  56  px/s  en  8.8  (caida)
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      $23   sube  a  4.0  y  se  va  de  lado  a  1.5
+      $25   solo  de  lado  a  1.5
+      $26   solo  de  lado  a  6.0        *** EL  MAS  RAPIDO  ***
+      $27   baja  a  6.0  y  NO  CAE  (4C=0)
+      $30   sube  a  7.0  sin  velocidad  lateral        *** EL  MAS  ALTO  ***
+      $2F   solo  de  lado  a  1.5
+      $20   hitstun,  no  hay  velocidad  escrita
+      $21   hitstun,  no  hay  velocidad  escrita
+  ------------------------------------------------------------------------------
+
+  *** $30  SUBE  A  7.0  Y  NO  TIENE  VELOCIDAD  LATERAL.  ***
+  *** *** ES  EL  UNICO  QUE  MONTEA  VERTICAL  SIN  DESPPLAZAR.  ***  ***
+  *** *** Y  ESO  ES  EXACTAMENTE  LO  QUE  HACE  LA  ULTI  DE  CHUI.  ***  ***
+
+  ================================================================================
+  146.8  LO  QUE  ESTA  RESUELTO  Y  LO  QUE  NO
+  ================================================================================
+
+      [x]  los  ONCE  handlers  de  $68        [VERIFICADO]  decodificados
+      [x]  $5D  =  el  contador  de  duracion  [VERIFICADO]
+      [x]  $61  =  la  direccion,  no  un  flag  [VERIFICADO]
+      [x]  $26  va  a  6.0,  no  a  1.5          [VERIFICADO]
+      [x]  $4C  =  la  velocidad  de  caida,  56  px/s   [VERIFICADO]
+      [x]  $27  =  el  unico  con  $4C = 0       [VERIFICADO]
+      [x]  $68=10  =  $25  con  $5D=8             [VERIFICADO]
+      [x]  $68=0/2  y  $68=1/3  comparten  handler  [VERIFICADO]
+
+      *** $27  SIGUE  SIN  VERSE  EN  PANTALLA.  ***   [ABIERTO]
+
+      *** EL  ROM  DICE  QUE  $27  RECIBE  velY  =  +6.0  Y  $4C  =  0.  ***
+      *** O  SEA  QUE  SE  MUEVE  A  6.0  Y  NO  CAE.  ***   [ABIERTO]
+
+      *** PREGUNTA  PARA  EL  USUARIO  ***
+
+          ***   QUE  SE  VE  EN  PANTALLA  CUANDO  UN  GOLPE  DA  $68 = 7 ?  ***
+          ***   EL  RIVAL  SUBE  Y  SE  QUEDA  COLGADO,  O  BAJA  Y  SE  QUEDA?  ***
+
+      *** SI  UN  GOLPE  D  $68=7,  EL  RIVAL  TIENE  QUE  QUEDARSE  PARADO  EN  ***
+      *** EL  AIRE  UN  BUEN  RATO  (POR  ESO  SE  LLAMA  "ALTO  FIJO").  ***
+      *** Y  ESO  SERIA  EL  ESTADO  MAS  PELIGROSO  DEL  JUEGO:  UN  RIVAL  ***
+      *** COLGANDO  A  TU  DISPOSICION  PARA  UN  COMBO.  ***
+
+  *** LA  PREGUNTA  DE  QUE  TECNICA  DE  KUWABARA  LO  PRODUCE  SIGUE  ABIERTA.  ***
+================================================================================
+================================================================================
+================================================================================

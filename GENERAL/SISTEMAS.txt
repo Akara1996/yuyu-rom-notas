@@ -1582,6 +1582,30 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
         $26   el LANZADO horizontal    SOLO HIT   <-- sin hurtbox
         $28   la caida                 PUSH
         $29   la caida larga           PUSH
+        $2A   la caida final           PUSH
+        $2B   el final de un ataque largo
+        $2C   BLOQUEANDO UN ATAQUE SOSTENIDO
+
+    *** $2C  ES LO QUE HACE UN RIVAL AL AGUANTAR LA ULTI  ***
+
+        $09  la guardia de pie,  con C
+        $2C  el absorbing:  PUSH+HURT,  y el dano pasa a ser CHIP
+
+        *** EL CHIP ES UN TERCIO DEL DANO NORMAL  ***
+        $AA bloqueado:      3 o 4 por golpe   de 36 golpes  =  118
+        $AA sin bloquear:  9 a 13 por golpe  de  8 golpes  =   88
+
+        *** Y BLOQUEANDO NO SE DEVUELVE MANA  ***
+        *** NI UN SOLO [MP GANA] EN LOS 36 GOLPES BLOQUEADOS. ***
+
+    *** O SEA QUE EL REEMBOLSO ESTA ATADO A QUE EL GOLPE ENTRE  ***
+    El pago es por golpe que CONECTA.  Bloquear corta los tres canales.
+    Y por eso bloquear sale caro:  4,5 veces mas golpes  y  CERO de mana
+    de vuelta.  Con 200 de mana por ulti,  eso es un castigo enorme.
+
+    *** Y POR ESO NADIE EXPLOTA LA ULTI EN EL JUEGO REAL  ***
+        $28   la caida                 PUSH
+        $29   la caida larga           PUSH
         $05   el paso a una tecnica de suelo   no es un golpe
 
     *** $26 NO TIENE HURTBOX:  NO SE LE PUEDE PEGAR MIENTRAS VUELA  ***

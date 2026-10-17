@@ -2669,3 +2669,89 @@ FIN DEL IDEARIO
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+29.12  LA  TABLA  DE  $68  YA  ESTA  DESCIFRADA  ENTERA
+===============================================================================
+
+  *** NO  HAY  QUE  SEGUIR  DESCUBRIENDO  NADA  DE  $68.  ESTA  LEIDA.  ***  [VERIFICADO]
+
+      $01F526   move.b  $68(a3), d0
+      $01F52A   lsl.w   #$1, d0
+      $01F52C   lea.l   $01F534(pc,d0.w), a0
+      $01F530   adda.w  (a0), a0
+      $01F532   jmp     (a0)
+
+      *** LA  TABLA  ESTA  EN  $01F534.  ONCE  PALABRAS.  ***
+
+  ------------------------------------------------------------------------------
+    $68   handler    $5D     $5F     velX $10      velY $14      $4C
+    ------------------------------------------------------------------
+      0   $01F54A     4      $20        -             -           -
+      1   $01F59C     4      $21        -             -           -
+      2   $01F54A     3      $20        -             -           -
+      3   $01F59C     3      $21        -             -           -
+      4   $01F5E0     5      $23     +-1.5         -4.0       $3800
+      5   $01F660     5      $25     +-1.5             -       $3800
+      6   $01F744     7      $26     +-6.0             -           -
+      7   $01F6C8     5      $27        0           +6.0       $0000
+      8   $01F6F2     5      $30        0           -7.0       $3800
+      9   $01F694     5      $2F     +-1.5             -       $3800
+     10   $01F714     8      $25     +-1.5             -       $3800
+    ------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+
+  *** $5D  =  EL  CONTADOR  DE  DURACION.  LA  SEGUNDA  DIMENSION.  ***
+  *** $61  =  LA  DIRECCION.  DECIDE  EL  SIGNO  DE  LA  VELOCIDAD  X.  ***
+  *** $4C  =  LA  VELOCIDAD  DE  CAIDA  (8.8).  $3800  =  56  px/s.  ***
+
+  ================================================================================
+29.12.1  LOS  TRES  ERRORES  QUE  ESTO  CORRIGE
+  ================================================================================
+
+  *** 1.  LA  VELOCIDAD  DE  $26  NO  ES  1.5.  ES  6.0.  ***
+
+      $01F764   move.l  #$60000,    $10(a4)     *** +6.0  ***
+      $01F76E   move.l  #$FFFA0000, $10(a4)     *** -6.0  ***
+
+      *** $26  SALE  CUATRO  VECES  MAS  RAPIDO  QUE  $23, $25  Y $2F.  ***
+
+  *** 2.  $61  NO  ES  "EL  FLAG  DE  YA  PEGO".  ES  LA  DIRECCION.  ***
+
+      $01F75C   cmpi.b  #$0, $61(a4)
+      $01F762   bne.b   $01F76E
+
+      *** Y $68=6  LE  DA  LA  VUELTA:  bchg.b  #$0, $61(a4).  ***
+
+  *** 3.  $68=10  NO  ES  UN  ESTADO  NUEVO.  ES  $25  CON  $5D=8.  ***
+
+  ================================================================================
+29.12.2  Y  EL  ERROR  DE  ARITMETICA  QUE  CASI  ME  PASA
+  ================================================================================
+
+  *** LA  PALABRA  DE  LA  TABLA  SE  LEE  EN  LA  DIRECCION  DE  LA  ENTRADA:  ***
+
+      *** destino  =  $01F534  +  2*$68  +  palabra[ $01F534 + 2*$68 ]  ***
+
+  *** NO  ES  $01F534  +  palabra.  YO  LEI  ESO  PRIMERO  Y  ME  DIO  ***
+  *** UNA  DIRECCION  DENTRO  DE  LA  PROPIA  TABLA.  ***
+
+  *** LA  PRUEBA  DE  QUE  ESTA  BIEN:  $68=7  DA  $01F6C8,  QUE  ES  LA  ***
+  *** DIRECCION  QUE  TENIAMOS  ANOTADA  DESDE  HACE  MESES  PARA  EL  HANDLER  DE $27.  ***
+
+  ================================================================================
+29.12.3  COMO  LEER  UNA  TABLA  DE  SALTO  SIN  ADIVINAR  (ERROR  E7  DEL  OTRO  PROYECTO)
+  ================================================================================
+
+  *** NO  PROBAR  FORMULAS  A  OJO.  LEER  LA  INSTRUCCION  QUE  LA  CALCULA.  ***
+
+  *** $01F52C  lea.l  $01F534(pc,d0.w), a0  +  $01F530  adda.w (a0), a0  ***
+  *** DICE  EXACTAMENTE:  base  =  la  direccion  de  la  extension  .W  +  el  desplazamiento  ***
+  *** y  despues  suma  el  word  que  hay  ahi.  ***
+
+  *** Y  OJO:  EN  68000  EL  PC  DE  lea(pc,An)  ES  LA  DIRECCION  DE  LA  ***
+  *** PALABRA  DE  EXTENSION,  NO  LA  DE  LA  INSTRUCCION.  ***
+================================================================================
+================================================================================
+================================================================================

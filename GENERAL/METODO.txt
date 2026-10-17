@@ -2532,3 +2532,110 @@ FIN DEL IDEARIO
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+29.9  LAS PRIORIDADES DE LA ETAPA
+===============================================================================
+
+  *** LAS CUATRO COSAS QUE SI IMPORTAN,  EN ORDEN  ***
+
+  1.  MAPEAR LAS HABILIDADES DE TODOS LOS PERSONAJES
+  2.  COMPARAR LOS ASPECTOS BASICOS DE ESTAS CON LA ROM Y LA INFORMACION
+      QUE TENEMOS
+  3.  RECONOCER LA MAYOR CANTIDAD DE ESTADOS Y REACCIONES POSIBLES A
+      MEDIDA QUE AVANZAMOS EN LOS PUNTOS ANTERIORES
+  4.  SABER QUE ESTADO O EFECTO PRODUCE CADA ATAQUE
+
+  *** LAS TRES QUE NO IMPORTAN AHORA  ***
+
+  X  comparar estados con el STOP TIME y su interaccion
+     no es relevante en esta etapa
+
+  X  matarnos con si la cantidad de animaciones equivale a frames en activo
+     o a cantidad de golpes.
+     Con saber la cantidad de golpes y las stats derivadas es suficiente.
+     POR AHORA.
+
+  X  si algo de lo que SI es relevante esta stuckeando el progreso en un
+     personaje que ya tenemos al 90 %,  se pasa al siguiente y se deja para
+     despues,  si requiere muchos cambios o una .LUA nueva.
+
+  *** LA REGLA DEL ULTIMO PUNTO,  QUE YA SE USO UNA VEZ  ***
+
+  Se empezo a descifrar la tabla tabB  para leer el dano y la reaccion desde
+  el ROM.  Se dejo a la mitad:  requiere tiempo y no mueve a ningun personaje
+  mas rapido.  Queda abierto.
+
+  *** Y POR QUE EL PUNTO 4 ES EL MAS BARATO DE TODOS  ***
+
+  No hace falta descifrar nada.  El campo $64 del blob DICE SI el +65 y el +66
+  de esa linea son los reales.  Ver 29.10.
+
+  ================================================================================
+  29.10  $64 = $3E.  EL BLOB SOLO ES VERDAD CON ESE FLAG
+
+  *** SEIS CASOS,  LOS SEIS CON CUERPO  ***
+
+      $A0  $64=$00   blob 0    real 20     RUIDO
+      $A2  $64=$00   blob 1    real 13     RUIDO
+      $A2  $64=$1E   blob 3    real 23     RUIDO
+      $A4  $64=$3E   blob $0B  real 11     EXACTO
+      $A4  $64=$3E   blob $0A  real 10     EXACTO
+      $A5  $64=$3E   blob $08  real 8      EXACTO
+
+  *** LA REGLA  ***
+
+      $64 = $3E   ->  el +65 es el DANO REAL  y el +66 el STUN REAL
+      $64 = otra  ->  los dos son ruido.  Solo el [HP] y el estado cuentan.
+
+  *** Y QUE ES $64  [ABIERTO] ***
+  Parece un puntero o un indice.  $3E es el valor de "esta caja tiene datos".
+  No hace falta saber que es:  basta leer el byte.
+
+  *** Y POR QUE ESTO CUMPLE EL PUNTO 4 SIN TRABAJO EXTRA  ***
+  Cada linea [BLOB-J] que sale con $64=3E trae,  en esa misma linea:
+
+      el numero de anim con golpe
+      el dano
+      el stun
+      $67  proyectil o fisico
+      $68  el ESTADO que produce el ataque
+
+  O sea que con.trigger las 134 tecnicas una vez y mirar que lineas tienen
+  $64=3E,  se tiene el efeito de cada ataque del juego.
+
+  *** Y LA FORMA MAS BARATA DE CONTAR GOLPES,  YA QUE ESTA  ***
+      1.  los [HP] que bajan
+      2.  los pagos de man:  el total es n(n+1)  ->  n
+      3.  el numero de lineas con $64=3E en el tramo
+
+  ================================================================================
+  29.11  Y EL PAGO DE MAN:  NO SON 27 FRAMES
+
+  *** LO QUE DIJE:  "los pagos salen espaciados ~27 frames"  ***
+
+  Salio de que el .LUA atribuy el +2 a un boton apretado 27 frames antes.
+  Eso es la ATRIBUACION del script,  no el intervalo.
+
+  *** CON $A4:  CADA GOLPE VA 3 FRAMES Y CADA PAGO VA 3 FRAMES  ***
+
+      f76  golpe 1     [HP] -11
+      f79  pago 1      +2 MP
+            golpe 2    [HP] -10
+      f82  pago 2      +4 MP
+            golpe 3    [HP] -11
+
+  *** O SEA:  EL PAGO VA 2 O 3 FRAMES DESPUES DE SU GOLPE.  NO 27.  ***
+
+  Y la serie sigue siendo +2 +4 +6 +8...  con total n(n+1):
+      2 pagos  +6      el medido
+      3 pagos  +12     el tercero no llego antes de que acabara el estado
+
+  *** Y ESO ES LO QUE CONTROLA EL "HASTA 4" Y EL "HASTA 7"  ***
+  Los pagos se acumulan mientras el estado dure.  Si el estado acaba,  se
+  pierden los que no salieron.  Asi que el maximo de golpes sale de dos cosas:
+  cuanto cabe el rival en la columna,  y cuanto dura el estado.
+================================================================================
+================================================================================
+================================================================================

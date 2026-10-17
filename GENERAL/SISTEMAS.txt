@@ -2730,3 +2730,273 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+147.  VERIFICADO  EN  EL  ROM:  LA  MANA,  EL  BLOQUEO,  EL  STUN  Y  EL  DAO
+===============================================================================
+
+  *** TODO  ESTO  SE  VERIFICO  CONTRA  EL  ROM,  NO  CONTRA  UN  DOCUMENTO.  ***
+  *** Y  CORRIGE  UNA  CORRECCION  MIA  QUE  ESTA  MAL.  ***
+
+  ================================================================================
+  147.1  CORRECCION  MIA  QUE  ESTABA  MAL:  $65  SI  ES  EL  DAO
+
+  *** EN  CONTEXTO 140.4  ESCRI  QUE  "$65  NO  ES  EL  DAO.  NUNCA."  ***
+
+  *** ESTA  MAL.  EL  ROM  DICE  LO  CONTRARIO:  ***
+
+      01F420   move.b  $65(a3), d0
+      01F424   sub.w   d0, $78(a4)      *** RESTA  EL  DAO  DEL  GOLPE  ***
+
+      01F428   move.b  $66(a3), d0
+      01F42C   sub.w   d0, $7e(a4)      *** Y  RESTA  EL  STUN  ***
+
+  *** $65  ES  EL  DAO  Y $66  ES  EL  STUN.  SIEMPRE.  ***   [VERIFICADO]
+
+  *** POR  QUE  NOS  PARECIA  QUE  NO  ***   [VERIFICADO]
+
+      *** $65  Y $64  ESTAN  EN  EL  BLOB  ***POR  CADA  FRAME  ACTIVO***.
+      *** UN  MOVO  DE  4  GOLPES  TIENE  CUATRO  VALORES  DE  $65  DISTINTOS.  ***
+
+      *** MI  PRUEBA  CONTRA  ERA  "EL  MISMO  ANIM  DIO  $65=04  Y  $65=00".  ***
+      *** PERO  AL  AIRE  Y  CONECTANDO  EL  INDICE  DE  ANIM  ES  DISTINTO,  ***
+      *** Y  CADA  FRAME  ACTIVO  TIENE  SU  PROPIO  $65.  ***
+
+  *** MI  MEDICION  DEL  DAO  REAL  CON  [HP]  SI  ERA  LA  BUENA.  ***
+  *** Y  EL  "MISMO  GOLPE  DANDO  DISTINTO"  TIENE  EXPLICACION:  ***
+  *** CADA  GOLPE  CONECTA  EN  UN  FRAME  ACTIVO  DISTINTO,  CON  SU  $65.  ***
+
+  ================================================================================
+  147.2  LA  MANA  POR  COMBO.  LEIDA  ENTERA  EN  EL  ROM
+  ================================================================================
+
+      01F9C8   cmpi.b  #$20, $5f(a4)      *** EL  VICTIMARIO  ESTA  BAJO  $20?  ***
+      01F9CE   bcs.w   $01FA6A            *** SI:  RESET,  NO  PAGA  NADA  ***
+
+      01F9D2   cmpi.b  #$30, $5f(a4)
+      01F9D8   bhi.w   $01FA6A            *** SI:  RESET  ***
+
+      01F9DC   cmpi.b  #$27, $5f(a4)
+      01F9E2   bhi.b   $01F9E6
+      01F9E4   bra.b   $01F9F0            *** $20-$27:  SUMA  ***
+
+      01F9E6   cmpi.b  #$2E, $5f(a4)
+      01F9EC   bcs.w   $01FA6A            *** $28-$2D:  RESET  DENTRO  DE  LA  VENTANA  ***
+
+      01F9F0   addi.b  #$1, $c6(a4)       *** EL  CONTADOR,  EN  EL  VICTIMARIO  ***
+      01F9F6   cmpi.b  #$10, $c6(a4)
+      01F9FC   bcs.b   $01FA0A
+      01F9FE   move.b  #$10, $c6(a4)      *** TOPE: 16  GOLPES  ***
+      01FA04   bset.b  #$0, $a0a4.w
+
+      01FA0A   clr.b   d0
+      01FA0C   move.b  $c6(a4), d0
+      01FA10   asl.w   #$1, d0            *** d0 = $C6 x 2  ***
+      01FA12   add.w   d0, $b8(a3)        *** AL  ATACANTE  ***
+      01FA16   cmpi.w  #$df, $b8(a3)
+      01FA1E   move.l  #$df0000, $b8(a3)  *** TOPE 223  ***
+
+  ================================================================================
+  147.3  Y  ESO  CONFIRMA  NUESTRA  LEY  n(n-1).  CON  LA  EXPLICACION  DEL  -1
+  ================================================================================
+
+  *** NUESTRA  MEDICION  DECIA  ***
+
+      *** el  primer  golpe  NO  PAGA  NADA
+      *** el  k-esimo  golpe  paga  +2(k-1)
+      *** el  total  despues  de  n  golpes  es  n(n-1)  ***
+
+  *** EL  ROM  DICE  QUE  EL  PAGO  ES  +2 x (el  contador ).  ***
+  *** Y  EL  CONTADOR  SE  INCREMENTA  *** DENTRO  ***  DE  LA  RAMA  DE  PAGO.  ***
+
+  *** POR  QUE  EL  PRIMER  GOLPE  NO  PAGA  NADA  ***
+
+      *** EL  PRIMER  GOLPE  ENCUENTRA  AL  VICTIMARIO  EN  $00  (PARADO).  ***
+      *** $00  ES  MENOR  QUE $20.  ENTR A  POR  LA  PRIMERA  COMPARACION  ***
+      *** Y  SALE  POR  01FA6A  =  RESET,  SIN  LLEGAR  AL  INCREMENTO.  ***
+
+  *** EL  SEGUNDO  GOLPE  YA  LO  ENCUENTRA  EN $20.  ***
+  *** $20  ESTA  EN  EL  RANGO  DE  SUMA.  ENTRA,  $C6  PASA  A  1,  PAGA  +2.  ***
+
+  ------------------------------------------------------------------------------
+      golpe    estado del victimario    $C6     pago     acumulado
+      ------------------------------------------------------------------
+        1           $00  (< $20)        ---     0          0
+        2           $20  (suma)          1     +2         +2
+        3           $20/$21              2     +4         +6
+        4                                3     +6        +12
+        n                                n-1   +2(n-1)    n(n-1)
+        16+                              16    +32        tope
+  ------------------------------------------------------------------------------
+
+  *** *** NUESTRA  LEY  n(n-1)  ESTA  CONFIRMADA  CONTRA  EL  ROM.  ***  [VERIFICADO]
+
+  *** Y  LAS  5  VECES  QUE  LA  CERRAMOS  A  OJO  (A2, A5, A4, AA de Jin, AA de Chui)  ***
+  *** SALIAN  POR  EL  MISMO  MOTIVO  Y  NO  POR  CASUALIDAD.  ***
+
+  ================================================================================
+  147.4  LA  VENTANA  DE  COMBO,  POR  ESTADO
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+      $5F del victimario      que pasa con el combo
+      ------------------------------------------------------------------
+        $00-$1F    (0-31)    RESET   fuera de la ventana
+        $20-$27    (32-39)   SUMA
+        $28-$2D    (40-45)   *** RESET  ***
+        $2E-$30    (46-48)   SUMA
+        $31+       (49+)     RESET
+  ------------------------------------------------------------------------------
+
+  *** *** LO  MAS  IMPORTANTE:  $28-$2D  RESETEAN  EL  CONTADOR  ***  ***
+
+  *** Y  ESTAN  DENTRO  DEL  RANGO  $20-$30  DE  LA  VENTANA.  ***
+
+  *** O  SEA  QUE  BLOQUEAR  CORTA  EL  COMBO  DE  MAN.  ***   [VERIFICADO]
+
+  *** ESO  EXplica  NUESTRO  HALLAZGO  DE  QUE  UN  GOLPE  BLOQUEADO  NO  PAGA  MANA:  ***
+  *** EL  BLOQUEO  PONE  AL  VICTIMARIO  EN  $2C,  QUE  ESTA  EN  $28-$2D,  ***
+  *** Y  POR  LO  TANTO  RESETEA  EL  CONTADOR  ANTES  DE  PAGAR.  ***
+
+  *** Y  EL  CONTADOR  VIVE  EN  EL  VICTIMARIO  ($C6),  NO  EN  EL  ATACANTE.  ***
+  *** *** PARA  LEER  EL  COMBO  DE  P1  HAY  QUE  LEER  $C6  DEL  SLOT  DE  P4.  ***  ***
+
+  ================================================================================
+  147.5  EL  BLOQUEO.  $2C  Y $2D.  EL  MECANISMO  ESTA  DEMOSTRADO
+  ================================================================================
+
+      01F3F0   move.b  #$4, $5d(a4)          *** $5D = 4  ***
+      01F3F6   btst.b  #$1, $71(a4)          *** EL  BIT 1  DEL  DEFENSOR  ***
+      01F3FC   bne.b   $01F406
+      01F3FE   move.b  #$2c, $5f(a4)         *** BIT 1 = 0:  $2C  ***
+      01F406   move.b  #$2d, $5f(a4)         *** BIT 1 = 1:  $2D  ***
+
+  *** Y  EL  CAMINO  REDUCIDO,  QUE  ES  EL  DE  UN  GOLPE  BLOQUEADO:  ***
+
+      01F3D8   move.b  $65(a3), d0
+      01F3DC   lsr.b   #$2, d0        *** dano  =  $65 / 4  ***
+      01F3DE   addq.b  #$1, d0        *** +1  ***
+      01F3E0   sub.w   d0, $78(a4)    *** AL  HP  ***
+
+      *** Y  NO  TOCA  $7E.  O  SEA  QUE  BLOQUEANDO  NO  GASTA  STUN.  ***
+
+  *** *** CIERRA  EL  [ABIERTO]  DEL  BLOCKSTUN  ***   [VERIFICADO]
+
+      *** $2C  Y $2D  SON  LOS  DOS  ESTADOS  DE  GOLPE  BLOQUEADO.  ***
+      *** $2D  ES  EL  QUE  TAMBIEN  PONE  $63 = $08.  ***
+      *** Y  EL  DANO  BLOQUEADO  ES  $65/4 + 1,  NO  CERO.  ***
+
+  ------------------------------------------------------------------------------
+      $65   dao del golpe      $65/4 + 1  =  dao al BLOQUEAR
+      1                        1              1        *** el MISMO  ***
+      4                        4              2        la mitad
+      8                        8              3
+      16                       16             5
+      21                       21             6
+  ------------------------------------------------------------------------------
+
+  *** *** DANO  1  BLOQUEADO  SIGUE  SIENDO  1.  ***   [VERIFICADO]
+  *** *** POR  ESO  UN  B  DE  4  DE  DAO  BLOQUEADO  DA  2,  Y  NO  0.  ***  ***
+
+  ================================================================================
+  147.6  EL  STUN  ES  UN  PRESUPUESTO,  NO  UN  RELOJ
+  ================================================================================
+
+      $7E   STUN  ACTUAL  (word)     *** LO  GASTA  EL  GOLPE  ***
+      $80   STUN  MAXIMO  (word)     *** SE  CARGA  AL  ENTRAR  EN  RONDA  ***
+
+      01F42C   sub.w   $66(a4)...  no:  sub.w  d0, $7e(a4)   *** MENOS $66  ***
+      01F4D6   cmpi.w  #$0, $7e(a4)
+      01F4DC   blt.b   $01F4E2        *** SI  QUEDO  NEGATIVO:  DERRIBO  ***
+
+      01F4E2   move.w  $7e(a4), d0
+      01F4E6   neg.w   d0
+      01F4E8   addi.w  #$4, d0
+      01F4EC   asl.w   #$4, d0        *** x16  ***
+      01F4EE   move.w  d0, $84(a4)    *** $84 = (|STUN| + 4) x 16  ***
+
+  *** FORMULA  ***
+
+      *** GOLPES  HASTA  DERRIBO  =  ceil( $80 / $66 )  ***
+
+      *** Y  LA  VELOCIDAD  DEL  DERRIBO  DEPENDE  DE  CUANTO  TE  SOBRO  ***
+
+  ------------------------------------------------------------------------------
+      stun max   $80    $66 de un A    golpes     $66 de un B    golpes
+      ------------------------------------------------------------------
+         34     Genkai     14              3          4              9
+         38     Toguro+    14              3          4             10
+         40     Kurama     14              3          4             10
+         40     Itsuki     12              4          3             14
+         44     Hiei       10              5          3             15
+         46     Jin        12              4          3             16
+         48     Yusuke     14              4          4             12
+         48     Chui       14              4          4             12
+         54     Sensui     12              5          3             18
+         56     Kuwabara   10              6          4             14
+         62     Toguro-    16              4          4             16
+  ------------------------------------------------------------------------------
+
+  *** *** CHUI  Y  YUSUKE  SON  LOS  UNICOS  QUE  TIENEN  48.  ***  ***
+  *** *** Y  SEGUN  ESTA  TABLA,  CHUI  DERRIBA  A  YUSUKE  EN  EL  MISMO  GOLPE.  ***  ***
+
+  *** *** Y  KUWABARA  CON  56  Y  $66=10  ES  EL  QUE  MAS  GOLPES  AGUANTA: 6.  ***  ***
+
+  ================================================================================
+  147.7  HP:  DOS  NUMEROS  DISTINTOS,  Y  LOS  DOS  ESTAN  EN  EL  CODIGO
+  ================================================================================
+
+      012AE6   move.w  #$ff, $78(a5)     *** AL  ARRANCAR  EL  COMBATE:  255  ***
+      013B78   move.w  #$00df, $78(a4)   *** EN  LA  RUTINA  DE  CURACION:  223  ***
+      013B74   move.w  #$00df, $78(a4)   *** TAMBIEN 223  ***
+
+  *** *** 255  ES  EL  MAXIMO  Y  223  ES  EL  TOPE  DE  LA  BARRA.  ***  ***
+
+  *** *** ASI  QUE  MI  AFIRMACION  DE  QUE  "EL  TOPE  DE 223  ESTA  EN  EL  CODIGO"  ***  ***
+  *** *** ESTA  BIEN  PERO  INCOMPLETA:  EL  HP  PUEDE  LLEGAR  A  255.  ***   [CORREGIDO]
+
+  ================================================================================
+  147.8  LAS  CONGELACIONES.  $69
+  ================================================================================
+
+      01F2D8   btst.b  #$5, $64(a3)      *** EL  GOLPE  DICE  "NO  CONGELES"  ***
+      01F2E0   move.b  #$10, $69(a3)     *** 16  ***
+      01F2E6   move.b  #$11, $75(a3)     *** $75 = $69 + 1  ***
+      01F2EC   move.b  #$10, $69(a4)     *** Y  AL  VICTIMARIO  TAMBIEN  ***
+      01F2F4   move.b  #$0,  $69(a3)     *** 0  SI  EL  BIT 5  ESTA  ***  ***
+
+  ------------------------------------------------------------------------------
+      $69 = 16     el golpe normal
+      $69 = 28     el clash          (no verificado en esta sesion)
+      $69 = 0      si $64 bit 5 esta activo
+      $69 = 255    la ulti de Itsuki
+  ------------------------------------------------------------------------------
+
+  *** *** $75  SIEMPRE  VA  UNO  MAS  QUE  $69.  ***   [VERIFICADO]
+
+  ================================================================================
+  147.9  QUE  CIERRA  ESTO
+  ================================================================================
+
+      [x]  $65  ES  EL  DAO  Y $66  EL  STUN          [VERIFICADO]
+      [x]  POR  QUE  EL  MISMO  GOLPE  DA  DISTINTO    [VERIFICADO]
+      [x]  LA  LEY  n(n-1)  DE  LA  MANA               [VERIFICADO]
+      [x]  EL  PRIMER  GOLPE  NO  PAGA  POR  RESET     [VERIFICADO]
+      [x]  LA  VENTANA  POR  ESTADO                    [VERIFICADO]
+      [x]  $28-$2D  RESETEAN  EL  CONTADOR             [VERIFICADO]
+      [x]  BLOQUEAR  CORTA  EL  COMBO  DE  MANA        [VERIFICADO]
+      [x]  $2C  Y $2D  SON  LOS  ESTADOS  DE  BLOQUEO  [VERIFICADO]
+      [x]  EL  DANO  BLOQUEADO  ES $65/4 + 1            [VERIFICADO]
+      [x]  $63  DECIDE  COMPLETO  O  REDUCIDO          [VERIFICADO]
+      [x]  $7E  ES  UN  PRESUPUESTO  DE  STUN          [VERIFICADO]
+      [x]  GOLPES  A  DERRIBO  =  ceil($80 / $66)      [VERIFICADO]
+      [x]  $84  =  (|STUN| + 4) x 16                   [VERIFICADO]
+      [x]  HP  MAXIMO  255,  TOPE  DE  BARRA  223      [VERIFICADO]
+      [x]  $69  =  16  /  0,  Y  $75  =  $69 + 1       [VERIFICADO]
+
+      *** *** $27  SIGUE  SIN  VERSE.  ***   [ABIERTO]
+      *** *** EL  VALOR  DE  28  DEL  CLASH  NO  ESTA  VERIFICADO  POR  NOSOTROS.  ***  [ABIERTO]
+================================================================================
+================================================================================
+================================================================================

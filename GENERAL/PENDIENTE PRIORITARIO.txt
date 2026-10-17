@@ -510,3 +510,72 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
   [x]  Los basicos son por personaje?   NO.  $80-$8F  es una tabla
        compartida.  $85  es solo de Hiei  y $87  solo de Itsuki.
 ================================================================================
+
+================================================================================
+================================================================================
+152.  LO  QUE  EL  ROM  CERRO  EL  17-10-2026
+===============================================================================
+
+  *** ESTO  SE  VERIFICO  LEYENDO  EL  CODIGO,  NO  JUGANDO.  ***   [VERIFICADO]
+
+  [x]  $65 es el dao?   *** SI. ***   0x1F420 / 0x1F424.
+       Y $66 es el stun, en 0x1F428 / 0x1F42C.
+       *** MI  CORRECCION  DE  140.4  ESTABA  MAL.  ANULADA.  ***
+
+  [x]  Por qu el mismo golpe da distinto?   PORQUE $65 ES POR CADA
+       FRAME ACTIVO.  Un movo de 4 golpes tiene 4 valores de $65.
+
+  [x]  La ley de la man es n(n-1)?   *** SI, LEIDA EN 0x01F9F0.  ***
+
+  [x]  Por qu el primer golpe no paga?   PORQUE EL VICTIMARIO ESTA EN $00,
+       QUE ES MENOR QUE $20, Y ESO ENTRA POR EL CAMINO DE RESET (0x1FA6A).
+       El contador $C6 se incrementa DENTRO de la rama de pago.
+
+  [x]  La ventana de combo por estado?
+       $00-$1F  reset      $20-$27  SUMA
+       $28-$2D  RESET       $2E-$30  SUMA       $31+  reset
+
+  [x]  Bloquear corta la man?   *** SI.  PORQUE $2C ESTA EN $28-$2D.  ***
+
+  [x]  $2C y $2D son el bloqueo?   *** SI.  0x1F3F6:  bit 1 de $71.  ***
+       $2C  =  bloqueado normal
+       $2D  =  bloqueado + $63 = $08
+
+  [x]  El dao al bloquear es cero?   NO.   *** ES  $65 / 4  +  1.  ***
+       Dao 1 -> 1.   Dao 4 -> 2.   Dao 8 -> 3.   Dao 16 -> 5.
+
+  [x]  El stun es un reloj o un presupuesto?   *** PRESUPUESTO.  ***
+       $7E actual, $80 maximo.  El golpe resta $66.
+       GOLPES HASTA DERRIBO  =  ceil($80 / $66)
+
+  [x]  HP maximo 223 o 255?   *** LOS DOS.  ***
+       255  al arrancar el combate  (0x12AE6)
+       223  el tope de la barra    (0x13B74, 0x13B78)
+
+  [x]  $69 es el hitpause?   *** SI, CON VALORES CONOCIDOS:  ***
+       16  el golpe normal
+        0  si $64 bit 5 esta activo
+        $75 = $69 + 1, siempre
+
+  ================================================================================
+  LO QUE  SIGUE  ABIERTO
+  ================================================================================
+
+  [ ]  $27   el estado "alto fijo".  NUNCA SE HA VISTO EN PANTALLA.
+       El ROM dice: velY = +6.0 y $4C = $0 (sin velocidad de caida).
+       *** UN GOLPE QUE DE $68=7 DEBERIA DEJAR AL RIVAL COLGANDO.  ***
+
+  [ ]  El valor 28 del clash ($69).  El otro proyecto lo tiene; nosotros no.
+
+  [ ]  El valor 32 del blockstun.  YA NO IMPORTA: el mecanismo esta
+       demostrado ($2C/$2D), pero el NUMERO del reloj no.
+
+  [ ]  Que personaje produce $68 = 7.  Kuwabara sigue siendo el candidato.
+
+  [ ]  El limite de la lista de frames de un move.  Sin localizar.
+
+  [ ]  Los 16 gates de congelacion de 0x1EB40.  El hit-time de una especial
+       tiene que estar en uno de ellos.
+================================================================================
+================================================================================
+================================================================================

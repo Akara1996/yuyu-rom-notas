@@ -2222,3 +2222,143 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 ================================================================================
 ================================================================================
 ================================================================================
+
+================================================================================
+================================================================================
+144.  LA  MUERTE  SE  APLAZA  HASTA  EL  PRIMER  REBOTE
+===============================================================================
+
+  *** (usuario)  ***
+
+      "murio por el combo de chu, lo que pasa es que en vez de caerle encima
+       como con el masheo AAAA, al usar B lo que sucede es que en aire chu hace
+       un pequeno codazo que pega arriba, entonces tuve que acercarme a p4,
+       saltar y apenas salte apretar BBBB, el resultado es que termina empujado
+       mas lejos, por que en el caso AAAA lo mate estando p4 pegado a la pared
+       y esto lo hice a medio campo, entonces se alejo mas, ademas el codigo
+       definitivo de muerte aparece despues del primer rebote en el suelo,
+       es decir en el punto de alejado maximo entre el y yo, debes tomar el
+       valor cuando recien baja de 0 para saber la distancia que teniamos."
+
+  ================================================================================
+  144.1  LO  QUE  CONTESTA  LA  PRIMERA  FRASE
+
+  *** P4  MURIO  POR  EL  COMBO  DE  CHUI.  NO  POR  OTRA  COSA.  ***
+
+  *** ASI  QUE  EL  [ABIERTO]  DE  143.5  ESTA  RESUELTO.  ***   [COMPROBADO]
+
+  *** Y  QUEDA  UNA  CONSECUENCIA  MAS  FUERTE  ***
+
+  *** SI  UN  GOLPE  DIRECTO  MATA,  Y  P4  LLEGO  A  -24,  P4  ESTABA  ***
+  *** YA  MUERTO  DESDE  EL  GOLPE  QUE  LO  CRUZO.  Y  SE  LEVANTO  IGUAL.  ***
+
+  ================================================================================
+  144.2  EL  GAME  OVER  NO  ES  EN  EL  GOLPE.  ES  EN  EL  PRIMER  REBOTE
+  ================================================================================
+
+      *** ESTA  ES  LA  MECANICA  NUEVA  Y  ES  GRANDE.  ***
+
+      *** EL  HP  BAJA  DE  0.  EL  PERSONAJE  SIGUE  VIVO.  ***
+      *** SIGUE  VOLANDO,  SIGUE  DANDO  VUELTAS,  SIGUE  SIENDO  EMPUJADO.  ***
+      *** SOLO  EN  EL  PRIMER  REBOTE  EN  EL  SUELO  SALTA  EL  $28 -> $29  ***
+
+  ------------------------------------------------------------------------------
+      $25   f96        derribo con ventana
+              ...      sigue en el aire, HP ya en negativo
+      $25   f446 -> $28  dur $5A=08     *** PRIMER  REBOTE  ***
+      $28   f472 -> $29  dur $5A=18     *** 26  FRAMES  DESPUES  ***
+                    y aqui se pone el HP en -1024
+  ------------------------------------------------------------------------------
+
+      *** ENTRE  EL  CRUCE  DE  0  Y  EL  -1024  HAY  UN  HUECO  DE  VARIOS  ***
+      *** FRAMES.  EN  ESE  HUECO  EL  RIVAL  ESTA  A  CERO  O  NEGATIVO  Y  ***
+      *** AUN  ASI  SE  PUEDE  SEGUIR  PEGANDO  LE.  ***
+
+  *** LO  QUE  ESTO  ABRE  ***
+
+      *** SE  PUEDE  SEGUIR  GOLPEANDO  A  UN  RIVAL  YA  "MUERTO".  ***
+      *** Y  CADA  GOLPE  LE  RESTA  HP  Y  LO  ALEJA  MAS.  ***
+
+      *** O  SEA  QUE  LA  DISTANCIA  FINAL  LA  DECIDE  CUANTOS  GOLPES  ***
+      *** LE  METES  DESPUES  DEL  CRUCE.  ***
+
+  ================================================================================
+  144.3  Y  POR  ESO  AAAA  MATO  Y  BBBB  NO,  EN  EL  MISMO  COMBO
+  ================================================================================
+
+  *** (usuario)  ***
+
+      "en vez de caerle encima como con el masheo AAAA, al usar B lo que sucede
+       es que en aire chu hace un pequeno codazo que pega arriba"
+
+  *** O  SEA  QUE  LAS  DOS  CADENAS  AEREAS  EMPUJAN  DISTINTO  ***
+
+      *** $AD  (cadena de A)   CHUI  CAE  ENCIMA.  NO  SEPARA.  ***
+      *** $AC  (cadena de B)   CHUI  DA  UN  CODAZO  QUE  PEGA  ARRIBA.  ***
+      ***                      EL  RIVAL  SALE  DESPEDIDO  Y  SE  ALEJA.  ***
+
+  ------------------------------------------------------------------------------
+      $AC  (cadena de B)   mundo de P1  en  cada  impacto:
+          f96    1244
+          f140   1233      -11
+          f187   1223      -10
+          f234   1211      -12
+          f281   1199      -12
+
+      *** CHUI  RECUA  UNOS  11  px  POR  GOLPE.  CUATRO  VECES.  ***
+
+      *** O  SEA  QUE  $AC  TIENE  RECOIL  Y  $AD  NO.  O  AL  REVES:  ***
+      *** $AD  MANTIENE  LA  DISTANCIA  Y  $AC  LA  ABRE.  ***
+  ------------------------------------------------------------------------------
+
+  *** Y  ESO  ES  LO  QUE  PIDE  EL  USUARIO  MAS  ARRIBA  ***
+
+      *** "por que en el caso AAAA lo mate estando p4 pegado a la pared"
+      *** "esto lo hice a medio campo, entonces se alejo mas"  ***
+
+      *** CONTRAR  LA  PARED  EL  RIVAL  NO  TIENE  A  DONDE  IR.  ***
+      *** A  MEDIO  CAMPO  TIENE  300  px  Y  LOS  USA.  ***
+
+  *** ESTO  ES  UNA  VENTAJA  REAL  DE  $AD  SOBRE  $AC:  MANTIENE  LA  DISTANCIA.  ***
+
+  ================================================================================
+  144.4  EL  TRACKER  YA  MIDE  LA  DISTANCIA  EN  EL  CRUCE  DE  0
+  ================================================================================
+
+  *** PARCHEADO  HOY  EN  CHARACTER MOVE LUAS.LUA  (solo  lectura,  rule 5)  ***
+
+      *** 1.  LA  ETIQUETA  ESTABA  MAL  Y  ADEMAS  FALTABA  UNA  COSA  ***
+
+      La linea [HP]  imprimia  UN  numero  de  mundo  al  final  de  la  parte
+      de  P1.  Ese  numero  era  e.wx_lo,  o  sea  EL  DEL  OBJETIVO.
+
+      *** "mundo 1281"  ERA  P4,  NO  P1.  ***
+
+      *** ASI  QUE  CUALQUIER  LECTURA  HECHA  DE  ESA  COLUMNA  COMO  SI  ***
+      *** FUERA  LA  POSICION  DE  P1  ESTABA  MAL.  ***   correccion aplicada
+
+      *** 2.  AHORA  LA  LINEA  [HP]  IMPRIME  ***
+
+          ... |  P1: mov $XX ...   mundo P1=NNNN  P4=NNNN  dist=NNN
+
+      *** 3.  Y  SE  AGREG  UNA  LNEA  NUEVA  ***
+
+          >>> [CRUCE 0] fNNN  P4  HP  24 -> 3   *** RECIEN BAJO DE 0 ***
+              mundo P1=NNNN  P4=NNNN  dist=NNN  mov $XX
+
+      *** sale  SOLO  en  el  frame  exacto  en  que  el  HP  pasa  de  >0  a  <=0  ***
+
+      *** ASI  QUE  LA  DISTANCIA  QUE  SE  NECESITA  YA  ESTA  MEDIDA  ***
+      *** SIN  HACER  NADA  MAS  QUE  PEGAR  UN  COMBO  COMPLETO.  ***
+
+  ================================================================================
+  144.5  LO  QUE  FALTA  MEDIR
+  ================================================================================
+
+      *** [ ]  LA  DISTANCIA  REAL  EN  EL  CRUCE  DE  0  DE  $AD  vs  $AC  ***
+      *** ESTO  DICE  EL  ALCANCE  REAL  DE  LAS  DOS  CADENAS  AEREAS.  ***
+
+      *** Un  solo  combo  con  el  tracker  nuevo  lo  da.  ***
+================================================================================
+================================================================================
+================================================================================

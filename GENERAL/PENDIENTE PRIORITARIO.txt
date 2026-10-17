@@ -340,32 +340,140 @@
 
 ================================================================================
 ================================================================================
-*** TEST 9.  LA MATRIZ DE CANCELES.  CUATRO PRUEBAS DE UN BOTON  ***
+*** TEST 9.  LA MATRIZ DE CANCELES.  RESUELTO.  ***
 
-      *** $A1  DE CHUI  RESULTA SER UN CANCEL:  B EN EL FRAME ACTIVO DE A  ***
+      $A1  de Chui  es un CANCEL:  apretar A  de nuevo  antes de que $82
+      vuelva a $00.  La ventana  son 36 frames.
 
-      B solo desde el suelo  =  $80.  No $A1.  MEDIDO.
+          A -> A      dos $82 limpios       NO HAY AUTO-CANCEL
+          B -> B      dos $80 limpios       NO HAY AUTO-CANCEL
+          B -> A      $80 -> $82            CANCEL  a un BASICO
+          A -> B      $82 -> $A1             CANCEL  a una TECNICA
+          A  y  B  a la vez   $A4           la evasion,  16 de man
 
-      *** O SEA QUE LA BANDA $80-$8F  NO SON SOLO "GOLPES BASICOS"  ***
-      Son tambien "que pasa si aprieto aqui".  Y las diferencias entre
-      personajes  ($85  de Hiei,  $87  de Itsuki)  pueden ser los canceles
-      que ese personaje tiene.
+      *** LA REGLA:  EL CANCEL SOLO FUNCIONA CON UN BOTON DISTINTO.  ***
 
-      *** LAS CUATRO PRUEBAS  ***
+      *** Y $A1  ES SOLO-CANCEL:  DESDE $00  NINGUN CAMINO NEUTRO LLEGA.  ***
 
-          A  apretado en el frame activo de B   ->  $A1 ?
-          B  apretado en el frame activo de A   ->  $A1   MEDIDO
-          A  apretado en el frame activo de A   ->  ?     el auto-cancel
-          B  apretado en el frame activo de B   ->  ?
+      *** Y EL TIMING DE A+B  DA TRES COMANDOS DISTINTOS  ***
+          a la vez            $A4   la evasion
+          2-3 frames despues  $A1   el cancel
+          tarde               $82   nada
 
-      *** Y CON LAS CUATRO,  HIEI  E ITSUKI  ***
+  ================================================================================
+  TEST 6.  LA VENTANA DEL COMBO.  MEDIDA EN 19 FRAMES
+  ================================================================================
 
-          ADELANTE x4  en Hiei   ->  $85 ?     (el Afterimage)
-          el mismo cancel en Itsuki  ->  $87 ?
+      *** (usuario)  "la ventana de un B  es  8 a 10.  La de un A  es  16 a 19."  ***
 
-      *** SI LAS CUATRO SON DISTINTAS,  LA TABLA $80-$8F  ES LA TABLA DE
-      CANCELES  Y NO LA DE GOLPES.  ***  Eso reordena los basicos de todo el
-      juego  y habria que reescribirlos.
+  *** MEDIDO:  UN COMBO CONECTADO DE CINCO GOLPES  A 19-20 FRAMES DE DISTANCIA  ***
+
+      f138   f158   f177   f196   f215
+
+  *** LOS CUATRO PAGOS DE MANA  SALIERON.  LA VENTANA AGUANTO LAS CUATRO.  ***
+
+  *** Y EL [MP GANA]  DICE  "a: A (id $82)"  EN LOS CUATRO PAGOS  ***
+  *** O SEA QUE  LA  SERIE  ES  POR  COMBO,  NO  POR  GOLPE  INDIVIDUAL.  ***
+
+  *** LO QUE FALTA  ***
+
+      [ ]  la ventana de un B  con numero medido.  Sigue a ojo.
+      [ ]  la ventana con un intervalo de 20 frames.  Si se rompe, es 19.
+
+  ================================================================================
+  TEST 1.  EL MISMO GOLPE REPETIDO  vs  DOS GOLPES DISTINTOS.  PARCIAL
+  ================================================================================
+
+  *** (usuario)  ***
+
+      "son diferentes animaciones de pie que se intercalan entre golpe para dar
+       dinamismo...  esto no sucede cuando haces combo exactamente con el mismo
+       golpe,  se loopea el mismo estado en el rival"
+
+  *** MEDIDO  EN  $A1  AL AIRE  ***
+
+      anim $03   $68=01  ->  $21
+      anim $05   $68=01  ->  $21
+      anim $07   $68=01  ->  $21
+
+      *** $21  $21  $21.  MISMO ESTADO TRES VECES.  CONFIRMADO.  ***
+
+  *** Y CONECTANDO  DIO  $20  $21  $20  --  SI ALTERNA  ***
+
+  *** Y EL RIVAL  EN $25  NO  SE  MOVIO  EN 156 FRAMES  ***
+
+  *** ASI QUE HAY  QUE  SER  EXACTO  ***
+
+      *** LO QUE SE LOOPEA  ES  EL  MISMO  GOLPE  EN  HITSTUN  ***
+      *** LO QUE  NO  SE  MUEVE  NUNCA  ES  EL  DERRIBO  ($25)  ***
+
+  *** Y EL  A  DE  CHUI  DA  $68 = 5  ->  $25  DERRIBO.  ***
+  *** POR ESO  SU  RIVAL  NO  ALTERNABA:  NUNCA  LLEGO  A  HITSTUN.  ***
+
+  *** LO QUE FALTA  ***
+
+      [ ]  un golpe que de  $68 = 0  o  1  (hitstun)  repetido dos veces
+           followed de  OTRO  golpe que de  hitstun.  Ese  es  el  test bueno.
+
+  ================================================================================
+  TEST 1 ter.  EL AFTERIMAGE DE HIEI.  RESUELTO
+  ================================================================================
+
+      *** ADELANTE x4  EN  HIEI  ***
+
+      $00 -> $05   f72      $05 -> $00   f76      el paso
+      $00 -> $05   f80      $05 -> $0B   f82      el paso
+      $0B -> $A0   f96                          *** TELE  +64  ***
+      $A0 -> $A1   f118                         *** TELE  -64  ***
+      $A1 -> $00   f141
+      [GOTEO] f120   199 -> 191   (perdio 8)
+
+      *** 8 DE MANA.  DOS TELEPORTES  +64  Y  -64.  NETO CERO.  ***
+      *** SIN CAJA.  NO HACE DAO.  ES PURO MOVIMIENTO.  ***
+
+  *** Y $85  NO  ES  EL  AFTERIMAGE.  MI  HIPOTESIS  ERA  FALSA.  ***
+  *** $85  SIGUE  SIN  NOMBRE.  [ABIERTO]  ***
+
+  ================================================================================
+  LO QUE NO HAY QUE BUSCAR MAS
+  ================================================================================
+
+  [x]  Todos los lanzamientos horizontales son $26?   SI.
+       $26 solo sale de $68 = 6,  y a $26 no llega nadie mas.
+
+  [x]  $2F es un estado de Chui?   NO.  Es el destino del $68 = 9,
+       el empuje diagonal,  y lo producen seis agarres.
+
+  [x]  El $68 del blob siempre sirve?   SOLO el $68.
+       $64 = $00  ->  RUIDO.               Correlacion:  5 de 5.
+       $64 != $00  ->  REAL.               Correlacion:  8 de 9.
+       El noveno  es  el  del  segundo  golpe  seguido  de  Jin.  [ABIERTO]
+
+  [x]  El $65 del blob es el dao?   *** NO.  NUNCA.  ***
+       Mismo anim y mismo $64  dieron $65 = 04  y $65 = 00  en dos corridas.
+       Y $65 = 03 dio -8,  $65 = 04 dio -6,  $65 = 06 dio -8.
+       *** EL UNICO DANO FIABLE  ES  [HP].  ***  $66 tampoco sirve.
+
+  [x]  $20 y $21  son parado y agachado?   NO.  Son dos animaciones de pie
+       que se alternan para que el combo no se vea loopeado.  (usuario, 17-10)
+       Y CON EL MISMO GOLPE REPETIDO  SE LOOPEA  UNA  SOLA:  $21 $21 $21  medido.
+
+  [x]  Hay cadena de A en Chui?   NO.  Cuatro A  =  cuatro $82.
+       $A1  es  un  CANCEL,  no  el  cuarto  A.  La ventana  son  36  frames.
+
+  [x]  Los bsicos son por personaje?   NO.  $80-$8F  es una tabla
+       compartida.  $85  es solo de Hiei  y $87  solo de Itsuki.
+
+  [x]  El Afterimage de Hiei es $85?   *** NO.  ***
+       Es $A0 -> $A1,  8 de mana,  dos teletransportes de 64,  neto cero.
+
+  [x]  El "ABAJO,ADELANTE,ARRIBA" de Chui  es  una  tcnica  nueva?   *** NO.  ***
+       *** ES  LA  ENTRADA  DE  LA  ULTI.  ***  El usuario lo dijo dos veces
+       y yo lo lei mal.  (ver  CONTEXTO 140.5)
+
+  [x]  A+B  de Chui  esta  sin  medir?   NO.  $A4,  16 de man,
+       0 anims con caja.  La evasion enganosa.
+
 
   ================================================================================
   LO QUE NO HAY QUE BUSCAR MAS

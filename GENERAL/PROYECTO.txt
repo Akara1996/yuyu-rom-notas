@@ -84,7 +84,7 @@ Donde estamos, que falta y en que orden
         CHUI       10      10      18 de 18   -        CHUI TECNICAS, 15 pag    COMPLETO.  9/9 BASICOS
       TOGURO -   11       -        -         -        sin empezar
 
-      *** 6 CON DOCUMENTO.  5 SIN EMPEZAR.  DE LOS 6,  UNO SIN CONFIRMAR
+      *** 9 CON DOCUMENTO.  2 SIN EMPEZAR (TOGURO + Y TOGURO -).  CHUI COMPLETO: 18/18 TECNICAS, 9/9 BASICOS
       QUE ENTRADA ES  (YUSUKE,  el 4 con el $AA que no cierra). ***
 
       *** Y DE LOS ONCE,  CUATRO IDENTIFICADOS POR ENTRADA ***

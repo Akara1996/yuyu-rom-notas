@@ -1603,6 +1603,36 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
     Y por eso bloquear sale caro:  4,5 veces mas golpes  y  CERO de mana
     de vuelta.  Con 200 de mana por ulti,  eso es un castigo enorme.
 
+    ###############################################################################
+    LA MAN DEL COMBO.  LOS DOS SISTEMAS
+    ###############################################################################
+
+      *** NO SON UN REEMBOLSO.  SON DOS SISTEMAS DISTINTOS. ***
+
+          1.  la REGENERACION PASIVA
+              $013C42  addq.w #$1, $b8(a5)     +1 por vez,  lenta y sola
+
+          2.  la GANANCIA DE COMBO
+              la serie +2, +4, +6...  que sale en [MP GANA]
+
+      *** Y EL 2 DA MAN AUNQUE NO HAYAS GASTADO NADA  ***
+      Un agarre $30 y un combo areo ya dan man,  sin ninguna tecnica.
+      Y con la barra llena no paga nada.
+
+      *** LAS TRES REGLAS  ***
+          1.  solo los golpes FISICOS dan man  (basicos o especiales)
+          2.  empieza en el 2do golpe.  El minimo es +2
+          3.  +2 es del golpe 2,  +4 del 3,  etc.  No es un minimo
+
+      *** Y LOS GOLPES DE OBJETO AVANZAN EL CONTADOR SIN PAGAR  ***
+
+          Kuwabara,  Jigen to (3 de objeto) + 3 basicos:
+              +2+4+6 = 12   no alcanza para otro Jigen to
+              +6+8+10 = 24  alcanza          [COMPROBADO]
+
+      *** Y EL GOLPE BLOQUEADO NO CUENTA PARA NADA  ***
+      ni paga  ni avanza.  [ABIERTO]  falta probarlo.
+
     *** Y POR ESO NADIE EXPLOTA LA ULTI EN EL JUEGO REAL  ***
         $28   la caida                 PUSH
         $29   la caida larga           PUSH

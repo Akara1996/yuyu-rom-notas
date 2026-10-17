@@ -17055,7 +17055,7 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
   *** O SEA QUE $A1  ES HITSTUN,  NO DERRIBO.  ***
 
   ================================================================================
-  140.4  CORRECCION IMPORTANTE:  $65  NO OBEDECE LA REGLA DE $64
+140.4  *** ESTA  SECCION  ESTA  ANULADA.  VER  147.1. ***  $65  SI  ES  EL  DAO
 
   *** LO QUE HABIA ESCRITO  ***
       $64 = $00   ->  $65, $66 y $68 son RUIDO
@@ -18032,6 +18032,644 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
       *** ESTO  DICE  EL  ALCANCE  REAL  DE  LAS  DOS  CADENAS  AEREAS.  ***
 
       *** Un  solo  combo  con  el  tracker  nuevo  lo  da.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+145.  LOS  CINCO  BASICOS  QUE  FALTABAN.  Y  $23  POR  PRIMERA  VEZ
+===============================================================================
+
+  *** LOS  CINCO  SALEN.  Y  ADELANTE  ES  EL  QUE  MAS  ALCANZA.  ***
+
+  ================================================================================
+  145.1  ABAJO + A   =  $86.   Y  DA  $23.  EL  PRIMER  $23  QUE  SE  VE
+  ================================================================================
+
+      $00 -> $01   f47
+      $01 -> $86   f49
+      $86 anim $02   HIT+CLASH   mascara $4E
+                     $64=0A   $65=10   $66=0E   $68=04
+      [HP] f57   P4  223 -> 202   (-21)     mundo P1=1064  P4=1104  dist=40
+      P4:  $00 -> $23   f58   (dur $5A=10)
+
+  *** $68 = 4  ->  $23.  ***
+
+  *** *** ESTO  CIERRA  UN  [ABIERTO]  QUE  ESTABA  ABIERTO  DESDE  99.  ***  ***
+
+      *** $23  ("DERRIBO  CIEGO")  NUNCA  SE  HABIA  VISTO  EN  PANTALLA.  ***
+      *** SE  CONOCIA  SOLO  POR  EL  HANDLER  $01F6C8  Y  POR  LA  TABLA.  ***
+      *** AHORA  ESTA  MEDIDO  EN  UN  GOLPE  REAL  DE  CHUI.  ***   [VERIFICADO]
+
+  ================================================================================
+  145.2  ABAJO + B   =  $84.   Y  UN  DIFIERE  NUEVO
+  ================================================================================
+
+      $01 -> $84   f39      (dur $5A=02)
+      $84 anim $02   HIT+CLASH
+                     $64=08   $65=04   $66=04   $68=05
+      [HP] f44   P4  223 -> 215   (-8)      mundo P1=1068  P4=1104  dist=36
+      P4:  $00 -> $21   f45
+      $84 -> $01   f68      *** 29  frames  ***
+
+  *** *** DIFIERE  ***  ***
+
+      *** EL  $68  DICE  5.  LA  TABLA  DICE  QUE  5  ->  $25.  ***
+      *** EL  RIVAL  FUE  A  $21.  ***
+
+      *** $25  ES  "DERRIBO  CON  VENTANA"  Y  $21  ES  HITSTUN.  ***
+      *** NO  SON  EL  MISMO  ESTADO  NI  PARECIDOS.  ***
+
+  *** ES  EL  SEGUNDO  $68  QUE  NO  CUADRA.  ***   [ABIERTO]
+
+  ------------------------------------------------------------------------------
+      DIFERES  DE  LA  TABLA  $68
+
+      1.  el  segundo  golpe  seguido  de  Jin  ($A2):  $68=01  ->  dio  $26
+      2.  ABAJO+B  de  Chui  ($84):  $68=05  ->  dio  $21   ***  NUEVO  ***
+  ------------------------------------------------------------------------------
+
+  ================================================================================
+  145.3  ADELANTE + A   =  $83.   EL  QUE  MAS  ALCANZA
+  ================================================================================
+
+      $00 -> $05   f95
+      $05 -> $83   f96
+      $83 anim $02   HIT+CLASH
+                     $64=0E   $65=10   $66=0E   $68=00
+      [HP] f105  P4  223 -> 205   (-18)    mundo P1=1040  P4=1104  dist=64
+      P4:  $00 -> $20   f105
+      $83 -> $00   f157     *** 61  frames.  EL  MAS  LARGO  DE  LOS  CINCO.  ***
+
+  *** $64=0E  Y  $68=00  ->  $20.  CUADRA.  ***
+
+  *** *** CORRECCION  IMPORTANTE  ***  ***
+
+  *** $83  ESTABA  IDENTIFICADO  COMO  "EL  SEGUNDO  TIRO  DEL  REIGAN".  ***  ***
+
+      $00 -> $01   f117     $01 -> $83   f122     $83 -> $A6   f125
+
+  *** ESO  NO  ERA  EL  REIGAN:  ERA  ADELANTE + A.  ***   [CORREGIDO]
+
+  *** LO  QUE  PASO  EN  EL  REIGAN  FUE  QUE  >A  DESDE  $01  PASO  POR  ***
+  *** $83  ANTES  DE  LLEGAR  A  $A6.  O  SEA  QUE  LA  RUTA  DEL  REIGAN  ***
+  *** PASA  POR  EL  MISMO  ESTADO  QUE  EL  GOLPE  HACIA  ADELANTE.  ***  [ABIERTO]
+
+  ================================================================================
+  145.4  ADELANTE + B   =  $81
+  ================================================================================
+
+      $00 -> $05   f56
+      $05 -> $81   f59      (dur $5A=02)
+      $81 anim $02   HIT+CLASH
+                     $64=00   $65=04   $66=0E   $68=05   *** $64=00:  RUIDO  ***
+      [HP] f64   P4  223 -> 212   (-11)     mundo P1=1043  P4=1104  dist=61
+      P4:  $00 -> $21   f64
+      $81 -> $00   f86      *** 27  frames  ***
+
+  ================================================================================
+  145.5  ARRIBA + A  EN  EL  AIRE   =  $94
+  ================================================================================
+
+      $00 -> $0D   f170
+      $0D -> $08   f176      (dur $5A=10)
+      $08 -> $94   f211      (dur $5A=06)
+      $94 anim $01   HIT+CLASH
+                     $64=00   $65=0E   $66=0C   $68=05   *** $64=00:  RUIDO  ***
+      [HP] f219  P4  223 -> 209   (-14)     mundo P1=1056  P4=1104  dist=48
+      P4:  $00 -> $20   f219
+      $94 -> $0E   f243      *** 32  frames  ***
+
+  *** $94  CONFIRMA  QUE  LA  BANDA  $90-$9F  EXISTE  TAMBIEN  EN  CHUI.  ***
+
+  *** Y  OTRO  PERSONAJE  TIENE  $94  EN  SU  TABLA.  ***   [DERIVADO]
+
+  ================================================================================
+  145.6  LOS  CINCO  JUNTOS.  Y  LA  DISTANCIA  MEDIDA
+  ================================================================================
+
+  *** P4  ESTABA  EN  X=1104  EN  LAS  CINCO  PRUEBAS.  ***
+  *** O  SEA  QUE  LAS  DISTANCIAS  SON  DIRECTAMENTE  COMPARABLES.  ***
+
+  ------------------------------------------------------------------------------
+    entrada              id     dano   $68    estado   dist    frames
+    ------------------------------------------------------------------
+    ABAJO     + A        $86     21     04    $23       40     ---
+    ABAJO     + B        $84      8     05    $21       36      29
+    ADELANTE  + A        $83     18     00    $20       64      61
+    ADELANTE  + B        $81     11     ---   $21       61      27
+    ARRIBA + A  (aire)   $94     14     ---   $20       48      32
+    ------------------------------------------------------------------
+    A  en el suelo       $82     16     05    $25       ---      36
+    B  en el suelo       $80      4     00    $20       ---      14
+    A  en el aire        $95     15     ---   $25       ---      ---
+    B  en el aire        $90      9     ---   $25       ---      ---
+  ------------------------------------------------------------------------------
+
+  *** ADELANTE  ALCANZA  MAS  QUE  NADA:  64  Y  61  px.  ***
+  *** ABAJO  ES  EL  QUE  MENOS  ALCANZA:  40  Y  36  px.  ***
+  *** Y  ARRIBA  ESTA  EN  EL  MEDIO:  48  px.  ***
+
+  *** LA  DISTANCIA  ESTA  MEDIDA  EN  EL  INSTANTE  DEL  GOLPE.  ***  [VERIFICADO]
+
+  ================================================================================
+  145.7  Y  LA  BANDA  $80-$8F  QUEDA  COMPLETA  PARA  CHUI
+  ================================================================================
+
+      $80   B  en el suelo                 MEDIDO
+      $81   ADELANTE + B                    MEDIDO  ***  NUEVO  ***
+      $82   A  en el suelo                 MEDIDO
+      $83   ADELANTE + A                    MEDIDO  ***  NUEVO  ***
+      $84   ABAJO + B                      MEDIDO  ***  NUEVO  ***
+      $86   ABAJO + A                      MEDIDO  ***  NUEVO  ***
+
+      *** LOS  SEIS  HUECOS  DE  LA  BANDA  COMPARTIDA  ESTAN  CERRADOS  ***
+      *** PARA  CHUI.  Y  CUBREN  LOS  SEIS  BASICOS  DE  MANUEL.  ***
+
+  ================================================================================
+  145.8  Y  CHUI  TIENE  LOS  NUEVE  BASICOS  COMPLETOS
+  ================================================================================
+
+      *** 9  DE  9.  ESTOS  SON  LOS  NUEVE  BASICOS  DE  CHUI.  ***
+
+  ------------------------------------------------------------------------------
+    suelo   1  $80   B
+            2  $82   A
+            3  $81   ADELANTE + B
+            4  $83   ADELANTE + A
+            5  $84   ABAJO + B
+            6  $86   ABAJO + A
+
+    aire    7  $90   B
+            8  $95   A
+            9  $94   ARRIBA + A
+  ------------------------------------------------------------------------------
+
+      *** Y  DE  LOS  9:  $68  VALIDO  EN  5.  RUIDO  EN  4.  ***
+      *** LO  QUE  NO  SE  SABE  AUN  ES  EL  $68  DE  $81  Y $94.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+146.  LA  TABLA  DE  $68  DESCIFRADA  COMPLETA.  CORRIGE  DOS  COSAS  NUESTRAS
+===============================================================================
+
+  *** DESCIFRADA  ENTERA  CONTRA  EL  CODIGO.  NO  HAY  NINGUN  [DERIVADO].  ***
+  *** VERIFICADO  17-10-2026  ***   [VERIFICADO]
+
+  ================================================================================
+  146.1  LA  ESTRUCTURA
+
+      $01F526   move.b  $68(a3), d0
+      $01F52A   lsl.w   #$1, d0                   *** d0 = $68 x 2  ***
+      $01F52C   lea.l   $01F534(pc,d0.w), a0      *** base = $01F534  ***
+      $01F530   adda.w  (a0), a0                  *** suma  el  OFFSET  ***
+      $01F532   jmp     (a0)
+
+      *** LA  TABLA  ESTA  EN  $01F534.  ONCE  PALABRAS  DE  2  BYTES.  ***
+      *** EL  DIRECCION  REAL  ES  $01F534  +  2*$68  +  OFFSET.  ***
+
+      *** O  SEA  QUE  LA  PALABRA  SE  LEE  EN  LA  DIRECCION  DE  LA  ENTRADA,  ***
+      *** NO  SIEMPRE  EN  $01F534.  ***   (error mio al principio)
+
+  ================================================================================
+  146.2  LA  TABLA  ENTERA
+
+  ------------------------------------------------------------------------------
+    $68   palabra   offset   handler    $5D     $5F     velX $10      velY $14
+    ------------------------------------------------------------------
+      0   $01F534      +22   $01F54A     4      $20        -             -
+      1   $01F536     +102   $01F59C     4      $21        -             -
+      2   $01F538      +18   $01F54A     3      $20        -             -
+      3   $01F53A      +98   $01F59C     3      $21        -             -
+      4   $01F53C     +164   $01F5E0     5      $23   +-1.5         -4.0
+      5   $01F53E     +290   $01F660     5      $25   +-1.5             -
+      6   $01F540     +516   $01F744     7      $26   +-6.0             -
+      7   $01F542     +390   $01F6C8     5      $27      0           +6.0
+      8   $01F544     +430   $01F6F2     5      $30      0           -7.0
+      9   $01F546     +334   $01F694     5      $2F   +-1.5             -
+     10   $01F548     +460   $01F714     8      $25   +-1.5             -
+    ------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+
+  *** $68=0  Y  $68=2  COMPARTEN  HANDLER  ($01F54A).  ***
+  *** $68=1  Y  $68=3  COMPARTEN  HANDLER  ($01F59C).  ***
+
+  *** POR  QUE  FUNCIONA:  EL  HANDLER  VUELVE  A  LEER  $68  Y  SE  PARTE  ***
+
+      $01F55A   cmpi.b  #$2, $68(a3)      en el handler de $68=0
+      $01F560   beq.b   $01F56A
+      $01F562   move.b  #$4, $5d(a4)      *** $68=0  NORMAL:  $5D = 4  ***
+      $01F56A   move.b  #$3, $5d(a4)      *** $68=2  CHIP:    $5D = 3  ***
+
+      *** Y  ADEMAS  EL  CHIP  LIMPIA  $98  ***
+      $01F570   move.l  #$0, $98(a3)
+
+  *** O  SEA  QUE  LA  DIFERENCIA  ENTRE  $68=0  Y  $68=2  NO  ES  EL  ESTADO:  ***
+  *** ES  QUE  EL  CHIP  DURA  UN  MENOS  Y  LIMPIA  OTRA  COSA.  ***
+
+  ================================================================================
+  146.3  CORRECCION  1:  $5D  ES  EL  CONTADOR  DE  DURACION
+  ================================================================================
+
+  *** ESTA  ES  LA  SEGUNDA  DIMENSION  DE  LA  TABLA.  NO  LA  TENIAMOS.  ***
+
+  ------------------------------------------------------------------------------
+      $5D = 3   HITSTUN  CORTO   (los  dos  chip)
+      $5D = 4   HITSTUN  NORMAL
+      $5D = 5   DERRIBO
+      $5D = 7   EL  LANZADOR
+      $5D = 8   DERRIBO  LARGO
+  ------------------------------------------------------------------------------
+
+  *** Y  $68=10  NO  ES  UN  ESTADO  NUEVO:  ES  $25  CON  $5D = 8  EN  VEZ  DE 5.  ***
+  *** *** UN  DERRIBO  EL  DOBLE  DE  LARGO.  ***   [VERIFICADO]
+
+  ================================================================================
+  146.4  CORRECCION  2:  $61  NO  ES  UN  FLAG.  ES  LA  DIRECCION
+  ================================================================================
+
+  *** TENIAMOS  $61  COMO  "EL  FLAG  DE  YA  PEGO".  ESTA  MAL.  ***
+
+  *** $61  DECIDE  EL  SIGNO  DE  LA  VELOCIDAD  HORIZONTAL  ***
+
+      $01F75C   cmpi.b  #$0, $61(a4)
+      $01F762   bne.b   $01F76E
+      $01F764   move.l  #$60000,     $10(a4)     *** +6.0  HACIA  ADELANTE  ***
+      $01F76E   move.l  #$FFFA0000,  $10(a4)     *** -6.0  HACIA  ATRAS  ***
+
+  *** Y  $68=6  LA  DA  LA  VUELTA:  ***
+
+      $01F756   bchg.b  #$0, $61(a4)      *** FLIP  DEL  BIT  0  ***
+
+  *** O  SEA  QUE  EL  LANZADOR  MIRA  A  DONDE  MIRA  EL  GOLPE.  ***
+
+  ================================================================================
+  146.5  CORRECCION  3:  LA  VELOCIDAD  DE  $26  NO  ES  1.5.  ES  6.0
+  ================================================================================
+
+  *** TENIAMOS  ESTO  ESCRITO  EN  HIT  STATE:  ***
+
+      "$26 = el lanzador.  velocidad $3800 vertical (56 px/s),
+       $FFFE8000 / $18000 horizontal"
+
+  *** ESTA  MAL  LA  PARTE  HORIZONTAL.  ***
+
+  ------------------------------------------------------------------------------
+      estado      velX real              de donde sale
+      ------------------------------------------------------------------
+      $23        $FFFE8000 / $18000  =  +-1.5    $68 = 4
+      $25        $FFFE8000 / $18000  =  +-1.5    $68 = 5  y  $68 = 10
+      $2F        $FFFE8000 / $18000  =  +-1.5    $68 = 9
+      $26        $60000  / $FFFA0000  =  +-6.0    $68 = 6   *** CORREGIDO  ***
+  ------------------------------------------------------------------------------
+
+  *** O  SEA  QUE  $26  SALE  *** 4  VECES  MAS  RAPIDO  ***  QUE  LOS  DEMAS.  ***
+
+  *** Y  ESO  EXPLICA  POR  QUE  $26  ES  EL  UNICO  QUE  ATRAE  A  PERSONAJES  LEJOS.  ***
+
+  ================================================================================
+  146.6  Y  $4C  ES  LA  VELOCIDAD  DE  CAIDA
+  ================================================================================
+
+  *** $4C  SE  ESCRIBE  $3800  EN  $23, $25, $30, $2F.  Y  $0  EN  $27.  ***
+
+      $3800  en  8.8  =  $3800 / $100  =  56  px/s
+
+  *** *** $3800 = 56 px/s.  CONFIRMADO  UNA  VEZ  MAS.  ***   [VERIFICADO]
+
+  *** Y  LO  UNICO  QUE  PONE  $4C = $0  ES  $27.  ***
+
+  *** *** ESO  ES  "ALTO  FIJO,  VELOCIDAD  0":  SIN  VELOCIDAD  DE  CAIDA.  ***  ***
+
+  ================================================================================
+  146.7  LAS  VELOCIDADES  EN  HEX
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+      $FFFE8000   =  -1.5      $18000     =  +1.5
+      $FFFA0000   =  -6.0      $60000     =  +6.0
+      $FFFC0000   =  -4.0      $FFF90000  =  -7.0
+      $3800       =  56  px/s  en  8.8  (caida)
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      $23   sube  a  4.0  y  se  va  de  lado  a  1.5
+      $25   solo  de  lado  a  1.5
+      $26   solo  de  lado  a  6.0        *** EL  MAS  RAPIDO  ***
+      $27   baja  a  6.0  y  NO  CAE  (4C=0)
+      $30   sube  a  7.0  sin  velocidad  lateral        *** EL  MAS  ALTO  ***
+      $2F   solo  de  lado  a  1.5
+      $20   hitstun,  no  hay  velocidad  escrita
+      $21   hitstun,  no  hay  velocidad  escrita
+  ------------------------------------------------------------------------------
+
+  *** $30  SUBE  A  7.0  Y  NO  TIENE  VELOCIDAD  LATERAL.  ***
+  *** *** ES  EL  UNICO  QUE  MONTEA  VERTICAL  SIN  DESPPLAZAR.  ***  ***
+  *** *** Y  ESO  ES  EXACTAMENTE  LO  QUE  HACE  LA  ULTI  DE  CHUI.  ***  ***
+
+  ================================================================================
+  146.8  LO  QUE  ESTA  RESUELTO  Y  LO  QUE  NO
+  ================================================================================
+
+      [x]  los  ONCE  handlers  de  $68        [VERIFICADO]  decodificados
+      [x]  $5D  =  el  contador  de  duracion  [VERIFICADO]
+      [x]  $61  =  la  direccion,  no  un  flag  [VERIFICADO]
+      [x]  $26  va  a  6.0,  no  a  1.5          [VERIFICADO]
+      [x]  $4C  =  la  velocidad  de  caida,  56  px/s   [VERIFICADO]
+      [x]  $27  =  el  unico  con  $4C = 0       [VERIFICADO]
+      [x]  $68=10  =  $25  con  $5D=8             [VERIFICADO]
+      [x]  $68=0/2  y  $68=1/3  comparten  handler  [VERIFICADO]
+
+      *** $27  SIGUE  SIN  VERSE  EN  PANTALLA.  ***   [ABIERTO]
+
+      *** EL  ROM  DICE  QUE  $27  RECIBE  velY  =  +6.0  Y  $4C  =  0.  ***
+      *** O  SEA  QUE  SE  MUEVE  A  6.0  Y  NO  CAE.  ***   [ABIERTO]
+
+      *** PREGUNTA  PARA  EL  USUARIO  ***
+
+          ***   QUE  SE  VE  EN  PANTALLA  CUANDO  UN  GOLPE  DA  $68 = 7 ?  ***
+          ***   EL  RIVAL  SUBE  Y  SE  QUEDA  COLGADO,  O  BAJA  Y  SE  QUEDA?  ***
+
+      *** SI  UN  GOLPE  D  $68=7,  EL  RIVAL  TIENE  QUE  QUEDARSE  PARADO  EN  ***
+      *** EL  AIRE  UN  BUEN  RATO  (POR  ESO  SE  LLAMA  "ALTO  FIJO").  ***
+      *** Y  ESO  SERIA  EL  ESTADO  MAS  PELIGROSO  DEL  JUEGO:  UN  RIVAL  ***
+      *** COLGANDO  A  TU  DISPOSICION  PARA  UN  COMBO.  ***
+
+  *** LA  PREGUNTA  DE  QUE  TECNICA  DE  KUWABARA  LO  PRODUCE  SIGUE  ABIERTA.  ***
+================================================================================
+================================================================================
+================================================================================
+
+================================================================================
+================================================================================
+147.  VERIFICADO  EN  EL  ROM:  LA  MANA,  EL  BLOQUEO,  EL  STUN  Y  EL  DAO
+===============================================================================
+
+  *** TODO  ESTO  SE  VERIFICO  CONTRA  EL  ROM,  NO  CONTRA  UN  DOCUMENTO.  ***
+  *** Y  CORRIGE  UNA  CORRECCION  MIA  QUE  ESTA  MAL.  ***
+
+  ================================================================================
+  147.1  CORRECCION  MIA  QUE  ESTABA  MAL:  $65  SI  ES  EL  DAO
+
+  *** EN  CONTEXTO 140.4  ESCRI  QUE  "$65  NO  ES  EL  DAO.  NUNCA."  ***
+
+  *** ESTA  MAL.  EL  ROM  DICE  LO  CONTRARIO:  ***
+
+      01F420   move.b  $65(a3), d0
+      01F424   sub.w   d0, $78(a4)      *** RESTA  EL  DAO  DEL  GOLPE  ***
+
+      01F428   move.b  $66(a3), d0
+      01F42C   sub.w   d0, $7e(a4)      *** Y  RESTA  EL  STUN  ***
+
+  *** $65  ES  EL  DAO  Y $66  ES  EL  STUN.  SIEMPRE.  ***   [VERIFICADO]
+
+  *** POR  QUE  NOS  PARECIA  QUE  NO  ***   [VERIFICADO]
+
+      *** $65  Y $64  ESTAN  EN  EL  BLOB  ***POR  CADA  FRAME  ACTIVO***.
+      *** UN  MOVO  DE  4  GOLPES  TIENE  CUATRO  VALORES  DE  $65  DISTINTOS.  ***
+
+      *** MI  PRUEBA  CONTRA  ERA  "EL  MISMO  ANIM  DIO  $65=04  Y  $65=00".  ***
+      *** PERO  AL  AIRE  Y  CONECTANDO  EL  INDICE  DE  ANIM  ES  DISTINTO,  ***
+      *** Y  CADA  FRAME  ACTIVO  TIENE  SU  PROPIO  $65.  ***
+
+  *** MI  MEDICION  DEL  DAO  REAL  CON  [HP]  SI  ERA  LA  BUENA.  ***
+  *** Y  EL  "MISMO  GOLPE  DANDO  DISTINTO"  TIENE  EXPLICACION:  ***
+  *** CADA  GOLPE  CONECTA  EN  UN  FRAME  ACTIVO  DISTINTO,  CON  SU  $65.  ***
+
+  ================================================================================
+  147.2  LA  MANA  POR  COMBO.  LEIDA  ENTERA  EN  EL  ROM
+  ================================================================================
+
+      01F9C8   cmpi.b  #$20, $5f(a4)      *** EL  VICTIMARIO  ESTA  BAJO  $20?  ***
+      01F9CE   bcs.w   $01FA6A            *** SI:  RESET,  NO  PAGA  NADA  ***
+
+      01F9D2   cmpi.b  #$30, $5f(a4)
+      01F9D8   bhi.w   $01FA6A            *** SI:  RESET  ***
+
+      01F9DC   cmpi.b  #$27, $5f(a4)
+      01F9E2   bhi.b   $01F9E6
+      01F9E4   bra.b   $01F9F0            *** $20-$27:  SUMA  ***
+
+      01F9E6   cmpi.b  #$2E, $5f(a4)
+      01F9EC   bcs.w   $01FA6A            *** $28-$2D:  RESET  DENTRO  DE  LA  VENTANA  ***
+
+      01F9F0   addi.b  #$1, $c6(a4)       *** EL  CONTADOR,  EN  EL  VICTIMARIO  ***
+      01F9F6   cmpi.b  #$10, $c6(a4)
+      01F9FC   bcs.b   $01FA0A
+      01F9FE   move.b  #$10, $c6(a4)      *** TOPE: 16  GOLPES  ***
+      01FA04   bset.b  #$0, $a0a4.w
+
+      01FA0A   clr.b   d0
+      01FA0C   move.b  $c6(a4), d0
+      01FA10   asl.w   #$1, d0            *** d0 = $C6 x 2  ***
+      01FA12   add.w   d0, $b8(a3)        *** AL  ATACANTE  ***
+      01FA16   cmpi.w  #$df, $b8(a3)
+      01FA1E   move.l  #$df0000, $b8(a3)  *** TOPE 223  ***
+
+  ================================================================================
+  147.3  Y  ESO  CONFIRMA  NUESTRA  LEY  n(n-1).  CON  LA  EXPLICACION  DEL  -1
+  ================================================================================
+
+  *** NUESTRA  MEDICION  DECIA  ***
+
+      *** el  primer  golpe  NO  PAGA  NADA
+      *** el  k-esimo  golpe  paga  +2(k-1)
+      *** el  total  despues  de  n  golpes  es  n(n-1)  ***
+
+  *** EL  ROM  DICE  QUE  EL  PAGO  ES  +2 x (el  contador ).  ***
+  *** Y  EL  CONTADOR  SE  INCREMENTA  *** DENTRO  ***  DE  LA  RAMA  DE  PAGO.  ***
+
+  *** POR  QUE  EL  PRIMER  GOLPE  NO  PAGA  NADA  ***
+
+      *** EL  PRIMER  GOLPE  ENCUENTRA  AL  VICTIMARIO  EN  $00  (PARADO).  ***
+      *** $00  ES  MENOR  QUE $20.  ENTR A  POR  LA  PRIMERA  COMPARACION  ***
+      *** Y  SALE  POR  01FA6A  =  RESET,  SIN  LLEGAR  AL  INCREMENTO.  ***
+
+  *** EL  SEGUNDO  GOLPE  YA  LO  ENCUENTRA  EN $20.  ***
+  *** $20  ESTA  EN  EL  RANGO  DE  SUMA.  ENTRA,  $C6  PASA  A  1,  PAGA  +2.  ***
+
+  ------------------------------------------------------------------------------
+      golpe    estado del victimario    $C6     pago     acumulado
+      ------------------------------------------------------------------
+        1           $00  (< $20)        ---     0          0
+        2           $20  (suma)          1     +2         +2
+        3           $20/$21              2     +4         +6
+        4                                3     +6        +12
+        n                                n-1   +2(n-1)    n(n-1)
+        16+                              16    +32        tope
+  ------------------------------------------------------------------------------
+
+  *** *** NUESTRA  LEY  n(n-1)  ESTA  CONFIRMADA  CONTRA  EL  ROM.  ***  [VERIFICADO]
+
+  *** Y  LAS  5  VECES  QUE  LA  CERRAMOS  A  OJO  (A2, A5, A4, AA de Jin, AA de Chui)  ***
+  *** SALIAN  POR  EL  MISMO  MOTIVO  Y  NO  POR  CASUALIDAD.  ***
+
+  ================================================================================
+  147.4  LA  VENTANA  DE  COMBO,  POR  ESTADO
+  ================================================================================
+
+  ------------------------------------------------------------------------------
+      $5F del victimario      que pasa con el combo
+      ------------------------------------------------------------------
+        $00-$1F    (0-31)    RESET   fuera de la ventana
+        $20-$27    (32-39)   SUMA
+        $28-$2D    (40-45)   *** RESET  ***
+        $2E-$30    (46-48)   SUMA
+        $31+       (49+)     RESET
+  ------------------------------------------------------------------------------
+
+  *** *** LO  MAS  IMPORTANTE:  $28-$2D  RESETEAN  EL  CONTADOR  ***  ***
+
+  *** Y  ESTAN  DENTRO  DEL  RANGO  $20-$30  DE  LA  VENTANA.  ***
+
+  *** O  SEA  QUE  BLOQUEAR  CORTA  EL  COMBO  DE  MAN.  ***   [VERIFICADO]
+
+  *** ESO  EXplica  NUESTRO  HALLAZGO  DE  QUE  UN  GOLPE  BLOQUEADO  NO  PAGA  MANA:  ***
+  *** EL  BLOQUEO  PONE  AL  VICTIMARIO  EN  $2C,  QUE  ESTA  EN  $28-$2D,  ***
+  *** Y  POR  LO  TANTO  RESETEA  EL  CONTADOR  ANTES  DE  PAGAR.  ***
+
+  *** Y  EL  CONTADOR  VIVE  EN  EL  VICTIMARIO  ($C6),  NO  EN  EL  ATACANTE.  ***
+  *** *** PARA  LEER  EL  COMBO  DE  P1  HAY  QUE  LEER  $C6  DEL  SLOT  DE  P4.  ***  ***
+
+  ================================================================================
+  147.5  EL  BLOQUEO.  $2C  Y $2D.  EL  MECANISMO  ESTA  DEMOSTRADO
+  ================================================================================
+
+      01F3F0   move.b  #$4, $5d(a4)          *** $5D = 4  ***
+      01F3F6   btst.b  #$1, $71(a4)          *** EL  BIT 1  DEL  DEFENSOR  ***
+      01F3FC   bne.b   $01F406
+      01F3FE   move.b  #$2c, $5f(a4)         *** BIT 1 = 0:  $2C  ***
+      01F406   move.b  #$2d, $5f(a4)         *** BIT 1 = 1:  $2D  ***
+
+  *** Y  EL  CAMINO  REDUCIDO,  QUE  ES  EL  DE  UN  GOLPE  BLOQUEADO:  ***
+
+      01F3D8   move.b  $65(a3), d0
+      01F3DC   lsr.b   #$2, d0        *** dano  =  $65 / 4  ***
+      01F3DE   addq.b  #$1, d0        *** +1  ***
+      01F3E0   sub.w   d0, $78(a4)    *** AL  HP  ***
+
+      *** Y  NO  TOCA  $7E.  O  SEA  QUE  BLOQUEANDO  NO  GASTA  STUN.  ***
+
+  *** *** CIERRA  EL  [ABIERTO]  DEL  BLOCKSTUN  ***   [VERIFICADO]
+
+      *** $2C  Y $2D  SON  LOS  DOS  ESTADOS  DE  GOLPE  BLOQUEADO.  ***
+      *** $2D  ES  EL  QUE  TAMBIEN  PONE  $63 = $08.  ***
+      *** Y  EL  DANO  BLOQUEADO  ES  $65/4 + 1,  NO  CERO.  ***
+
+  ------------------------------------------------------------------------------
+      $65   dao del golpe      $65/4 + 1  =  dao al BLOQUEAR
+      1                        1              1        *** el MISMO  ***
+      4                        4              2        la mitad
+      8                        8              3
+      16                       16             5
+      21                       21             6
+  ------------------------------------------------------------------------------
+
+  *** *** DANO  1  BLOQUEADO  SIGUE  SIENDO  1.  ***   [VERIFICADO]
+  *** *** POR  ESO  UN  B  DE  4  DE  DAO  BLOQUEADO  DA  2,  Y  NO  0.  ***  ***
+
+  ================================================================================
+  147.6  EL  STUN  ES  UN  PRESUPUESTO,  NO  UN  RELOJ
+  ================================================================================
+
+      $7E   STUN  ACTUAL  (word)     *** LO  GASTA  EL  GOLPE  ***
+      $80   STUN  MAXIMO  (word)     *** SE  CARGA  AL  ENTRAR  EN  RONDA  ***
+
+      01F42C   sub.w   $66(a4)...  no:  sub.w  d0, $7e(a4)   *** MENOS $66  ***
+      01F4D6   cmpi.w  #$0, $7e(a4)
+      01F4DC   blt.b   $01F4E2        *** SI  QUEDO  NEGATIVO:  DERRIBO  ***
+
+      01F4E2   move.w  $7e(a4), d0
+      01F4E6   neg.w   d0
+      01F4E8   addi.w  #$4, d0
+      01F4EC   asl.w   #$4, d0        *** x16  ***
+      01F4EE   move.w  d0, $84(a4)    *** $84 = (|STUN| + 4) x 16  ***
+
+  *** FORMULA  ***
+
+      *** GOLPES  HASTA  DERRIBO  =  ceil( $80 / $66 )  ***
+
+      *** Y  LA  VELOCIDAD  DEL  DERRIBO  DEPENDE  DE  CUANTO  TE  SOBRO  ***
+
+  ------------------------------------------------------------------------------
+      stun max   $80    $66 de un A    golpes     $66 de un B    golpes
+      ------------------------------------------------------------------
+         34     Genkai     14              3          4              9
+         38     Toguro+    14              3          4             10
+         40     Kurama     14              3          4             10
+         40     Itsuki     12              4          3             14
+         44     Hiei       10              5          3             15
+         46     Jin        12              4          3             16
+         48     Yusuke     14              4          4             12
+         48     Chui       14              4          4             12
+         54     Sensui     12              5          3             18
+         56     Kuwabara   10              6          4             14
+         62     Toguro-    16              4          4             16
+  ------------------------------------------------------------------------------
+
+  *** *** CHUI  Y  YUSUKE  SON  LOS  UNICOS  QUE  TIENEN  48.  ***  ***
+  *** *** Y  SEGUN  ESTA  TABLA,  CHUI  DERRIBA  A  YUSUKE  EN  EL  MISMO  GOLPE.  ***  ***
+
+  *** *** Y  KUWABARA  CON  56  Y  $66=10  ES  EL  QUE  MAS  GOLPES  AGUANTA: 6.  ***  ***
+
+  ================================================================================
+  147.7  HP:  DOS  NUMEROS  DISTINTOS,  Y  LOS  DOS  ESTAN  EN  EL  CODIGO
+  ================================================================================
+
+      012AE6   move.w  #$ff, $78(a5)     *** AL  ARRANCAR  EL  COMBATE:  255  ***
+      013B78   move.w  #$00df, $78(a4)   *** EN  LA  RUTINA  DE  CURACION:  223  ***
+      013B74   move.w  #$00df, $78(a4)   *** TAMBIEN 223  ***
+
+  *** *** 255  ES  EL  MAXIMO  Y  223  ES  EL  TOPE  DE  LA  BARRA.  ***  ***
+
+  *** *** ASI  QUE  MI  AFIRMACION  DE  QUE  "EL  TOPE  DE 223  ESTA  EN  EL  CODIGO"  ***  ***
+  *** *** ESTA  BIEN  PERO  INCOMPLETA:  EL  HP  PUEDE  LLEGAR  A  255.  ***   [CORREGIDO]
+
+  ================================================================================
+  147.8  LAS  CONGELACIONES.  $69
+  ================================================================================
+
+      01F2D8   btst.b  #$5, $64(a3)      *** EL  GOLPE  DICE  "NO  CONGELES"  ***
+      01F2E0   move.b  #$10, $69(a3)     *** 16  ***
+      01F2E6   move.b  #$11, $75(a3)     *** $75 = $69 + 1  ***
+      01F2EC   move.b  #$10, $69(a4)     *** Y  AL  VICTIMARIO  TAMBIEN  ***
+      01F2F4   move.b  #$0,  $69(a3)     *** 0  SI  EL  BIT 5  ESTA  ***  ***
+
+  ------------------------------------------------------------------------------
+      $69 = 16     el golpe normal
+      $69 = 28     el clash          (no verificado en esta sesion)
+      $69 = 0      si $64 bit 5 esta activo
+      $69 = 255    la ulti de Itsuki
+  ------------------------------------------------------------------------------
+
+  *** *** $75  SIEMPRE  VA  UNO  MAS  QUE  $69.  ***   [VERIFICADO]
+
+  ================================================================================
+  147.9  QUE  CIERRA  ESTO
+  ================================================================================
+
+      [x]  $65  ES  EL  DAO  Y $66  EL  STUN          [VERIFICADO]
+      [x]  POR  QUE  EL  MISMO  GOLPE  DA  DISTINTO    [VERIFICADO]
+      [x]  LA  LEY  n(n-1)  DE  LA  MANA               [VERIFICADO]
+      [x]  EL  PRIMER  GOLPE  NO  PAGA  POR  RESET     [VERIFICADO]
+      [x]  LA  VENTANA  POR  ESTADO                    [VERIFICADO]
+      [x]  $28-$2D  RESETEAN  EL  CONTADOR             [VERIFICADO]
+      [x]  BLOQUEAR  CORTA  EL  COMBO  DE  MANA        [VERIFICADO]
+      [x]  $2C  Y $2D  SON  LOS  ESTADOS  DE  BLOQUEO  [VERIFICADO]
+      [x]  EL  DANO  BLOQUEADO  ES $65/4 + 1            [VERIFICADO]
+      [x]  $63  DECIDE  COMPLETO  O  REDUCIDO          [VERIFICADO]
+      [x]  $7E  ES  UN  PRESUPUESTO  DE  STUN          [VERIFICADO]
+      [x]  GOLPES  A  DERRIBO  =  ceil($80 / $66)      [VERIFICADO]
+      [x]  $84  =  (|STUN| + 4) x 16                   [VERIFICADO]
+      [x]  HP  MAXIMO  255,  TOPE  DE  BARRA  223      [VERIFICADO]
+      [x]  $69  =  16  /  0,  Y  $75  =  $69 + 1       [VERIFICADO]
+
+      *** *** $27  SIGUE  SIN  VERSE.  ***   [ABIERTO]
+      *** *** EL  VALOR  DE  28  DEL  CLASH  NO  ESTA  VERIFICADO  POR  NOSOTROS.  ***  [ABIERTO]
 ================================================================================
 ================================================================================
 ================================================================================

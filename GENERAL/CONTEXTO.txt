@@ -19446,9 +19446,9 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
     Toguro menor      62       ESPALDA       24     230      ***  SI  ***
     Genkai            34       frente         9      86      ***  SI  ***
     Genkai            34       ESPALDA       14     139      no
-    Toguro menor      62       con  Dedal      31     294      ***  SI  ***
+    Genkai            34       ESP. + Dedal  24     220      *** SI ***
+    Toguro menor      62       ESP. + Dedal  31     294      *** SI ***
   ------------------------------------------------------------------------------
-
   *** *** DE  FRENTE  LE  DOBLA  EL  DANO  A  TOGURO  MENOR:  13  CONTRA  24  GOLPES.  ***  ***
 
   ###############################################################################

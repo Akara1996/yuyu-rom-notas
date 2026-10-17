@@ -2724,10 +2724,8 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
     Toguro menor    62   grande  ESPALDA       24     230      SI
     Genkai          34   chico   frente         9      86      SI  (a los 9)
     Genkai          34   chico   ESPALDA       14     139      NO
-    Genkai          34   chico   ESPALDA
-                        con Dedal antes        25    ~220      SI
-    Toguro menor    62   grande  ESPALDA
-                        con Dedal antes        31     294      SI
+    Genkai          34   chico   ESP. + Dedal  24     220      SI
+    Toguro menor    62   grande  ESP. + Dedal  31     294      SI
   ------------------------------------------------------------------------------
 
   *** *** EL  DANO  POR  GOLPE  NO  ES  EL  MISMO  PARA  CADA  OBJETIVO.  ***  ***

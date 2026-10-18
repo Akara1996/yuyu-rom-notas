@@ -2704,7 +2704,9 @@ FIN DEL IDEARIO
 
   *** $5D  =  EL  CONTADOR  DE  DURACION.  LA  SEGUNDA  DIMENSION.  ***
   *** $61  =  LA  DIRECCION.  DECIDE  EL  SIGNO  DE  LA  VELOCIDAD  X.  ***
-  *** $4C  =  LA  VELOCIDAD  DE  CAIDA  (8.8).  $3800  =  56  px/s.  ***
+  *** $4C  =  LA  ACELERACION  DE  LA  GRAVEDAD  (16.16  de  32  bits).      ***
+  *** Se  suma  a  $14  (velY)  cada  frame.  $3800  =  0,21875  px/frame^2.  ***
+  *** VER  CONTEXTO 160.  ESTA  MALO  LEIDO  COMO  8.8  Y  COMO  56  px/s.     ***
 
   ================================================================================
 29.12.1  LOS  TRES  ERRORES  QUE  ESTO  CORRIGE

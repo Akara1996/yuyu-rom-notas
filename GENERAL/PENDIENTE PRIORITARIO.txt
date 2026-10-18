@@ -971,5 +971,60 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
        dos  ataques  no  imprime  nada.  Hace  falta  uno  dedicado.
 
 ================================================================================
+160.P  LO  QUE  ABRE  EL  HALLAZGO  DE  $4C.  [VERIFICADO]  EL  CODIGO  LO  DICE
+================================================================================
+
+  ***  ESTO  VA  PRIMERO  PORQUE  ES  LO  UNICO  QUE  NO  NECESITA  NADA  ***  ***
+  ***  NUEVO  PARA  PROBARLO:  SOLO  HAY  QUE  LEER  UN  BYTE  MAS.  ***  ***
+
+  ------------------------------------------------------------------------------
+      $4C  =  la  ACELERACION  de  la  gravedad,  16.16  de  32  bits.
+      Se  suma  a  $14  (velY)  cada  frame.   $01A07E.
+
+      ***  $4C = $0000  SE  ESCRIBE  EN  UN  SOLO  LUGAR  DEL  ROMO:  $01F6DA,  ***
+      ***  el  handler  de  $68 = 7.  ***  ***[VERIFICADO]***
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      1.  SUMAR  $4C  AL  DUMP  DEL  TRACKER.
+
+          ***  ES  SOLO  LECTURA.  PASA  EL  REGLAMENTO  DEL  PROYECTO.  ***
+
+          Con  eso  se  puede  medir  de  verdad  si  el  extra  de  la  ruta  de
+          $4C = $0  existe:  ver  si  $4C  sigue  en  $0000  cuando  el  rival
+          cambia  a  $20  o  $21.
+
+          ***  Y  ESO  ES  EL  DATO  QUE  MAS  NOS  FALTA  DE  TODO  EL  ***  ***
+          ***  TEMA  DE  LOS  DERRIBOS.  ***
+
+      2.  $B9  SOLO,  SIN  COMBO.
+
+          ***  RECALIBRADO  CON  EL  HALLAZGO.  ***
+
+          NO BUSCAR  QUE  EL  RIVAL  SE  QUEDE  PARADO  ADELANTE.
+          BUSCAR  QUE  *** CAYA  A  VELOCIDAD  CONSTANTE  ***:  la  distancia
+          por  frame  tiene  que  ser  la  MISMA  al  principio  y  al  final.
+
+          ***  6,0  px/frame  constante  durante  los  5  frames  de  $5D,  ***  ***
+          ***  y  despues  el  suelo.  Eso  es  lo  que  hay  que  ver.  ***  ***
+
+      3.  $90(a5)  APUNTA  A  UNA  TABLA  Y  EL  OFFSET  $8  DE  ESA  TABLA  ES
+          LA  GRAVEDAD.
+
+          $018598   move.l   $8(a2), $4c(a5)
+
+          ***  [ABIERTO]  ESO  DICE  QUE  PUEDE  HABER  GRAVEDAD  POR  GOLPE,  ***  ***
+          ***  NO  SOLO  POR  ESTADO.  Hay  que  ver  que  hay  en  $90  de  ***  ***
+          ***  cada  personaje  y  si  los  $4C  que  hay  ahi  son  $3800,  ***  ***
+          ***  $5000  o  $3200.  ***
+
+      4.  $27  VISTO  EN  PANTALLA.  YA  ESTA  RESUELTO.
+
+          ***  CAYO  78  PX  EN  13  FRAMES  A  6,0  EXACTOS.  ***  ***
+          ***  NO  ERA  UN  ALTO  FIJO.  ERA  UNA  CAIDA  A  VELOCIDAD  ***  ***
+          ***  CONSTANTE.  Ver  CONTEXTO 160.  ***
+
+================================================================================
+================================================================================
 ================================================================================
 ================================================================================

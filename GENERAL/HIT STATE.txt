@@ -1638,14 +1638,16 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
   *** Y  ESO  EXPLICA  POR  QUE  $26  ES  EL  UNICO  QUE  ATRAE  A  PERSONAJES  LEJOS.  ***
 
   ================================================================================
-  146.6  Y  $4C  ES  LA  VELOCIDAD  DE  CAIDA
+  146.6  Y  $4C  ES  LA  ACELERACION  DE  LA  GRAVEDAD
   ================================================================================
 
   *** $4C  SE  ESCRIBE  $3800  EN  $23, $25, $30, $2F.  Y  $0  EN  $27.  ***
 
-      $3800  en  8.8  =  $3800 / $100  =  56  px/s
+      *** ESTA  LINEA  ESTA  MAL.  $3800  NO  ES  56  px/s.  ***
 
-  *** *** $3800 = 56 px/s.  CONFIRMADO  UNA  VEZ  MAS.  ***   [VERIFICADO]
+      $3800  en  16.16  =  14336 / 65536  =  0,21875  px/frame^2  =  13,1  px/s
+
+  *** *** LEIDO  EN  $01A07A:  velY += $4C  CADA  FRAME.  VER  CONTEXTO 160. ***
 
   *** Y  LO  UNICO  QUE  PONE  $4C = $0  ES  $27.  ***
 
@@ -1659,14 +1661,14 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
       $FFFE8000   =  -1.5      $18000     =  +1.5
       $FFFA0000   =  -6.0      $60000     =  +6.0
       $FFFC0000   =  -4.0      $FFF90000  =  -7.0
-      $3800       =  56  px/s  en  8.8  (caida)
+      $3800       =  0,21875  px/frame^2  =  13,1  px/s  (gravedad)
   ------------------------------------------------------------------------------
 
   ------------------------------------------------------------------------------
       $23   sube  a  4.0  y  se  va  de  lado  a  1.5
       $25   solo  de  lado  a  1.5
       $26   solo  de  lado  a  6.0        *** EL  MAS  RAPIDO  ***
-      $27   baja  a  6.0  y  NO  CAE  (4C=0)
+      $27   baja  a  6.0  CONSTANTE,  sin  acelerar  (4C=0)   *** NO ES ALTO FIJO ***
       $30   sube  a  7.0  sin  velocidad  lateral        *** EL  MAS  ALTO  ***
       $2F   solo  de  lado  a  1.5
       $20   hitstun,  no  hay  velocidad  escrita
@@ -1685,15 +1687,19 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
       [x]  $5D  =  el  contador  de  duracion  [VERIFICADO]
       [x]  $61  =  la  direccion,  no  un  flag  [VERIFICADO]
       [x]  $26  va  a  6.0,  no  a  1.5          [VERIFICADO]
-      [x]  $4C  =  la  velocidad  de  caida,  56  px/s   [VERIFICADO]
+      [x]  $4C  =  la  ACELERACION  de  la  gravedad   [VERIFICADO]  16.16
+      [x]  $4C  +=  $14  cada  frame  en  $01A07E   [VERIFICADO]
+      [x]  $3800 = 0,21875  px/frame^2,  NO  56  px/s   [VERIFICADO]
       [x]  $27  =  el  unico  con  $4C = 0       [VERIFICADO]
       [x]  $68=10  =  $25  con  $5D=8             [VERIFICADO]
       [x]  $68=0/2  y  $68=1/3  comparten  handler  [VERIFICADO]
 
-      *** $27  SIGUE  SIN  VERSE  EN  PANTALLA.  ***   [ABIERTO]
+      *** $27  FUE  VISTO  EN  PANTALLA.  13  FRAMES  ANTES  DE  $28.  ***
 
       *** EL  ROM  DICE  QUE  $27  RECIBE  velY  =  +6.0  Y  $4C  =  0.  ***
-      *** O  SEA  QUE  SE  MUEVE  A  6.0  Y  NO  CAE.  ***   [ABIERTO]
+      *** CAYO  78  PX  EN  13  FRAMES  A  6,0  EXACTOS.  NO  SE  QUEDO  ***
+      *** PARADO:  CAYO  A  VELOCIDAD  CONSTANTE  Y  SIN  ACELERAR.        ***
+      *** ESTA  RESUELTO.  VER  CONTEXTO 160.  ***   [VERIFICADO]
 
       *** PREGUNTA  PARA  EL  USUARIO  ***
 
@@ -3833,5 +3839,72 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
     ------------------------------------------------------------------
 
   ------------------------------------------------------------------------------================================================================================
+160.C  CORRECCION  DEL  FORMATO  DE  $4C.  LEIDO  DEL  CODIGO.  [VERIFICADO]
+================================================================================
+
+  *** ESTA  SECCION  CORRIGE  TRES  AFIRMACIONES  QUE  ESTABAN  MAL  ***
+  *** DESDE  EL  PRINCIPIO.  VER  CONTEXTO 160  Y  SISTEMAS 160.         ***
+
+  ------------------------------------------------------------------------------
+      ***  1.  $4C  NO  ES  LA  VELOCIDAD  DE  CAIDA.  ES  LA  ACELERACION.  ***
+
+          $01A07A   move.l   $4c(a5), d1
+          $01A07E   add.l    d1, $14(a5)
+          $01A082   move.l   $14(a5), d1
+          $01A086   add.l    d1, -$5556(a5)
+
+          ***  O  SEA:  velY  +=  $4C  CADA  FRAME.  ***
+          ***  LAS  MISMAS  SEIS  INSTRUCCIONES  EN  $01B56A,  $01BD6E  ***
+          ***  Y  $01C81A.  CUATRO  COPIAS.  ***
+
+      ***  2.  EL  FORMATO  ES  16.16  DE  32  BITS,  NO  8.8.  ***
+
+          ***  POR  ESO  ESTA  MAL  LEER  $3800  COMO  56  px/s.  ***
+
+          $3800 = 14336 / 65536 =  0,21875  px/frame^2  =  13,1  px/s
+          $5000 = 20480 / 65536 =  0,31250  px/frame^2  =  18,8  px/s
+          $3200 = 12800 / 65536 =  0,19625  px/frame^2  =  11,8  px/s
+          $0000 =                        0                 0     px/s
+
+          ***  EL  ERROR  VIENE  DE  LEER  $38  COMO  SI  FUERA  EL  ***
+          ***  BYTE  ALTO.  NO  LO  ES:  LA  INSTRUCCION  ES  move.l,  ***
+          ***  Y  EL  $38  ES  LA  PARTE  BAJA  DEL  LONGWORD.  ***
+
+      ***  3.  $27  NO  ES  EL  ALTO  FIJO.  ES  UNA  CAIDA  CONSTANTE.  ***
+
+          $01F6DA   move.l   #$0,     $4c(a4)   <-  sin  aceleracion
+          $01F6E2   move.l   #$60000, $14(a4)   <-  velY = +6,0  ABAJO
+          $01F6EA   clr.l             $10(a4)   <-  velX = 0
+
+          ***  EL  RIVAL  CAE.  CAE  A  6,0  PX/FRAME.  LO  QUE  NO  ***
+          ***  HACE  ES  ACELERAR.  13  FRAMES  x  6,0  =  78  PX.  ***
+
+          ***  "NO  CAE"  FUE  TRADUCIR  "$4C = 0"  COMO  "SIN  CAIDA".  ***
+          ***  $4C  ES  LA  ACELERACION:  CON  CERO  SIGUE  CAYENDO.  ***
+  ------------------------------------------------------------------------------
+
+  ***  LOS  CINCO  HANDLERS  QUE  NO  TOCAN  $4C  ***
+
+      $68=0  $20  hitstun    NO  escribe  $4C
+      $68=1  $21  hitstun    NO  escribe  $4C
+      $68=2  $20  hitstun    NO  escribe  $4C
+      $68=3  $21  hitstun    NO  escribe  $4C
+      $68=6  $26  lanzador   NO  escribe  $4C
+
+      ***  $4c(a4)  APARECE  7  VECES  EN  TODO  EL  ROM.  LAS  7  SON  ***
+      ***  ESCRITURAS:  6  DE  $3800  Y  1  DE  $0000.  ***
+      ***  Y  EN  $01E000-$020400  NO  HAY  NI  UN  BYTE  4C 00.  ***
+      ***  EL  LECTOR  VA  CON  (a5),  NO  CON  (a4).  ***
+
+      ***  [ABIERTO]  LA  GRAVEDAD  SE  COPIA  DE  UNA  TABLA  APUNTADA  ***
+      ***  POR  $90(a5):  $018598  move.l  $8(a2), $4c(a5).  ESO  IMPLICA  ***
+      ***  QUE  PUEDE  HABER  GRAVEDAD  POR  GOLPE,  NO  SOLO  POR  ESTADO.  ***
+
+      ***  EL  TRACKER  NO  LEE  $4C.  DEBERIA:  ES  EL  DATO  QUE  MAS  ***
+      ***  FALTA  PARA  CERRAR  EL  TEMA  DE  LOS  DERRIBOS.  SOLO  LECTURA.  ***
+
+================================================================================
+
+================================================================================
 ================================================================================
 ================================================================================

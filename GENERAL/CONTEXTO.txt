@@ -21420,6 +21420,258 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 
   *** *** Y  ESO  CAMBIA  COMO  HAY  QUE  LEER  TODOS  LOS  LOGS  ANTERIORES.  ***  ***
   *** *** CADA  $65  QUE  LEIMOS  ES  EL  DE  UN  FRAME,  NO  EL  DEL  GOLPE.  ***  ***
+160.  ***  $4C  ES  LA  GRAVEDAD.  LEIDA  DEL  CODIGO.  Y  $27  NO  ES  LO  QUE  ***  ***
+================================================================================
+     ***  DECIMOS  QUE  ERA.  ***
+
+  ###############################################################################
+  160.1  LA  PREGUNTA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  "$68 = 7 NO ESTA EN LA TABLA. Va por un handler aparte,  ***  ***
+      *** *** $01F6C8, que es el unico que pone $4C = $0.  QUE ES $4C.  QUE      ***  ***
+      *** *** REFERENCIAS TENEMOS?"                                              ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  160.2  QUE  ES  $4C.  LA  ACELERACION  DE  LA  GRAVEDAD,  EN  16.16
+  ###############################################################################
+
+  ***  LEIDO  DE  LA  RUTINA  DE  FISICA.  CUATRO  COPIAS  IDENTICAS.  ***  ***
+
+  ------------------------------------------------------------------------------
+    $01A072   move.l   $10(a5), d1        <- velocidad horizontal
+    $01A076   add.l    d1, $40(a5)        <- posicion X  +=  velX
+    $01A07A   move.l   $4c(a5), d1        <-  *** $4C  =  LA  GRAVEDAD  ***  ***
+    $01A07E   add.l    d1, $14(a5)        <- velocidad Y  +=  GRAVEDAD
+    $01A082   move.l   $14(a5), d1
+    $01A086   add.l    d1, -$5556(a5)     <- posicion Y  +=  velY
+  ------------------------------------------------------------------------------
+    ***  LAS  MISMAS  SEIS  INSTRUCCIONES  ESTAN  EN  $01B56A,  $01BD6E  ***  ***
+    ***  Y  $01C81A.  CUATRO  VECES  EN  EL  ROMO.  ***  ***[VERIFICADO]***
+
+  ***  *** O  SEA:  $4C  NO  ES  LA  VELOCIDAD  DE  CAIDA.  ES  LA  ***  ***
+  ***  *** ACELERACION  QUE  SE  LE  SUMA  A  LA  VELOCIDAD  CADA  FRAME.  ***  ***
+
+  ------------------------------------------------------------------------------
+      $3800 = 14336 / 65536 =  0,21875  px/frame^2  =  13,1  px/s
+      $5000 = 20480 / 65536 =  0,31250  px/frame^2  =  18,8  px/s
+      $3200 = 12800 / 65536 =  0,19625  px/frame^2  =  11,8  px/s
+      $0000 =  0                     px/frame^2  =   0     px/s
+  ------------------------------------------------------------------------------
+
+  ***  *** LO  QUE  ESTA  MAL  EN  NUESTROS  DOCUMENTOS  ***  ***
+
+  ###############################################################################
+  160.3  POR  QUE  NO  LA  HABIAMOS  ENCONTRADO.  Y  POR  QUE  $4C  NO  ESTA  EN
+  ###############################################################################
+  160.3  EL  DICCIONARIO
+
+  ***  *** ES  POR  QUE  USABAMOS  a4.  Y  NO  FUNCIONA.  ***  ***
+
+  ------------------------------------------------------------------------------
+      Los  handlers  de  $68  ESCRIBEN  con  (a4):  el  defensor.
+      La  fisica  LEE  con  (a5):  uno  mismo.
+
+      ***  *** Y  EN  $01E000-$020400  NO  HAY  NI  UN  SOLO  BYTE  4C 00.  ***  ***
+      ***  *** CERO  INSTANCIAS  EN  7  KB  DE  ZONA  DE  COMBATE.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      $4c(a4)  aparece  7  veces  en  TODO  EL  ROM.  LAS  SIETE  SON  ESCRITURAS.
+      $4c(a5)  aparece  unas  40  veces.  AHI  ESTA  EL  LECTOR.
+  ------------------------------------------------------------------------------
+
+  ***  *** ESTA  ERA  LA  FALLA  DE  METODO:  BUSCAR  UN  CAMPO  SOLO  EN  EL  ***  ***
+  ***  *** PUNTERO  DEL  OTRO.  UN  CAMPO  DEL  LUCHADOR  TIENE  DOS  NOMBRES:  ***  ***
+  ***  *** COMO  OBJETIVO  ES  a4,  COMO  PROPIO  ES  a5.  ***  ***
+
+  ###############################################################################
+  160.4  LOS  VALORES  DE  $4C  EN  TODO  EL  ROMO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    $3800    x  8   los  6  handlers  de  $68  +  las  2  entradas  de  $25
+    $5000    x  1   $019132   con  velY = -1,5   en  $01912A
+    $3200    x  1   $019154
+    $0000    x  1   *** $01F6DA.  SOLO  AHI.  EL  HANDLER  DE  $68 = 7.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  160.5  LA  CORRECCION  IMPORTANTE.  $27  NO  ES  EL  ALTO  FIJO
+  ###############################################################################
+
+  ###############################################################################
+      *** *** ESTO  ESTA  MAL  EN  TRES  DOCUMENTOS  QUE  YA  ENTREGUE.  ***  ***
+      *** *** Y  LA  CULPA  NO  ES  SOLO  DEL  DOCUMENTO.  ***  ***
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    $01F6C8   move.b   $6e(a3), $6e(a4)
+    $01F6CE   move.b   #$5,   $5d(a4)     <- 5  frames
+    $01F6D4   move.b   #$27,  $5f(a4)     <-  EL  ESTADO
+    $01F6DA   move.l   #$0,     $4c(a4)    <-  SIN  GRAVEDAD
+    $01F6E2   move.l   #$60000, $14(a4)    <-  velY = +6,0
+    $01F6EA   clr.l             $10(a4)    <-  velX = 0
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      ***  $23   $14 = -4,0   =  SUBE     (y el doc ya lo decia bien)
+      ***  $30   $14 = -7,0   =  SUBE     (y el doc ya lo decia bien)
+      ***  $27   $14 = +6,0   =  *** BAJA  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** $27  NO  ES  QUE  EL  RIVAL  SE  QUEDE  COLGANDO.  ***  ***
+
+  ***  *** $27  ES  QUE  EL  RIVAL  CAE  A  6,0  px/frame  Y  NO  ACELERA.  ***  ***
+
+  ***  *** ES  UN  DERRIBO  DE  VELOCIDAD  CONSTANTE.  ***  ***
+
+  ------------------------------------------------------------------------------
+      13  frames  x  6,0  =  78  px  de  caida.
+
+      ***  *** Y  ESO  ES  EXACTAMENTE  LO  QUE  MEDIMOS.  ***  ***
+      ***  *** $27  DURO  13  FRAMES  Y  DESPUES  FUE  A  $28.  ***  ***
+      ***  *** NO  SE  QUEDO  PARADO:  CAYO  78  PX  HASTA  EL  SUELO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  160.6  DE  DONDE  SALIO  EL  ERROR.  UNA  FRASE  QUE  SE  CONTRADICE  A  SI  ***  ***
+  ###############################################################################
+  160.6  MISMA
+
+  ------------------------------------------------------------------------------
+      HIT STATE  linea 1669:
+
+          "$27   baja a 6,0 y NO CAE (4C=0)"
+
+      ***  *** "BAJA"  Y  "NO CAE"  ESTAN  DICIENDO  LO  CONTRARIO.  ***  ***
+      ***  *** Y  ESTA  CONTRADICCION  ESTABA  EN  EL  DOCUMENTO  DESDE  ***  ***
+      ***  *** EL  PRINCIPIO.  ***  ***
+
+      ***  *** Y  LA  PROPAGUE  A  LOS  TRES  PDF.  COMO  "EL  ALTO  FIJO"  ***  ***
+      ***  *** Y  COMO  "EL  RIVAL  NO  CAE".  ***  ***
+      ***  *** LO  COPIE  SIN  NOTAR  QUE  LAS  DOS  FRASES  NO  VAN  JUNTAS.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** "NO CAE"  SALIO  DE  TRADUCIR  "$4C = $0"  COMO  "SIN  CAIDA".  ***  ***
+  ***  *** Y  $4C  NO  ES  LA  CAIDA:  ES  LA  ACELERACION  DE  LA  CAIDA.  ***  ***
+  ***  *** SI  LA  ACELERACION  ES  CERO,  EL  RIVAL  SIGUE  CAYENDO.  ***  ***
+  ***  *** SOLO  QUE  A  VELOCIDAD  CONSTANTE.  ***  ***
+
+  ###############################################################################
+  160.7  LO  QUE  ESTO  CORRIGE  Y  LO  QUE  NO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  LO  QUE  ESTA  BIEN  Y  NO  SE  TOCA  ***
+
+      [VERIFICADO]  $4C = $0000  se  escribe  en  UN  SOLO  LUGAR  DEL  ROMO:
+                    $01F6DA,  el  handler  de  $68 = 7.  instruction  por
+                    instruction.  Las  seis  otras  escrituras  de  $4c(a4)  son
+                    todas  $3800.
+
+      [VERIFICADO]  $27  es  el  unico  estado  sin  gravedad.
+
+      [VERIFICADO]  $27  es  el  unico  que  a  la  vez  pone  velY  POSITIVA
+                    y  gravedad  cero.
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      ***  LO  QUE  ESTA  MAL  Y  HAY  QUE  CORREGIR  ***
+
+      ***  1.  "EL  ALTO  FIJO"  NO  EXISTE.  ES  UNA  CAIDA  A  VELOCIDAD  ***  ***
+      ***  CONSTANTE.  El  nombre  nos  lo  inventamos  nosotros  y  esta  ***  ***
+      ***  mal.  ***  ***
+
+      ***  2.  "EL  RIVAL  NO  CAE"  ESTA  MAL.  Cae.  Cae  a  6,0  fijo.  ***  ***
+
+      ***  3.  EL  FORMATO:  los  documentos  alternan  "8.8"  y  "16.16".  ***  ***
+      ***  ***  LA  VERDAD:  ***  *** move.l ***  ***.  LONGWORD.  Y  EL  add  ***  ***
+      ***  *** es  de  32  bits  contra  los  32  bits  de  $14.  16.16.  ***  ***
+      ***  ***  METODO  linea 2707  dice  "8.8".  ESTA  MAL.  ***  ***
+
+      ***  4.  "$4C = 56 px/s"  ESTA  MAL.  $3800  no  es  56.  Es  0,21875  ***  ***
+      ***  *** px/frame^2,  que  son  13,1  px/s.  La  confusion  viene  de  ***  ***
+      ***  *** leer  $38  como  si  fuera  el  byte  alto.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  160.8  UN  HALLAZGO  QUE  NO  ESTABAMOS  BUSCANDO
+  ###############################################################################
+
+  ***  *** LA  GRAVEDAD  SE  COPIA  DE  UNA  TABLA  APUNTADA  POR  $90.  ***  ***
+
+  ------------------------------------------------------------------------------
+    $01858A   move.b   $14(a5), d0
+    $01858E   movea.l  $90(a5), a2        <- a2 = un  puntero  del  personaje
+    $018592   move.l   $4(a2), $14(a5)    <- velY     =  tabla[4]
+    $018598   move.l   $8(a2), $4c(a5)    <- GRAVEDAD =  tabla[8]
+  ------------------------------------------------------------------------------
+
+  ***  *** O  SEA:  $90  DEL  LUCHADOR  APUNTA  A  UNA  TABLA,  Y  EL  OFFSET  ***  ***
+  ***  *** $8  DE  ESA  TABLA  ES  LA  GRAVEDAD.  ***  ***
+
+  ***  *** ESTO  SIGNIFICA  QUE  ***  ***[ABIERTO]***  ***  *** HAY  GRAVEDAD  ***  ***
+  ***  *** POR  GOLPE,  NO  SOLO  POR  ESTADO.  Es  la  misma  estructura  que  ***  ***
+  ***  *** $90  con  la  que  se  copian  los  cajas  y  las  velocidades.  ***  ***
+
+  ###############################################################################
+  160.9  OJO.  EL  OFFSET  $4C  NO  ES  SIEMPRE  LO  MISMO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  *** CON  a5,  EN  LA  ZONA  DE  OBJETOS  ($019000-$01C900),  EL  ***  ***
+      ***  *** OFFSET  $4C  TAMBIEN  SE  USA,  PERO  COMO  UN  NUMERICO  ***  ***
+      ***  *** CHIQUENO:  $00,  $01,  $02,  $03.  ***  ***
+
+      $01B998   cmpi.b  #$2, $4c(a5)
+      $01C464   tst.b        $4c(a5)
+      $01A506   tst.b        $4c(a5)
+
+      ***  *** ESO  NO  ES  GRAVEDAD.  Es  otro  campo  de  otra  estructura  que  ***  ***
+      ***  *** CASO  EN  EL  MISMO  OFFSET.  ***  ***
+
+      ***  *** LA  REGLA  DE  COMO  SEPARARLOS:  ***  ***
+      ***  *** si  la  instruccion  nearby  TOCA  $14(a5)  O  $10(a5),  es  ***  ***
+      ***  *** GRAVEDAD.  Si  es  un  cmpi.b  contra  0/1/2/3,  es  el  otro.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  160.10  LO  QUE  ESTO  ABRE
+  ###############################################################################
+
+  ***  *** LOS  HANDLERS  QUE  NO  TOCAN  $4C  ***  ***
+
+  ------------------------------------------------------------------------------
+      $68 = 0  $20   hitstun   NO  escribe  $4C
+      $68 = 1  $21   hitstun   NO  escribe  $4C
+      $68 = 2  $20   hitstun   NO  escribe  $4C
+      $68 = 3  $21   hitstun   NO  escribe  $4C
+      $68 = 6  $26   lanzador  NO  escribe  $4C
+  ------------------------------------------------------------------------------
+
+  ***  *** CINCO  DE  LOS  ONCE  ESTADOS  NO  RE  ARMAN  LA  GRAVEDAD.  ***  ***
+
+  ***  *** Y  EL  UNICO  QUE  LA  PONE  EN  CERO  ES  $27.  ***  ***
+
+  ------------------------------------------------------------------------------
+      ***  *** [ABIERTO]  SI  A  ALGUIEN  SE  LO  MANDA  A  $27  Y  ANTES  DE  ***  ***
+      ***  *** QUE  TOQUE  EL  SUELO  LE  PEGAN  UN  GOLPE  QUE  LO  SAQUE  A  ***  ***
+      ***  *** $20  O  $21,  EL  RIVAL  SE  QUEDA  SIN  GRAVEDAD  ***  ***
+      ***  *** CON  LA  VELOCIDAD  QUE  TENIA.  ***  ***
+
+      ***  *** ES  UNA  RUTA  REAL  Y  ES  MEDIBLE  CON  EL  TRACKER.  ***  ***
+      ***  *** SOLO  HAY  QUE  LEER  $4C  DEL  RIVAL,  QUE  HOY  NO  LEEMOS.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** EL  TRACKER  TENDRIA  QUE  SUMAR  $4C  A  SU  LISTA  DE  CAMPOS.  ***  ***
+  ***  *** ES  UN  BYTE  MAS  EN  EL  DUMP  Y  ES  EL  DATO  MAS  UTIL  ***  ***
+  ***  *** QUE  NOS  FALTA  PARA  CERRAR  EL  TEMA  DE  LOS  DERRIBOS.  ***  ***
+
+  *** *** Y  OJO:  ESO  ES  SOLO  LECTURA.  NO  ES  ESCRITURA.  PASA  EL  ***  ***
+  *** *** REGLAMENTO  DEL  PROYECTO.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

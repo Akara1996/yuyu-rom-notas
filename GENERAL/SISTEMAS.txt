@@ -6698,6 +6698,112 @@ NUEVO = """161.  ***  CORRECION.  $68 = 7  SI  ESTA  EN  LA  TABLA.  Y  DOS  COS
       4.  luajit -bl, codigo 0                            OK
       5.  sin operadores de Lua 5.3                       OK
   ------------------------------------------------------------------------------
+167.  ***  LA  DIRECCION  ESTA  CONFIRMADA.  Y  POR  QUE  SE  COLGO  AUN  NO  ***
+================================================================================
+
+  ###############################################################################
+  167.1  POR  QUE  EL  TRACKER  DIJO  "0  COINCIDENCIAS"
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      BLOB VIVO  +64=$1E  +65=08  +66=04  +67=02  +68=05     <- el motor
+      OBJ-BLOB   RAM: $64=$1E $65=8 $66=4 $67=0  $68=2        <- mio
+
+      ***  *** $64  $65  $66  COINCIDEN.  $67  Y  $68  NO.  ***  ***
+      ***  *** Y  EL  $68  MIO  ES  EL  $67  REAL.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** O  SEA:  MI  LECTURA  ESTA  CORRIDA  UN  BYTE  O  ME  ESTOY  ***  ***
+  ***  *** LEYENDO  OTRO  BLOQUE  DEL  MISMO  SLOT.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** Y  POR  ESO  LA  BUSQUEDA  NO  ENCONTRO  NADA:  ***  ***
+      *** *** BUSCABA  08 04 1E 00  Y  08 04 1E 02,  QUE  NO  EXISTEN.  ***  ***
+      *** *** EL  BYTE  ESTABA  DENTRO  DE  LA  VENTANA  TODO  EL  TIEMPO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  167.2  MI  ARGUMENTO  DE  163  ESTABA  MAL.  Y  SE  CAE  SOLO
+  ###############################################################################
+
+  ***  *** EN  163  DIJE  QUE  $0D9CFA  Y  $0D9C66  ERAN  LA  ULTIMA  CAJA  DE  ***  ***
+  ***  *** DOS  LISTAS  DE  CAJAS.  ***  ***
+
+  ***  *** UNA  LISTA  DE  CAJAS  TIENE  EL  BIT 7  EN  1  EN  TODAS  MENOS  ***  ***
+  ***  *** EN  LA  ULTIMA,  QUE  CIERRA  LA  LISTA  CON  EL  BIT  EN  0.  ***  ***
+  ***  *** EL  CODIGO  HACE  p += 4  Y  SIGUE  MIENTRAS  bit 7 == 1.  ***  ***
+
+  ------------------------------------------------------------------------------
+      $0D9C5E   8B 80 07 7F   bit7=1   sigue
+      $0D9C62   8A 80 0C 7F   bit7=1   sigue
+      $0D9C66   10 0A 1E 25   bit7=0   *** CIERRA ***
+      $0D9C6A   16 7F 11 7E   bit7=0   *** CIERRA OTRA  ***
+      $0D9C6E   14 7B 0D 5F   bit7=0   *** CIERRA OTRA  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** CUATRO  REGISTROS  SEGUIDOS  CON  bit7=0  ES  IMPOSIBLE  EN  UNA  ***  ***
+  ***  *** LISTA  DE  CAJAS:  EL  CODIGO  ABRIRIA  UNA  LISTA  EN  CADA  UNO  Y  ***  ***
+  ***  *** NO  HAY  NINGUN  REGISTRO  QUE  LA  ABRA  A  CONTINUAR.  ***  ***
+
+  *** *** O  SEA:  $0D9CFA  Y  $0D9C66  SON  BLOBS.  ***  ***[VERIFICADO]***
+
+  ###############################################################################
+  167.3  Y  LOS  CINCO  VALORES  COINCIDEN  CON  LA  RAM
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $0D9CFA   $65= 8  $66= 4  $64=$1E  $67=2  $68=5    <- el RAM del 1er golpe
+      $0D9C66   $65=16  $66=10  $64=$1E  $67=2  $68=5    <- el RAM del 2do golpe
+
+      ***  *** Y  EN  TODO  EL  ROM,  CON  LA  FIRMA  DE  TRES  BYTES,  SOLO  ***  ***
+      ***  *** APARECEN  UNA  VEZ  CADA  UNA,  Y  SON  ESTAS  DOS.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  167.4  POR  QUE  SE  COLGO.  Y  ESO  NO  SE  SABE
+  ###############################################################################
+
+  *** *** NO  SE  SABE  Y  NO  SE  VA  A  INVENTAR  UNA  EXPLICACION.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** LO  QUE  SE  APLICO  FUE  $68 = 8.  ESO  MANDA  A  LA  VICTIMA  ***  ***
+      *** *** A  $30,  EL  DERRIBO  MAS  ALTO,  EL  UNICO  CON  velY = -7,0.  ***  ***
+
+      *** *** [ABIERTO]  SI  $30  SOBRE  UN  GOLPE  QUE  VIENE  DE  UN  OBJETO  ***  ***
+      ***  *** ROMPE  ALGO  EN  EL  MOTOR,  ESO  SERIA  UN  BUG  DEL  JUEGO  Y  ***  ***
+      ***  *** NO  UNA  DIRECCION  EQUIVOCADA.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  167.5  LA  PRUEBA  QUE  LOS  SEPARA
+  ###############################################################################
+
+  *** *** EN  VEZ  DE  $68 = 8  (que  es  $30),  PONER  $68 = 4  (que  es  $23).  ***  ***
+
+  ------------------------------------------------------------------------------
+      $23  ES  EL  DERRIBO  CIEGO.  NO  TIENE  VELOCIDAD  VERTICAL  ALTA:
+             velY = -4,0   (contra  los  -7,0  de  $30)
+             y  $5D = 5 frames.
+
+      *** *** ES  UN  ESTADO  MUCH  MAS  SIMPLE.  ***  ***
+
+      SI  ARRANCA  Y  EL  RIVAL  CAE  CIEGO   ->  LA  DIRECCION  ESTA  BIEN
+                                                 Y  EL  PROBLEMA  ERA  $30.
+      SI  VUELVE  A  COLGARSE                   ->  ENTONCES  SI  QUE  NO  ES  UN  ***  ***
+                                                 BLOB,  Y  HAY  QUE  BUSCAR  OTRO  ***  ***
+                                                 LADO.
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  167.6  LO  QUE  QUEDA  PARA  DESPUES
+  ###############################################################################
+
+  ***  *** CORREGIR  LA  LECTURA  DE  $67  Y  $68  EN  [OBJ-BLOB].  ***  ***
+
+  *** *** NO  AFECTA  AL  ROM  NI  AL  PARCHE:  LA  DIRECCION  YA  ESTA  ***  ***
+  ***  *** CONFIRMADA  POR  CINCO  VALORES.  Pero  el  tracker  sigue  mintiendo  ***  ***
+  ***  *** con  dos  de  ellos,  y  eso  hay  que  arreglarlo  antes  de  usar  ***  ***
+  ***  *** [OBJ-BLOB]  para  otra  cosa.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

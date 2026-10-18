@@ -20137,6 +20137,146 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
       ***  NI  EN  TOGURO  MAYOR.  ***
 
   ***  LA  ESTOCADA  $A4  ES  CASI  UNIVERSAL.  LE  FALTA  UNO.  ***
+155.  EL  INVENTARIO.  QUE  ESTA  HECHO  Y  QUE  NO
+================================================================================
+
+  *** SE  CONTESTO  UNA  PREGUNTA  QUE  ESTA  EN  EL  AIRE  DESDE  HACE  MESES:  ***
+  *** "QUE  PERSONAJES  FALTAN?"  Y  LA  RESPUESTA  CORTA  ES  NINGUNO.  ***  ***
+
+  ###############################################################################
+  155.1  UNA  ADVERTENCIA  ANTES  DE  LOS  NUMEROS
+  ###############################################################################
+
+  *** *** LA  COLUMNA  DE  "TECNICAS"  DEL  REGISTRO  CUENTA  MANIOBRAS,  NO  IDS.  ***  ***
+
+  Y  eso  hace  que  NO  SE PUEDA  RESTAR:
+
+      una  maniobra  puede  ocupar  VARIOS  ids
+          $AC + $AD + $AE  =  1  maniobra  de  Toguro  mayor.  3  ids.
+
+      un  mismo  id  puede  ser  DOS  maniobras  distintas
+          $A7 + $A6  =  1  maniobra.  2  ids.
+
+      y  hay  technicas  que  comparten  id  entre  personajes  con Registro
+      COMPLETAMENTE  DIFERENTE.  Ver 153.4.
+
+  ***  POR  ESO  EN  ESTE  DOCUMENTO  SE  CUENTAN  IDS  VIVOS  LEIDOS  DEL  ROM,  ***
+  ***  QUE  SI  SON  UN  NUMERO  CERRADO  Y  COMPARABLE.  ***
+
+  ###############################################################################
+  155.2  LO  QUE  ESTA  TERMINADO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    que  cosa                                       estado
+    ------------------------------------------------------------------
+    IDENTIFICACION  DE  PERSONAJES                  11 de 11    *** HECHO ***
+    CARPETA  Y  .TXT  POR  PERSONAJE                11 de 11    *** HECHO ***
+    PDF  POR  PERSONAJE                             10 de 11    falta  TOGURO-
+    LA  BANDA  $80-$8F  (los  basicos)              11 de 11    LOCALIZADO
+    LA  BANDA  $90-$9F  (los  de  aire)             11 de 11    LOCALIZADO
+    $B8  EL  AGARRE                                 11 de 11    LOCALIZADO
+  ------------------------------------------------------------------------------
+
+  *** *** NO  FALTA  NINGUN  PERSONAJE  POR  IDENTIFICAR  NI  POR  DOCUMENTAR.  ***  ***
+  *** *** ESO  ESTA  CERRADO  DESDE  EL  17-10-2026.  ***  ***
+
+  ###############################################################################
+  155.3  LAS  DOS  BANDAS  DE  BASICOS.  CERRADAS  PARA  LOS  ONCE
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $80-$8F    6  ids  en  9  de  los  11
+                 7  ids  en  HIEI   (con $85)   e  ITSUKI   (con $87)
+
+      $90-$9F    3  ids  ($90  $94  $95)  EN  LOS  ONCE,  sin  una  excepcion
+  ------------------------------------------------------------------------------
+
+      ***  101  IDS  LOCALIZADOS  EN  EL  ROM  PARA  LOS  ONCE  PERSONAJES.  ***  ***
+      ***  NO  FALTA  NI  UNO  DE  ELLOS.  ***
+
+      ***  LO  UNICO  QUE  FALTA  EN  ESAS  DOS  BANDAS  NO  ES  ENCONTRAR  LA  ***
+      ***  CASILLA:  ES  CONFIRMAR  CON  UN  BOTON  CUAL  ES  CUAL  Y  MEDIR  ***  ***
+      ***  DURACION  Y  EMPUJE.  ***
+
+  ###############################################################################
+  155.4  LA  BANDA  DE  TECNICAS  $A0-$BE.  134  IDS  EN  ONCE  PERSONAJES
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    #  nombre      ids  vivos   con  nombre   sin  nombre
+    ------------------------------------------------------------------
+     1  GENKAI            15           11             4
+     2  KURAMA             8            7             1
+     3  KUWABARA          11           11             0
+     4  YUSUKE             8            4             4
+     5  HIEI              16            8             8
+     6  SENSUI            11            9             2
+     7  JIN               12            7             5
+     8  ITSUKI            14            5             9
+     9  TOGURO+           12           12             0
+    10  CHUI              16           16             0
+    11  TOGURO-           11            0            11
+    ------------------------------------------------------------------
+       TOTAL             134           90            44
+  ------------------------------------------------------------------------------
+
+      *** 90  DE  134  IDS  DE  TECNICA  YA  TIENEN  NOMBRE.  44  SIN  NOMBRE.  ***
+
+      ***  TRES  PERSONAJES  COMPLETOS  EN  ESA  BANDA:  ***  ***
+      ***     KUWABARA  11 de 11      TOGURO+  12 de 12      CHUI  16 de 16  ***
+      ***  (KURAMA  esta  a  uno:  7  de  8.  Su  $A5  es  el  que  falta.)  ***
+
+      ***  Y  UNO  ESTA  EN  CERO:  TOGURO  MENOR,  0  de  11.  ***
+
+  ###############################################################################
+  155.5  Y  LOS  CUATRO  MANDOS.  EL  BLOQUE  QUE  CASI  NO  SE  TOCO
+  ###############################################################################
+
+      Los  cuatro  mandos  NO  ESTAN  EN  LAS  TRES  BANDAS.  estan  en  $00-$1F.
+
+      ------------------------------------------------------------------------------
+        $0B   el  dash          20  frames   medido  SOLO  en  Toguro  mayor
+        $0C   el  backdash      32  frames   medido  SOLO  en  Toguro  mayor
+        $09   la  guardia        $14 burla   medido  SOLO  en  Toguro  mayor
+      ------------------------------------------------------------------------------
+
+      ***  ES  EL  UNICO  BLOQUE  DEL  PROYECTO  QUE  ESTA  MEDIDO  EN  1  DE  11.  ***  ***
+      ***  Y  ES  EL  MAS  BARATO  DE  MEDIR:  CUATRO  BOTONES,  CADA  UNO.  ***  ***
+
+  ###############################################################################
+  155.6  Y  LO  QUE  EL  ROM  NO  PUEDE  RESPONDER  NUNCA
+  ###############################################################################
+
+  *** *** EL  ROM  DICE  QUE  HAY  UNA  TECNICA  EN  ESA  CASILLA.  ***  ***
+  *** *** NO  DICE  COMO  SE  LLAMA  NI  QUE  HACE  NI  CUANTA  MANA  CUESTA.  ***  ***
+
+  Eso  solo  se  saca  apretando  el  boton  y  leyendo  el  blob.
+
+  Y  por  eso  el  mapa  no  se  va  a  terminar  leyendo  el  ROM:  el  ROM  ya
+  esta  LEIDO  entero  para  los  once.  Falta  la  mitad  del  trabajo  que  es
+  un  humano  apretando  botones.
+
+  ###############################################################################
+  155.7  EL  ORDEN  DE  ATAQUE  PARA  CERRAR  EL  MAPA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    1.  TOGURO  MENOR     11  sin  nombre   el  unico  en  cero
+    2.  ITSUKI             9  sin  nombre   es  el  que  mas  le  falta
+    3.  HIEI               8  sin  nombre
+    4.  JIN                5  sin  nombre
+    5.  YUSUKE             4  sin  nombre
+    6.  GENKAI             4  sin  nombre
+    7.  SENSUI             2  sin  nombre
+    8.  KURAMA             1  sin  nombre
+    9.  KUWABARA           0  sin  nombre   *** COMPLETO ***
+   10.  TOGURO +           0  sin  nombre   *** COMPLETO ***
+   11.  CHUI               0  sin  nombre   *** COMPLETO,  9/9  BASICOS  TAMBIEN ***
+  ------------------------------------------------------------------------------
+
+      *** 44  TECNICAS  SIN  NOMBRE  EN  TODO  EL  JUEGO.  ***  ***
+      ***  MAS  LOS  CUATRO  MANDOS  EN  LOS  DIEZ  PERSONAJES  QUE  FALTAN.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

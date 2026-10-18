@@ -94,6 +94,42 @@ Donde estamos, que falta y en que orden
       *** Y LOS PRECIOS CONTADOS SON LOS DISTINTOS, NO LAS TECNICAS ***
 
       *** Y LO QUE FALTA EN CADA UNO, EN ORDEN DE RENTA ***
+      *** LA  COLUMNA  DE  TECNICAS  ARRIBA  CUENTA  MANIOBRAS,  NO  IDS.  ***
+      *** UNA  MANIOBRA  PUEDE  VARIOS  IDS  ($AC $AD $AE  =  1)  Y  UN  ID  ***
+      *** PUEDE  DOS  MANIOBRAS  ($A7 $A6  =  1).  POR  ESO  NO  SE  RESTA.  ***
+
+      *** CONTANDO  IDS  VIVOS  LEIDOS  DEL  ROM:  ***
+
+      #  nombre      ids  vivos   con  nombre   sin  nombre
+      --------------------------------------------------------------
+       1  GENKAI            15           11             4
+       2  KURAMA             8            7             1
+       3  KUWABARA          11           11             0
+       4  YUSUKE             8            4             4
+       5  HIEI              16            8             8
+       6  SENSUI            11            9             2
+       7  JIN               12            7             5
+       8  ITSUKI            14            5             9
+       9  TOGURO+           12           12             0
+      10  CHUI              16           16             0
+      11  TOGURO-           11            0            11
+      --------------------------------------------------------------
+         TOTAL             134           90            44
+
+      *** 90  DE  134  IDS  DE  TECNICA  CON  NOMBRE.  44  SIN  NOMBRE.  ***
+      *** COMPLETOS:  KUWABARA,  TOGURO+,  CHUI.  KURAMA  VA  7  DE  8.  ***
+
+      ***  LAS  DOS  BANDAS  DE  BASICOS  ($80-$8F  y  $90-$9F)  ESTAN  ***
+      *** LOCALIZADAS  AL  100 %  EN  LOS  ONCE.  101  ids.  No  falta  ***
+      *** ninguno.  Solo  falta  confirmar  con  un  boton  y  medir.  ***
+
+      *** Y  LOS  CUATRO  MANDOS  ESTAN  MEDIDOS  EN  1  DE  11.  Son  en  ***
+      *** $00-$1F,  fuera  de  las  tres  bandas.  Es  lo  mas  barato  que  ***
+      *** queda:  cuatro  botones,  cada  uno.  ***
+
+      *** Y  EL  ROM  YA  ESTA  LEIDO  ENTERO  PARA  LOS  ONCE.  LO  QUE  ***
+      *** NO  PUEDE  RESPONDER  LEYENDOLO  ES  QUE  TECNICA  ES  CADA  ID.  ***
+      *** Ver 155.
         Genkai     $A2 y $AF sin comando.  Los cuatro mandos sin medir
         Kurama     los cuatro mandos sin medir.  El alcance de su proyectil
         Yusuke     $A2, $A4 y $AC sin mapear

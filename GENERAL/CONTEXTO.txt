@@ -20954,6 +20954,292 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
     $40    el  clash  en  general
     $4E    la  mayoria  de  los  golpes  activos
   ------------------------------------------------------------------------------
+158.  ROMPER  PROYECTILES,  EL  TRADE  AL  BLOQUEAR,  Y  LA  BARRERA  CORREGIDA
 ================================================================================
+
+  ###############################################################################
+  158.1  ***  CORRECCION  MIA.  LA  BARRERA  NO  ES  "FUERTE".  ES  PURO  CLASH  ***
+  ###############################################################################
+
+  Yo  escribi  en  156:
+
+      "EL  USUARIO:  'la  barrera  que  para  el  99%  de  golpes  del  juego
+       excepto  dedal'.  CONFIRMADO  CON  SU  PROPIA  ULTI  COMO  PRUEBA."
+
+  *** *** ESTO  ESTA  MAL  PLANTEADO.  Y  ADEMAS  NO  DICE  NADA  NUEVO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** (usuario)  ***
+
+      "Si,  solo  el  dedal  vence  deliberadamente  a  la  barrera,  el  secreto
+       de  la  barrera  es  que  es  tan  grande  como  toguro  en  ancho,  pero
+       puesta  delante  de  el,  y  su  altura  es  mayor  aun,  llega  hasta  el
+       hud  de  vida,  pero  esa  barra  es  de  clasheo,  como  dedal  NO  TIENE
+       CLASH,  pasa  inadvertida,  no  es  que  'sea  mas  fuerte'  es  que  es
+       el  unico  ataque  que  ignora  clasheos."
+  ------------------------------------------------------------------------------
+
+  *** *** LA  BARRERA  NO  TIENE  UN  VALOR  DE  RESISTENCIA  ALTA.  ***  ***
+  *** *** TIENE  UNA  BARRA  DE  CLASH  ENORME  Y  NADA  MAS.  ***  ***
+
+  Y  EL  DEDAL  YA  SABIAMOS  DESDE  EL  PRIMER  DIA  QUE  NO  TIENE  CLASH:
+
+      "EL  DEDAL.  ABAJO,ABAJO + C  =  $A1
+       $A1 anim $02   HIT   mascara $3A      ***  SOLO  HIT.  NO  HAY  CLASH  ***
+       caja          ***  NO  TIENE  CLASH  ***
+       *** UN  SOLO  GOLPE  TUMBA  A  CUALQUIERA  DE  LOS  ONCE  DESDE  CERO.  ***
+       *** ES  UNO  DE  LOS  DOS  UNICOS  GOLPES  DEL  JUEGO  QUE  LO  HACEN.  ***"
+
+  ***  ASI  QUE  "LA  BARRERA  PARA  EL  DEDAL"  NO  ES  UN  HALLAZGO.  ***  ***
+  ***  ES  UNA  TAUTOLOGIA:  UN  CLASH  NO  PUEDE  CLASHEAR  UN  GOLPE  QUE  ***  ***
+  ***  NO  TIENE  CLASH.  ***
+
+  ------------------------------------------------------------------------------
+      ***  LO  QUE  SI  ES  NUEVO  Y  SI  ES  UTIL:  ***
+
+      1.  LA  GEOMETRIA  DE  LA  BARRERA.  Es  tan  ANCHA  COMO  TOGURO,  pero
+          PUESTA  DELANTE  DE  EL.  Y  MAS  ALTA  AUN:  LLEGA  HASTA  EL  HUD  DE
+          VIDA.  *** ESO  ES  MEDIBLE  Y  NO  LO  HEMOS  MEDIDO.  ***
+
+      2.  QUE  LA  BARRERA  ES  UN  CLASH  PURO  LE  DA  UNA  VENTAJA  REAL  Y
+          DISTINTA  DE  LA  QUE  SE  LE  ATRIBUIA  A  UN  "99%  DE  RESISTENCIA".
+          Un  ataque  con  un  POCO  de  dano  y  un  CLASH  enorme  bloquea  todo
+          lo  que  se  pueda  clashear,  sin  importar  el  dano  propio.
+
+      ***  Y  ESO  ES  UNA  ARQUITECTURA,  NO  UN  STAT.  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  158.2  ***  UN  SISTEMA  NUEVO  ENTERO:  ROMPER  PROYECTILES  Y  LO  QUE  ***
+  ###############################################################################
+
+  *** *** ESTO  NO  ESTABA  DOCUMENTADO  EN  NINGUN  LADO  DEL  PROYECTO.  ***  ***
+
+  *** *** Y  NO  SE  PUEDE  MEDIR  CON  EL  TRACKER  ACTUAL.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** (usuario)  ***
+
+      "el  log  no  reconocio  los  clasheos"
+
+  *** *** HACE  FALTA  UN  DUMP  DE  CLASHEOS  EN  EL  LUA.  EL  TRACKER  SOLO  ***
+  *** *** LEE  $69,  QUE  ES  LA  CONGELACION.  EL  CLASHEO  ENTRE  DOS  ATAQUES  ***
+  *** *** NO  IMPRIME  NADA.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** (usuario)  ***
+
+      "la  barrera  es  el  unico  ataque  que  puede  romper  varios  ataques  al
+       mismo  tiempo  y  durante  un  tiempo  sostenido"
+
+      "un  golpe  fisico  puede  destruir  un  proyectil,  pero  no  2  o  3  juntos"
+
+      "cuando  rompes  uno  quedas  clasheado  y  en  ese  estado  los  demas
+       penetran  tu  ataque"
+
+      "la  barrera  no  tiene  esa  debilidad,  esta  disenada  para  tanquear
+       varios  ataques  unos  detras  de  otros  e  inclusive  varios  en  simultaneo"
+  ------------------------------------------------------------------------------
+
+  ---- LA  REGLA,  EN  UNA  LINEA  ------------------------------------------------
+
+      *** UN  CLASH  NORMAL  RESUELVE  UN  SOLO  ATAQUE.  AL  RESOLVERLO,  ***  ***
+      *** *** EL  ATACANTE  QUEDA  EN  ESTADO  DE  CLASHEO  Y  LOS  RESTOS  LO  ***  ***
+      *** *** ATRAVIESAN  DE  VERDAD.  ***
+
+      *** LA  BARRERA  NO  PASA  POR  ESE  CICLO.  POR  ESO  DIFIERE.  ***
+
+  ###############################################################################
+  158.3  LA  TABLA  DE  LAS  BARRERAS  Y  LOS  CLASHEOS
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    que  cosa                         como  se  comporta
+    ------------------------------------------------------------------
+    CLASH  NORMAL                     resuelve  UN  ataque  y  te  deja  clasheado.
+                                       Los  siguientes  te  atraviesan.
+
+    GOLPE  FISICO  contra  PROYECTIL  destruye  UN  proyectil.  No  2  ni  3.
+                                       Al  destruirlo,  quedas  clasheado.
+
+    LA  BARRERA  DE  TOGURO  menor    rompe  VARIOS  a  la  vez,  en  cadena  O
+                                       simultaneos.  No  entra  en  el  estado  de
+                                       clash  que  la  deja  expuesta.
+
+    EL  DEDAL                          no  tiene  CLASH  box.  Por  eso  la
+                                       barrera  no  lo  ve.  Y  por  eso  las
+                                       barreras  de  los  OTROS  personajes  tampoco.
+  ------------------------------------------------------------------------------
+
+  *** *** ESTO  ES  UNA  ARQUITECTURA  DE  DISENO,  NO  UN  STAT.  ***  ***
+
+  Y  ESO  ES  LO  QUE  HACE  LA  BARRERA  DE  TOGURO  MENOR  TAN  ESPECIFICA:
+  NO  ES  QUE  SEA  FUERTE.  ES  QUE  ESTA  DISENADA  PARA  ESTE  PROBLEMA.
+
+  ------------------------------------------------------------------------------
+      ***  LA  MAS  ALTA  QUE  EL  RESTO  DE  LOS  GOLPES.  ***  ***
+
+      (usuario)  "es  tan  grande  como  toguro  en  ancho,  pero  puesta  delante
+       de  el,  y  su  altura  es  mayor  aun,  llega  hasta  el  hud  de  vida"
+
+      ***  ESO  ES  UNA  MEDIDA.  Y  ESTA  AL  LADO  DEL  ALCANCE.  EL  BOX  ***  ***
+      ***  DE  CLASH  SE  PUEDE  LEER  DEL  .ASM  CON  EL  METODO  YA  HECHO.  ***  ***
+
+  ###############################################################################
+  158.4  Y  POR  QUE  LA  BARRERA  TERMINA.  NO  ES  QUE  SE  ROMPIERA
+  ###############################################################################
+
+  *** *** ESTA  ERA  MI  PREGUNTA  Y  ESTA  ES  LA  RESPUESTA  EXACTA.  ***  ***
+
+      (usuario)  "en  este  caso  logro  parar  unos  6  golpes  de  ulti  y  el
+       ultimo  le  pego  por  que  entro  en  recovery,  no  por  que  haya
+       roto  la  barrera"
+
+  ------------------------------------------------------------------------------
+      ***  LA  BARRERA  NO  SE  ROMPIO.  ***  ***
+
+      ***  EL  GOLPE  EN  CONTRA  ENTRO  POR  UNA  DEBILIDAD  DEL  ATAQUE:  ***  ***
+      ***  EL  RECOVERY.  EL  MISMO  LADO  QUE  HACE  VULNERABLE  A  LA  ULTI  ***  ***
+      ***  EN  SU  ANIM  $1E.  ***
+
+      ***  O  SEA:  LA  BARRERA  NO  TIENE  LIMITE  DE  ABSORCION.  LO  QUE  ***  ***
+      ***  SE  ACABO  FUE  LA  ULTI,  NO  LA  BARRERA.  ***
+
+      *** *** Y  POR  ESO  NO  HAY  UN  "430  FRAMES  DE  CONGELAMIENTO".  ***  ***
+      *** *** LO  QUE  HAY  SON  UNOS  430  FRAMES  EN  LOS  QUE  LA  BARRERA  ***  ***
+      *** *** ESTUVO  ABSORBIENDO  GOLPES  HASTA  QUE  EL  ATAQUE  SE  ABRIO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  158.5  ***  EL  TRADE  AL  BLOQUEAR  O  CLASHEAR.  LA  REGLA  DEL  DIVE  ***
+  ###############################################################################
+
+  *** *** EL  HALLAZGO  MAS  IMPORTANTE  DE  LA  RONDA.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** (usuario)  ***
+
+      "el  punto  es  que  si  bloqueas  el  ataque,  pasas  a  estar  en  positivo
+       antes  de  que  toguro  se  recomponga  de  su  dive"
+
+      "el  dive  de  itsuki  y  chu  si  no  golpea  a  ningun  jugador  se
+       desliza  hasta  aterrizar  y  tiene  frames  en  negativo"
+
+      "toguro  tiene  ese  defecto  independientemente  de  que  no  colisione  con
+       nadie  o  si  lo  haga"
+
+      "los  demas  salen  seguros  si  bloqueas  su  dive,  toguro  no"
+
+      "toguro  solo  sale  bien  parado  cuando  ha  conectado  directamente  el
+       golpe,  si  lo  clasheas  o  bloqueas,  ganaste  el  trade"
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      ***  ***  EL  DIVE  DE  TOGURO  MENOR  ES  UN  GOLPE  DE  RIESGO.  ***  ***  ***
+
+      LA  REGLA  EN  UNA  TABLA:
+
+      ------------------------------------------------------------------------------
+        que  le  pasa  al  dive         resultado  del  trade
+        ------------------------------------------------------------------
+        CONECTA  DE  FRENTE               ***  +.  EL  RIVAL  ESTA  EN  NEGATIVO  ***
+        CLASHEADO                          +.  Vos  GANASTE  EL  TRADE
+        BLOQUEADO                          +.  Vos  GANASTE  EL  TRADE
+        NO  TOCA  A  NADIE                ***  +.  UN  DIVE  AL  VACIO  TAMBIEN  ***
+                                            ***  ES  SEGURO  PARA  EL  DEFENSOR  ***
+      ------------------------------------------------------------------------------
+
+      ***  O  SEA:  TOGURO  MENOR  SOLO  SALE  BIEN  PARADO  CUANDO  SU  DIVE  ***  ***
+      ***  *** CONECTO.  Y  ESO  ES  UN  ATAQUE  DE  ALTA  VARIANZA  QUE  EL  ***  ***
+      ***  *** JUGADOR  TIENE  QUE  LEER  EN  EL  PRIMER  FRAME.  ***  ***
+  ------------------------------------------------------------------------------
+
+  *** *** Y  ESTO  EXPLICA  EL  DATO  DE  157.8  DE  OTRA  FORMA.  ***  ***
+
+  Yo  anote  que  el  dive  "sigue  bajando  hasta  aterrizar"  como  si  fuera  un
+  detalle  visual.  *** NO  ES  VISUAL.  ES  LA  VENTANA  DE  CASTIGO.  ***
+
+  ------------------------------------------------------------------------------
+      $AD  de  f121  a  f182  =  61  frames  de  dive
+      $AD -> $00 -> $AE -> $01 -> $00  =  28  frames  mas  hasta  que  puede  actuar
+
+      ***  ESOS  28  FRAMES  SON  LA  VENTANA.  Y  ESTAN  AHI  AUN  CUANDO  EL  ***
+      ***  DIVE  NO  TOCO  A  NADIE.  ***
+  ------------------------------------------------------------------------------
+
+  *** *** Y  ES  LA  MISMA  COSA  QUE  EL  RECOVERY  QUE  ABRE  A  LA  BARRERA.  ***  ***
+  *** *** EL  PUNTO  DE  CASTIGO  DE  UN  ATAQUE  ES  SU  VENTANA  FINAL.  Y  ESO  ***  ***
+  *** *** APLICA  A  TODOS  LOS  GOLPES  DEL  JUEGO.  ES  UNA  REGLA  GENERAL.  ***  ***
+
+  ###############################################################################
+  158.6  LA  BARRERA  ES  AB  SIMULTANEO.  Y  POR  QUE  EL  LOG  IMPRIME  "A"
+  ###############################################################################
+
+*** *** ESTO  EXPLICA  EL  RUIDO  DEL  LOG.  Y  NO  ES  RUIDO:  ES  DATO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** (usuario)  ***
+
+      "la  tecnica  es  AB,  pero  recordemos  que  el  imput  del  juego  te  toma
+       rapido  el  boton  que  presionaste,  asi  que  con  solo  1ms  de
+       diferencia  entre  los  2  botones  ya  'intento'  lanzar  un  golpe  que
+       se  cancelo  en  la  tecnica"
+
+      "si  mantienes  B  y  luego  presionas  A  no  se  ejecuta,  ni  al  reves,
+       tiene  que  ser  a  la  vez  o  con  1-2  frames  de  diferencia"
+  ------------------------------------------------------------------------------
+
+  ---- POR  QUE  EL  LOG  IMPRIME  "A  id=$80"  Y  NO  "AB"  ---------------------
+
+  ------------------------------------------------------------------------------
+      *** *** EL  JUEGO  LEE  LOS  BOTONES  CON  UNA  VENTANA  MUY  ESTRECHA.  ***  ***
+
+      Con  1  ms  de  diferencia  el  juego  YA  INTENTA  lanzar  un  golpe
+      normal.  Ese  intento  es  el  que  el  tracker  imprime.  Y  despues  se
+      cancela  en  la  tecnica.
+
+      ***  O  SEA:  EL  "A  id=$80"  DEL  LOG  NO  ES  UN  ERROR  DE  DETECCION.  ***  ***
+      *** *** ES  LITERALMENTE  LO  QUE  EL  JUEGO  INTENTA  HACER  PRIMERO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  Y  EL  TRACKER  LO  MARCA  COMO  RUIDO  POR  SUPUESTO,  QUE  ES  SU  FORMA  DE
+  DECIR  "ESTE  DATO  NO  ME  SIRVE  PARA  EL  ALVO  DE  ESTA  MEDICION".  En
+  este  caso  concreto  SI  SIRVE,  y  POR  ESO  HAY  QUE  DEJARLO  APUNTADO.
+
+  ------------------------------------------------------------------------------
+      ***  Y  UN  DATO  DE  DISENO  QUE  SALE  DE  ACA:  ***  ***
+
+      LA  VENTANA  DE  Deteccion  DE  BOTON  ES  DE  1  A  2  FRAMES.
+
+      ***  ESO  SIGNIFICA  QUE  LOS  COMBOS  CON  DOS  BOTONES  TIENEN  UNA  ***  ***
+      ***  VENTANA  DE  1-2  FRAMES  PARA  SER  LEGIBLES  POR  EL  MOTOR.  ***  ***
+      ***  [DERIVADO]  ES  UN  DATO  QUE  AFECTA  A  TODOS  LOS  COMBOS  DEL  ***  ***
+      ***  JUEGO,  NO  SOLO  A  LAS  TECNICAS  CARGADAS.  ***
+
+      *** ***  NO  SE  PUEDE  HACER  UN  COMBO  CON  UN  BOTON  MANTENIDO  Y  ***  ***
+      *** *** OTRO  APRETADO  DESPUES.  HAY  QUE  APRETARLOS  A  LA  VEZ.  ***  ***
+      *** *** ESO  ES  UNA  RESTRICCION  DE  JUEGO,  NO  UNA  COSTUMBRE  NUESTRA.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  158.7  LO  QUE  ESTA  ABIERTO  Y  LO  QUE  CAMBIA  EN  LOS  DOCUMENTOS
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    que  cosa                          que  cambia
+    ------------------------------------------------------------------
+    "la  barrera  para  el  99%"     ***  REESCRITO.  No  es  resistencia.  Es  ***
+                                         un  clash  puro.  Ver  158.1.
+    $65 = $67 = 103  de  la  barrera   ***  NO  ES  DANO.  Ver  158.2.  Y  EL  VALOR
+                                         NO  ES  UNA  RESISTENCIA  FIJA:  ***  EL
+                                         DEDAL  LO  ATRAVIESA  POR  NO  TENER
+                                         CLASH,  NO  POR  SER  MAS  FUERTE.  ***
+    la  geometria  de  la  barrera     ***  FALTA  MEDIR.  Ancha  como  Toguro,
+                                         puesta  delante,  y  MAS  ALTA.  ***
+  ------------------------------------------------------------------------------
+    que  cosa                          que  cambia
+    ------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------================================================================================
 ================================================================================
 ================================================================================

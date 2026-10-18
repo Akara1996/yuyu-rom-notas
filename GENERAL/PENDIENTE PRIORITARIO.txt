@@ -891,5 +891,85 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
        quedo  ANULADA:  en  Toguro  menor  es  $01  en  nueve  de  diez  golpes.
 
 ================================================================================
+  CERRADO  EL  18-10-2026.  ROMPER  PROYECTILES,  EL  TRADE,  Y  LA  BARRERA
+  ================================================================================
+
+  [x]  ***  POR  QUE  LE  AGUANTA  CUALQUIER  GOLPE  Y  EL  DEDAL  NO.  ***  ***
+  [x]  ***  MI  ENCUADRE  ESTABA  MAL.  NO  ES  RESISTENCIA.  ES  UN  CLASH.  ***  ***
+
+       "el  secreto  de  la  barrera  es  que  es  tan  grande  como  toguro  en
+       ancho,  pero  puesta  delante  de  el,  y  su  altura  es  mayor  aun,  llega
+       hasta  el  hud  de  vida,  pero  esa  barra  es  de  clasheo,  como  dedal  NO
+       TIENE  CLASH,  pasa  inadvertida,  no  es  que  'sea  mas  fuerte'  es  que
+       es  el  unico  ataque  que  ignora  clasheos"
+
+       ***  LA  BARRERA  ES  UN  CLASH  PURO  Y  EL  DEDAL  NO  TIENE  CLASH.  ***
+       ***  ESO  YA  LO  SABIAMOS  DESDE  EL  PRIMER  DIA  DEL  DEDAL.  O  SEA  QUE  ***
+       ***  "LA  BARRERA  PARA  EL  DEDAL"  NO  ERA  UN  HALLAZGO:  ERA  UNA  ***  ***
+       ***  TAUTOLOGIA.  UNA  BARRERA  NO  PUEDE  CLASHEAR  UN  GOLPE  QUE  NO  ***  ***
+       ***  TIENE  CLASH.  ***
+
+       LO  QUE  SI  ES  NUEVO  Y  SI  ES  MEDIBLE:  LA  GEOMETRIA.
+
+  [x]  ***  ROMPER  PROYECTILES.  SISTEMA  NUEVO  EN  EL  PROYECTO.  ***  ***
+
+       -  UN  CLASH  NORMAL  RESUELVE  UN  SOLO  ATAQUE.
+       -  UN  GOLPE  FISICO  DESTRUYE  UN  PROYECTIL.  NO  DOS  NI  TRES.
+       -  AL  ROMPER  UNO,  QUEDAS  CLASHEADO,  Y  EN  ESE  ESTADO  LOS  RESTOS
+          PENETRAN  TU  ATAQUE  DE  VERDAD.
+       -  LA  BARRERA  DE  TOGURO  MENOR  ROMPE  VARIOS,  EN  CADENA  O
+          SIMULTANEOS,  Y  NO  PASA  POR  ESE  CICLO.
+
+  [x]  ***  LA  BARRERA  NO  SE  ROMPIO.  ***  ***
+
+       "logro  parar  unos  6  golpes  de  ulti  y  el  ultimo  le  pego  por  que
+       entro  en  recovery,  no  por  que  haya  roto  la  barrera"
+
+       ***  NO  HAY  430  FRAMES  DE  CONGELAMIENTO.  HAY  UNOS  430  FRAMES  ***
+       ***  ABSORBIENDO  GOLPES  HASTA  QUE  EL  ATAQUE  SE  ABRIO.  LA  BARRERA  ***
+       ***  NO  TIENE  LIMITE  DE  ABSORCION.  LO  QUE  SE  ACABO  FUE  LA  ULTI.  ***
+
+  [x]  ***  EL  DIVE  SOLO  SALE  SEGURO  SI  CONECTO.  ES  UN  ATAQUE  DE  ***  ***
+  [x]  ***  RIESGO  Y  ESO  ES  UNA  REGLA  GENERAL.  ***  ***
+
+       -  CONECTA  DE  FRENTE      +.  el  rival  queda  en  negativo
+       -  CLASHEADO                 +.  vos  ganaste  el  trade
+       -  BLOQUEADO                 +.  vos  ganaste  el  trade
+       -  NO  TOCA  A  NADIE       +.  un  dive  al  vacio  tambien  es  seguro
+
+       "toguro  solo  sale  bien  parado  cuando  ha  conectado  directamente  el
+       golpe,  si  lo  clasheas  o  bloqueas,  ganaste  el  trade"
+
+       ***  Y  ES  LA  MISMA  COSA  QUE  EL  RECOVERY  QUE  ABRE  A  LA  BARRERA.  ***
+       ***  EL  PUNTO  DE  CASTIGO  DE  UN  ATAQUE  ES  SU  VENTANA  FINAL.  ***  ***
+
+       ***  ESTO  CORRIGE  LO  QUE  YO  ANOTE  EN  157.8.  Decia  que  el  dive  ***
+       ***  "sigue  bajando  hasta  aterrizar"  como  si  fuera  un  detalle  ***  ***
+       ***  VISUAL.  NO  ES  VISUAL.  ES  LA  VENTANA  DE  CASTIGO.  ***  ***
+
+  [x]  ***  LA  BARRERA  ES  AB  A  LA  VEZ.  Y  POR  ESO  EL  LOG  IMPRIME  A.  ***  ***
+
+       -  CON  1  ms  DE  DIFERENCIA  EL  JUEGO  YA  INTENTA  UN  GOLPE  NORMAL,
+          QUE  DESPUES  SE  CANCELA  EN  LA  TECNICA.
+       -  MANTENER  UN  BOTON  Y  APRETAR  EL  OTRO  DESPUES  NO  FUNCIONA.
+       -  TIENE  QUE  SER  A  LA  VEZ  O  CON  1-2  FRAMES  DE  DIFERENCIA.
+
+       ***  EL  "A  id=$80"  DEL  LOG  NO  ES  UN  ERROR  DE  DETECCION.  ES  ***
+       ***  LITERALMENTE  LO  QUE  EL  JUEGO  INTENTA  HACER  PRIMERO.  ***  ***
+
+       ***  [DERIVADO]  LA  VENTANA  DE  LECTURA  DE  BOTON  ES  DE  1  A  2  ***  ***
+       ***  FRAMES.  NINGUN  COMBO  SE  PUEDE  HACER  CON  UN  BOTON  MANTENIDO  ***  ***
+       ***  Y  OTRO  APRETADO  DESPUES.  AFECTA  A  TODOS  LOS  COMBOS  DEL  JUEGO.  ***
+
+  [ ]  LA  GEOMETRIA  DE  LA  BARRERA.  Ancha  como  Toguro  pero  puesta  DELANTE
+       de  el,  y  mas  alta:  llega  hasta  el  HUD  de  vida.  SE  PUEDE  LEER
+       DEL  .ASM  CON  EL  METODO  YA  HECHO.
+
+  [ ]  ***  UN  DUMP  DE  CLASHEOS  EN  EL  LUA.  ***  ***
+       "el  log  no  reconocio  los  clasheos"
+       El  tracker  solo  lee  $69,  que  es  la  CONGELACION.  El  clash  entre
+       dos  ataques  no  imprime  nada.  Hace  falta  uno  dedicado.
+
+================================================================================
 ================================================================================
 ================================================================================

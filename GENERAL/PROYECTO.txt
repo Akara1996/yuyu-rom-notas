@@ -82,7 +82,7 @@ Donde estamos, que falta y en que orden
       ITSUKI     8        10       5         -        ITSUKI TECNICAS,  6 pag + 7 viejos
         TOGURO +   9       9       18        -        TOGURO+ TECNICAS, 7 pag   18 TEC.  + EL  EXPLOIT  + LA  ULTI
         CHUI       10      10      18 de 18   -        CHUI TECNICAS, 16 pag    COMPLETO.  9/9 BASICOS
-      TOGURO -   11       9        9        -        TOGURO- TECNICAS, 7 pag   9 TEC.  + LA  BARRERA
+      TOGURO -   11       9        9        -        TOGURO- TECNICAS, 9 pag   9 TEC.  + LA  BARRERA  + EL  DIVE
 
       *** 11 CON DOCUMENTO.  CHUI COMPLETO: 18/18 TECNICAS, 9/9 BASICOS
       QUE ENTRADA ES  (YUSUKE,  el 4 con el $AA que no cierra). ***
@@ -506,6 +506,20 @@ A("")
                                                         *** $27 VISTO EN PANTALLA. ***
 
       *** 11 DE 11 CON CARPETA,  .TXT  Y  PDF.  11 DE 11 IDENTIFICADOS  EN  PANTALLA.  ***
+      *** DOS  SISTEMAS  NUEVOS  QUE  NO  EXISTIAN  EN  EL  PROYECTO:  ***
+
+      1.  ROMPER  PROYECTILES.  Un  clash  normal  resuelve  UN  ataque.
+          Un  golpe  fisico  destruye  UN  proyectil,  no  dos.  Al  romper
+          uno  quedas  clasheado  y  los  demas  te  atraviesan.  La  barrera
+          de  Toguro  menor  rompe  varios  y  no  pasa  por  ese  ciclo.
+          El  unico  que  la  atraviesa  es  el  Dedal,  POR  NO  TENER
+          CLASH.  ***  NO  ES  RESISTENCIA.  ES  UN  CLASH  PURO.  ***
+
+      2.  EL  TRADE  AL  BLOQUEAR  O  CLASHEAR.  El  dive  de  Toguro  menor
+          sale  bien  parado  SOLO  si  conecto.  Bloquearlo  o  clashearlo
+          gana  el  trade.  Un  dive  al  vacio  tambien  es  seguro  para
+          el  defensor.  ***  REGLA  GENERAL:  EL  PUNTO  DE  CASTIGO  DE  ***
+          ***  UN  ATAQUE  ES  SU  VENTANA  FINAL.  ***
 
       *** YA  NO  FALTA  NINGUN  PDF.  LOS  ONCE  ESTAN.  ***
       Toguro  menor  es  el  unico  que  estaba  en  ronda  1:  solo  datos  del  ROM.

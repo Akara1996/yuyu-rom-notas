@@ -697,5 +697,69 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
   [ ]  +$12  deberia  ser  $1E x n  (mod 256)  en  los  once.  SENSUI  deberia
        tener  $96  y  tiene  $B4.  Un  solo  salto  raro,  y  no  es  Toguro  menor.
 ================================================================================
+  CERRADO  EL  17-10-2026.  TOGURO  MENOR  IDENTIFICADO  Y  SU  SET  LEIDO
+  ================================================================================
+
+  [x]  LA  LINEA  CONTEXTO  CONFIRMA  LA  PREDICCION  DEL  ROM.
+
+            (usuario)  "CONTEXTO: $50=$0D777A  $8C=$0D85AA  Toguro menor P1"
+
+       ***  *** 11  DE  11  IDENTIFICADOS  POR  PANTALLA.  ***  ***
+       ***  $50 = $0D777A   $8C = $0D85AA   [VERIFICADO]  ***
+
+  [x]  SU  BANDA  $80-$8F.  $80 $81 $82 $83 $84 $86.   *** $85  y  $87  MUERTOS.  ***
+       ***  $85  SOLO  DE  HIEI  Y  $87  SOLO  DE  ITSUKI,  CONFIRMADO  EN  LOS  ONCE.  ***
+
+  [x]  LA  BANDA  $90-$9F  ES  IDENTICA  EN  LOS  ONCE:  $90 $94 $95.  Y  SOLO
+       ESOS  TRES.  *** LA  BANDA  MAS  UNIFORME  DEL  JUEGO  ENTERO.  ***
+
+  [x]  $B8  EL  AGARRE  ESTA  VIVO  EN  LOS  ONCE  PERSONAJES.
+
+  [x]  SU  SET  DE  TECNICAS  LEIDO:  ONCE  IDS  VIVOS.
+       $A0 $A1 $A2 $A3 $AA $AB $AC $AD $AE $B8 $B9
+       *** NO  TIENE  $A4  NI  $A6/$A7.  TIENE  $AA $AB  Y  $B9,  QUE  SU  HERMANO NO.  ***
+       *** $B9  SOLO  LO  COMPARTEN  GENKAI  Y  EL.  2  DE  11.  ***
+
+  [ ]  ***  LA  GRAN  PREGUNTA:  EL  ID  SIGNIFICA  LO  MISMO  EN  TODOS?  ***
+
+       Los  primeros  bytes  del  registro  del  MISMO  id  en  los  dos  Toguros
+       NO  TIENEN  NADA  QUE  VER:
+
+           $A1   TOGURO+   08 82 00 00 33 00 83 82
+                 TOGURO-   04 5E 00 00 00 00 82 7A
+
+       En  la  banda  $80-$8F  el  id  SI  significa  lo  mismo  para  todos
+       ($82 = A en el suelo, MEDIDO).  En  $A0-$BF  NO  ESTA  DEMOSTRADO.
+
+       ***  LA  PRUEBA  ES  UNA  SOLA:  $A1  DEL  DEDAL  DA  $66 = $40 = 64.  ***
+       ***  SI  EL  $A1  DE  TOGURO  MENOR  TAMBIEN  DA  $40,  EL  ID  ES  ***
+       ***  COMPARTIDO.  SI  DA  OTRA  COSA,  HAY  QUE  MEDIR  LAS  ONCE  POR  ***
+       ***  SEPARADO  Y  NO  SE  PUEDE  COPIAR  NADA  DE  UNO  A  OTRO.  ***
+
+  [ ]  $AA  Y  $AB  SON  LA  MISMA  FAMILIA  QUE  $A1.
+       $A1  =  04 5E 00 00 00 00 82 7A
+       $AB  =  04 5E 00 00 00 00 82 7A      *** IDENTICOS  BYTE  A  BYTE  ***
+       $AA  =  06 5E 00 00 56 00 82 7A      *** SOLO  +0  y  +4  DISTINTOS  ***
+
+  [ ]  $B9  PROBABLEMENTE  ES  UNA  CUARTA  FASE  DE  LA  CADENA  $AC $AD $AE.
+       $B9  COMPARTE  LOS  ULTIMOS  SEIS  BYTES  CON  $AC  Y  $AD.
+       *** NO  AFIRMAR  HASTA  MEDIRLO.  ***
+
+  ================================================================================
+  EL  ORDEN  DE  MEDICION  DE  TOGURO  MENOR
+  ================================================================================
+
+        1.  $82  $83  $84  $86  $80  $81    los  seis  basicos
+        2.  $B8  EL  AGARRE                   debe  dar  $68 = 9
+        3.  $A1                             ***  LA  PREGUNTA  GRANDE  ***
+        4.  $AA  $AB                         las  dos  hermanas  de  $A1
+        5.  $AC $AD $AE                      su  ulti:  frames  y  $66
+        6.  $B9                             la  cuarta  fase
+        7.  $A0  $A2  $A3                     sin  nombre
+        8.  $90  $94  $95                     los  tres  de  aire
+
+  *** SU  SET  ESTA  ENTERO  LEIDO  DEL  ROM.  NO  HAY  NADA  QUE  BUSCAR.  ***  ***
+  *** SOLO  HAY  QUE  APRETAR  BOTONES  Y  LEER  EL  BLOB.  ***  ***
+================================================================================
 ================================================================================
 ================================================================================

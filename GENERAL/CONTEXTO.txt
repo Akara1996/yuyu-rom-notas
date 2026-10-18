@@ -19818,6 +19818,187 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 
       ***  [VERIFICADO]  lo  unico  que  faltaba  era  el  puntero.  Ya  lo  ***  ***
       ***  tenemos,  y  sale  de  la  misma  tabla  que  los  otros  diez.  ***  ***
+153.  TOGURO  MENOR.  EL 11  DE  11.  Y  SU  TABLA  LEIDA  DEL  ROM
+================================================================================
+
+  ###############################################################################
+  153.1  LA  CONFIRMACION  EN  PANTALLA
+  ###############################################################################
+
+  *** (usuario)  ***
+
+      "CONTEXTO: $50=$0D777A  $8C=$0D85AA  Toguro menor P1"
+
+  *** *** PREDICHO  POR  EL  ROM  EN  152.2  Y  CONFIRMADO  EN  PANTALLA.  ***  ***
+  *** *** CIERRA  EL  UNICO  PERSONAJE  QUE  FALTABA.  11  DE  11  IDENTIFICADOS.  ***  ***
+
+      $50  =  $0D777A      tablaA
+      $8C  =  $0D85AA      tablaB
+
+  ###############################################################################
+  153.2  SU  BANDA  $80-$8F.  LEIDA.  Y  CONFIRMA  LA  REGLA  EN  LOS  ONCE
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $80  $81  $82  $83  $84  $86      VIVOS
+      $85  $87                            MUERTOS
+  ------------------------------------------------------------------------------
+
+      ***  $85  SOLO  ES  DE  HIEI.  $87  SOLO  ES  DE  ITSUKI.  ***  ***
+      ***  Y  AHORA  ESTO  ESTA  CONFIRMADO  EN  LOS  ONCE  PERSONAJES  ***  ***
+      ***  LEIDOS  DEL  ROM,  NO  SOLO  EN  LOS  DOS  QUE  HABIAMOS  MEDIDO.  ***  ***
+
+      ------------------------------------------------------------------------------
+        #  nombre      banda $80-$8F viva
+        ------------------------------------------------------------------
+         1  GENKAI      $80 $81 $82 $83 $84 $86           6
+         2  KURAMA      $80 $81 $82 $83 $84 $86           6
+         3  KUWABARA    $80 $81 $82 $83 $84 $86           6
+         4  YUSUKE      $80 $81 $82 $83 $84 $86           6
+         5  HIEI        $80 $81 $82 $83 $84 $85 $86       7   *** $85  SUYO  ***
+         6  SENSUI      $80 $81 $82 $83 $84 $86           6
+         7  JIN         $80 $81 $82 $83 $84 $86           6
+         8  ITSUKI      $80 $81 $82 $83 $84 $86 $87       7   *** $87  SUYO  ***
+         9  TOGURO+     $80 $81 $82 $83 $84 $86           6
+        10  CHUI        $80 $81 $82 $83 $84 $86           6
+        11  TOGURO-     $80 $81 $82 $83 $84 $86           6
+      ------------------------------------------------------------------------------
+
+  ---- Y  LA  BANDA  DEL  AIRE  $90-$9F  ES  IDENTICA  EN  LOS  ONCE  ----------
+
+      ***  $90  $94  $95.  Y  SOLO  ESOS  TRES.  EN  LOS  ONCE.  ***  ***
+      ***  ES  LA  BANDA  MAS  UNIFORME  DEL  JUEGO  ENTERO.  [VERIFICADO]  ***
+
+  ###############################################################################
+  153.3  SU  SET  DE  TECNICAS.  ONCE  IDS  VIVOS  EN  $A0-$BF
+  ###############################################################################
+
+      ------------------------------------------------------------------------------
+        $A0   $A1   $A2   $A3   $AA   $AB   $AC   $AD   $AE   $B8   $B9
+      ------------------------------------------------------------------------------
+
+      *** NO  TIENE  $A4  (la  estocada  de  su  hermano)  ***
+
+      *** NO  TIENE  $A6  NI  $A7  (el  impostor  de  su  hermano)  ***
+
+      *** TIENE  $AA  Y  $AB,  QUE  SU  HERMANO  NO  TIENE  ***
+
+      *** TIENE  $B9,  QUE  SOLO  COMPARTEN  GENKAI  Y  EL.  2  DE  11.  ***
+
+  ------------------------------------------------------------------------------
+        #  nombre      tecnicas  $A0-$BF  vivas
+        ------------------------------------------------------------------
+         1  GENKAI      15   $A0 $A1 $A2 $A3 $A4 $A6 $A7 $A8 $AA $AC $AD $AE $AF $B8 $B9
+         2  KURAMA       8   $A0 $A1 $A2 $A3 $A4 $A5 $A6 $B8
+         3  KUWABARA    11   $A0 $A1 $A2 $A3 $A4 $A5 $A6 $A8 $AA $AB $B8
+         4  YUSUKE       8   $A0 $A1 $A2 $A4 $A6 $AA $AC $B8
+         5  HIEI        16   $A0 $A1 $A2 $A4 $A5 $A6 $A7 $A8 $A9 $AA $AB $AC $AD $AE $AF $B8
+         6  SENSUI      11   $A0 $A1 $A2 $A3 $A4 $A5 $A6 $A7 $A8 $AC $B8
+         7  JIN         12   $A0 $A2 $A4 $A5 $A8 $A9 $AA $AB $AC $AD $AE $B8
+         8  ITSUKI      14   $A0 $A1 $A2 $A4 $A5 $A6 $A7 $A8 $AA $AE $AF $B0 $B1 $B8
+         9  TOGURO+     12   $A0 $A1 $A2 $A3 $A4 $A5 $A6 $A7 $AC $AD $AE $B8
+        10  CHUI        16   $A0 $A1 $A2 $A3 $A4 $A6 $A7 $AA $AB $AC $AD $AE $AF $B0 $B1 $B8
+        11  TOGURO-     11   $A0 $A1 $A2 $A3 $AA $AB $AC $AD $AE $B8 $B9
+      ------------------------------------------------------------------------------
+
+      *** $B8  ESTA  VIVO  EN  LOS  ONCE  PERSONAJES.  EL  AGARRE  ES  UNIVERSAL.  ***
+
+  ###############################################################################
+  153.4  ***  EL  NUMERO  DE  ID  NO  ES  EL  NOMBRE  DE  LA  TECNICA  ***
+  ###############################################################################
+
+  *** *** ESTE  ES  EL  HALLAZGO  MAS  IMPORTANTE  DE  ESTA  RONDA.  ***  ***
+
+  Los  primeros  bytes  del  registro  del  MISMO  id  en  LOS  DOS  TOGUROS:
+
+  ------------------------------------------------------------------------------
+      $A0   TOGURO+   04 65 00 00 70 00 82 83
+            TOGURO-   02 01 00 00 5A 00 83 78
+      $A1   TOGURO+   08 82 00 00 33 00 83 82
+            TOGURO-   04 5E 00 00 00 00 82 7A
+      $A2   TOGURO+   04 38 04 40 33 00 7E 80
+            TOGURO-   0A 38 00 00 55 00 89 79
+      $AC   TOGURO+   08 69 00 00 31 00 7E 82
+            TOGURO-   06 88 08 80 70 00 7E 6C
+      $B8   TOGURO+   08 48 00 00 00 00 83 82
+            TOGURO-   10 7D 00 00 52 00 82 70
+  ------------------------------------------------------------------------------
+
+  *** *** NO  TIENEN  NADA  QUE  VER  UNO  CON  EL  OTRO.  ***  ***
+
+  ***  EN  LA  BANDA  $80-$8F  EL  ID  SI  SIGNIFICA  LO  MISMO  PARA  TODOS:  ***
+  ***  $82  =  A  en  el  suelo,  MEDIDO  en  Chui  y  en  Toguro  mayor.      ***
+  ***  EN  LA  BANDA  $A0-$BF  NO  ESTA  DEMOSTRADO  QUE  PASE.  [ABIERTO]    ***
+
+  ------------------------------------------------------------------------------
+      ***  LA  PRUEBA  QUE  LO  DECIDE,  Y  QUE  ES  UNA  SOLA  RONDA:  ***
+
+      $A1  DEL  DEDAL  DE  TOGURO  MAYOR  =  stun  $66 = $40 = 64.
+
+      *** SI  EL  $A1  DE  TOGURO  MENOR  TAMBIEN  DA  $66 = $40,  ENTONCES  ***
+      *** *** EL  ID  ES  COMPARTIDO  Y  LA  CASILLA  SIGNIFICA  LO  MISMO.  ***  ***
+      *** SI  DA  OTRA  COSA,  CADA  PERSONAJE  TIENE  SU  PROPIA  CASILLA  ***  ***
+      *** *** Y  HAY  QUE  MEDIR  LAS  ONCE  POR  SEPARADO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  153.5  UNA  FAMILIA  DE  TRES  DENTRO  DE  SU  SET:  $A1  $AA  $AB
+  ###############################################################################
+
+      Los  tres  registros  crudos  del  primer  frame:
+
+      ------------------------------------------------------------------------------
+        $A1  off $0A48   04 5E 00 00 00 00 82 7A
+        $AA  off $0B50   06 5E 00 00 56 00 82 7A
+        $AB  off $0C50   04 5E 00 00 00 00 82 7A
+      ------------------------------------------------------------------------------
+
+      *** $A1  Y  $AB  SON  IDENTICOS  BYTE  A  BYTE.  ***  ***
+      *** $AA  DIFIERE  SOLO  EN  EL  BYTE  +0  (06  en  vez  de  04)  ***  ***
+      *** Y  EN  EL  BYTE  +4  (56  en  vez  de  00).  ***  ***
+
+      *** *** TRES  VARIANTES  DEL  MISMO  GOLPE.  PROBABLEMENTE  EL  MISMO  ***  ***
+      *** *** MOVIMIENTO  CON  DISTINTO  COMANDO  O  DISTINTO  NIVEL.  ***  ***
+
+  ---- Y  UNA  FAMILIA  DE  CUATRO:  $AC  $AD  $AE  $B9  ----------------------
+
+      ------------------------------------------------------------------------------
+        $AC  06 88 08 80 70 00 7E 6C
+        $AD  10 88 08 80 70 00 7E 6C
+        $AE  02 01 00 00 00 00 84 78
+        $B9  10 56 08 80 00 00 7E 6C
+      ------------------------------------------------------------------------------
+
+      *** $AC  Y  $AD  SOLO  DIFIEREN  EN  EL  BYTE  +0.  ***  ***
+      *** $B9  COMPARTE  LOS  ULTIMOS  SEIS  BYTES.  ***  ***
+
+      *** *** $B9  PROBABLEMENTE  ES  UNA  CUARTA  FASE  DE  LA  MISMA  ***  ***
+      *** *** CADENA  QUE  $AC $AD $AE.  O  UNA  TECNICA  PARECIDA.  ***  ***
+      *** *** NO  SE  AFIRMA  HASTA  MEDIRLO.  ***
+
+  ###############################################################################
+  153.6  LO  QUE  FALTA  MEDIR  DE  TOGURO  MENOR
+  ###############################################################################
+
+  *** *** SU  SET  ESTA  ENTERO  LEIDO.  NO  HAY  NADA  QUE  BUSCAR.  ***  ***
+  *** *** SOLO  HAY  QUE  APRETAR  BOTONES  Y  LEER  EL  BLOB.  ***  ***
+
+  EN  ESTE  ORDEN,  POR  QUE  CADA  UNO  CONTESTA  UNA  PREGUNTA:
+
+      ------------------------------------------------------------------------------
+        1.  $82  $83  $84  $86  $80  $81    los  seis  basicos.  Cuanto  dura
+                                               cada  uno  y  cuanto  empuja.
+        2.  $B8  EL  AGARRE                da  $68 = 9  como  los  otros  seis
+        3.  $A1                            ***  STUN  $40  O  NO.  ESTA  ES  LA  ***
+                                               ***  PREGUNTA  QUE  CIERRA  153.4 ***
+        4.  $AA  $AB                       las  dos  hermanas  de  $A1
+        5.  $AC $AD $AE                    su  ulti.  frames  y  $66
+        6.  $B9                            la  cuarta  fase
+        7.  $A0  $A2  $A3                  lo  que  sea  que  sean
+        8.  $90  $94  $95                  los  tres  de  aire
+      ------------------------------------------------------------------------------
+
+      *** EL  ORDEN  ESTA  POR  RENTA,  NO  POR  DIFICULTAD.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

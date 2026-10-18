@@ -521,6 +521,47 @@ A("")
                                        direccion  exacta  y  su  estado.
 
       GUIA  DE  MODIFICACION.pdf         7  pag.  ***  NUEVO  ***
+      *** HERRAMIENTAS  ***   yyhrom.py
+
+      HERRAMIENTAS\yyhrom.py            ***  NUEVO  ***   Parcheador  del  ROM.
+                                       Cambia  bytes  exactos,  verifica  los
+                                       bytes  de  control  ANTES  de  escribir,
+                                       y  NUNCA  toca  el  original:  escribe
+                                       sobre  una  copia  en  HERRAMIENTAS\
+                                       salida\.  Tiene  autoprueba:
+                                       --autoprueba  demuestra  que  aborta.
+
+                                       Ajustes  que  tiene:  gravedad  (los  7
+                                       handlers  y  la  de  $27),  chip  al
+                                       bloquear,  y  stun  maximo  de  los  once.
+                                       Los  numeros  van  en  DECIMAL,  con  0x
+                                       al  principle  van  en  HEX.
+
+                                       ***  NO  SE  HA  APLICADO  NINGUN  ***  ***
+                                       ***  PARCHE.  Solo  se  probaron  y  se  ***  ***
+                                       ***  revirtieron.  ***  ***
+
+      *** LO  QUE  CAMBIO  EN  EL  TRACKER  ***   18-10-2026
+
+      LUAS\CHARACTER MOVE LUAS.LUA       ***  LEIDO  $4C  (la  gravedad)  ***
+                                       por  los  dos  sitios  donde  ya  se
+                                       leia  $64..$68.  SOLO  LECTURA.  Imprime
+                                       el  valor  crudo  en  hex  de  8,  asi
+                                       que  el  propio  numero  dice  si  es
+                                       gravedad  ($3800)  o  el  otro  campo
+                                       ($01).  Ver  CONTEXTO  160.9.
+                                       Compila  con  luajit -bl  y  la  paleta
+                                       no-ASCII  quedo  intacta.
+
+      *** LO  QUE  HAY  QUE  REVISAR  AL  VOLVER  ***
+
+      ***  LAS  DOS  COSAS  DEL  PUNTO  5  ***   La  de  $4C:  correr  un  golpe  que
+                                       de  $68 = 7  y  ver  si  el  valor  es  00003800
+                                       o  00000000.  Si  es  00003800,  no  era
+                                       gravedad.  Si  es  00000000,  es  gravedad.
+                                       La  otra:  $B9  solo,  sin  combo,  buscando
+                                       CAIDA  CONSTANTE  y  no  altura  fija.
+
                                        Que  tocar,  donde  esta,  que  hay,  que
                                        pondrias  y  que  pasaria.  Solo  filas
                                        con  DIRECCION  COMPROBADA.  Las  demas

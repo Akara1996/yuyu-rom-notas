@@ -21672,6 +21672,146 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
 
   *** *** Y  OJO:  ESO  ES  SOLO  LECTURA.  NO  ES  ESCRITURA.  PASA  EL  ***  ***
   *** *** REGLAMENTO  DEL  PROYECTO.  ***  ***
+import io
+import os
+import shutil
+
+TMP = r'C:\Users\roman\AppData\Local\Temp\opencode'
+GEN = r'C:\Users\roman\Desktop\YYH Docs\GENERAL'
+BAK = r'C:\Users\roman\Desktop\YYH Docs\_backup txt'
+EQ = '=' * 80
+TAIL3 = ((EQ + '\r\n') * 2 + EQ).encode('ascii')
+TAIL2 = (EQ + '\r\n' + EQ).encode('ascii')
+
+NUEVO = """161.  ***  CORRECION.  $68 = 7  SI  ESTA  EN  LA  TABLA.  Y  DOS  COSAS  MAS  ***
+================================================================================
+
+  ###############################################################################
+  161.1  EL  ERROR
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  "$68 = 7 NO ESTA EN LA TABLA. Va por un handler aparte,  ***  ***
+      *** *** $01F6C8, que es el unico que pone $4C = $0."                       ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** LA  SEGUNDA  PARTE  ESTA  BIEN:  $01F6C8  ES  EL  UNICO  QUE  PONE  ***  ***
+  ***  *** $4C = $0,  Y  SE  PUEDE  PROBAR  A  NIVEL  DE  INSTRUCCION.  ***  ***
+
+  ***  *** LA  PRIMERA  PARTE  ESTA  MAL.  Y  LA  PRIMERA  PARTE  LA  DI  ***  ***
+  ***  *** YO.  LA  DI  YO  EN  UN  PDF  Y  EN  ESTE  MISMO  PROYECTO.  ***  ***
+
+  ###############################################################################
+  161.2  LA  VERDAD.  LEIDA  DE  LA  TABLA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $01F534   $0016   ->  $01F54A      $68=0   $20
+      $01F536   $0066   ->  $01F59C      $68=1   $21
+      $01F538   $0012   ->  $01F54A      $68=2   $20
+      $01F53A   $0062   ->  $01F59C      $68=3   $21
+      $01F53C   $00A4   ->  $01F5E0      $68=4   $23
+      $01F53E   $0122   ->  $01F660      $68=5   $25
+      $01F540   $0204   ->  $01F744      $68=6   $26
+      $01F542   $0186   ->  $01F6C8      $68=7   $27   *** ESTA  ACA  ***
+      $01F544   $01AE   ->  $01F6F2      $68=8   $30
+      $01F546   $014E   ->  $01F694      $68=9   $2F
+      $01F548   $01CC   ->  $01F714      $68=10  $25
+  ------------------------------------------------------------------------------
+
+  ***  *** LOS  ONCE  DESTINOS  ESTAN.  $01F6C8  ES  EL  DESTINO  NUMERO  7,  ***  ***
+  ***  *** COMO  CUALQUIERA  DE  LOS  OTROS  DIEZ.  ***  ***[VERIFICADO]***
+
+  ###############################################################################
+  161.3  POR  QUE  ME  CONFUNDI
+  ###############################################################################
+
+  ***  *** POR  QUE  LO  DI  POR  FUERA  DE  LA  TABLA  ***  ***
+
+  ------------------------------------------------------------------------------
+      En  $01F6C8  pasa  algo  que  no  pasa  en  los  otros  handlers:
+
+          $01F6C8   move.b   $6e(a3), $6e(a4)   <-  COPIA  UN  CAMPO  DEL  ATACANTE
+          $01F6DA   move.l   #$0,     $4c(a4)   <-  la  gravedad  en  cero
+
+      ***  LA  PRIMERA  LINEA  NO  ESTA  EN  NINGUN  OTRO  HANDLER.  ***  ***
+
+      ***  *** COPIAR  $6E  DEL  ATACANTE  AL  DEFENSOR  ES  LO  QUE  HACE  ***  ***
+      ***  *** A  $27  DIFERENTE  DE  LOS  DEMAS.  Y  ESO  ME  LLEVO  A  PENSAR  ***  ***
+      ***  *** QUE  $27  TENIA  UN  CAMINO  ESPECIAL  FUERA  DE  LA  TABLA.  ***  ***
+
+      ***  *** PERO  QUE  UN  HANDLER  SEA  MAS  RICO  NO  LO  SACA  DE  LA  ***  ***
+      ***  *** TABLA.  SIGUE  SIENDO  LA  ENTRADA  7  DE  LAS  ONCE.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** SEGUNDA  CONFUSION  ***  ***
+
+  ------------------------------------------------------------------------------
+      Hay  otro  $27  en  el  codigo,  en  $01F9DC:
+
+          $01F9DC   cmpi.b   #$27, $5f(a4)
+
+      ***  ESO  COMPARA  EL  ESTADO  YA  DENTRO  DEL  RIVAL,  DESPUES  DEL  ***  ***
+      ***  *** DESPACHO.  No  es  la  entrada  de  la  tabla.  Es  otra  cosa.  ***  ***
+
+      ***  *** Y  COMO  $01F9DC  ESTA  LEJOS  DE  $01F534,  PARECIA  QUE  ***  ***
+      ***  *** $27  TENIA  UN  SEGUNDO  CAMINO.  No  lo  tiene:  lo  que  tiene  ***  ***
+      ***  *** es  una  COMPROBACION  posterior.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  161.4  EL  OTRO  ERROR  QUE  SALIO  EN  EL  MISMO  PASADA
+  ###############################################################################
+
+  ***  *** EN  EL  MISMO  PDF  DIJE  QUE  $68 = 8  VA  A  $41.  ***  ***
+
+  ------------------------------------------------------------------------------
+      ***  NO.  $68 = 8  VA  A  $30.  ***  ***[VERIFICADO]***
+
+      $68 = 8  ->  $01F6F2  ->  $5F = $30  ->  es  el  DERRIBO  MAS  ALTO  (-7,0).
+
+      ***  *** $41  NO  SALE  DE  NINGUNA  DE  LAS  ONCE  ENTRADAS.  ***  ***
+
+      ***  *** $41  APARECE  EN  UN  LOG  NUESTRO  COMO  ESTADO  DE  UN  ***  ***
+      ***  *** AGARRE  AEREO  EN  ESPERA,  PERO  NO  ESTA  EN  LA  TABLA  DE  ***  ***
+      ***  *** $68.  Sale  de  otro  lado:  de  un  $68  QUE  NO  ESTA  EN  ***  ***
+      ***  *** ESTA  TABLA,  O  DE  LA  RUTINA  DE  AGARRE.  ***  ***[ABIERTO]***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  161.5  QUE  QUEDA  EN  PIE  Y  QUE  NO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  EN  PIE  ***
+
+      [VERIFICADO]  $4C = $0000  se  escribe  en  UN  SOLO  LUGAR  DEL  ROMO.
+      [VERIFICADO]  $01F6C8  es  el  handler  de  $27  y  es  la  entrada  7  de
+                    la  tabla  de  $68.
+      [VERIFICADO]  $27  es  el  unico  estado  sin  gravedad.  Ver 160.
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      ***  CAE  ***
+
+      ***  "$68 = 7 NO ESTA EN LA TABLA."  MAL.  SI  ESTA.  ***  ***
+
+      ***  *** POR  QUE  IMPORTA:  SI  ALGUIEN  CREYERA  QUE  $27  ESTA  FUERA  ***  ***
+      ***  *** DEL  DESPACHO,  PODRIA  CAMBIAR  EL  $68  DE  UN  GOLPE  Y  CREER  ***  ***
+      ***  *** QUE  $27  NO  VA  A  PASAR.  SI  VA  A  PASAR  IGUAL.  ***  ***
+  ------------------------------------------------------------------------------
+
+  *** *** Y  UNA  REGLA  QUE  SALE  DE  ESTO  ***  ***
+
+  ------------------------------------------------------------------------------
+      ***  *** "ESTE  ESTADO  ES  MAS  RICO  QUE  LOS  OTROS"  NO  SIGNIFICA  ***  ***
+      ***  *** "ESTE  ESTADO  ESTA  FUERA  DE  LA  TABLA".  Son  dos  cosas  ***  ***
+      ***  *** distintas  y  las  confundimos  dos  veces.  ***  ***
+  ------------------------------------------------------------------------------
+
+  *** ***  Y  ESTO  APLICA  AL  TRACKER  TAMBIEN:  $27  LLEGA  POR  LA  TABLA  ***  ***
+  *** ***  COMO  CUALQUIERA  DE  LOS  DIEZ  OTROS.  SI  ALGUIEN  FILTRA  ESTADOS  ***  ***
+  *** ***  POR  "LOS  NORMALES",  $27  SE  LE  ESCAPA.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

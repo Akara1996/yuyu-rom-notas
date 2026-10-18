@@ -4908,6 +4908,377 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
   ***  Y  ESTO  ES  UNA  LECCION  DEL  METODO:  COINCIDIR  TRES  BYTES  CON  ***
   ***  OTRO  REGISTRO  NO  ES  NINGUN  TIPO  DE  PRUEBA.  LA  UNICA  PRUEBA  ***
   ***  ES  QUE  PASA  EN  PANTALLA.  ***
+157.  TOGURO  MENOR.  LAS  ONCE  TECNICAS.  Y  LA  GRAN  PREGUNTA  RESUELTA
+================================================================================
+
+  ###############################################################################
+  157.1  ***  LA  GRAN  PREGUNTA  DE  153.4.  RESUELTA.  EL  ID  NO  ES  EL  ***
+  ###############################################################################
+
+  En  153.4  se  pregunto:
+
+      "SI  EL  $A1  DE  TOGURO  MENOR  TAMBIEN  DA  $40  =  64,  EL  ID  ES
+       COMPARTIDO  Y  LAS  CASILLAS  SIGNIFICAN  LO  MISMO."
+
+  ------------------------------------------------------------------------------
+      *** *** NO.  NO  DA  $40.  DA  $04.  *** ***
+  ------------------------------------------------------------------------------
+
+      $A1  anim $02   HIT          mascara $30   $64=$3E   $65=$04   $66=$04   $68=$06
+      $A1  anim $03   CLASH+HURT   mascara $4E   $64=$1E   $65=$67   $66=$00   $68=$05
+
+      ***  $A1  DE  TOGURO  MAYOR  =  EL  DEDAL,  stun  $40 = 64,  SIN  CLASH.  ***
+      ***  $A1  DE  TOGURO  MENOR =  LA  BARRERA,  $66 = $04  y  $66 = $00,     ***
+      ***  CON  UNA  CAJA  DE  CLASH  ENORME.                                    ***
+
+  ------------------------------------------------------------------------------
+      ***  *** LA  BANDA  $A0-$BF  NO  COMPARTE  NADA  ENTRE  PERSONAJES.  ***  ***
+      ***  *** ES  UNA  CONVENCION  DE  RANURAS,  COMO  LA  DE  LOS  BASICOS,  ***  ***
+      ***  *** PERO  CON  CADA  CASILLA  VACIA  DENTRO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  157.2  Y  UNA  CORRECCION  MAS.  $AC $AD $AE  NO  SON  "LA  ULTI"
+  ###############################################################################
+
+  En  la  seccion  4  del  documento  de  Toguro  menor  se  llamo  $AC $AD $AE
+  "su  ulti",  copiando  a  Toguro  mayor.  *** ESTA  MAL.  ***
+
+  ------------------------------------------------------------------------------
+      en  TOGURO  MAYOR      $AC $AD $AE  =  LA  ULTI.  238  f.  9  a  31  golpes.
+
+      en  TOGURO  MENOR     $AD  =  EL  DIVE  A
+                            $AC  =  EL  DIVE  B
+                            $AE  =  EL  FIN  DE  LOS  DOS
+  ------------------------------------------------------------------------------
+
+  ***  LA  FAMILIA  $AC $AD $AE  ES  UNA  FAMILIA  DE  EMBESTIDA  O  DIVE.  ***
+  ***  QUE  EN  TOGURO  MAYOR  SE  USA  COMO  ULTI  Y  EN  TOGURO  MENOR  COMO  ***
+  ***  DOS  VERSIONES  DE  UN  DIVE  QUE  NO  DA  LA  VUELTA.  ***
+
+  *** *** Y  ESO  ES  OTRO  ARGUMENTO  EN  CONTRA  DE  COPIAR  IDS.  ***  ***
+
+  ###############################################################################
+  157.3  EL  MAPA  COMPLETO  DE  LAS  ONCE  TECNICAS
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    entrada                  id     mana   el  nombre  que  le  puso  el  usuario
+    ------------------------------------------------------------------
+    ABAJO,ABAJO + A          $A0    16    la  pistola  a  rayazos
+    B  (o  AB)  +  A         $A1    24    LA  BARRERA
+    ABAJO,ADELANTE + B       $A2    16    el  golpe  con  ventana  (2  hits)
+    ABAJO,ADELANTE + A       $A3    16    el  punetazo  que  manda  a  volar
+    ABAJO,ADELANTE,ABAJO+A   $AA   200    LA  ULTI
+    ABAJO,ABAJO + A  (aire)  $08 -> $AD  20   EL  DIVE  A
+    ABAJO,ABAJO + B  (aire)  $90 -> $AC  16   EL  DIVE  B
+    ABAJO,ADELANTE + A       $05 -> $A3  16   el  mismo  que  el  de  arriba
+    el  agarre  de  suelo    $B8     ?     EL  AGARRE      (12.6)
+    el  lanzamiento          $B9     ?     EL  LANZAMIENTO (12.6)
+  ------------------------------------------------------------------------------
+
+  *** *** $A0  Y  $AA  ESTABAN  DESCONOCIDOS.  SON  LA  PISTOLA  Y  LA  ULTI.  ***  ***
+
+  ###############################################################################
+  157.4  LA  PISTOLA  $A0
+  ###############################################################################
+
+  ABAJO,ABAJO + A  (o  B,  o  C).  id=$02  ->  $A0.  16  de  mana.
+
+  ------------------------------------------------------------------------------
+    anim    $64   $65   $66   $68   DANO    frame   dist   de  donde
+    ------------------------------------------------------------------
+    $03     $3D   $09   $02   $00     9      f71     37     el  primero
+    $05     $3D   $03   $02   $00     4      f82     62     +25  px
+    $07     $3D   $03   $02   $00     4      f93     88     +26  px
+    $09     $3D   $03   $02   $00     4      f104   113     +25  px
+    $0B     $3D   $03   $02   $00     4      f119   140     +27  px
+    ------------------------------------------------------------------
+    TOTAL                              25      $A0  de  f64  a  f156  =  92  f
+  ------------------------------------------------------------------------------
+
+  *** *** LOS  ANIMS  SON  IMPARES  Y  SUBEN  DE  DOS  EN  DOS:  $03 $05 $07 ***  ***
+  *** *** $09  $0B.  ***  ***
+
+  *** *** $64 = $3D  EN  LOS  CINCO  DISPAROS.  $66 = $02  EN  LOS  CINCO.  ***  ***
+  *** *** $64 = $3D  ES  UN  VALOR  NUEVO.  ***
+
+  ***  UN  DISPARO  CADA  11  FRAMES.  Y  CADA  UNO  EMPUJA  AL  RIVAL  MAS  ***
+  ***  LEJOS.  LA  DISTANCIA  CRECE  25  A  26  PX  POR  DISPARO.  ***
+
+  ---- Y  MASHEANDO  CAMBIA  TODO  ----------------------------------------------
+
+  ------------------------------------------------------------------------------
+    el  mismo  $A0,  pero  machacando  la  A:
+    ------------------------------------------------------------------
+    6  hits:  -4  -3  -4  -7  -9  -3  =  30  de  dano
+    frames:  f67  f71  f77  f81  f85  f88
+             ***  CADA  4  A  6  FRAMES,  EN  VEZ  DE  11  ***
+    dist:    41  53  71  85  98  108
+             ***  EMPUJA  MENOS  POR  DISPARO,  PERO  DISPARA  EL  DOBLE  ***
+    $A0  de  f59  a  f112  =  53  f  ***  LA  MITAD  DE  TIEMPO  ***
+  ------------------------------------------------------------------------------
+
+  *** *** EL  USUARIO:  "presionas  masheando  dispara  a  mayor  velocidad,  ***  ***
+  *** *** con  menos  pusheo  y  mas  dano  por  mayor  aciertos".  CONFIRMADO.  ***  ***
+
+  *** *** 30  DE  DANO  EN  53  FRAMES  CON  MASHEO,  CONTRA  25  EN  92  SIN  ***  ***
+  *** *** EL.  MAS  RAPIDO  Y  MAS  DANO.  ***
+
+  ###############################################################################
+  157.5  LA  BARRERA  $A1
+  ###############################################################################
+
+  B  +  A.  id=$80  ->  $A1.  *** ES  UN  CANCEL:  $80  ES  EL  B  DEL  SUELO  Y  ***
+  *** SE  ENCADENA  AL  A.  EL  TRACKER  IMPRIME  "A"  PORQUE  ESE  FUE  EL  ***  ***
+  *** ULTIMO  BOTON.  ***
+
+  ------------------------------------------------------------------------------
+    fase              mascara   $64   $65   $66   $68   que  hace
+    ------------------------------------------------------------------
+    $A1 anim $00      $08       $00   ---   ---   $00    sin  nada
+    $A1 anim $02      $30       $3E   $04   $04   $06    UN  GOLPE  PEQUENO.  -4  de  dano.
+                                                         $68 = 6  ->  $26,  LANZA  AL  RIVAL
+    $A1 anim $03      $4E       $1E   $67   $00   $05    ***  CLASH  ENORME  ***
+  ------------------------------------------------------------------------------
+
+  *** *** -4  DE  DANO  EN  LA  FASE  $02.  $65 = $04.  PRECIO  EXACTO.  ***  ***
+  *** *** Y  SU  $68 = $06  LO  MANDA  A  $26.  EL  RIVAL  SALE  DISPARADO.  ***  ***
+
+  ---- Y  EL  $65 = $67  DE  LA  FASE  DE  CLASH  --------------------------------
+
+      ***  $65 = $67 = 103  ES  UN  VALOR  ENORME  Y  EL  DANO  FUE  DE  4.  ***
+
+  *** *** $65  EN  UN  ESTADO  CLASH+HURT  NO  ES  DANO.  ***  ***
+
+  En  el  segundo  clash  (contra  la  ulti  propia)  dio  $65 = $63 = 99.
+
+  ------------------------------------------------------------------------------
+      el  clash  contra  la  ulti  dio  $63 = 99.  el  clash  libre  dio  $67 = 103.
+      *** [OBSERVADO]  ES  UNA  RESISTENCIA  DE  CAJA,  NO  UN  DANO.  ***
+      *** [ABIERTO]   QUE  NUMERO  ES  Y  QUE  LO  MODIFICA.  ***
+  ------------------------------------------------------------------------------
+
+  ---- Y  LA  SEGUNDA  FASE  ES  LO  QUE  EL  USUARIO  DESCRIBE  ---------------
+
+      *** (usuario)  ***
+
+          "la  barrera  que  para  el  99%  de  golpes  del  juego  excepto  dedal,
+           durante  pocos  frames  genera  hitbox  que  manda  a  volar,  luego
+           permanece  una  clash  enorme  de  resistencia  absoluta"
+
+  ------------------------------------------------------------------------------
+      fase $02   4  frames  de  dano  y  lanza  al  rival
+      fase $03   $A1 -> $00  en  46  frames  =  ***  LA  BARRERA  DE  VERDAD  ***
+  ------------------------------------------------------------------------------
+
+  *** *** Y  LA  PRUEBA  DE  QUE  LA  RESISTENCIA  ES  ABSOLUTA:  ***  ***
+
+  ***  LA  PROPIO  ULTI  DE  TOGURO  MENOR  QUEDO  BLOQUEADA  POR  ELLA  MAS  DE  ***
+  ***  430  FRAMES.  LA  VER 157.8.  ***
+
+  ###############################################################################
+  157.6  EL  DIVE  A  Y  EL  DIVE  B.  LOS  DOS
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+                        DD+A  EN  EL  AIRE        DD+B  EN  EL  AIRE
+    ------------------------------------------------------------------
+    puerto              $08  ->  $AD              $90  ->  $AC
+    mana                20                        16
+    frames  en  el  estado   61                    42
+    frames  en  total        89                    70
+    $64                 $16   ***  NUEVO  ***      $16
+    $65                 $12  = 18                  $12  = 18
+    DANO  REAL          20                        21
+    $66                 $10  = 16                  $10  = 16
+    $68                 $05  ->  $25               $05  ->  $25
+    dist  al  pegar     57                        40
+    fin                 $AD -> $00 -> $AE          $AC -> $AE
+  ------------------------------------------------------------------------------
+
+  *** *** $64 = $16  ES  UN  VALOR  NUEVO.  Y  ES  EL  MISMO  EN  LOS  DOS  DIVES.  ***
+
+  *** *** EL  MISMO  $65,  EL  MISMO  $66,  EL  MISMO  $68.  SOLO  CAMBIAN  LAS  ***
+  *** *** FRASES,  LA  MANA  Y  LA  DISTANCIA.  ***
+
+  ###############################################################################
+  157.7  EL  PUNO  QUE  MANDA  A  VOLAR  $A3,  Y  EL  CASO  DE  LA  PARED
+  ###############################################################################
+
+  ABAJO,ADELANTE + A.  id=$05  ->  $A3.  16  de  mana.
+
+  ------------------------------------------------------------------------------
+    $64 = $00   $65 = $00   $66 = $00   $67 = $00   $68 = $00
+
+    ***  $64 = $00  EN  EL  BLOB.  NUESTRA  PROPIA  REGLA  DICE  QUE  ESE  BLOB  ***
+    ***  NO  ES  FIABLE.  EL  DANO  REAL  ES  24  Y  NO  SE  PUEDE  LEER  DEL  ***  ***
+    ***  BLOB.  ***
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+    sin  pared      $A3  de  f126  a  f183  =  57  f    UN  golpe   -24
+  ------------------------------------------------------------------------------
+
+  *** *** Y  PEGADO  A  LA  PARED,  EL  MISMO  GOLPE  DA  DOS.  ***  ***
+
+  ------------------------------------------------------------------------------
+    contra  la  pared  $A3  de  f64  a  f131  =  67  f
+    ------------------------------------------------------------------------------
+      f67   -24   P4 -> $26      el  primer  golpe
+      f88   -26   P4 -> $26      ***  EL  SEGUNDO,  AL  CHOCAR  CONTRA  LA  PARED  ***
+      ------------------------------------------------------------------
+      TOTAL   -50  de  dano  POR  EL  MISMO  GOLPE
+  ------------------------------------------------------------------------------
+
+  *** *** 50  DE  DANO  EN  UNA  RONDA  CONTRA  24  EN  EL  AIRE  LIBRE.  ***  ***
+
+  ***  Y  EL  MANA:  14  EN  LA  VERSION  DE  LA  PARED,  16  EN  LA  NORMAL.  ***
+
+  ###############################################################################
+  157.8  EL  GOLPE  CON  VENTANA  $A2.  Y  LA  ULTI  $AA
+  ###############################################################################
+
+  ---- ABAJO,ADELANTE + B  :  id=$01  ->  $A2.  16  de  mana.  ---------------
+
+  ------------------------------------------------------------------------------
+    $64 = $1E   $65 = $18 = 24   $66 = $14 = 20   $68 = $05 -> $25
+
+    f176   -24   P4 -> $25     el  primer  golpe
+    f193   -25   P4 -> $25     ***  EL  SEGUNDO  17  FRAMES  DESPUES  ***
+    ------------------------------------------------------------------------------
+    P1  SEGUIA  EN  $A2  EN  LOS  DOS  GOLPES.
+    $A2  de  f175  a  f235  =  60  f        TOTAL  -49
+  ------------------------------------------------------------------------------
+
+  *** *** $65 = $18 = 24  Y  EL  DANO  REAL  FUE  24.  ***  ***EXACTO.***  ***
+
+  *** (usuario)  "produce  derribo  con  ventana,  si  lo  haces  despues  de  un  ***
+  *** dash  mete  2  hit  con  mucho  dano"  CONFIRMADO.  ***
+
+  ---- LA  ULTI.  id=$AA.  ABAJO,ADELANTE,ABAJO + A.  200  de  mana.  --------
+
+  ------------------------------------------------------------------------------
+    $AA  de  f63  a  f185  =  122  f
+
+    f95    -23   P4 -> $25
+    f98    -20   P4 -> $25      ***  CADA  GOLPE  A  3  FRAMES  ***
+    f101   -21   P4 -> $25
+    f104   -18   P4 -> $25
+    f107   -20   P4 -> $25
+    ------------------------------------------------------------------------------
+    5  GOLPES  EN  12  FRAMES.     TOTAL  -102  DE  DANO  POR  200  DE  MANA.
+    dist:  37  55  55  56  55      ***  NO  AVANZA  DESPUES  DEL  PRIMERO  ***
+  ------------------------------------------------------------------------------
+
+  *** *** $65 = $06  EN  EL  BLOB,  PERO  CON  $64 = $00.  NO  ES  FIABLE.  ***  ***
+  *** *** EL  DANO  REAL  POR  GOLPE  VA  DE  18  A  23.  ***
+
+  ---- Y  LA  INVULNERABILIDAD.  QUE  EL  USUARIO  DESCRIBE  ------------------
+
+  ------------------------------------------------------------------------------
+      [BLOB-J] P1  $5F=$AA  anim $1E  se prendio:  HURT   mascara=$12   +64=1E
+  ------------------------------------------------------------------------------
+
+  *** *** EL  ULTIMO  ANIM  ES  $1E  Y  A  ESA  HORA  P1  ES  VULNERABLE.  ***  ***
+  *** *** O  SEA:  TODOS  LOS  ANIMS  DE  $00  A  $1D  SON  INVULNERABLES.  ***  ***
+
+  *** (usuario)  "Se  hace  invulnerable  durante  muchos  frames  en  los  que  se  ***
+  *** avanza  con  fuertes  golpes"  CONFIRMADO.  ***
+
+  *** *** Y  LA  CONSECUENCIA:  LOS  5  GOLPES  SALEN  EN  12  FRAMES  Y  LUEGO  ***
+  *** *** QUEDAN  110  FRAMES  DE  ANIM  QUE  NO  PEGA  NADA  Y  AL  FINAL  ***  ***
+  *** *** ES  VULNERABLE.  ES  UN  GOLPE  BARATO  Y  UNA  VENTANA  DE  CASTIGO.  ***
+
+  ###############################################################################
+  157.9  ***  LA  BARRERA  CONGELA  LA  PROPIA  ULTI  DEL  PERSONAJE  ***
+  ###############################################################################
+
+  *** *** ESTA  ES  LA  MEDICION  MAS  IMPORTANTE  DE  LA  RONDA.  ***  ***
+
+      P1  $AA  la  ulti                          f72
+      P4  $80 -> $A1  la  barrera                 f101, f102
+      P4  $A1 anim $02   HIT         +64=$3E  +65=$04  +66=$04  +68=$06
+      P4  $A1 anim $03   CLASH+HURT  +64=$1E  +65=$63  +66=$00  +67=$05
+
+      *** Y  DESPUES,  NADA.  HASTA  EL  FRAME  527.  ***
+
+      ------------------------------------------------------------------------------
+          f72    P1  entra  en  $AA
+          f102   P4  activa  la  clash
+          f120   [GOTEO]  P4  gasta  24  de  mana  por  la  barrera
+          ------------------------------------------------------------------------------
+          *** 430  FRAMES  SIN  QUE  P1  PEGUE  NI  UN  SOLO  GOLPE  ***
+          ------------------------------------------------------------------------------
+          f527   [HP]  P4  223 -> 201  (-22)     ***  EL  PRIMER  GOLPE  DE  LA  ULTI  ***
+          f527   P4  -> $25
+          f527   P1  $AA anim $1E  se prendio:  HURT      ***  VULNERABLE  ***
+          f577   P1  $AA -> $00
+      ------------------------------------------------------------------------------
+
+  *** *** $65 = $63 = 99  EN  LA  CLASH  CONTRA  LA  ULTI.  $67 = 103  EN  LA  ***  ***
+  *** *** CLASH  CONTRA  NADA.  EL  VALOR  CAMBIA  CON  LO  QUE  GOLPEA.  ***  ***
+
+  *** *** 430  FRAMES  SON  7  SEGUNDOS  Y  FRACCION.  LA  BARRERA  DETIENE  ***  ***
+  *** *** LA  ULTI  DE  SU  PROPIO  DUENO  MAS  DE  7  SEGUNDOS,  Y  CUANDO  ***  ***
+  *** *** LA  ULTI  LLEGA  A  SU  ANIM  VULNERABLE  LE  DA  Y  LO  TIRA.  ***  ***
+
+  *** *** EL  USUARIO:  "la  barrera  que  para  el  99%  de  golpes  del  juego  ***  ***
+  *** *** excepto  dedal".  ***  ***CONFIRMADO  CON  SU  PROPIA  ULTI  COMO  ***  ***
+  *** *** PRUEBA.  ***  ***
+
+  ###############################################################################
+  157.10  LA  TABLA  DE  LAS  ONCE
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    entrada              id    mana   $64   $65   $66   $68   destino   frames
+    ------------------------------------------------------------------
+    la  pistola           $A0   16   $3D  var   $02   $00     ---     92
+    LA  BARRERA           $A1   24   $3E   $04   $04   $06     $26     46
+    el  golpe  c/ventana $A2   16   $1E   $18   $14   $05     $25     60
+    el  punetazo  a  volar $A3   16   $00   ---   ---   $06     $26     57
+    LA  ULTI              $AA  200   $00   ---   ---   $05     $25    122
+    EL  DIVE  A          $AD    20   $16   $12   $10   $05     $25     89
+    EL  DIVE  B          $AC    16   $16   $12   $10   $05     $25     70
+    EL  AGARRE            $B8    --   $2E   $15   $0C   $08     $30     43
+    EL  LANZAMIENTO      $B9    --   $00   ---   $0C   $08     $27     35
+  ------------------------------------------------------------------------------
+    $A1  fase $03        $65 = $67 = 103   CLASH  ENORME
+    $A1  fase $03        $65 = $63 =  99   CLASH  contra  la  ulti
+  ------------------------------------------------------------------------------
+
+  *** *** $67 = $67 = 103  Y  $63 = 99.  UNA  RESISTENCIA  DE  CAJA,  NO  UN  DANO.  ***
+
+  ###############################################################################
+  157.11  LA  LISTA  DE  $64  QUE  TENEMOS
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    $64    donde  la  vimos
+    ------------------------------------------------------------------
+    $00    sin  golpe,  o  blob  no  fiable
+    $08    $AA  de  Toguro  menor,  fase  $00
+    $0A    el  ABAJO + A
+    $0B    neutral
+    $0E    el  A  del  suelo
+    $14    el  ABAJO + B  de  Toguro  mayor
+    $16  *** NUEVO.  LOS  DOS  DIVES  DE  TOGURO  MENOR  ***
+    $18    los  proyectiles  (pistola  de  Sensui)
+    $1A    las  manos  del  suelo
+    $1C    el  Dedal  de  Toguro  mayor
+    $1E    la  fase  de  clash  de  la  barrera.  Y  $A0  anim  $04  de  Toguro  mayor
+    $28    el  agarre  aereo
+    $2E  *** NUEVO  EN  ESTA  RONDA.  EL  AGARRE  DE  TOGURO  MENOR  ***
+    $30    el  agarre  de  suelo
+    $36    $B9  segun  el  ROM
+    $3A    la  pistola  de  Sensui
+    $3C    el  contra  del  Dedal  de  Toguro  mayor
+    $3D  *** NUEVO  EN  ESTA  RONDA.  LOS  CINCO  DISPAROS  DE  LA  PISTOLA  ***
+    $3E    la  fase  de  lanzamiento  de  la  barrera
+    $40    el  clash  en  general
+    $4E    la  mayoria  de  los  golpes  activos
+  ------------------------------------------------------------------------------
 ================================================================================
 ================================================================================
 ================================================================================

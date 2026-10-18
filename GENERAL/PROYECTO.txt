@@ -82,7 +82,7 @@ Donde estamos, que falta y en que orden
       ITSUKI     8        10       5         -        ITSUKI TECNICAS,  6 pag + 7 viejos
         TOGURO +   9       9       18        -        TOGURO+ TECNICAS, 7 pag   18 TEC.  + EL  EXPLOIT  + LA  ULTI
         CHUI       10      10      18 de 18   -        CHUI TECNICAS, 16 pag    COMPLETO.  9/9 BASICOS
-      TOGURO -   11       9        2        -        TOGURO- TECNICAS  R2.  9 BASICOS + $B8 $B9
+      TOGURO -   11       9        9        -        TOGURO- TECNICAS, 7 pag   9 TEC.  + LA  BARRERA
 
       *** 11 CON DOCUMENTO.  CHUI COMPLETO: 18/18 TECNICAS, 9/9 BASICOS
       QUE ENTRADA ES  (YUSUKE,  el 4 con el $AA que no cierra). ***
@@ -112,7 +112,7 @@ Donde estamos, que falta y en que orden
        8  ITSUKI            14            5             9
        9  TOGURO+           12           12             0
       10  CHUI              16           16             0
-      11  TOGURO-           11            2             9
+      11  TOGURO-           11            9             2
       --------------------------------------------------------------
          TOTAL             134           90            44
 
@@ -498,17 +498,18 @@ A("")
       JIN        7        JIN TECNICAS      10 pag   7 de 12.  Faltan 4 golpes y el vuelo
       TOGURO +   9        TOGURO+ TECNICAS   7 pag    completo, 18.  + EL  EXPLOIT  + LA  ULTI
         CHUI       10      CHUI TECNICAS     16 pag   COMPLETO.  18 de 18 tecnicas, 9 de 9 basicos
-      TOGURO -  11        TOGURO- TECNICAS   RONDA 2  IDENTIFICADO  EL 17-10: $50=$0D777A
+      TOGURO -  11        TOGURO- TECNICAS   7 pag    COMPLETO, 9 de 11.  LAS 11 CON NOMBRE.
+                                                        IDENTIFICADO EL 17-10: $50=$0D777A
                                                         $8C=$0D85AA.  $C4=$08 CONFIRMADO.
-                                                        8 DE 9 BASICOS MEDIDOS, MAS EL
-                                                        AGARRE $B8 Y EL LANZAMIENTO $B9.
-                                                        *** $27 VISTO EN PANTALLA CON $B9. ***
+                                                        9 BASICOS + $A0 $A1 $A2 $A3 $AA
+                                                        $AC $AD $B8 $B9 MEDIDOS.
+                                                        *** $27 VISTO EN PANTALLA. ***
 
-      *** 11 DE 11 CON CARPETA  Y  .TXT.  11 DE 11 IDENTIFICADOS  EN  PANTALLA.  ***
+      *** 11 DE 11 CON CARPETA,  .TXT  Y  PDF.  11 DE 11 IDENTIFICADOS  EN  PANTALLA.  ***
 
-      Y el unico que no tiene PDF es Toguro menor:  es el unico que todavia
-      no tiene NINGUN dato de medicion propio.  Su set esta LEIDO del ROM
-      desde $0D777A.  El PDF sale en su ronda 2.  Ver 152.2  y  153.
+      *** YA  NO  FALTA  NINGUN  PDF.  LOS  ONCE  ESTAN.  ***
+      Toguro  menor  es  el  unico  que  estaba  en  ronda  1:  solo  datos  del  ROM.
+      Cero  tecnicas  con  nombre.  Su  PDF  salio  en  la  ronda  2,  con  las  once  nombradas.  Ver  153.  Ver  157.
 
 
 

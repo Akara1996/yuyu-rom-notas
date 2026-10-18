@@ -812,5 +812,84 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
        que  los  danos  son  el  MAXIMO  posible.
 
 ================================================================================
+  CERRADO  EL  18-10-2026.  LAS  ONCE  TECNICAS  DE  TOGURO  MENOR
+  ================================================================================
+
+  *** *** ESTA  ES  LA  RESPUESTA  A  LA  PREGUNTA  MAS  IMPORTANTE  DEL  ***  ***
+  *** *** PROYECTO  SOBRE  LOS  IDS.  ***  ***
+
+  [x]  ?EL  NUMERO  DE  ID  SIGNIFICA  LO  MISMO  EN  TODOS  LOS  PERSONAJES?
+
+      *** *** EN  LA  BANDA  $A0-$BF,  NO.  NO  COMPARTE  NADA.  ***  ***
+
+          $A1  DE  TOGURO  MAYOR  =  EL  DEDAL.  stun  $40 = 64.  SIN  CLASH.
+          $A1  DE  TOGURO  MENOR =  LA  BARRERA.  $66 = $04  y  una  CLASH  DE  103.
+
+      Es  una  convencion  de  ranuras  como  la  de  los  basicos:  el  MISMO
+      SLOT  para  la  MISMA  clase  de  golpe.  PERO  con  cada  casilla  VACIA
+      DENTRO.  El  dano,  el  stun,  el  destino  y  la  mascara  son  de  cada
+      uno.  *** NO  SE  PUEDE  COPIAR  NADA  DE  UN  PERSONAJE  A  OTRO.  ***
+
+      Lo  que  SI  se  comparte:  QUE  SLOT  ES  CADA  UNO,  QUE  ENTRADA  LO
+      USA,  Y  EL  ORDEN  DE  LAS  CASILLAS.
+
+      Y  EN  LA  BANDA  $80-$8F  HAY  UNA  EXCEPCION:  $64  SI  COINCIDE  byte  a
+      byte  entre  Chui,  Toguro  mayor  y  Toguro  menor  en  los  ocho  basicos.
+      $65  y  $66  NO  COINCIDEN  NUNCA.  $68  tampoco.
+
+  [x]  UNA  CORRECCION  MAS.  $AC $AD $AE  NO  SON  "LA  ULTI"  DE  TOGURO  MENOR.
+
+      En  Toguro  mayor  si  lo  son:  238  f,  9  a  31  golpes.
+      En  Toguro  menor  $AD  =  EL  DIVE  A,  $AC  =  EL  DIVE  B,  $AE  =  EL
+      FIN  DE  LOS  DOS.
+
+      ***  LA  FAMILIA  $AC $AD $AE  ES  UNA  FAMILIA  DE  EMBESTIDA  O  DIVE.  ***
+
+  [x]  LAS  ONCE  TECNICAS  DE  TOGURO  MENOR  TIENEN  NOMBRE.
+
+      $A0  la  pistola        $A1  LA  BARRERA        $A2  el  golpe  con  ventana
+      $A3  el  punetazo  a  volar      $AA  LA  ULTI       $AC  EL  DIVE  B
+      $AD  EL  DIVE  A                $B8  EL  AGARRE      $B9  EL  LANZAMIENTO
+
+      *** $A0  Y  $AA  ESTABAN  DESCONOCIDOS.  SON  LA  PISTOLA  Y  LA  ULTI.  ***
+      *** $B9  ES  EL  LANZAMIENTO  QUE  REMATA  EL  AGARRE,  NO  UNA  CUARTA  ***
+      *** FASE  DE  LA  ULTI  COMO  SE  SUPUSO  EN  153.5.  ANULADO.  ***
+
+  [x]  $3D  Y  $16  SON  VALORES  NUEVOS  DE  $64.
+      $16  los  dos  dives.  $3D  los  cinco  disparos  de  la  pistola.
+      $2E  el  agarre  (ya  estaba  desde  12.6).
+
+  [x]  $65  EN  UN  ESTADO  CLASH+HURT  NO  ES  EL  DANO.  ES  UNA  RESISTENCIA.
+
+          la  fase  $03  de  la  barrera  dio  $65 = $67 = 103  con  4  de  dano
+          la  misma  fase  contra  la  ulti  dio      $65 = $63 =  99
+
+      [OBSERVADO]  el  valor  cambia  con  lo  que  golpea.
+
+  [x]  LA  BARRERA  DETIENE  LA  PROPIA  ULTI  DE  SU  DUENO  POR  430  FRAMES.
+
+          ***  SIETE  SEGUNDOS  Y  FRACCION.  CUANDO  LA  ULTI  LLEGA  A  SU  ***
+          *** ANIM  VULNERABLE  LE  DA  Y  LE  PEGA.  ***
+
+  [ ]  $90  B  EN  EL  AIRE  PURO.  CONFIRMADO  COMO  PUERTA  PERO  NO  MEDIDO.
+
+  [ ]  $B9  SOLO,  SIN  COMBO.  ***  EL  ALTO  FIJO  DE  VERDAD.  ***
+
+  [ ]  $AB.  NO  MEDIDO.  Su  registro  del  primer  frame  es  IDENTICO  byte  a
+       byte  al  de  $A1.  ***  SI  DA  LO  MISMO  ES  LA  MISMA  BARRERA.  ***
+       ***  UNA  PRUEBA  DE  UN  BOTON.  ***
+
+  [ ]  EL  MANA  DEL  AGARRE  $B8  Y  DEL  LANZAMIENTO  $B9.
+
+  [ ]  EL  PESO  DEL  OBJETIVO.  Todo  lo  de  Toguro  menor  se  midio  contra
+       el  mismo  Toguro  menor,  el  MAS  PESADO  del  juego.  Repetir  contra
+       algo  mas  liviano  para  separar  el  peso  del  resto.
+
+  [ ]  QUE  NUMERO  ES  $65  EN  UN  ESTADO  DE  CLASH,  Y  QUE  LO  MODIFICA.
+
+  [ ]  QUE  ES  $67  EN  REALIDAD.  La  regla  "$67 = $02  en  A,  $01  en  B"
+       quedo  ANULADA:  en  Toguro  menor  es  $01  en  nueve  de  diez  golpes.
+
+================================================================================
 ================================================================================
 ================================================================================

@@ -554,6 +554,33 @@ A("")
                                        no-ASCII  quedo  intacta.
 
       *** LO  QUE  HAY  QUE  REVISAR  AL  VOLVER  ***
+      ***  LO  QUE  FALTA,  Y  ESTA  VEZ  ES  UN  SOLO  TEST  ***
+
+      ***  ***  CORREGIDO  ***  ***  El  ajuste  planta / planta1 / planta2
+                                       del  script  apuntaba  a  una  ***
+                                       ***  DIRECCION  FALSA.  ***  ***
+
+                                       ***  ***  EL  ROM  CON  ESE  BYTE  ***
+                                       ***  ***  PARCHADO  SE  COLGABA  ***  ***
+                                       ***  ***  (HANGUP 68000).  ***  ***
+                                       ***  ***  Ya  esta  revertido.  ***  ***
+
+      ***  ***  LO  QUE  HAY  QUE  HACER  ***
+
+                                       ***  ***  1.  CARGAR  EL  TRACKER  ***  ***
+                                       ***  ***  2.  JUGAR  DE  KURAMA  ***  ***
+                                       ***  ***  3.  TIRAR  LA  PLANTA  ***  ***
+                                       ***  ***  4.  COPIAR  EL  LOG  ***  ***
+
+                                       Sale  una  linea  [OBJ-BLOB]  por
+                                       golpe,  con  la  DIRECCION  del
+                                       blob  y  el  ***  EL  BYTE  DEL
+                                       ESTADO  ESTA  EN  $XXXXXX  ***.
+                                       Dos  golpes  =  dos  direcciones.
+
+                                       ***  SOLO  LECTURA.  Pasa  el  ***
+                                       ***  reglamento  del  proyecto.  ***  ***
+
                                        Ajuste  nuevo  ***  planta / planta1 /  ***
                                        planta2  ***   cambia  el  ESTADO  que  la
                                        planta  de  Kurama  deja  a  la  victima.

@@ -6194,6 +6194,178 @@ NUEVO = """161.  ***  CORRECION.  $68 = 7  SI  ESTA  EN  LA  TABLA.  Y  DOS  COS
   *** *** PARA  OBJETOS.  La  planta  se  localizo  POR  PATRON  DE  BYTES,  ***  ***
   *** *** que  es  fuerte  pero  no  es  lo  mismo  que  recorrer  la  cadena.  ***  ***
   *** *** La  cierra  un  log  con  el  tracker:  tiene  que  mostrar  $68 = 08.  ***  ***
+163.  ***  MI  LOCALIZACION  DE  LA  PLANTA  FUE  INVENTADA.  Y  POR  QUE  ***  ***
+================================================================================
+
+  ###############################################################################
+  163.1  QUE  PASO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  *** ***     *** ***     *** ***     *** ***
+      *** *** se colgo el juego con 1 byte  ***  ***
+
+      HANGUP:  A 68000 has detected and stopped the CPU.
+      Likely culprits:  trespassing too much memory.
+  ------------------------------------------------------------------------------
+
+  ***  *** ROM  REVERTIDO.  salida\ROM MODIFICADO.bin  quedo  igual  a  la  ***  ***
+  ***  *** copia  del  usuario.  El  juego  arranca  bien  otra  vez.  ***  ***
+
+  ###############################################################################
+  163.2  POR  QUE.  LA  PRUEBA
+  ###############################################################################
+
+  ***  *** UNA  CAJA  SON  4  BYTES:  ancho  =  2*b0+1,  alto  =  2*b2+1,  ***  ***
+  ***  *** y  el  BIT  7  DE  b0  DICE  "SIGUE  LA  LISTA".  ***  ***
+
+  ------------------------------------------------------------------------------
+      $0D9C5E   8B 80 07 7F    ancho  23   alto  15   sigue
+      $0D9C62   8A 80 0C 7F    ancho  21   alto  25   sigue
+      $0D9C66   10 0A 1E 25    ancho  33   alto  61   ULTIMA   <-- MI BYTE
+
+      $0D9CF2   84 7F 07 80    ancho   9   alto  15   sigue
+      $0D9CF6   86 7F 09 80    ancho  13   alto  19   sigue
+      $0D9CFA   08 04 1E 25    ancho  17   alto  61   ULTIMA   <-- MI BYTE
+  ------------------------------------------------------------------------------
+
+  ***  *** LOS  DOS  LUGARES  QUE  YO  LLAMABA  "GOLPES  DE  LA  PLANTA"  ***  ***
+  ***  *** SON  LA  ULTIMA  CAJA  DE  DOS  LISTAS  DE  CAJAS.  ***  ***
+
+  ###############################################################################
+  163.3  POR  QUE  EL  PATRON  NO  SERVIA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** COMO  BLOB:   $65 = 08   $66 = 04   $64 = $1E   $67|$68 = $25  ***  ***
+      *** *** COMO  CAJA:   ancho  17    alto   61   ultima  de  la  lista      ***  ***
+
+      ***  *** LAS  DOS  LECTURAS  SON  PLAUSIBLES  Y  DAN  NUMEROS  ***  ***
+      ***  *** NORMALES.  POR  ESO  EL  PATRON  08 XX 1E 25  CUaja  EN  ***  ***
+      ***  *** AMBOS  FORMATOS  Y  NO  DICE  NADA.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  163.4  MI  ERROR,  DICHO  CLARO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** EN  162  DEJE  ESCRITO:  "la  planta  se  localizo  por  ***  ***
+      *** *** patron  de  bytes,  que  es  fuerte  pero  no  es  lo  mismo  ***  ***
+      *** *** que  recorrer  la  cadena".                                          ***  ***
+      *** *** Y  DESPUES  LO  PRESENTE  COMO  SI  FUERA  A  FUNCIONAR.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** EL  ERROR  DE  FONDO  ES  EL  MISMO  DE  SIEMPRE:  UNA  COINCIDENCIA  ***  ***
+  ***  *** DE  BYTES  NO  ES  UNA  PRUEBA.  YA  ESTABA  ESCRITO  EN  EL  ***  ***
+  ***  *** PROYECTO.  LO  HICE  OTRA  VEZ.  ***  ***
+
+  ###############################################################################
+  163.5  LO  QUE  SI  TENIA  RESUELTO.  Y  NO  LO  VI
+  ###############################################################################
+
+  ***  *** EL  TRACKER  TENIA  TODA  LA  CADENA  HECHA.  DESDE  EL  15-10.  ***  ***
+
+  ------------------------------------------------------------------------------
+      dir_registro_de(base, id, frame)   tablaA + word + frame*8
+      dir_tabB_de(base, reg)             tablaB + reg[+1]*4
+      dir_hit(i, tabB)                   tabB + word[tabB+2]     *** LA  DIRECCION  ***
+
+      ***  *** Y  ESTA  TERCERA  FUNCION  NO  SE  LLAMABA  NUNCA.  ***  ***
+
+      ***  *** Y  HAY  UN  COMENTARIO  EN  EL  ARCHIVO  QUE  AVISABA  EXACTAMENTE  ***  ***
+      ***  *** ESO,  ESCRITO  POR  NOSOTROS  DOS:  ***  ***
+
+          "El offset al registro de golpe esta en tabB + 2, NO en tabB + 1.
+           Leerlo en +1 da una direccion distinta de la buena, y el dano/stun
+           /empuje salen de ahi."
+
+      ***  *** O  SEA:  EL  TRACKER  TENIA  LA  RESPUESTA  DESDE  HACIA  MESES  Y  ***  ***
+      ***  *** NUNCA  LE  PREGUNTAMOS  QUE  DIRECCION  IMPRIMIA.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  163.6  LO  QUE  SE  AGREGO  AL  TRACKER
+  ###############################################################################
+
+  ***  *** [OBJ-BLOB].  UNA  FUNCION  NUEVA  QUE  CORRE  LA  MISMA  CADENA  ***  ***
+  ***  *** SOBRE  EL  OBJETO  VIVO,  EN  VEZ  DE  SOBRE  EL  PERSONAJE.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  "deja preparado el tracker asi puedo hacer el test  ***  ***
+      *** *** con kurama tirando la planta, trackeas las direcciones y ahi  ***  ***
+      *** *** sacamos TODO lo necesario para modificar ese ataque"                ***  ***
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      base = SLOTS[i] + $300       el bloque del objeto
+      $5F   estado                 del objeto
+      $59   frame                  del objeto
+      $50   tablaA                 del objeto
+      $8C   tablaB                 del objeto
+
+      y  DESPUES  LA  CADENA  DE  SIEMPRE,  con  dir_hit  AL  FINAL.
+  ------------------------------------------------------------------------------
+
+  ***  *** IMPRIME,  EN  CADA  FRAME  EN  QUE  EL  OBJETO  ABRE  UNA  CAJA:  ***  ***
+
+  ------------------------------------------------------------------------------
+      [OBJ-BLOB] KURAMA  objeto en $FF8400  $6E=$01  $5F=$09  anim $03   tablaA=$0D941A  tablaB=$0D9AB6  cabecera=$0D9A..
+                  BLOB EN $0D9D76    $65 DANO=8   $66 stun=4   $64=$1E   $67=2  $68=5
+                  ***  EL  BYTE  DEL  ESTADO  ESTA  EN  $0D9D79  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** ES  SOLO  LECTURA.  No  escribe,  no  dibuja,  no  usa  joypad.  ***  ***
+
+  ###############################################################################
+  163.7  LAS  CUATRO  VERIFICACIONES
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      1.  primeros 3 bytes = 2d 2d 20 = "--"          OK
+      2.  CRLF = LF = 3402                            OK
+      3.  paleta no-ASCII: 151 bytes, IDENTICA         OK
+      4.  luajit -bl, codigo 0                        OK
+  ------------------------------------------------------------------------------
+
+  *** *** HAY  UNA  TRAMPA  QUE  CASO  Y  LA  VERIFICACION  ATRAPO:  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** LA  PRIMERA  VERSION  USA  (x >> 4)  Y  (x & 0x0F).  ***  ***
+      *** *** ESO  ES  LUA  5.3.  LUAJIT  NO  TIENE  ESOS  OPERADORES.  ***  ***
+      *** *** luajit -bl  DIO  ERROR  Y  NO  SE  INSTALO.  ***  ***
+
+      *** *** CORREGIDO  A  bit.rshift(x,4)  Y  bit.band(x,0x0F),  QUE  SON  ***  ***
+      *** *** LAS  QUE  USA  EL  RESTO  DEL  ARCHIVO.  ***  ***
+
+      *** *** ESTO  ES  EXACTAMENTE  PARA  LO  QUE  SIRVE  LA  VERIFICACION:  ***  ***
+      *** *** UN  ERROR  QUE  A  OJO  NO  SE  VE  Y  HABRIA  MATADO  EL  ***  ***
+      *** *** RASTREADOR  ENTERO  AL  CARGARLO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  163.8  LO  QUE  FALTA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** UNA  TIRADA  CON  KURAMA  Y  LA  PLANTA.  ***  ***
+
+      El  log  tiene  que  dar  DOS  pares  de  direcciones  distintas:  una  por
+      golpe  de  la  planta.  Esos  dos  $XXXX  son  los  bytes  a  tocar.
+
+      ***  *** Y  DESPUES  HAY  QUE  CONFIRMAR  QUE  SON  DE  VERDAD  EL  ***  ***
+      ***  *** ESTADO,  Y  NO  OTRO  BLOB.  Se  comprueba  con  el  ***  ***
+      ***  *** PROPIO  LOG:  los  $68  que  imprima  tienen  que  coincidir  ***  ***
+      ***  *** con  el  estado  que  vemos  en  pantalla  en  la  victima.  ***  ***
+
+      ***  *** Y  AHORA  SI:  EL  BYTE  DEL  ESTADO  ESTA  EN  ***  ***
+      ***  *** $XXXX + 3,  CON  $67  EN  EL  NIBBLE  ALTO  Y  $68  EN  EL  ***  ***
+      ***  *** NIBBLE  BAJO.  SOLO  SE  TOCA  EL  NIBBLE  BAJO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** Y  QUEDA  EL  AJUSTE  DEL  SCRIPT,  QUE  APUNTA  A  UNA  DIRECCION  ***  ***
+      *** *** QUE  RESULTO  SER  FALSA.  HAY  QUE  CORREGIRLA  CON  LA  REAL.  ***  ***
+  ------------------------------------------------------------------------------
 ================================================================================
 ================================================================================
 ================================================================================

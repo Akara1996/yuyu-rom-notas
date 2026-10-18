@@ -21812,6 +21812,243 @@ NUEVO = """161.  ***  CORRECION.  $68 = 7  SI  ESTA  EN  LA  TABLA.  Y  DOS  COS
   *** ***  Y  ESTO  APLICA  AL  TRACKER  TAMBIEN:  $27  LLEGA  POR  LA  TABLA  ***  ***
   *** ***  COMO  CUALQUIERA  DE  LOS  DIEZ  OTROS.  SI  ALGUIEN  FILTRA  ESTADOS  ***  ***
   *** ***  POR  "LOS  NORMALES",  $27  SE  LE  ESCAPA.  ***  ***
+
+================================================================================
+162.  ***  EL  ESTADO  QUE  UN  GOLPE  DEJA  A  LA  VICTIMA.  Y  LA  PLANTA  ***  ***
+================================================================================
+
+  ###############################################################################
+  162.1  LO  QUE  SE  PREGUNTO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  "quisiera saber si se puede tocar el efecto que un  ***  ***
+      *** *** ataque produce en la victima - o sea el estado - solo eso"         ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** SI.  Y  EL  ESTADO  SON  4  BITS,  EN  UN  BYTE,  EN  UNA  DIRECCION  ***  ***
+  ***  *** EXACTA  QUE  SE  PUEDE  CALCULAR  PARA  CADA  GOLPE.  ***  ***
+
+  ###############################################################################
+  162.2  LA  CADENA.  LEIDA  DEL  ROMO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $01EC0E   move.b  (a2)+, $65(a5)      <-  EL DANO
+      $01EC12   move.b  (a2)+, $66(a5)      <-  EL STUN
+      $01EC16   move.b  (a2)+, $64(a5)      <-  LA  MASCARA
+      $01EC1A   move.b  (a2)+, d0           <-  1  BYTE  PARTIDO  EN  DOS
+      $01EC1E   andi.b  #$f, d0             <-  NIBBLE  BAJO
+      $01EC22   move.b  d0, $68(a5)         <-  ***  EL  ESTADO  ***
+      $01EC26   lsr.b   #$4, d1
+      $01EC28   andi.b  #$f, d1
+      $01EC2C   move.b  d1, $67(a5)         <-  NIBBLE  ALTO
+  ------------------------------------------------------------------------------
+
+  ***  *** EL  ESTADO  ES  EL  NIBBLE  BAJO  DEL  CUARTO  BYTE  DEL  BLOB.  ***  ***
+  ***  *** EL  NIBBLE  ALTO  ES  $67,  QUE  NO  HAY  QUE  TOCAR.  ***  ***
+
+  ###############################################################################
+  162.3  LA  DIRECCION.  COMO  SE  CALCULA
+  ###############################################################################
+
+  *** *** LA  HERRAMIENTA  QUE  YA  EXISTIA  (moves_de.py)  RECORRE  LA  ***  ***
+  ***  *** CADENA  CORRECTAMENTE.  ***  ***VERIFICADO***  *** *** CONTRA  ***  ***
+  *** *** MOVES  DE  TODOS  Y  CONTRA  EL  $27  QUE  VIMOS  EN  PANTALLA.  ***
+
+  ------------------------------------------------------------------------------
+      tablaA + id*2        offset del golpe
+      + anim*8             registro de frame.  el byte +1  es  el  indice
+      tablaB[sub*4 + 0]    la  mascara
+      tablaB[sub*4 + 1]    la  duracion
+      tablaB[sub*4 + 2]    una  palabra:  el  salto  hasta  el  blob
+      blob + 0             $65   dano
+      blob + 1             $66   stun
+      blob + 2             $64   mascara
+      blob + 3             $67 en el nibble ALTO,  $68 en el nibble BAJO
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  162.4  LA  PRUEBA  EN  CRUZ.  TRES  COSAS  INDEPENDIENTES
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $80   calculada:  dano 6  stun 4  attr $0C     MOVES DE TODOS:  6  4  $0C
+      $81   calculada:  dano 12 stun 8  attr $0D     MOVES DE TODOS:  12  8  $0D
+      $82   calculada:  dano 20 y 16                 MOVES DE TODOS:  20 y 16
+      $B9   calculada:  $68 = 7  ->  $27             EN  PANTALLA:  $27
+  ------------------------------------------------------------------------------
+
+  ***  *** LAS  CUATRO  COINCIDEN.  LA  CADENA  ESTA  BIEN.  ***  ***
+
+  ###############################################################################
+  162.5  LA  PLANTA.  Y  LA  TRAMPA  DE  LOS  OBJETOS
+  ###############################################################################
+
+  ###############################################################################
+      *** *** ACA  HUBO  UN  ERROR  QUE  CASI  ME  HACE  TOCAR  EL  BYTE  ***  ***
+      *** *** EQUIVOCADO.  Y  EL  ERROR  ES  EL  MISMO  DE  LA  FAMILIA  ***  ***
+      *** *** DE  SIEMPRE.  ***  ***
+  ###############################################################################
+
+  ***  *** LA  PLANTA  NO  ES  UN  GOLPE  DE  KURAMA.  ES  UN  OBJETO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      $A3  =  ABAJO,ABAJO + A/B/C     es  EL  QUE  LA  INVOCA
+      $A3  NO  TIENE  GOLPES.          SUELTA  UN  OBJETO.
+      estado  $09  =  la  planta       (CONTEXTO 4460)
+
+      ***  *** SI  SE  HUBIERA  BUSCADO  EN  LA  TABLA  DE  KURAMA,  SE  ***  ***
+      ***  *** HABRIA  TOCADO  LA  INVOCACION,  NO  EL  EFECTO  EN  LA  ***  ***
+      ***  *** VICTIMA.  ***  ***
+
+      ***  *** "PLANTA"  SON  DOS  COSAS  DISTINTAS  Y  LAS  CONFUNDIMOS.  ***  ***
+      ***  *** ES  EL  MISMO  ERROR  QUE  LLAMAR  AL  DEDAL  Y  A  LA  ***  ***
+      ***  *** BARRERA  "LO  MISMO  POR  SER  $A1".  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** ASI  QUE  SE  BUSCO  POR  PATRON  DE  BYTES,  SIN  SUPONER  ***  ***
+  ***  *** NINGUNA  ESTRUCTURA.  Los  cinco  datos  ya  medidos:  ***  ***
+
+  ------------------------------------------------------------------------------
+      $65 = 08      $64 = $1E      $67 = $02      $68 = $05
+  ------------------------------------------------------------------------------
+
+  ***  *** EL  PATRON  08  XX  1E  25  APARECE  UNA  SOLA  VEZ  EN  LOS  3  MB.  ***
+
+  ------------------------------------------------------------------------------
+      1er golpe   $0D9CFA   08 04 1E 25    dano  8    stun  4    $68=5
+      2do golpe   $0D9C66   10 0A 1E 25    dano 16    stun 10    $68=5
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  162.6  LA  VENTANA.  Y  POR  QUE  $68 = 8  ES  LO  QUE  PEDIA  EL  USUARIO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  *** ***     *** ***     *** ***     *** ***
+      *** *** "manda al enemigo recto hacia arriba con ventana abierta"   ***  ***
+      *** *** "anota que ventana abierta es cuando puedes golpear libremente  ***  ***
+      *** ***  y no sujeto a solo 8 frames"                                   ***  ***
+
+      ventana  CORTA     ~8  a 10  frames      la de un B
+      ventana  ABIERTA   ~16 a 19  frames      la de un A
+
+      *** *** Y  POR  ESO  DIJO  "EN  TODA  REGLA"  QUE  ES  UN  $30.  ***  ***
+      ***  *** Un  $30  con  ventana  abierta  es  el  mejor  lanceo  del  ***  ***
+      ***  *** juego:  el  rival  sube  y  tenes  16  frames  para  seguir.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      ***  *** O  SEA:  VENTANA  ABIERTA  =  $30  =  $68  =  8.  ***  ***
+
+      ***  *** Y  ESO  ES  EXACTAMENTE  LO  QUE  PIDIO  EL  USUARIO:  ***  ***
+      ***  *** "que el segundo golpe de la planta deje ventana abierta,  no  ***  ***
+      ***  *** de 8 frames".  ***  ***
+  ------------------------------------------------------------------------------
+
+  ------------------------------------------------------------------------------
+      *** *** OJO:  LA  VENTANA  NO  ES  UN  ESTADO.  ***  ***
+
+      HIT STATE 229:
+          "La ventana de 8 frames NO es un estado.  Es la presencia del
+           hurtbox DENTRO de un estado."
+
+      Y  la  cuenta  sale  exacta  del  frame  data:
+          $25 anim $00 = 4 frames  CON  hurtbox
+          $25 anim $01 = 4 frames  CON  hurtbox
+          total 8 frames CON hurtbox
+
+      ***  *** EL  ESTADO  ELIGE  QUE  ANIMACION  CORRE,  Y  LA  ANIMACION  ***  ***
+      ***  *** DICE  CUANTOS  FRAMES  TIENEN  HURTBOX.  ESO  ES  LA  VENTANA.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  162.7  LO  QUE  SE  APLICO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      *** *** (usuario)  "EXACTAMENTE lo que quiero cambiar es el estado que  ***  ***
+      *** *** produce el segundo golpe...  es el unico cambio que quiero probar" ***  ***
+
+      ***  *** EL  USUARIO  TIENE  UNA  COPIA  DENTRO  DE  YYH DOCS.  ***  ***
+      ***  *** Y  NO  ES  LA  MISMA:  es  la  TRADUCCION  AL  INGLES.  ***  ***
+
+      jp  sha1 89a70d374a3f3e2dc5b430e6d444bea243193b74
+      en  sha1 d881629af139edb6acf36498654401508501ff69
+      113236  bytes  distintos  de  3145728
+
+      ***  *** PERO  LAS  DIRECCIONES  QUE  IMPORTAN  SON  IDENTICAS:  ***  ***
+
+      ------------------------------------------------------------------------------
+          $0D9CFD  planta  1er golpe              IGUAL
+          $0D9C66  planta  2do golpe              IGUAL
+          $0D9CFA  los 4 bytes del 1er golpe     IGUAL
+          $01F6DC  gravedad de $27                 IGUAL
+          $01F3DE  chip al bloquear               IGUAL
+          $01F534  tabla de $68                    IGUAL
+          $01275B  entradas de los once           IGUAL
+          $01EB40  el despachador de frames       IGUAL
+          los 11 stun                              IGUALES
+      ------------------------------------------------------------------------------
+
+      ***  *** O  SEA:  LA  TRADUCCION  SOLO  TOCO  TEXTO.  EL  CODIGO  ***  ***
+      ***  *** Y  LOS  DATOS  ESTAN  EN  EL  MISMO  LUGAR.  ***  ***
+
+      *** *** [VERIFICADO]  ***  ***[ABIERTO]***  ***  QUE  EL  JUEGO  LO  ***  ***
+      *** *** TOME  Y  QUE  LA  VENTANA  SEA  DE  VERDAD  LA  DE  16  A  19.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  162.8  EL  PARCHE.  UN  BYTE
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $0D9C69    $25  ->  $28
+
+              nibble alto  $67:   2 -> 2     INTACTO
+              nibble bajo  $68:   5 -> 8     DERRIBO  ->  VENTANA  ABIERTA
+
+      $0D9CFD    NO SE TOCO.  EL  PRIMER  GOLPE  SIGUE  DANDO  $25.
+  ------------------------------------------------------------------------------
+
+  ***  *** VERIFICACION  INDEPENDIENTE,  SIN  USAR  EL  SCRIPT:  ***  ***
+
+  ------------------------------------------------------------------------------
+      1  byte  distinto  de  3145728
+      tamano  identico
+      $64  intacto   $67  intacto
+      tabla de $68  intacta     los 11 handlers  intactos
+      entradas de los once  intactas
+      1  de  768  bloques  de  4  KB  tocados
+      la  copia  inglesa  del  usuario  NO  se  toco
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  162.9  LAS  DOS  TRAMPAS,  PARA  NO  REPETIRLAS
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  *** 1.  EL  BYTE  ES  COMPARTIDO  CON  $67.  ***  ***
+
+          Escribir  $28  a  secas  esta  bien  solo  porque  el  nibble  alto  ya
+          era  2.  Si  algien  quisiera  un  $68  que  no  encaje,  hay  que
+          hacer  (byte  AND  $F0)  OR  nuevo.  El  script  ya  lo  hace.
+
+      ***  *** 2.  UN  GOLPE  PUEDE  TENER  VARIOS  FRAMES  ACTIVOS.  ***  ***
+
+          $82  tiene  dos:  $0D8A01  y  $0D8A1D.  Si  se  toca  uno  solo,  la
+          primera  mitad  manda  a  un  estado  y  la  segunda  a  otro.
+
+          Toguro menor  tiene  26  frames  activos  en  sus  20  ids  vivos:
+          26  bytes  para  cambiar  el  estado  de  todo  lo  suyo.
+  ------------------------------------------------------------------------------
+
+  *** *** Y  UNA  TERCERA,  QUE  NO  ES  TRAMPA  SINO  LA  REGLA  DEL  ***  ***
+  *** *** PROYECTO:  LA  CADENA  ESTA  VERIFICADA  PARA  PERSONAJES,  NO  ***  ***
+  *** *** PARA  OBJETOS.  La  planta  se  localizo  POR  PATRON  DE  BYTES,  ***  ***
+  *** *** que  es  fuerte  pero  no  es  lo  mismo  que  recorrer  la  cadena.  ***  ***
+  *** *** La  cierra  un  log  con  el  tracker:  tiene  que  mostrar  $68 = 08.  ***  ***
 ================================================================================
 ================================================================================
 ================================================================================

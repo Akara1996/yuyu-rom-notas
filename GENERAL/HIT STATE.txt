@@ -2705,7 +2705,7 @@ STUN POR PERSONAJE:  EL CAMPO ES $26 DE LA ENTRADA
 
       SIN MEDIR
 
-          *** la  ulti  $AC $AD $AE   ***  ***  ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS  ***
+          [x]  la  ulti  $AC $AD $AE.  MEDIDA  EN  151.  238  f.  9  a  31  golpes  segun  el  objetivo
           *** el  agarre  $B8  ***   ***  ***
           *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***  ***
 151.  LA  ULTI  DE  TOGURO  MAYOR  CONTRA  CADA  OBJETIVO.  LA  TABLA  DE  GOLPES

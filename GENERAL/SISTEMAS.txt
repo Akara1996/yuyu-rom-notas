@@ -3726,7 +3726,7 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
       SIN MEDIR
 
-          *** la  ulti  $AC $AD $AE   ***  ***  ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS  ***
+          [x]  la  ulti  $AC $AD $AE.  MEDIDA  EN  151.  238  f.  9  a  31  golpes  segun  el  objetivo
           *** el  agarre  $B8  ***   ***  ***
           *** $A5  $A8  $A9  $AB  $AE  $AF  $B0  $B1  ***  ***
 151.  LA  ULTI  DE  TOGURO  MAYOR.  MEDIDA  ENTERA
@@ -4326,6 +4326,142 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
       ------------------------------------------------------------------------------
 
       *** EL  ORDEN  ESTA  POR  RENTA,  NO  POR  DIFICULTAD.  ***  ***
+154.  LA  AUDITORIA.  QUE  HABIA  VIEJO  Y  QUE  SE  CERRO
+================================================================================
+
+  ###############################################################################
+  154.1  EL  CONTRADICTORIO  MAS  ANTIGUO  DEL  PROYECTO.  CERRADO
+  ###############################################################################
+
+  En  la  seccion  de  hace  varias  rondas  quedo  anotado  esto:
+
+      "*** Y EL DANO  ES 4  EN  EL  BLOB,  Y 7  EN  UNA  MEDICION  ANTERIOR ***
+       Queda la contradiccion.  El +65 es el valor vivo ya escalado por $C4, y con
+       $C4 = $08 para P1.  Puede que las dos mediciones no sean del mismo personaje,
+       o que el frame de lectura sea distinto.  [ABIERTO]"
+
+  *** *** LA  RESPUESTA  ES  LA  TERCERA  DE  LAS  QUE  PROPUSIMOS.  ***  ***
+  *** *** ERAN  DOS  PERSONAJES  DISTINTOS.  ***  ***
+
+  Y  se  demuestra  con  la  tabla  del  ROM:
+
+  ------------------------------------------------------------------------------
+      $C4 = $08   lo  tienen   KUWABARA  (entrada 3)   y   TOGURO  menor  (11)
+      $C4 = $06   lo  tienen   YUSUKE    (entrada 4)   y   CHUI      (10)
+  ------------------------------------------------------------------------------
+
+  ***  LAS  DOS  MEDICIONES  ERAN  DE  PERSONAJES  QUE  ESTAN  EN  $08  Y  $06.  ***  ***
+  ***  NO  ERAN  EL  MISMO  PERSONAJE  CON  DOS  VALORES  DISTINTOS.  ***  ***
+
+  *** *** Y  ESO  MATA  LA  HIPOTESIS  DEL  FACTOR  DE  ESCALA.  ***  ***
+
+  $C4  es  UN  SOLO  BYTE  FIJO  POR  PERSONAJE  ($32  de  la  entrada).  No  es
+  un  factor  que  cambie  golpe  a  golpe,  as que  NO  PUEDE  EXPLICAR  QUE  EL
+  MISMO  GOLPE  DE  DANO  DISTINTO  EN  DOS  FRAMES  DISTINTOS.
+
+  ------------------------------------------------------------------------------
+      ***  LO  QUE  SI  EXISTE:  EL  DANO  POR  GOLPE  VARIA  ENTRE  8  Y  11  ***
+      ***  CON  LA  MISMA  $65 = $08.  Y  ESO  LO  PRODUCE  EL  PERFIL  DEL  ***  ***
+      ***  RIVAL,  NO  $C4.  Medido  con  Toguro  mayor  contra  Toguro  menor  ***
+      ***  y  contra  Genkai.  Ver 151.3  y  HIT STATE 151.2.  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  154.2  LAS  LISTAS  "SIN  MEDIR"  QUE  HABIAN  QUEDADO  VIEJAS
+  ###############################################################################
+
+  La  lista  de  pendientes  de  la  seccion  150.8  seguia  diciendo  que  la  ulti
+  no  estaba  medida,  en  los  tres  documentos.  Corregido  en  los  tres.
+
+      *** la  ulti  $AC $AD $AE   ***  YA  LA  USAMOS  PERO  NO  LA  MEDIMOS
+      [x] la  ulti  $AC $AD $AE.  MEDIDA  EN  151.  238  f.  9  a  31  golpes
+
+  ###############################################################################
+  154.3  LA  TABLA  DE  LOS  ONCE.  LA  DEFINITIVA
+  ###############################################################################
+
+  Todo  esto  sale  de  la  entrada  del  ROM  en  $01275B,  stride  $4A.
+
+  ------------------------------------------------------------------------------
+     #  nombre      $50        $8C        $26   $C4   tamano  $32
+     ------------------------------------------------------------------
+      1  GENKAI    $0BCAAA    $0BDCAA     34    $02    11440    8
+      2  KURAMA    $0BF75A    $0C04CA     40    $04    11072    9
+      3  KUWABARA  $0C229A    $0C31DA     56    $08    11344   10
+      4  YUSUKE    $0C4EEA    $0C5DAA     48    $06    11696   11
+      5  HIEI      $0C7C9A    $0C8BEA     44    $02    10816   12
+      6  SENSUI    $0CA6DA    $0CB38A     54    $02     9632   13
+      7  JIN       $0CCC7A    $0CDEFA     46    $04    11552   14
+      8  ITSUKI    $0CF99A    $0D069A     40    $02     9408   15
+      9  TOGURO+   $0D1E5A    $0D2C6A     38    $04    11328   16
+     10  CHUI      $0D4A9A    $0D59FA     48    $06    11488   17
+     11  TOGURO-   $0D777A    $0D85AA     62    $08    el  ultimo   62
+     ------------------------------------------------------------------------------
+     la  columna  $32  es  $7C  para  Toguro  menor  en  vez  de  $24.
+     Ver  152.3.  Los  otros  diez  son  $10  +  2*(n-1).
+  ------------------------------------------------------------------------------
+
+  *** *** $50  Y  $8C  CONFIRMADOS  EN  PANTALLA  EN  LOS  ONCE.  ***  ***
+  *** *** EL  ULTIMO  FUE  TOGURO  MENOR,  EL  17-10-2026.  ***  ***
+
+  ###############################################################################
+  154.4  QUE  PERSONAJE  FALTA  Y  QUE  FALTA  DE  CADA  UNO
+  ###############################################################################
+
+  DE  IDENTIFICAR:  *** NINGUNO.  11  DE  11.  ***
+
+  DE  DOCUMENTO:  *** NINGUNO.  LOS  ONCE  TIENEN  CARPETA  Y  .TXT.  ***
+  *** TOGURO  MENOR  ES  EL  ULTIMO  Y  SE  ABRIO  ESTA  MISMA  RONDA.  ***
+
+  DE  PDF:  *** SOLO  TOGURO  MENOR.  ***  El  PDF  sale  en  la  ronda  2  de  el,
+  *** que  es  cuando  haya  datos  de  medicion  suyos.  Los  otros  diez  ya  lo  ***
+  *** tienen.  ***
+
+  DE  MEDIR  (lo  que  a  cada  uno  le  falta  de  verdad):
+
+  ------------------------------------------------------------------------------
+    personaje   con  nombre   que  le  falta
+    ------------------------------------------------------------------
+    CHUI          18 de 18   *** COMPLETO.  9/9  BASICOS.  EL  UNICO.  ***
+    TOGURO+       18         completo,  +  el  exploit  y  la  ulti
+    GENKAI        11 de 15   $A2  y  $AF  sin  comando.  Los  cuatro  mandos
+    KURAMA         7         los  cuatro  mandos  sin  medir.  El  alcance
+                              de  su  proyectil
+    KUWABARA      11 de 11   $AB,  los  mandos  sin  id,  el  alcance  de  la
+                              estocada
+    YUSUKE         4         $A2,  $A4  y  $AC  sin  mapear
+    HIEI           8         los  cuatro  mandos
+    SENSUI         9         los  parries  se  cerraron  el  15-10
+    JIN            7 de 12   4  golpes  y  el  vuelo
+    ITSUKI         5         ---
+    TOGURO-        0         *** TODO.  6  basicos  +  11  tecnicas.  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  154.5  Y  UN  HALLAZGO  DE  ESTA  MISMA  AUDITORIA
+  ###############################################################################
+
+  Al  leer  las  tablas  de  los  once  para  armar  154.3  salio  una  cosa  que
+  no  se  esperaba  y  que  conviene  anotar  antes  de  que  se  pierda:
+
+  ------------------------------------------------------------------------------
+      ***  EL  RANGO  $C0-$FF  DEL  "MAPA  DE  IDS"  NO  ES  UN  MAPA  DE  IDS.  ***
+
+      Los  offsets  que  salen  ahi  son  $000B,  $0601,  $8378, $8476.  Esos  no
+      son  punteros  a  registros  de  movimiento:  son  DATOS  que  se  estan
+      leyendo  como  si  fueran  una  tabla  de  offsets.
+
+      ***  EL  RANGO  REAL  DE  TECNICAS  ES  $A0-$BE.  ***  ***
+      ***  DESDE  $C0  EN  ADELANTE  NO  HAY  NADA  QUE  SE  PUEDA  USAR.  ***
+  ------------------------------------------------------------------------------
+
+  Y  una  segunda,  sobre  el  conteo  de  ids:
+
+      ***  $A4  ESTA  VIVO  EN  9  DE  LOS  11.  NO  EN  TOGURO  MENOR.  ***
+      ***  $A6  ESTA  VIVO  EN  7  DE  LOS  11.  NO  EN  TOGURO  MENOR  ***  ***
+      ***  NI  EN  TOGURO  MAYOR.  ***
+
+  ***  LA  ESTOCADA  $A4  ES  CASI  UNIVERSAL.  LE  FALTA  UNO.  ***
 ================================================================================
 ================================================================================
 ================================================================================

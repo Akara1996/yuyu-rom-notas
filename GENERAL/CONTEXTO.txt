@@ -21240,6 +21240,186 @@ CONFLICTO ABIERTO.  COMO SE LEEN LOS 4 BYTES DE UNA CAJA
     que  cosa                          que  cambia
     ------------------------------------------------------------------
 
-  ------------------------------------------------------------------------------================================================================================
+  ------------------------------------------------------------------------------159.  ***  CURIOSIDAD  PARA  RESOLVER.  EL  DANO  NUNCA  ES  MENOR  QUE  $65  ***
+================================================================================
+
+  *** ESTO  QUEDA  COMO  CURIOSIDAD  ABIERTA.  NO  ES  UNA  CONCLUSION.  ***  ***
+
+  ###############################################################################
+  159.1  EL  EXPERIMENTO
+  ###############################################################################
+
+  *** *** (usuario)  "voy  a  hacer  una  prueba,  de  toguro  menor  a  toguro  ***  ***
+  *** *** menor,  6  b  bajo,  6  b,  6  adelante  b,  asi  juntamos  volumen  ***  ***
+  *** *** para  comparar  bien"  ***  ***
+
+  ------------------------------------------------------------------------------
+    ABAJO + B   $84   $65 = $06  fijo
+    ------------------------------------------------------------------
+      f90    -11        f195   -9
+      f114    -6        f219   -6
+      f138   -12        f243   -6
+                             TOTAL  50   media  8.3
+
+    B  EN  EL  SUELO   $80   $65 = $06  fijo
+    ------------------------------------------------------------------
+      f148    -9        f243    -6
+      f171    -6        f267   -13
+      f195   -10        f291    -6
+                             TOTAL  50   media  8.3
+
+    ADELANTE + B   $81   *** $65  CAMBIA  DENTRO  DEL  MISMO  GOLPE  ***
+    ------------------------------------------------------------------
+      f83   -15   $65=$0F       f270  -15   $65=$0F
+      f144  -13   $65=$0C       f330  -15   $65=$0C
+      f207  -12   $65=$0C       f388  -18   $65=$0C
+                             TOTAL  88   media  14.7
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  159.2  LOS  DOS  HECHOS  QUE  NO  SE  EXPLICAN
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  HECHO  1.  EL  DANO  NUNCA  FUE  MENOR  QUE  $65.  18  DE  18.  ***  ***
+
+      ***  HECHO  2.  EL  $65  NO  ES  EL  VALOR  DEL  GOLPE  SINO  EL  DE  UN  ***  ***
+      ***  FRAME  ACTIVO.  $81  ALTERNO  $0C  Y  $0F  ENTRE  GOLPES  SUYOS.  ***  ***
+  ------------------------------------------------------------------------------
+
+  Y  EL  EXTRA  VA  DE  0  A  +7,  Y  **HAY  GOLPES  CON  EXTRA  CERO**:
+
+  ------------------------------------------------------------------------------
+      $84   extra   +5,  0, +6, +3,  0,  0
+      $80   extra   +3,  0, +4,  0, +7,  0
+      $81   extra    0, +1,  0,  0, +3, +6
+  ------------------------------------------------------------------------------
+
+  ***  EL  EXTRA  NO  ES  FUNCION  DE  $65,  NI  DE  $68,  NI  DE  LA  DISTANCIA,  ***
+  ***  NI  DEL  FRAME.  ***
+
+  ------------------------------------------------------------------------------
+      dist 53  dio  -6  y  -13   (mismo golpe)
+      dist 70  dio  -12  y  -6    (mismo golpe)
+      $65=6 dio +7  y  dio  0
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  159.3  LO  QUE  EL  ROM  DICE.  Y  ES  INCONTESTABLE
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      $01F420  move.b $65(a3), d0
+      $01F424  sub.w  d0,    $78(a4)      ***  UN  SOLO  sub  POR  EVENTO  ***
+
+      $01F3D8  move.b $65(a3), d0
+      $01F3DC  lsr.b  #$2, d0
+      $01F3DE  addq.b #$1, d0
+      $01F3E0  sub.w  d0, $78(a4)           ***  EL  CAMINO  DEL  BLOQUEO  ***
+  ------------------------------------------------------------------------------
+
+  *** *** EN  5  KB  DE  ZONA  DE  COMBATE  ($01F300-$020000)  NO  HAY  NI  UN  ***  ***
+  *** *** SOLO  `mulu.w`  NI  UN  SOLO  `divu.w`.  CERO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      ***  NO  HAY  CRITICOS.  ***  ***[VERIFICADO]***
+      ***  NO  HAY  DESVIO  ALEATORIO.  ***  ***[VERIFICADO]***
+      ***  NO  HAY  ESCALA  POR  PESO  DEL  OBJETIVO.  ***  ***[VERIFICADO]***
+
+      ***  LA  HIPOTESIS  DEL  USUARIO  DE  QUE  PARECIA  UN  CRITICO  QUEDA  ***
+      ***  DESCARTADA  POR  EL  CODIGO,  NO  POR  OPINION.  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  159.4  LO  QUE  EL  ROM  DICE  Y  NO  HABIAMOS  MIRADO
+  ###############################################################################
+
+  En  el  dump  de  cada  golpe  hay  DOS  COLUMNAS  QUE  NUNCA  USAMOS:
+
+  ------------------------------------------------------------------------------
+    $80   $0D7F52       3  0     18    6      1  6           $20 [alto 1]
+             anim 1   dano 6   stun 4   attr $0C
+    $81   $0D7F6A       4  0     26    8      2  12,12       $20 [alto 1]
+             anim 1   dano 12  stun 8   attr $0D
+             anim 2   dano 12  stun 8   attr $0D
+    $82   $0D7F8A       4  0     52    8      2  20,16       $25 [alto 1]
+    $84   $0D7FEA       4  0     18    6      1  6           $21 [alto 1]
+    $86   $0D8012       4  0     52    8      2  20,16       $25 [alto 1]
+    ------------------------------------------------------------------
+              anims  bl  frames  arr  GOLPES  DANO  POR  FRAME  ACTIVO
+  ------------------------------------------------------------------------------
+
+  *** `golpes`  =  EL  NUMERO  DE  FRAMES  ACTIVOS.  ***
+  *** `dano`    =  UN  VALOR  POR  CADA  FRAME  ACTIVO.  ***  ***[VERIFICADO]***
+
+  $82  tiene  DOS  frames  activos  con  $65 = 20  y  $65 = 16.
+
+  ------------------------------------------------------------------------------
+      ***  ESO  EXPLICARIA  EL  $65  QUE  CAMBIA  DENTRO  DEL  MISMO  GOLPE.  ***
+      ***  EL  TRACKER  CAPTURA  UN  FRAME  ACTIVO,  NO  EL  MOVIMIENTO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  159.5  LA  HIPOTESIS  VIGENTE.  UNA  SEGUNDA  CAJA  QUE  TOCA
+  ###############################################################################
+
+  *** *** SI  EL  MOTOR  APLICA  UN  `sub.w`  POR  CAJA  QUE  TOCA,  Y  UN  GOLPE  ***  ***
+  *** *** CON  CERO  EXTRA  ES  UN  GOLPE  DONDE  SOLO  TOCO  UNA,  ENTONCES  ***  ***
+  *** *** EL  EXTRA  ES  EL  NUMERO  DE  CAJAS  QUE  SE  SUPERPUSIERON.  ***  ***
+
+  ------------------------------------------------------------------------------
+    $80  HIT X-117 Y-43 r19,161   CLASH X-113 Y-43 r18,162   PUSH X-120 Y-69 r6,131
+    $84  HIT X-116 Y-37 r11,164   CLASH X-112 Y-37 r15,164   PUSH X-121 Y-57 r6,137
+    $81  HIT X-119 Y-52 r26,164   CLASH X-114 Y-52 r26,164   PUSH X-121 Y-73 r6,135
+  ------------------------------------------------------------------------------
+
+  ***  EL  RADIO  DEL  HIT  VA  DE  11  A  26.  CUANTO  MAS  ANCHO  EL  HIT,  ***
+  ***  MAS  CHANCE  DE  QUE  TAMBIEN  TOQUE  LA  CAJA  DE  PUSH.  ***
+
+  ***  [ABIERTO]  HAY  QUE  CONFIRMARLO.  NO  ESTA  DEMOSTRADO.  ***
+
+  ###############################################################################
+  159.6  EL  EXPERIMENTO  QUE  FALTA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  EL  MISMO  GOLPE  CONTRA  UN  RIVAL  CON  HURTBOX  CHICA.  ***
+
+      B  EN  EL  SUELO  ($80,  $65 = 6)  CONTRA  GENKAI  (el  mas  liviano).
+
+      SI  DA  6  CLAVADO  CONTRA  GENKAI  Y  6  A  13  CONTRA  TOGURO  MENOR:
+      ***  EL  EXTRA  ES  UNA  SEGUNDA  CAJA  QUE  TOCA,  Y  DEPENDE  DE  LA  ***
+      ***  HURTBOX  DEL  RIVAL.  NO  ES  UN  CRITICO  NI  UN  DESVIO.  ***
+
+      SI  DA  LO  MISMO  CONTRA  CUALQUIERA:  NO  ES  LA  CAJA,  Y  HAY  QUE  BUSCAR
+      EN  EL  COLLISION  LOOP  DE  $1EB40  QUE  NO  HEMOS  LEIDO  ENTERO.
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  159.7  MIS  DOS  CORRECCIONES.  LAS  DOS  MAL
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      ***  1.  DIJE  QUE  LOS  DELTAS  ERAN  EL  PESO  DEL  OBJETIVO.  ***  ***
+
+      ***  NO  HAY  PESO.  LO  DIJO  EL  USUARIO  PRIMERO:  "por  dano,  pusheo,  ***
+      ***  dano  de  stun  y  estado  producido  por  golpe  es  el  mismo  en  ***
+      ***  todos  los  personajes  si  todos  estaban  en  el  mismo  estado  al  ***
+      ***  momento  de  recibirlo".  ***
+
+      ***  2.  DIJE  QUE  ERAN  DOS  CAJAS  Y  LO  RETIRE  POR  QUE  $80  Y  $84  ***
+      ***  TIENEN  LAS  MISMAS  TRES  CAJAS  Y  SOLO  UNO  DUPLICABA.  ***  ***
+
+      ***  ESTABA  MAL  POR  QUE  NO  HABIA  DADO  CON 6  GOLPES  DE  CADA  UNO.  ***
+      ***  CON  6  Y  6:  LOS  DOS  DAN  CERO  Y  NO  CERO.  ***
+
+      ***  *** Y  EL  ERROR  DE  FONDO,  QUE  ME  COSTO  TODO:  ***  ***
+      ***  *** TRATAR  UN  $65  COMO  "EL  DAO  DE  LA  TECNICA"  CUANDO  ES  EL  ***
+      ***  *** DAO  DE  UN  FRAME  ACTIVO.  DE  AHI  SALIO  TODO  LO  MAL.  ***
+  ------------------------------------------------------------------------------
+
+  *** *** Y  ESO  CAMBIA  COMO  HAY  QUE  LEER  TODOS  LOS  LOGS  ANTERIORES.  ***  ***
+  *** *** CADA  $65  QUE  LEIMOS  ES  EL  DE  UN  FRAME,  NO  EL  DEL  GOLPE.  ***  ***
+================================================================================
 ================================================================================
 ================================================================================

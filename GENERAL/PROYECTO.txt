@@ -506,6 +506,26 @@ A("")
                                                         *** $27 VISTO EN PANTALLA. ***
 
       *** 11 DE 11 CON CARPETA,  .TXT  Y  PDF.  11 DE 11 IDENTIFICADOS  EN  PANTALLA.  ***
+      *** LOS  DOCUMENTOS  QUE  NO  SON  DE  UN  PERSONAJE  ***
+
+      GUIA  TABLA  DE  VALORES.pdf      15  pag.  La  biblia  del  sistema.
+                                       Secciones  10  a  13  nuevas:  el  $65  por
+                                       frame  activo,  romper  proyectiles,  el
+                                       punto  de  castigo,  y  que  ids  se
+                                       comparten  y  cuales  no.
+
+      TABLAS  DE  INTERACCION.pdf        10  pag.  ***  NUEVO  ***
+                                       El  recorrido  completo  del  golpe:  de  la
+                                       entrada  del  personaje  hasta  el  efecto
+                                       en  el  rival.  Diez  etapas  con  su
+                                       direccion  exacta  y  su  estado.
+
+      GUIA  DE  MODIFICACION.pdf         7  pag.  ***  NUEVO  ***
+                                       Que  tocar,  donde  esta,  que  hay,  que
+                                       pondrias  y  que  pasaria.  Solo  filas
+                                       con  DIRECCION  COMPROBADA.  Las  demas
+                                       van  marcadas  NO  LOCALIZADA.
+
       *** DOS  SISTEMAS  NUEVOS  QUE  NO  EXISTIAN  EN  EL  PROYECTO:  ***
 
       1.  ROMPER  PROYECTILES.  Un  clash  normal  resuelve  UN  ataque.

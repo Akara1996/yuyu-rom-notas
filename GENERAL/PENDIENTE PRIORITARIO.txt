@@ -761,5 +761,56 @@ Y CON EL MISMO GOLPE REPETIDO NO SE CONFIRMA EL LOOP.
   *** SU  SET  ESTA  ENTERO  LEIDO  DEL  ROM.  NO  HAY  NADA  QUE  BUSCAR.  ***  ***
   *** SOLO  HAY  QUE  APRETAR  BOTONES  Y  LEER  EL  BLOB.  ***  ***
 ================================================================================
+  CERRADO  EL  18-10-2026.  $27  VISTO  EN  PANTALLA
+  ================================================================================
+
+  *** *** EL  MISTERIO  MAS  ANTIGUO  DEL  PROYECTO.  *** ***
+
+  [x]  $27  SE  VIO  EN  PANTALLA.  EN  EL  LANZAMIENTO  $B9  DE  TOGURO  MENOR.
+
+          P4:  $30 -> $41   f167
+          P4:  $41 -> $27   f184      ***  EL  ESTADO  DEL  ALTO  FIJO  ***
+
+  [x]  EL  ROM  YA  LO  DECIA  DESDE  HACE  RONDAS.  MOVES DE TODOS 1136:
+
+          $B9   $0D8562   3  0   36  16   1  16   $27 [alto 1]
+
+      ***  EL  ROM  DECIA  $B9 -> $27.  Y  EL  LOG  DIO  $B9 -> $27.  ***
+      ***  TERCER  SISTEMA  DEL  JUEGO  QUE  EL  ROM  ACERTA  COMPLETO  AL  ***
+      ***  LEERLO,  Y  QUE  LO  CONFIRMAMOS  DESPUES  CON  UN  BOTON.  ***
+
+  [ ]  ***  LA  PRUEBA  QUE  FALTA  PARA  VER  EL  ALTO  FIJO  DE  VERDAD:  ***
+  [ ]  ***  $B9  SOLO,  SIN  SEGUIR  CON  GOLPES  DEL  COMBO.  ***
+
+          f184   P4 -> $27
+          f184   un  septimo  golpe  ($65 = 05,  5  de  dano)  lo  saca
+          f197   P4: $27 -> $28      ***  13  FRAMES  DESPUES  ***
+
+          ***  HAY  QUE  VER  SI  EL  RIVAL  SE  QUEDA  COLGANDO  CON  $4C = 0.  ***
+
+  [x]  $C4 = $08  CONFIRMADO  EN  TODAS  LAS  LINEAS  DEL  LOG  DE  TOGURO  MENOR.
+       El  predicho  por  el  ROM  era  exacto.
+
+  [x]  $68 = 6  ->  $26  EL  LANZADOR.  TERCER  PERSONAJE  QUE  LO  CONFIRMA.
+       ***  $83  ADELANTE + A  DE  TOGURO  MENOR  LO  TIENE.  SU  HERMANO  NO.  ***
+
+  [x]  LA  REGLA  DE  $67  ESTA  ANULADA.
+       Se  decia  $67 = $02  en  los  A  y  $01  en  los  B.  En  Toguro  menor
+       $67 = $01  en  NUEVE  DE  DIEZ  golpes,  y  $00  solo  en  $81.
+       ***  NO  SEPARA  EL  A  DEL  B.  QUE  ES  $67  QUEDA  ABIERTO.  ***
+
+  [x]  LA  BANDA  $80-$8F  COMPARTIDA  NO  ES  UNA  COPIA.  CONFIRMADO.
+       $64  SI  coincide  en  Chui,  Toguro  mayor  y  Toguro  menor.
+       $65  y  $66  NO  COINCIDEN  NUNCA.  $68  tampoco.
+       ***  ES  UNA  CONVENCION:  MISMA  CASILLA,  NUMEROS  DE  CADA  UNO.  ***
+
+  [ ]  $90  B  EN  EL  AIRE  DE  TOGURO  MENOR.  ***  SE  OLVIDO  EN  LA  HOJA.  ***
+
+  [ ]  REPETIR  UNOS  POCOS  GOLPES  CONTRA  UN  RIVAL  MAS  LIVIANO  PARA
+       SEPARAR  EL  PESO  DEL  OBJETIVO  DEL  RESTO.  Todos  los  de  esta  ronda
+       se  midieron  CONTRA  TOGURO  MENOR,  el  mas  pesado  del  juego,  asi
+       que  los  danos  son  el  MAXIMO  posible.
+
+================================================================================
 ================================================================================
 ================================================================================

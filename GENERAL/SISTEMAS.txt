@@ -4602,6 +4602,312 @@ $65.  En los golpes fisicos de una tecnica hay variaciones de uno o dos.
 
       *** 44  TECNICAS  SIN  NOMBRE  EN  TODO  EL  JUEGO.  ***  ***
       ***  MAS  LOS  CUATRO  MANDOS  EN  LOS  DIEZ  PERSONAJES  QUE  FALTAN.  ***  ***
+156.  TOGURO  MENOR.  LOS  NUEVE  BASICOS,  EL  AGARRE,  Y  POR  FIN  $27
+================================================================================
+
+  ###############################################################################
+  156.1  LO  PRIMERO.  $C4  =  $08.  CONFIRMADO
+  ###############################################################################
+
+  *** *** $C4 = $08  EN  TODAS  LAS  LINEAS  DEL  LOG,  SIN  UNA  SOLA  EXCEPCION,  ***  ***
+  *** *** EN  LAS  DIEZ  ENTRADAS  QUE  HUBO.  ***  ***
+
+      ***  EL  PREDICTO  DEL  ROM  ERA  EXACTO.  EL  STAT  POR  PERSONAJE  QUEDA  ***
+      ***  CON  LOS  CUATRO  VALORES  CONFIRMADOS  Y  EN  EL  GRUPO  QUE  LE  ***  ***
+      ***  TOCA.  $08  =  KUWABARA  +  TOGURO  MENOR.  ***
+
+  ###############################################################################
+  156.2  LOS  NUEVE  BASICOS.  8  DE  9
+  ###############################################################################
+
+  *** *** EL  RIVAL  ERA  TOGURO  MENOR  TAMBIEN.  O  SEA  QUE  TODOS  LOS  DANOS  ***  ***
+  *** *** DE  ESTA  TABLA  SON  EL  MAXIMO  POSIBLE  DEL  JUEGO.  ***  ***
+
+  ------------------------------------------------------------------------------
+    entrada            id     anim   frames   $64   $65   $66   $68   dist
+    ------------------------------------------------------------------
+    A  en el suelo      $82    $01      68    $0E   $14  $10   $05     42
+    ADELANTE + A        $83    $02      71    $0E   $12  $10   $06    122
+    ABAJO + A           $86    $01      68    $0A   $14  $12   $05     45
+    B  en el suelo      $80    $01      33    $0C   $06  $04   $00     49
+    ADELANTE + B        $81    $01      41    $0D   $0C  $08   $00     46
+    ABAJO + B           $84    $01      34    $08   $06  $04   $01     43
+    A  en el aire       $95    $01      43    $06   $12  $10   $01     37
+    ARRIBA + A  (aire)  $94    $01      33    $06   $15  $10   $05     37
+    B  en el aire       $90  ***  FALTA  ESTE  ***
+  ------------------------------------------------------------------------------
+
+  Y  EL  DANO  REAL  QUE  PEGARON,  CONTRA  EL  RIVAL  MAS  PESADO:
+
+  ------------------------------------------------------------------------------
+    id     $65  del  blob    DANO  REAL   diferencia
+    ------------------------------------------------------------------
+    $82      $14  =  20            23          +3
+    $83      $12  =  18            21          +3
+    $86      $14  =  20            25          +5
+    $80      $06  =   6            12          +6     ***  EL  DOBLE  ***
+    $81      $0C  =  12            12           0     ***  EXACTO  ***
+    $84      $06  =   6             7          +1
+    $95      $12  =  18            20          +2
+    $94      $15  =  21            21           0     ***  EXACTO  ***
+  ------------------------------------------------------------------------------
+
+  *** *** EL  $65  NO  ESTA  ROTO.  ***  ***
+
+  Tres  de  ocho  dan  EXACTO.  Las  otras  cinco  dan  mas.  Y  el  unico  caso
+  de  "el  doble"  es  $80  con  $65 = 6  y  dano  12.
+
+  ***  LA  EXPLICACION  MAS  PROBABLE:  EL  PESO  DEL  OBJETIVO.  ***  ***
+
+  Ya  lo  sabiamos  de  la  ulti:  con  $65 = $08  los  golpes  dan  entre  8  y
+  11  segun  el  rival.  Ahi  es  un  ratio  de  1.0  a  1.4.  Aca  va  de  1.0
+  a  2.0.
+
+  *** *** ESTAS  MEDICIONES  CONTRA  TOGURO  MENOR  SON  EL  CASO  EXTREMO.  ***  ***
+  *** *** PARA  SEPARAR  EL  PESO  DEL  RESTO,  HAY  QUE  REPETIR  CONTRA  ***  ***
+  *** *** ALGO  MAS  LIVIANO.  GENKAI  ES  EL  OTRO  EXTREMO.  ***  ***
+
+  ###############################################################################
+  156.3  ***  LA  BANDA  COMPARTIDA  NO  ES  UNA  COPIA.  CONFIRMADO  ***
+  ###############################################################################
+
+  Este  es  el  resultado  importante  de  la  ronda.  La  prediccion  de  11.3
+  era  que  no  tenian  que  coincidir.  NO  COINCIDEN.  EN  NADA.
+
+  ------------------------------------------------------------------------------
+    entrada            id          CHUI           TOGURO+          TOGURO-
+    ------------------------------------------------------------------
+    A  en el suelo      $82    $0E $0F $0C $00   $0E $0F $0C $00   $0E $14 $10 $05
+    ADELANTE + A        $83    $0E $0F $0C $00   $0E $0F $0C $00   $0E $12 $10 $06
+    ABAJO + A           $86    $0A $0F $0E $04   $0A $0F $0E $04   $0A $14 $12 $05
+    B  en el suelo      $80    $0C $03 $02 $00   $0C $03 $02 $00   $0C $06 $04 $00
+    ADELANTE + B        $81    $0D $08 $08 $00   $0D $08 $08 $00   $0D $0C $08 $00
+    ABAJO + B           $84    $08 $03 $02 $01   $08 $03 $02 $01   $08 $06 $04 $01
+    A  en el aire       $95    $06 $0C $0A $01   $06 $0C $0A $01   $06 $12 $10 $01
+    ARRIBA + A  (aire)  $94    $06 $0E $0C $01   $06 $0E $0C $01   $06 $15 $10 $05
+    B  en el aire       $90    $04 $03 $02 $00   $04 $03 $02 $00   ***  FALTA  ***
+    ------------------------------------------------------------------
+                              $64 $65 $66 $68    $64 $65 $66 $68     $64 $65 $66 $68
+  ------------------------------------------------------------------------------
+
+  *** *** EL  $64  SI  COINCIDE  EN  LOS  TRES,  EN  LOS  OCHO.  ***  ***
+  *** *** EL  $65  Y  EL  $66  NO  COINCIDEN  NUNCA.  Y  EL  $68  TAMPOCO.  ***  ***
+
+  ------------------------------------------------------------------------------
+    $64   el  MISMO  en  los  tres  en  los  ocho.  Es  el  que  dice  COMO  ES
+          EL  GOLPE  (caja, mascara, tipo).  No  cambia  por  personaje.
+
+    $65   TODO  DISTINTO.  Es  el  dano,  y  es  de  cada  uno.
+
+    $66   TODO  DISTINTO.  Es  el  stun,  y  es  de  cada  uno.
+
+    $68   $82  $00 -> $05      $83  $00 -> $06      $86  $04 -> $05
+           $94  $01 -> $05      los  otros  cuatro  igual
+  ------------------------------------------------------------------------------
+
+  ***  LA  BANDA  $80-$8F  ES  UNA  CONVENCION  DEL  JUEGO:  UNA  MISMA  ***  ***
+  ***  CASILLA  PARA  LOS  ONCE  PERSONAJES  CON  EL  MISMO  ROL,  PERO  CON  ***  ***
+  ***  LOS  NUMEROS  PROPIOS  DE  CADA  UNO.  NO  SE  PUEDE  COPIAR  NADA.  ***
+
+  ###############################################################################
+  156.4  ***  $67  NO  SEPARA  EL  A  DEL  B.  LA  REGLA  ESTA  MAL  ***
+  ###############################################################################
+
+  En  TOGURO  MAYOR  la  regla  anotada  era:  $67 = $02  en  los  A,  $01  en  los  B.
+
+  ------------------------------------------------------------------------------
+    id     entrada        $67
+    ------------------------------------------------------------------
+    $82    A  suelo        $01     <--  A
+    $83    ADELANTE + A    $01     <--  A
+    $86    ABAJO + A       $01     <--  A
+    $80    B  suelo        $01
+    $81    ADELANTE + B    $00     <--  EL  UNICO  $00
+    $84    ABAJO + B       $01
+    $95    A  aire         $01     <--  A
+    $94    ARRIBA+A aire    $01     <--  A
+    $B8    el  agarre      $01
+    $B9    el  lanzamiento $01
+  ------------------------------------------------------------------------------
+
+  *** *** $67 = $01  EN  NUEVE  DE  DIEZ.  $00  SOLO  EN  $81.  ***  ***
+  *** *** LA  REGLA  DE  "A  =  $02  /  B  =  $01"  NO  SE  REPRODUCE.  ***  ***
+
+  ***  [ABIERTO]  QUE  ES  $67  ENTONCES.  La  regla  anterior  queda  ANULADA  ***
+  ***  hasta  que  se  vuelva  a  medir  en  un  personaje  donde  si  se  vea.  ***
+
+  ###############################################################################
+  156.5  ***  EL  A  DE  TOGURO  MENOR  TUMBA.  EL  DE  SU  HERMANO  NO.  ***
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+    entrada            $68  de  TOGURO+     $68  de  TOGURO-     destino
+    ------------------------------------------------------------------
+    A  en el suelo          $00                 $05            $25
+    ADELANTE + A            $00                 $06            *** $26  ***
+    ABAJO + A               $04                 $05            $25
+    ARRIBA + A  (aire)      $01                 $05            $25
+    B  en el suelo          $00                 $00             ---
+    ADELANTE + B            $00                 $00             ---
+    ABAJO + B               $01                 $01            $21
+    A  en el aire           $01                 $01            $21
+  ------------------------------------------------------------------------------
+
+  *** *** $83  DA  $68 = 6  Y  EL  RIVAL  CAE  EN  $26.  ESO  ES  EL  LANZADOR.  ***  ***
+  *** *** TERCER  VEZ  QUE  LA  FILA  6  DE  LA  TABLA  DE  $68  CONFIRMA  ***  ***
+  *** *** UNA  PREDICCION  EN  PANTALLA.  ***
+
+  *** *** Y  DOS  COSAS  QUE  NO  TIENE  SU  HERMANO:  ***
+
+      *** 1.  NO  TIENE  EL  DERRIBO  CIEGO.  ***
+      $86  da  $68 = 5,  no  $68 = 4.  El  $4  mandaba  a  $23,  EL  DERRIBO
+      CIEGO,  y  era  EL  QUE  CONFIRMABAN  CHUI  Y  TOGURO  MAYOR.
+
+      *** 2.  TIENE  EL  LANZADOR  EN  ADELANTE + A.  ***
+      $83  da  $68 = 6  ->  $26.  Su  hermano  da  $68 = 0.
+
+  ###############################################################################
+  156.6  ***  $27  VISTO  EN  PANTALLA.  POR  FIN.  ***
+  ###############################################################################
+
+  *** *** ESTE  ERA  EL  MISTERIO  MAS  ANTIGUO  DEL  PROYECTO.  ***  ***
+
+  ------------------------------------------------------------------------------
+    [ ]  $27   el estado "alto fijo".  NUNCA SE HA VISTO EN PANTALLA.
+         El ROM dice: velY = +6.0 y $4C = $0 (sin velocidad de caida).
+  ------------------------------------------------------------------------------
+
+  Y  APARECIO  EN  EL  LANZAMIENTO  $B9:
+
+      P4:  $30 -> $41   f167      el agarre  aereo  lo  espera
+      P4:  $41 -> $27   f184      ***  AQUI  ***
+
+  ------------------------------------------------------------------------------
+      ***  Y  EL  ROM  YA  LO  DECIA.  DESDE  HACE  RONDAS.  ***
+
+      MOVES DE TODOS.txt,  linea 1136:
+
+          $B9   $0D8562   3  0   36  16   1  16       $27 [alto 1]
+              anim 1   dano 16   stun 12   attr $36   $27 [alto 1]
+
+      *** EL  ROM  DECIA  $B9 -> $27.  Y  EL  LOG  DIO  $B9 -> $27.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ---- Y  LA  TABLA  DEL  ROM  ACIERTA  EN  CASI  TODO  -------------------------
+
+  ------------------------------------------------------------------------------
+                        EL  ROM  ($0D8532, $0D8562)        EL  LOG
+    ------------------------------------------------------------------
+    $B8  anim                  4                              $04   OK
+    $B8  dano                  20                             $15 = 21   (+1)
+    $B8  stun                  12                             $0C = 12   OK
+    $B8  attr                  $2E                            $2E   OK
+    $B8  destino               $30                            $41 -> $30   OK
+
+    $B9  anim                  1                              $01   OK
+    $B9  dano                  16                             real 19
+    $B9  stun                  12                             $0C = 12   OK
+    $B9  attr                  $36                            $64 = $00   *** NO  ***
+    $B9  destino               $27                            $41 -> $27   OK
+  ------------------------------------------------------------------------------
+
+  *** *** $B9  DICE  $64 = $00  EN  EL  BLOB.  Y  ESO  SIGNIFICA  QUE  EL  BLOB  ***  ***
+  *** *** NO  ES  FIABLE  PARA  ESE  GOLPE.  ES  NUESTRA  PROPIA  REGLA.  ***  ***
+
+      "leer  $65  y  $68  solo  cuando  $64  !=  $00"
+
+      ***  POR  LO  TANTO  EL  $65 = $10  DEL  $B9  NO  SIRVE.  EL  DANO  REAL  ***
+      ***  MEDIDO  ES  19.  Y  EL  ROM  DICE  16.  ***
+
+  ***  9  DE  10  CAMPOS  DEL  ROM  COINCIDEN  CON  EL  LOG.  ***  ***
+  ***  EL  UNICO  QUE  NO  ES  EL  $64  DEL  $B9,  Y  EL  BLOB  DICE  QUE  ***  ***
+  ***  ESE  DATO  NO  ES  FIABLE  DE TODAS  MANERAS.  ***
+
+  ---- PERO  EL  "ALTO  FIJO"  NO  SE  VIOLO  LIMPIO  --------------------------
+
+  ------------------------------------------------------------------------------
+      f184   P4 -> $27
+      f184   [BLOB-J] P4  $5F=$27  anim $00  HIT  +65=05 +66=00  *** UN 7  GOLPE  ***
+      f197   P4: $27 -> $28      *** 13  FRAMES  DESPUES  ***
+  ------------------------------------------------------------------------------
+
+  *** *** UN  GOLPE  DEL  COMBO  SACO  AL  RIVAL  DE  $27  A  LOS  13  FRAMES.  ***  ***
+
+  ***  ESO  ES  JUSTO  LO  QUE  FALTA  PROBAR:  $B9  SOLO,  SIN  SEGUIR  CON  ***  ***
+  ***  GOLPES,  PARA  VER  SI  EL  RIVAL  SE  QUEDA  COLGANDO  CON  $4C = $0.  ***  ***
+
+  *** *** ESTA  ES  LA  PRUEBA  QUE  FALTA,  Y  ES  UNA  SOLA.  ***  ***
+
+  ###############################################################################
+  156.7  EL  AGARRE  $B8  Y  EL  LANZAMIENTO  $B9
+  ###############################################################################
+
+  NO  ESTABAN  EN  LA  HOJA  DE  PRUEBAS.  EL  USUARIO  LOS  AGREGO  SOLO.
+
+  ------------------------------------------------------------------------------
+                $B8  EL  AGARRE DE  SUELO        $B9  EL  LANZAMIENTO
+    ------------------------------------------------------------------
+    anim                       $04                              $01
+    frames                     43                              35
+    $64                        $2E   *** NUEVO  ***  ya  visto  $00
+    $65 (blob)                 $15  = 21                       $10 = 16
+    DANO  REAL                 21                              19
+    $66                        $0C  = 12                       $0C = 12
+    $68                        $08                             $08
+    RIVAL                      $00 -> $41 -> $30               $41 -> *** $27 ***
+    dist  al  pegar            37                              33
+  ------------------------------------------------------------------------------
+
+  *** *** $64 = $2E  ES  UN  VALOR  NUEVO.  Los  que  teniamos  eran  $1A  $1C  ***  ***
+  *** *** $1E  $3E  y  ahora  $2E.  ***
+
+  *** *** EL  $41  ES  EL  ESTADO  DE  ESPERA  DEL  AGARRE.  Y  SE  REPITE.  ***  ***
+  *** *** $41  SALIO  EN  LOS  DOS  GOLPES  DE  ESTA  SECCION.  ***
+
+  ---- Y  LA  CADENA  DEL  AGARRE  ES  LA  DOCUMENTADA  --------------------------
+
+      *** $B8 -> $00 -> $0D -> $06 -> $08 -> $95 -> $B9 -> $07 -> $0E -> $01 -> $00  ***
+
+      Es  exactamente  la  cadena  que  ya  estaba  escrita  en  SISTEMAS  para
+      Genkai:  $B8 -> $0D -> $06 -> $95 -> $B9 -> $07 -> $0E.
+
+      *** EL  AGARRE  DE  SUELO  TE  LANZA  AL  AIRE,  Y  EN  EL  AIRE  HAY  ***  ***
+      *** UN  A  ($95)  Y  DESPUES  EL  LANZAMIENTO  ($B9).  CONFIRMADO  EN  UN  ***  ***
+      *** SEGUNDO  PERSONAJE.  ***
+
+  ###############################################################################
+  156.8  ***  $B9  NO  ES  UNA  CUARTA  FASE  DE  LA  ULTI.  YO  ME  EQUIVOQUE.  ***
+  ###############################################################################
+
+  En  153.5  escribi:
+
+      "[ABIERTO]  $B9  PROBABLEMENTE  ES  UNA  CUARTA  FASE  DE  LA  MISMA
+       CADENA  QUE  $AC $AD $AE.  NO  SE  AFIRMA  HASTA  MEDIRLO."
+
+  *** *** ESTA  MAL.  $B9  NO  TIENE  NADA  QUE  VER  CON  LA  ULTI.  ***  ***
+
+  ---- POR  QUE  ME  EQUIVOQUE  ----------------------------------------------
+
+  Me  fije  en  que  $B9  COMPARTIA  LOS  ULTIMOS  SEIS  BYTES  con  $AC  Y  $AD.
+  Eso  es  verdad:
+
+      $AC   06 88 08 80 70 00 7E 6C
+      $AD   10 88 08 80 70 00 7E 6C
+      $B9   10 56 08 80 00 00 7E 6C
+
+  ***  PERO  ESOS  BYTES  ESTAN  EN  EL  REGISTRO  DEL  PRIMER  FRAME,  QUE  ***  ***
+  ***  ES  EL  FRAME  DE  ARRANQUE  DEL  ESTADO.  CASI  TODOS  LOS  GOLPES  DEL  ***  ***
+  ***  JUEGO  TIENEN  UNA  FORMA  PARECIDA  AHI.  NO  DICE  NADA.  ***  ***
+
+  *** *** LA  PRUEBA  LA  DIO  EL  LOG:  $B9  DISPARA  DESPUES  DEL  AGARRE,  ***  ***
+  *** *** EN  MEDIO  DE  UNA  CADENA  DE  AGARRE,  Y  TIRA  AL  RIVAL  A  $27.  ***  ***
+  *** *** $AC $AD $AE  ES  LA  ULTI  QUE  GIRA.  NADA  QUE  VER.  ***  ***
+
+  ***  ANULADO.  $B9  ES  EL  LANZAMIENTO  QUE  REMATA  EL  AGARRE.  [VERIFICADO]  ***
+
+  ***  Y  ESTO  ES  UNA  LECCION  DEL  METODO:  COINCIDIR  TRES  BYTES  CON  ***
+  ***  OTRO  REGISTRO  NO  ES  NINGUN  TIPO  DE  PRUEBA.  LA  UNICA  PRUEBA  ***
+  ***  ES  QUE  PASA  EN  PANTALLA.  ***
 ================================================================================
 ================================================================================
 ================================================================================

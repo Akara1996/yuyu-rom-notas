@@ -6366,6 +6366,138 @@ NUEVO = """161.  ***  CORRECION.  $68 = 7  SI  ESTA  EN  LA  TABLA.  Y  DOS  COS
       *** *** Y  QUEDA  EL  AJUSTE  DEL  SCRIPT,  QUE  APUNTA  A  UNA  DIRECCION  ***  ***
       *** *** QUE  RESULTO  SER  FALSA.  HAY  QUE  CORREGIRLA  CON  LA  REAL.  ***  ***
   ------------------------------------------------------------------------------
+164.  ***  EL  LOG  DEL  USUARIO.  DIO  LOS  VALORES.  Y  ADEMAS  DIO  ***  ***
+================================================================================
+
+  ###############################################################################
+  164.1  QUE  DICE  EL  LOG
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      [5F-MANO] frame 95 -- P1-OBJ1: $00 -> $09  (anim $59=0, dist=48 px)
+      CONTEXTO: $50=$0D92CA  $8C=$0D9A3A
+
+      BLOB VIVO  +64 attrs=1E  +65 DANO=08  +66 stun=04  +67=02  +68=05
+
+      [HP] frame 124 -- P4  $78: 223 -> 215  (-8)     P4: mov $25
+      $5F frame 124 -- P4: $00 -> $25
+
+      [HP] frame 143 -- P4  $78: 215 -> 199  (-16)
+      $7E stun: 58 -> 48  (-10)
+  ------------------------------------------------------------------------------
+
+  ***  *** LOS  VALORES  QUE  YO  DIJE  EN  162  ERAN  CORRECTOS:  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** 1er golpe  $65 = 08   $66 = 04   $64 = $1E   $67 = 02  $68 = 05  ***  ***
+      *** *** 2do golpe  $65 = 10   $66 = 0A   $64 = $1E   $67 = 02  $68 = 05  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** LO  QUE  ESTABA  MAL  ERAN  LAS  DIRECCIONES.  SOLO  ESO.  ***  ***
+
+  ***  *** O  SEA:  EN  162  CONFUNDI  "CONOZCO  LOS  VALORES"  CON  "SE  ***  ***
+  ***  *** DONDE  ESTAN".  NO  SON  LO  MISMO.  ***  ***
+
+  ###############################################################################
+  164.2  LOS  TRES  BUGS  MIOS  EN  [OBJ-BLOB]
+  ###############################################################################
+
+  *** *** BUG 1.  LEIA  EL  OBJETO  DEL  LUGAR  EQUIVOCADO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** USE  OFF_OBJ = $300.  ESO  ES  EL  OBJETO  DEL  ULT  ***  ***
+      *** *** ($1C04A:  adda.l #$300, a1).  ***  ***
+
+      *** *** EL  OBJETO  DE  LA  PLANTA  ESTA  EN  slot + $100  Y  + $200.  ***  ***
+      *** *** OFF_MANO1 = $100.  OFF_MANO2 = $200.  ***  ***
+
+      *** *** Y  YA  HABIA  UNA  TABLA  HECHA  PARA  ESO:  OBJS,  CON  LOS  ***  ***
+      *** *** 8  SLOTS,  SU  base  Y  SU  NOMBRE.  NO  LA  USE.  ***  ***
+  ------------------------------------------------------------------------------
+
+  *** *** BUG 2.  FILTRABA  POR  EL  HANDLER  EQUIVOCADO.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** objeto_vivo(i)  EXIGE  QUE  EL  HANDLER  SEA  $15094.  ***  ***
+      *** *** ESE  ES  EL  DEL  ULT.  LA  PLANTA  USA  $00012C96.  ***  ***
+      *** *** ASI  QUE  LA  FUNCION  SE  CALLA  Y  SE  VA  DE  INMEDIATO.  ***  ***
+      *** *** POR  ESO  NO  SALIO  NI  UNA  LINEA  [OBJ-BLOB].  ***  ***
+  ------------------------------------------------------------------------------
+
+  *** *** BUG 3.  RECORRIA  UN  SLOT  POR  JUGADOR,  NO  LOS  8.  ***  ***
+
+  ------------------------------------------------------------------------------
+      *** *** LLAMABA  blob_objeto(i)  UNA  VEZ  POR  JUGADOR,  O  SEA  4  ***  ***
+      *** *** VECES.  Los  objetos  son  8:  2  por  jugador.  ***  ***
+  ------------------------------------------------------------------------------
+
+  *** *** CORREGIDO:  ***  ***
+
+  ------------------------------------------------------------------------------
+      for _ko = 1, N_OBJ do pcall(blob_objeto, _ko) end
+
+      ***  *** Y  ADEMAS  SE  SAKO  EL  FILTRO  DE  objeto_vivo().  AHORA  ***  ***
+      ***  *** NO  HACE  FALTA  SABER  QUE  HANDLER  USA  CADA  OBJETO.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  164.3  POR  QUE  NO  PUDO  RESOLVERSE  ESTATICAMENTE
+  ###############################################################################
+
+  ***  *** CON  LAS  TABLAS  DEL  LOG  ($0D92CA / $0D9A3A)  LA  CADENA  NO  ***  ***
+  ***  *** DA  LOS  VALORES.  ***  ***
+
+  ------------------------------------------------------------------------------
+      registro = $0D93F2   sub = $0F   cabecera = $0D9A76   blob = $0D9CA2
+      el  blob  dice:  $65=$8C  $66=$7E  $64=$0C  $67=8  $68=2
+
+      *** *** Y  ESO  NO  ES  LA  PLANTA.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ***  *** Y  EL  PROPIO  TRACKER  LO  AVISABA,  EN  EL  LOG:  ***  ***
+
+  ------------------------------------------------------------------------------
+      "ATENCION: byte(+0)=$04 pero $5A vivo=$20.  La lectura NO es de fiar"
+      "Todo lo que viene de la tabla (bytes, tabB, golpe) es RUIDO."
+  ------------------------------------------------------------------------------
+
+  ***  *** O  SEA:  $5F  DEL  OBJETO  VALIA  $09  EN  EL  FRAME  95  Y  $A3  ***  ***
+  ***  *** EN  EL  FRAME  124.  EL  OBJETO  SE  REINICIA,  Y  LAS  TABLAS  ***  ***
+  ***  *** DEL  CONTEXTO  SON  DE  OTRO  MOMENTO.  ***  ***
+
+  ***  *** ASI  QUE  NO  HAY  UNA  DIRECCION  FIJA  QUE  BUSCAR:  HAY  QUE  ***  ***
+  ***  *** LEERLA  EN  EL  FRAME  EXACTO  EN  QUE  EL  OBJETO  ABRE  LA  CAJA.  ***  ***
+  ***  *** Y  ESO  LO  HACE  EL  TRACKER,  NO  UN  SCRIPT  QUE  CORRE  UNA  VEZ.  ***  ***
+
+  ###############################################################################
+  164.4  LO  QUE  VA  A  IMPRIMIR  AHORA
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      [OBJ-BLOB] P1-OBJ1  base=$FF8500  $5F=$09  anim $06  tablaA=$0D9xxx  tablaB=$0D9yyy
+                  registro=$0D9xxx  sub=$1x  cabecera=$0D9xxx  BLOB EN $0D9xxx
+                  $65 DANO=8    $66 stun=4    $64=$1E   $67=2  $68=5
+                  ***  EL  BYTE  DEL  ESTADO  ESTA  EN  $0D9xxx  ***
+
+      *** *** CUATRO  LINEAS  POR  GOLPE.  LA  TERCERA  TIENE  LOS  VALORES  ***  ***
+      *** *** Y  LA  CUARTA  EL  BYTE.  ***  ***
+
+      *** *** SI  LA  TERCERA  DICE  8  4  $1E  2/5,  LA  DIRECCION  ESTA  ***  ***
+      *** *** BIEN  Y  EL  BYTE  ES  EL  QUE  HAY  QUE  TOCAR.  ***  ***
+  ------------------------------------------------------------------------------
+
+  ###############################################################################
+  164.5  VERIFICADO
+  ###############################################################################
+
+  ------------------------------------------------------------------------------
+      1.  primeros 3 bytes = 2d 2d 20                     OK
+      2.  CRLF = LF = 3405                               OK
+      3.  paleta no-ASCII: 151 bytes, IDENTICA            OK
+      4.  luajit -bl, codigo 0                            OK
+      5.  todo lo que usa esta definido ANTES              OK
+      6.  sin operadores de Lua 5.3  (>>  y  &)           OK
+  ------------------------------------------------------------------------------
 ================================================================================
 ================================================================================
 ================================================================================
